@@ -2235,6 +2235,78 @@ float DelAbnPnt(float *FwdPnt, float *RevPnt, float zc_SumOld, short zc_num, flo
 }
 
 /****************************************************
+ * Function : CaluculateDeltaT
+ * Summary  : 上下流の時間差を計算する
+ * Argument : *FwdPnt : 上流ゼロクロス点
+ *            *RevPnt : 下流ゼロクロス点
+ * Return   : 
+ * Caution  : 
+ * notes    : 
+ ****************************************************/
+void CalculateDeltaT(short pch, float *FwdPnt, float *RevPnt)
+{
+	float zc_Tup, zc_Tdw, zc_TdataDiff = 0;
+	short zc_num = SVD[pch].ZerCrsUseNum;
+	short i;
+	float zc_limit = (1.0 / SVD[pch].drive_freq * 1000.0) / 3; //しきい値=1周期の1/3 (実測で決定)
+	float SmpTdt = (float)SmpTs[SVD[pch].adc_clock] / 100000; //2点間の時間差[us]
+
+	//--時間差計算--
+	zc_Tup = zc_Tdw = 0;
+	for(i = 0; i < zc_num; i++)
+	{
+		zc_Tup += FwdPnt[i];
+		zc_Tdw += RevPnt[i];
+	}
+	zc_Tup *= (SmpTdt / 2.0 / (float)zc_num);
+	zc_Tdw *= (SmpTdt / 2.0 / (float)zc_num);
+
+	//--1波ずれ対策--
+	//しきい値分を+方向に超える時間差が発生したら1波ズレと判定
+	if((zc_Tup - zc_Tdw) >= zc_limit)
+	{
+		//下流側のゼロクロス点を再計算する
+		zc_Tdw = 0;
+		for(i = 2; i < zc_num - 1; i++)
+		{
+			//下流側のゼロクロス点を先頭2データを削除して加算
+			zc_Tdw = zc_Tdw + RevPnt[i];
+			RevPnt[i - 2] = RevPnt[i];
+		}
+		for(i = zc_num - 1; i < ZC_POINT_MAX; i++)
+		{
+			RevPnt[i] = 0.0;
+		}
+		zc_num -= 3;
+	}
+	//しきい値分を-方向に超える時間差が発生したら1波ズレと判定
+	else if((zc_Tup - zc_Tdw) <= (zc_limit*-1))
+	{
+		//上流側のゼロクロス点を再計算する
+		zc_Tup = 0;
+		for(i = 2; i < zc_num - 1; i++)
+		{
+			//上流側のゼロクロス点を先頭2データを削除して加算
+			zc_Tup = zc_Tup + FwdPnt[i];
+			FwdPnt[i - 2] = FwdPnt[i];
+		}
+		for(i = zc_num - 1; i < ZC_POINT_MAX; i++)
+		{
+			FwdPnt[i] = 0.0;
+		}
+		zc_num -= 3;
+	}
+
+	//--異常値2点除外--
+	zc_TdataDiff = DelAbnPnt(FwdPnt, RevPnt, zc_TdataDiff, zc_num, SmpTdt);
+
+	//--値を保持--
+	MES_SUB[pch].zc_Tup = zc_Tup;
+	MES_SUB[pch].zc_Tdown = zc_Tdw;
+	MES[pch].zc_Tdata = zc_TdataDiff;
+}
+
+/****************************************************
  * Function : SchZerPnt
  * Summary  : ゼロクロス点を探索する
  * Argument : pch : チャンネル番号
@@ -2269,7 +2341,7 @@ void SchZerPnt(short pch)
 
 	float zc_Tup = 0;
 	float zc_Tdown = 0;
-	float zc_TdataDiff;
+	float zc_TdataDiff = 0;
 	
 	//最終出力変数
 	float *ZerTdtUp;
@@ -2328,40 +2400,43 @@ void SchZerPnt(short pch)
 		zc_Tdown += RevClcDat[i];
 	}
 
-	zc_Tup *= (SmpTdt / 2.0 / (float)zc_num);
-	zc_Tdown *= (SmpTdt / 2.0 / (float)zc_num);
-	zc_TdataDiff = zc_Tup - zc_Tdown;
+	//時間差を計算する
+	CalculateDeltaT(pch, FwdClcDat, RevClcDat);
 
-	//突出点を最大2点除く
-	zc_TdataDiff = DelAbnPnt(FwdClcDat, RevClcDat, zc_TdataDiff, zc_num, SmpTdt);
+	// zc_Tup *= (SmpTdt / 2.0 / (float)zc_num);
+	// zc_Tdown *= (SmpTdt / 2.0 / (float)zc_num);
+	// zc_TdataDiff = zc_Tup - zc_Tdown;
 
-	/*1波ズレ対策*/
-	zc_limit = (1.0 / SVD[pch].drive_freq * 1000.0) / 3; //しきい値=1周期の1/3 (実測で決定)
-	// zc_limit = (1.0 / SVD[pch].drive_freq * 1000.0);
-	if((zc_Tup - zc_Tdown) >= zc_limit){ //しきい値分を+方向に超える時間差が発生したら1波ズレと判定
-		//下流側のゼロクロス点を再計算する
-		zc_Tdown = 0;
-		for(i=2; i<zc_num-1; i++){
-			zc_Tdown = zc_Tdown + RevClcDat[i];  //下流側のゼロクロス点を先頭2データを削除して加算
-		}
-		zc_num = zc_num - 3;
-		zc_Tdown *= (SmpTdt / 2.0 / (float)zc_num);
-	}
-	else if((zc_Tup - zc_Tdown) <= (zc_limit*-1)){ //しきい値分を-方向に超える時間差が発生したら1波ズレと判定
-		//上流側のゼロクロス点を再計算する
-		zc_Tup = 0;
-		for(i=2; i<zc_num-1; i++){
-			zc_Tup = zc_Tup + FwdClcDat[i];   //上流側のゼロクロス点を先頭2データを削除して加算
-		}
-		zc_num = zc_num - 3;
-		zc_Tup *= (SmpTdt / 2.0 / (float)zc_num);
-	}
+	// //突出点を最大2点除く
+	// zc_TdataDiff = DelAbnPnt(FwdClcDat, RevClcDat, zc_TdataDiff, zc_num, SmpTdt);
+
+	// /*1波ズレ対策*/
+	// zc_limit = (1.0 / SVD[pch].drive_freq * 1000.0) / 3; //しきい値=1周期の1/3 (実測で決定)
+	// // zc_limit = (1.0 / SVD[pch].drive_freq * 1000.0);
+	// if((zc_Tup - zc_Tdown) >= zc_limit){ //しきい値分を+方向に超える時間差が発生したら1波ズレと判定
+	// 	//下流側のゼロクロス点を再計算する
+	// 	zc_Tdown = 0;
+	// 	for(i=2; i<zc_num-1; i++){
+	// 		zc_Tdown = zc_Tdown + RevClcDat[i];  //下流側のゼロクロス点を先頭2データを削除して加算
+	// 	}
+	// 	zc_num = zc_num - 3;
+	// 	zc_Tdown *= (SmpTdt / 2.0 / (float)zc_num);
+	// }
+	// else if((zc_Tup - zc_Tdown) <= (zc_limit*-1)){ //しきい値分を-方向に超える時間差が発生したら1波ズレと判定
+	// 	//上流側のゼロクロス点を再計算する
+	// 	zc_Tup = 0;
+	// 	for(i=2; i<zc_num-1; i++){
+	// 		zc_Tup = zc_Tup + FwdClcDat[i];   //上流側のゼロクロス点を先頭2データを削除して加算
+	// 	}
+	// 	zc_num = zc_num - 3;
+	// 	zc_Tup *= (SmpTdt / 2.0 / (float)zc_num);
+	// }
 	
-	zc_TdataDiff = zc_Tup - zc_Tdown;	//伝搬時間差
+	// // zc_TdataDiff = zc_Tup - zc_Tdown;	//伝搬時間差
 
-	*(ZerTdtVal) = zc_TdataDiff;  //伝搬時間差を保持
-	*(ZerTdtUp) = zc_Tup;
-	*(ZerTdtDw) = zc_Tdown;
+	// *(ZerTdtVal) = zc_TdataDiff;  //伝搬時間差を保持
+	// *(ZerTdtUp) = zc_Tup;
+	// *(ZerTdtDw) = zc_Tdown;
 #else
 	short cnt1, cnt2, cnt3;
 	short zc_num;
