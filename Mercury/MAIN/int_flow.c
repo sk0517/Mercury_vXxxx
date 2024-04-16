@@ -2273,7 +2273,7 @@ void CalculateDeltaT(short pch, float *FwdPnt, float *RevPnt)
 		for(i = 2; i < zc_num - 1; i++)
 		{
 			//下流側のゼロクロス点を先頭2データを削除して加算
-			zc_Tdw = zc_Tdw + RevPnt[i];
+			zc_Tdw += RevPnt[i] * (SmpTdt / 2.0);
 			RevPnt[i - 2] = RevPnt[i];
 		}
 		for(i = zc_num - 1; i < ZC_POINT_MAX; i++)
@@ -2290,7 +2290,7 @@ void CalculateDeltaT(short pch, float *FwdPnt, float *RevPnt)
 		for(i = 2; i < zc_num - 1; i++)
 		{
 			//上流側のゼロクロス点を先頭2データを削除して加算
-			zc_Tup = zc_Tup + FwdPnt[i];
+			zc_Tup += FwdPnt[i] * (SmpTdt / 2.0);
 			FwdPnt[i - 2] = FwdPnt[i];
 		}
 		for(i = zc_num - 1; i < ZC_POINT_MAX; i++)
