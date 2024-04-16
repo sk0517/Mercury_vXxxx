@@ -3,3 +3,10 @@ Mercury/Debug/
 Mercury/.settings/
 Mercury/.launches/
 Mercury/targetConfigs/
+Mercury/Debug/MAIN/subdir_rules.mk
+Mercury/Debug/MAIN/int_flow.obj
+Mercury/Debug/MAIN/int_flow.d
+Mercury/Debug/subdir_rules.mk
+Mercury/Debug/Mercury_linkInfo.xml
+Mercury/Debug/makefile
+Mercury/.launches/Mercury.launch
