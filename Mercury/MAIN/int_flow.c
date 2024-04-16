@@ -5905,6 +5905,12 @@ void int_flow(short pch)
 		// MES_SUB[pch].ItvVal = 1000 + (SVD[pch].sum_end - 20)*100;
 		MES_SUB[pch].ItvVal = 1000 + (SVD[pch].sum_end - 20)*100 - 500; //特殊仕様(波形取得後の波形加算時間約50usを考慮)
 	}
+
+	if(SVD[pch].sum_start == 12 || SVD[pch].sum_start == 13){
+		Mgn = 4;	//ADC65MHzを1/4して16.25MHzサンプリングとする
+	}else{
+		Mgn = 8;	//ADC65MHzを1/8して8.125MHzサンプリングとする
+	}
 	//評価用
 	
 	
