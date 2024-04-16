@@ -2187,7 +2187,8 @@ float DelAbnPnt(float *FwdPnt, float *RevPnt, float zc_SumOld, short zc_num, flo
 	//最大値を探す
 	for(i = 0; i < zc_num; i++)
 	{
-		zc_TdataWork = (FwdPnt[i] - RevPnt[i]) * SmpTdt / 2.0 / zc_num; 
+		// zc_TdataWork = (FwdPnt[i] - RevPnt[i]) * SmpTdt / 2.0 / zc_num; 
+		zc_TdataWork = (FwdPnt[i] - RevPnt[i]) * SmpTdt / 2.0; 
 		zc_TdataDif = zc_TdataWork - zc_TdataAve;
 		if(zc_TdataDif < 0) zc_TdataDif *= -1;
 		if(zc_TdataDif1 < zc_TdataDif)
@@ -2201,7 +2202,8 @@ float DelAbnPnt(float *FwdPnt, float *RevPnt, float zc_SumOld, short zc_num, flo
 	for(i = 0; i < zc_num; i++)
 	{
 		if(i == zc_TdataMax1Idx) continue; //飛ばして次へ
-		zc_TdataWork = (FwdPnt[i] - RevPnt[i]) * SmpTdt / 2.0 / zc_num; 
+		// zc_TdataWork = (FwdPnt[i] - RevPnt[i]) * SmpTdt / 2.0 / zc_num; 
+		zc_TdataWork = (FwdPnt[i] - RevPnt[i]) * SmpTdt / 2.0; 
 		zc_TdataDif = zc_TdataWork - zc_TdataAve;
 		if(zc_TdataDif < 0) zc_TdataDif *= -1;
 		if(zc_TdataDif2 < zc_TdataDif)
@@ -2258,12 +2260,13 @@ void CalculateDeltaT(short pch, float *FwdPnt, float *RevPnt)
 		zc_Tup += FwdPnt[i];
 		zc_Tdw += RevPnt[i];
 	}
-	zc_Tup *= (SmpTdt / 2.0 / (float)zc_num);
-	zc_Tdw *= (SmpTdt / 2.0 / (float)zc_num);
+	//点->時間差
+	zc_Tup *= (SmpTdt / 2.0);
+	zc_Tdw *= (SmpTdt / 2.0);
 
 	//--1波ずれ対策--
 	//しきい値分を+方向に超える時間差が発生したら1波ズレと判定
-	if((zc_Tup - zc_Tdw) >= zc_limit)
+	if(((zc_Tup - zc_Tdw) / zc_num) >= zc_limit)
 	{
 		//下流側のゼロクロス点を再計算する
 		zc_Tdw = 0;
@@ -2280,7 +2283,7 @@ void CalculateDeltaT(short pch, float *FwdPnt, float *RevPnt)
 		zc_num -= 3;
 	}
 	//しきい値分を-方向に超える時間差が発生したら1波ズレと判定
-	else if((zc_Tup - zc_Tdw) <= (zc_limit*-1))
+	else if(((zc_Tup - zc_Tdw) / zc_num) <= (zc_limit*-1))
 	{
 		//上流側のゼロクロス点を再計算する
 		zc_Tup = 0;
@@ -2433,7 +2436,7 @@ void SchZerPnt(short pch)
 	// 	zc_Tup *= (SmpTdt / 2.0 / (float)zc_num);
 	// }
 	
-	// // zc_TdataDiff = zc_Tup - zc_Tdown;	//伝搬時間差
+	// zc_TdataDiff = zc_Tup - zc_Tdown;	//伝搬時間差
 
 	// *(ZerTdtVal) = zc_TdataDiff;  //伝搬時間差を保持
 	// *(ZerTdtUp) = zc_Tup;
@@ -5904,12 +5907,6 @@ void int_flow(short pch)
 	if(20<=SVD[pch].sum_end && SVD[pch].sum_end<=50){
 		// MES_SUB[pch].ItvVal = 1000 + (SVD[pch].sum_end - 20)*100;
 		MES_SUB[pch].ItvVal = 1000 + (SVD[pch].sum_end - 20)*100 - 500; //特殊仕様(波形取得後の波形加算時間約50usを考慮)
-	}
-
-	if(SVD[pch].sum_start == 12 || SVD[pch].sum_start == 13){
-		Mgn = 4;	//ADC65MHzを1/4して16.25MHzサンプリングとする
-	}else{
-		Mgn = 8;	//ADC65MHzを1/8して8.125MHzサンプリングとする
 	}
 	//評価用
 	
