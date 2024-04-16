@@ -2298,6 +2298,7 @@ void CalculateDeltaT(short pch, float *FwdPnt, float *RevPnt)
 	}
 
 	//--異常値2点除外--
+	zc_TdataDiff = zc_Tup - zc_Tdw;
 	zc_TdataDiff = DelAbnPnt(FwdPnt, RevPnt, zc_TdataDiff, zc_num, SmpTdt);
 
 	//--値を保持--
