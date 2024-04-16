@@ -2005,8 +2005,6 @@ void fifo_read(short pch)
 		MES[pch].vth_sum += get_vth2(&MES[pch].rev_data[0], SVD[pch].wave_vth);
 		MES[pch].vth_count++;
 	}
-	MES[pch].FwdVthSum = get_vth2(&MES[pch].fow_data[0], SVD[pch].wave_vth); // ゼロ点調整用Vthを取得する
-	MES[pch].RevVthSum = get_vth2(&MES[pch].rev_data[0], SVD[pch].wave_vth); // ゼロ点調整用Vthを取得する
 
 	MES[pch].alm_status &= ~(ALM_JUDGE_EMPTY);
 	if ((1 <= SVD[pch].alm_hold_time) && (SVD[pch].alm_hold_time <= 99))
@@ -2406,41 +2404,6 @@ void SchZerPnt(short pch)
 
 	//時間差を計算する
 	CalculateDeltaT(pch, FwdClcDat, RevClcDat);
-
-	// zc_Tup *= (SmpTdt / 2.0 / (float)zc_num);
-	// zc_Tdown *= (SmpTdt / 2.0 / (float)zc_num);
-	// zc_TdataDiff = zc_Tup - zc_Tdown;
-
-	// //突出点を最大2点除く
-	// zc_TdataDiff = DelAbnPnt(FwdClcDat, RevClcDat, zc_TdataDiff, zc_num, SmpTdt);
-
-	// /*1波ズレ対策*/
-	// zc_limit = (1.0 / SVD[pch].drive_freq * 1000.0) / 3; //しきい値=1周期の1/3 (実測で決定)
-	// // zc_limit = (1.0 / SVD[pch].drive_freq * 1000.0);
-	// if((zc_Tup - zc_Tdown) >= zc_limit){ //しきい値分を+方向に超える時間差が発生したら1波ズレと判定
-	// 	//下流側のゼロクロス点を再計算する
-	// 	zc_Tdown = 0;
-	// 	for(i=2; i<zc_num-1; i++){
-	// 		zc_Tdown = zc_Tdown + RevClcDat[i];  //下流側のゼロクロス点を先頭2データを削除して加算
-	// 	}
-	// 	zc_num = zc_num - 3;
-	// 	zc_Tdown *= (SmpTdt / 2.0 / (float)zc_num);
-	// }
-	// else if((zc_Tup - zc_Tdown) <= (zc_limit*-1)){ //しきい値分を-方向に超える時間差が発生したら1波ズレと判定
-	// 	//上流側のゼロクロス点を再計算する
-	// 	zc_Tup = 0;
-	// 	for(i=2; i<zc_num-1; i++){
-	// 		zc_Tup = zc_Tup + FwdClcDat[i];   //上流側のゼロクロス点を先頭2データを削除して加算
-	// 	}
-	// 	zc_num = zc_num - 3;
-	// 	zc_Tup *= (SmpTdt / 2.0 / (float)zc_num);
-	// }
-	
-	// zc_TdataDiff = zc_Tup - zc_Tdown;	//伝搬時間差
-
-	// *(ZerTdtVal) = zc_TdataDiff;  //伝搬時間差を保持
-	// *(ZerTdtUp) = zc_Tup;
-	// *(ZerTdtDw) = zc_Tdown;
 #else
 	short cnt1, cnt2, cnt3;
 	short zc_num;
