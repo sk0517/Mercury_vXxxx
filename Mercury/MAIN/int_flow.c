@@ -166,7 +166,7 @@ short SumPntInc = 0; //差分相関点数を増加させない / させる
 // const short ItvVal = 1250; //230us
 //const short ItvVal = 1450; //250us
 const short ItvVal = 2000; //300us
-const short Mgn = 8;
+short Mgn = 8;
 
 #define NEW_MEASURE_METHOD
 #define METHOD_OLD  //従来のゼロクロス演算方法
@@ -2298,10 +2298,16 @@ void CalculateDeltaT(short pch, float *FwdPnt, float *RevPnt)
 		zc_num -= 3;
 	}
 
-	//--異常値2点除外--
-	zc_TdataDiff = zc_Tup - zc_Tdw;
-	zc_TdataDiff = DelAbnPnt(FwdPnt, RevPnt, zc_TdataDiff, zc_num, SmpTdt);
-
+	//評価用
+	if(SVD[pch].sum_start == 11 || SVD[pch].sum_start == 13){	//DelAbnPntの計算結果を有効にする
+		//--異常値2点除外--
+		zc_TdataDiff = zc_Tup - zc_Tdw;
+		zc_TdataDiff = DelAbnPnt(FwdPnt, RevPnt, zc_TdataDiff, zc_num, SmpTdt);
+	}else{
+		zc_TdataDiff = (zc_Tup - zc_Tdw) / zc_num;	//伝搬時間差
+	}
+	//評価用
+	
 	//--値を保持--
 	MES_SUB[pch].zc_Tup = zc_Tup;
 	MES_SUB[pch].zc_Tdown = zc_Tdw;
@@ -5870,6 +5876,12 @@ void int_flow(short pch)
 	if(20<=SVD[pch].sum_end && SVD[pch].sum_end<=50){
 		// MES_SUB[pch].ItvVal = 1000 + (SVD[pch].sum_end - 20)*100;
 		MES_SUB[pch].ItvVal = 1000 + (SVD[pch].sum_end - 20)*100 - 500; //特殊仕様(波形取得後の波形加算時間約50usを考慮)
+	}
+
+	if(SVD[pch].sum_start == 12 || SVD[pch].sum_start == 13){
+		Mgn = 4;	//ADC65MHzを1/4して16.25MHzサンプリングとする
+	}else{
+		Mgn = 8;	//ADC65MHzを1/8して8.125MHzサンプリングとする
 	}
 	//評価用
 	
