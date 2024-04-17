@@ -292,9 +292,6 @@ struct stMES{	//流量計測
 	stZcLog ZcLog; //ゼロクロスログデータ
 
 	short ZerAdjPhs; //ゼロ点調整フェーズ
-
-	short FwdVthSum;
-	short RevVthSum;
 };
 
 struct stMES_SUB{	//流量計測

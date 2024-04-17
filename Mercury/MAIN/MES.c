@@ -174,7 +174,6 @@ void command_OF(short cm);
 
 void command_Wc(short cm);
 void command_Rc(short cm);
-void command_M1(short cm);
 
 /************************************************/
 /*		äOïîä÷êîêÈåæ							*/
@@ -5786,9 +5785,6 @@ void MemoryCom(short com_mode){
 	case 'Z':
 		command_MZ(com_mode);
 		break;
-	case '1':
-		command_M1(com_mode);
-		break;
 	
 	default:
 		break;
@@ -6438,30 +6434,4 @@ void command_MZ(short com_mode)
 	}
 
 	
-}
-
-void command_M1(short com_mode)
-{
-	short pch = ch_no[com_mode] - 1;
-	short i;
-	short Num = 0;
-	float OrgVal = MES[pch].zc_Tdata;
-	short HiVal = (short)OrgVal;
-	long LoVal = (long)((OrgVal - HiVal) * 10000000);
-
-	TX_buf[com_mode][6] = '0';
-    TX_buf[com_mode][7] = '0';
-	read_change(com_mode, MES[pch].FwdVthSum, 0, ADD_CMM_BFR_VAL);
-	read_change(com_mode, MES[pch].RevVthSum, 0, ADD_CMM_BFR_VAL);
-    strcat(TX_buf[com_mode], ",");
-	if(OrgVal < 0)
-	{
-	    strcat(TX_buf[com_mode], "-");
-	    OrgVal = -OrgVal;
-	    HiVal = (short)OrgVal;
-	    LoVal = (long)((OrgVal - HiVal) * 10000000);
-	}
-	read_change(com_mode, HiVal, 0, ADD_NO_CMM);
-    strcat(TX_buf[com_mode], ".");
-    read_change2(com_mode, LoVal, 0, ADD_NO_CMM, 7);
 }
