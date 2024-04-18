@@ -882,7 +882,7 @@ short GetMinWaveValue(short* data, short* StartPos)
 /* note     : ‚È‚µ                                 */
 /****************************************************/
 short get_vth2(short data[], short vth){
-#if 1
+#if 0
 	short i = 0;
 	short VthPos = 0;
 	unsigned short VthVal = (unsigned short)((long)AD_MAX * vth / 100);
@@ -925,7 +925,8 @@ short get_vth2(short data[], short vth){
 #if defined(FLWWAVEXP)
 	for(ptr = cross_ptr; ptr < FLWWAVSIZ + 10; ptr++) 
 #else
-	for(ptr = 12; ptr < 210; ptr++) 
+	// for(ptr = 12; ptr < 210; ptr++) 
+	for(ptr = cross_ptr; ptr < 210; ptr++) 
 #endif
 	{
 		if(data[ptr] < data[ptr+1]) break;
