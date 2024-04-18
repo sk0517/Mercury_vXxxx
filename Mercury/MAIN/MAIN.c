@@ -804,7 +804,8 @@ short	zero_check_sub(short d[]) {
 	}
 	return 1;
 }
-#define FLOAT_DIFF_LIMIT (0.0001) //時間差は10^-6～10^-4のオーダー
+// #define FLOAT_DIFF_LIMIT (0.0001) //時間差は10^-6～10^-4のオーダー
+#define FLOAT_DIFF_LIMIT (0.015) //3σ~0.15(@1/4"), 0.002(@3/8")
 short	zero_check_sub_f(float d[]) {
 	//absの戻り値はint
 	if(
