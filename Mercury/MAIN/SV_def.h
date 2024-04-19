@@ -16,9 +16,13 @@
 /*  ※パラメータ追加時は util.c内のutil_eep_allwrite() に追記する*/
 /************************************************************/
 typedef struct {
+	//EEPROMメモリサイズ=16000byte (~2666byte/ch)
+	//現状のSVDサイズ=960byte
+	
 	/*****             *****/
 	/***   ユーザパラメータ   ***/
 	/*****             *****/
+	//EEPROM Address 0x0000
 		short max_flow;			/*フルスケール*/    /*<<メモリデバイス保存>> ※変更禁止※*/
 		unsigned short unit;	/*フルスケール小数点位置、単位*/    /*<<メモリデバイス保存>> ※変更禁止※*/  
 		short sensor_size;		/*センサ種別*/    /*<<メモリデバイス保存>> ※変更禁止※*/
@@ -37,6 +41,7 @@ typedef struct {
 	/*****             *****/
 	/***   メーカパラメータ    ***/
 	/*****             *****/
+	//EEPROM Address 0x009A
 		short drive_freq;			/*駆動周波数*/
 		short drive_pls;			/*ドライブパルス数*/
 		short	search_sw;			/*相関値サーチ機能*/
@@ -163,6 +168,7 @@ typedef struct {
 	/*****             *****/
 	/***   メーカリニアライズ   ***/
 	/*****             *****/
+	//EEPROM Address 0x018E
 		short mklnr_num;				/*補正点数*/
 		union{
 			long DWORD;
@@ -690,7 +696,6 @@ typedef struct {
 		unsigned short s_serial[8];		/*センサシリアルナンバー*/    /*<<メモリデバイス保存>> ※変更禁止※*/
 
  		short reserve_03[25];		/*予約[25]*/
-
 } stSVD;
 
 //----------------------------------------------------------------------
