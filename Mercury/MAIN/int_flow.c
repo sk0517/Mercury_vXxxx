@@ -5862,7 +5862,10 @@ void int_flow(short pch)
 
 	
 	//評価用
-	if(SVD[pch].sum_step == 2){	//打込み回数上流下流各2回
+	if(SVD[pch].sum_step == 1){ //打込み回数上流下流各2回
+	    MES_SUB[pch].sample_cnt = 1;
+	}
+	else if(SVD[pch].sum_step == 2){	//打込み回数上流下流各2回
 		MES_SUB[pch].sample_cnt = 2;
 	}else if(SVD[pch].sum_step == 3){	//打込み回数上流下流各3回
 		MES_SUB[pch].sample_cnt = 3;
