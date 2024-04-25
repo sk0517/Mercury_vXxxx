@@ -165,6 +165,7 @@ void command_MR(short cm); //Debug
 void command_MW(short cm); //Debug
 void command_MT(short cm); //Debug
 void command_MZ(short cm);
+void command_ME(short com_mode);
 extern void	value_judge_Hex(short com_mode,short si,short pow); //Debug
 #endif
 
@@ -5785,6 +5786,9 @@ void MemoryCom(short com_mode){
 	case 'Z':
 		command_MZ(com_mode);
 		break;
+	case 'E':
+		command_ME(com_mode);
+		break;
 	
 	default:
 		break;
@@ -6434,4 +6438,44 @@ void command_MZ(short com_mode)
 	}
 
 	
+}
+
+unsigned short ConvertCharToUshort(char c1, char c2, char c3, char c4)
+{
+	unsigned short Num = 0;
+	Num += (unsigned short)CvtAscDec(c1);
+	Num <<= 4;
+	Num += (unsigned short)CvtAscDec(c2);
+	Num <<= 4;
+	Num += (unsigned short)CvtAscDec(c3);
+	Num <<= 4;
+	Num += (unsigned short)CvtAscDec(c4);
+	return Num;
+}
+
+extern short	eep_read(short rom_addr);
+void command_ME(short com_mode)
+{
+	short i;
+	short pch = ch_no[com_mode] - 1;
+	unsigned short EepAdd = 0;
+	short EepData = 0;
+	
+	TX_buf[com_mode][6] = '0';
+    TX_buf[com_mode][7] = '0';
+	for(i = 6; i < 14; i++)
+	{
+		TX_buf[com_mode][i + 2] = RX_buf[com_mode][i];
+	}
+
+	EepAdd = ConvertCharToUshort(RX_buf[com_mode][9], RX_buf[com_mode][10], RX_buf[com_mode][11], RX_buf[com_mode][12]);
+	EepAdd += (pch) * 0x0400;
+	if(EepAdd <= 0x1800)
+	{
+		EepData = eep_read(EepAdd);
+		TX_buf[com_mode][16] = CvtDecAsc(((EepData >> 12) % 0x10));
+        TX_buf[com_mode][17] = CvtDecAsc(((EepData >> 8) % 0x10));
+        TX_buf[com_mode][18] = CvtDecAsc(((EepData >> 4) % 0x10));
+        TX_buf[com_mode][19] = CvtDecAsc(((EepData >> 0) % 0x10));
+	}
 }
