@@ -100,7 +100,7 @@ extern short	format_err_host;
 extern short	format_err_sub;
 
 #ifdef MEMDBG
-void value_judge_Hex(short, short, short); //Debug
+void value_judge_Dbg(int,int,int); //Debug
 extern void MemoryCom(int); //Debug
 #endif
 
@@ -223,7 +223,7 @@ void read_change(short com_mode,long long read_value,char point,short pos){
 
 	if ( read_value < 0 )	add_cal[l_add] = 0x2D; // ="-"	
 	
-	if(pos == ADD_CMM_BFR_VAL){					//データの前に","を付加
+	if(pos == 1){					//データの前に","を付加
 		l_add = strlen(add_cal);
 		add_cal[l_add] = 0x2C;		//","
 	}
@@ -236,7 +236,7 @@ void read_change(short com_mode,long long read_value,char point,short pos){
 	
 	}
 
-	if(pos == ADD_CMM_AFR_VAL){					//データの後に","を付加
+	if(pos == 2){					//データの後に","を付加
 		l_add = strlen(add_out);
 		add_out[l_add] = 0x2C;		//","
 	}
@@ -337,7 +337,7 @@ FUNCEND:
 #ifdef MEMDBG
 //Debug
 /*******************************************
- * Function : value_judge_Hex
+ * Function : value_judge_Dbg
  * Summary  : 16進数データ取得&判定
  * Argument : int com_mode -> 0 : ホスト
  *                            1 : メンテ
@@ -346,45 +346,111 @@ FUNCEND:
  * Return   : void
  * Caution  : なし
  * Note     : value_judge() は10進数しか対応していなかったため追加
- *            実行後、 value[] にデータが、 size[] にデータサイズが格納される
- *            最大8文字を4byteに変換する("FFFFFFFF" -> 0xFFFFFFFF)
- *            受信文字列には末尾に ",(FCS)" がついているので、値の終了コードは','
+ * 　　　　　　　　　　　実行後、 value[] にデータが、 size[] にデータサイズが格納される
  * *****************************************/
-void value_judge_Hex(short com_mode, short sPos, short pow)
-{	
-	short j;
-	char input[20] ={0};			// 入力値判定用
-	short Pos = sPos;
-	unsigned long Val = 0;
+void value_judge_Dbg(int com_mode,int si,int pow){
 	
-	//入力文字列取得
+	int j;
+	int h;
+	int z;
+	int DbgIdx = 0;
+	long long value_z;
+	int value_f;
+	char input[20] ={0};			// 入力値判定用
+	char input_z[20] ={0};			// 入力値判定用(整数部)
+	char input_f[20] ={0};			// 入力値判定用(小数部)
+	
+	/* 入力値判定部 */
+	z = 0;
 	size[com_mode] = 0;
-	while (RX_buf[com_mode][Pos] != ',')
-	{
-		if(Pos >= (MSG_MAX - 1))
-		{
+	while (RX_buf[com_mode][si] != ','){
+		if(si >= (MSG_MAX-1)){
 			size[com_mode] = -1;
 			goto FUNCEND;
 		}
-		input[Pos - sPos] = RX_buf[com_mode][Pos];
-		Pos++;
+		input[z] = RX_buf[com_mode][si];
+		size[com_mode]++;
+		si++;
+		z++;
 	}
-	size[com_mode] = Pos - sPos;
 
-	//小数点位置取得
-	for (j = 0; j < size[com_mode]; j++)
-	{
+	/* 小数点以下桁数判定部 */
+	z = 0;
+	for (j=0; j<size[com_mode]; j++){
+		z++;
 		if (input[j] == '.') break;	//小数点位置判定
 	}
-	digit_check[com_mode] = size[com_mode] - j;			//小数点以下桁数判定用
+	digit_check[com_mode] = size[com_mode] - z;			//小数点以下桁数判定用
 
 	/* 数値格納 */
-	sscanf(input, "%x", &Val);
-	value[com_mode] = (long long)Val;
+	if(digit_check[com_mode] == 0){		//整数の場合
+		// value_z = atoi (input);			//入力数値格納
+		// for (j=0; j<pow; j++){
+		// 	value_z *= 10;
+		// }
+	    //1桁目
+		if((0x30 <= input[0]) && (input[0] <= 0x39)){
+			value_z = input[0] - 0x30;
+		}
+		else if((0x41 <= input[0]) && (input[0] <= 0x46)){
+			value_z = input[0] - 0x41 + 0x0A;
+		}
+		else if((0x61 <= input[0]) && (input[0] <= 0x66)){
+			value_z = input[0] - 0x61 + 0x0A;
+		}
+		DbgIdx++;
+		
+		//2桁目以降
+		while((input[DbgIdx] != 0x00) && (DbgIdx < 20)){
+			value_z *= 0x10; 
+			if((0x30 <= input[DbgIdx]) && (input[DbgIdx] <= 0x39)){
+				value_z += input[DbgIdx] - 0x30;
+			}
+			else if((0x41 <= input[DbgIdx]) && (input[DbgIdx] <= 0x46)){
+				value_z += input[DbgIdx] - 0x41 + 0x0A;
+			}
+			else if((0x61 <= input[DbgIdx]) && (input[DbgIdx] <= 0x66)){
+				value_z += input[DbgIdx] - 0x61 + 0x0A;
+			}
+			// value_z += input[DbgIdx];
+			DbgIdx++;
+		}
+		value[com_mode] = value_z;
+	}
+	else{					//小数ありの場合
+		for (j=0; j<z-1; j++){
+			input_z[j]=input[j];
+		}		
+		value_z = atoi (input_z);
+		for (j=0; j<pow; j++){
+			value_z *= 10;
+		}
+				
+		for (j=0; j<digit_check[com_mode]; j++){
+			input_f[j]=input[z+j];
+		}
+		value_f = atoi (input_f);
+		for (j=0; j<pow-digit_check[com_mode]; j++){
+			value_f *= 10;
+		}	
+		
+		if(input[0] == '-'){
+			if(input[1] == '0' || input[1] == '.'){
+				value[com_mode] = (-1) * (value_z + value_f);
+			}
+			else{
+				value[com_mode] = value_z - value_f;			
+			}
+		}
+		else{
+			value[com_mode] = value_z + value_f;
+		}
+	}
 
 FUNCEND:
-	i_num[com_mode] = sPos + size[com_mode];
-	memset(input, 0, sizeof(input));//判定用配列 初期化
+	i_num[com_mode] = si;
+	for (h = 0; h < 20; h++){input[h] = 0;}	//判定用配列 初期化
+	
 }
 #endif
 
@@ -614,10 +680,6 @@ void check_command(short com_mode){
 				if (RX_buf[com_mode][3] == '1' && ch_no[com_mode] >= 0 && ch_no[com_mode] <= 6){ }
 				else { error_check[com_mode]++; end_code[com_mode] = ADDRESS_OVER;}
 				break;			
-			case 'c': // デジタルフィルタ係数読み出し
-				if (RX_buf[com_mode][3] == '0' && ch_no[com_mode] >= 0 && ch_no[com_mode] <= 6){ }
-				else { error_check[com_mode]++; end_code[com_mode] = ADDRESS_OVER;}
-				break;		
 		/* 未定義コマンド */
 			default: error_check[com_mode]++; end_code[com_mode] = COMMAND_ERROR;
 			}	
@@ -671,10 +733,6 @@ void check_command(short com_mode){
 				if (RX_buf[com_mode][3] == '0' && ch_no[com_mode] >= 0 && ch_no[com_mode] <= 6){ }
 				else { error_check[com_mode]++; end_code[com_mode] = ADDRESS_OVER;}
 				break;
-			case 'c': // デジタルフィルタ係数書き込み
-				if (RX_buf[com_mode][3] == '0' && ch_no[com_mode] >= 0 && ch_no[com_mode] <= 6){ }
-				else { error_check[com_mode]++; end_code[com_mode] = ADDRESS_OVER;}
-				break;		
 		/* 未定義コマンド */
 			default: error_check[com_mode]++; end_code[com_mode] = COMMAND_ERROR;
 			}
@@ -912,9 +970,6 @@ void check_format(short com_mode){
 					if (l != 8 + 2*ch_z[com_mode]){ error_check[com_mode]++; end_code[com_mode] = FORMAT_ERROR;}
 				}
 				break;
-			case 'c': // デジタルフィルタ係数読み出し
-				if ((l != 9) && (l != 10)){ error_check[com_mode]++; end_code[com_mode] = FORMAT_ERROR;}
-				break;
 			}	
 			break;
 		case 'W': /***** 書込み系 *****/
@@ -980,11 +1035,6 @@ void check_format(short com_mode){
 					if (RX_buf[com_mode][l] != ','){ error_check[com_mode]++; end_code[com_mode] = FORMAT_ERROR;}
 				}
 				break;
-				
-			//デジタルフィルタ係数書き込み
-			case 'c':
-				break;
-
 			}
 			break;
 		case 'O': /**** 主に動作指示 ****/

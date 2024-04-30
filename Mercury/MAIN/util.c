@@ -49,7 +49,6 @@ void	remove_errcode(short ch, short err_code);
 short	err_zero_status(short err_status);
 short	err_total_status(short err_status);
 unsigned long long get_total_offset(short ch, unsigned long long val_total);
-float RoundFunc(float src);
 void	debug_mode(short pch);
 
 /********************************************************/
@@ -393,22 +392,7 @@ void	err_judge_status(short pch){
 	}
 	MAIN[pch].total_judge = MES[pch].total_status;		//積算監視機能情報更新
 	
-	//エラー情報の判定
-	err_status = MES_SUB[pch].err_status_sub;	//エラー情報
-	err_status_buf = MAIN[pch].err_sub_judge;	//エラー情報バッファ
-	if(err_status_buf != err_status){			//エラー情報変化あり
-		//エラー情報ビットが0→1に変化した場合
-		if(((err_status_buf & ERR_JUDGE_DEVICE) == 0)	//メモリデバイス異常
-			&&((err_status & ERR_JUDGE_DEVICE) != 0)){
-			log_save(pch, ERR_DEVICE);			//エラーログ情報の登録
-		}
-		//エラー情報ビットが1→0に変化した場合
-		if(((err_status_buf & ERR_JUDGE_DEVICE) != 0)	//メモリデバイス異常
-			&&((err_status & ERR_JUDGE_DEVICE) == 0)){
-			remove_errcode(pch, ERR_DEVICE);	//エラーコード解除
-		}
-	}
-	MAIN[pch].err_sub_judge = MES_SUB[pch].err_status_sub;	//エラー情報の更新
+//	err_status_control(pch);								//エラーステータス処理（通信用）
 }
 
 /****************************************************/
@@ -705,8 +689,8 @@ unsigned long invert_data(unsigned long data){
 /* Argument : delay_count           	               */
 /* Return   : なし 									                         */
 /* Caution  : なし                                   */
-/* notes    : delay_count : 10 ≒ delaytime : 1us
- ****************************************************/
+/* notes    : なし                                   */
+/****************************************************/
 void delay(unsigned short delay_count){
 
 	volatile unsigned short counter;
@@ -940,27 +924,9 @@ void util_eep_allwrite(short pch, short opt){
 	 eep_write_ch_delay(ch, (short)(&SVD[ch].fix_fifo_no_read - &SVD[ch].max_flow), SVD[ch].fix_fifo_no_read);			//Leading Position
 	 eep_write_ch_delay(ch, (short)(&SVD[ch].ZerCrsSttPnt - &SVD[ch].max_flow), SVD[ch].ZerCrsSttPnt);			//Zero Cross Start point
 	 eep_write_ch_delay(ch, (short)(&SVD[ch].ZerCrsUseNum - &SVD[ch].max_flow), SVD[ch].ZerCrsUseNum);			//Zero Cross Use Number
-	 
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltSwc - &SVD[ch].max_flow), SVD[ch].DgtFltSwc);		//Digital Filter Switch
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefA00 - &SVD[ch].max_flow), SVD[ch].DgtFltCefA00);	//Degital Filter Coefficient A00
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefA01 - &SVD[ch].max_flow), SVD[ch].DgtFltCefA01);	//Degital Filter Coefficient A01
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefA10 - &SVD[ch].max_flow), SVD[ch].DgtFltCefA10);	//Degital Filter Coefficient A10
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefA11 - &SVD[ch].max_flow), SVD[ch].DgtFltCefA11);	//Degital Filter Coefficient A11
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefA20 - &SVD[ch].max_flow), SVD[ch].DgtFltCefA20);	//Degital Filter Coefficient A20
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefA21 - &SVD[ch].max_flow), SVD[ch].DgtFltCefA21);	//Degital Filter Coefficient A21
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefA30 - &SVD[ch].max_flow), SVD[ch].DgtFltCefA30);	//Degital Filter Coefficient A30
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefA31 - &SVD[ch].max_flow), SVD[ch].DgtFltCefA31);	//Degital Filter Coefficient A31
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefA40 - &SVD[ch].max_flow), SVD[ch].DgtFltCefA40);	//Degital Filter Coefficient A40
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefA41 - &SVD[ch].max_flow), SVD[ch].DgtFltCefA41);	//Degital Filter Coefficient A41
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefB00 - &SVD[ch].max_flow), SVD[ch].DgtFltCefB00);	//Degital Filter Coefficient B00
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefB01 - &SVD[ch].max_flow), SVD[ch].DgtFltCefB01);	//Degital Filter Coefficient B01
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefB10 - &SVD[ch].max_flow), SVD[ch].DgtFltCefB10);	//Degital Filter Coefficient B10
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefB11 - &SVD[ch].max_flow), SVD[ch].DgtFltCefB11);	//Degital Filter Coefficient B11
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefB20 - &SVD[ch].max_flow), SVD[ch].DgtFltCefB20);	//Degital Filter Coefficient B20
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefB21 - &SVD[ch].max_flow), SVD[ch].DgtFltCefB21);	//Degital Filter Coefficient B21
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefB30 - &SVD[ch].max_flow), SVD[ch].DgtFltCefB30);	//Degital Filter Coefficient B30
-	 eep_write_ch_delay(ch, (short)(&SVD[ch].DgtFltCefB31 - &SVD[ch].max_flow), SVD[ch].DgtFltCefB31);	//Degital Filter Coefficient B31
-	 //評価用
+		//評価用
+	
+		
  }
 
 	/*** メーカリニアライズ ***/
@@ -1021,19 +987,20 @@ void util_SnsMem_Write(short pch, short opt)
 	}
 }
 
-/****************************************************
- * Function : SavEepZerAdjPrm (Save Eeprom Zero Adjust Parameter)
- * Summary  : ゼロ調整関連パラメータのEEPROM保存
- * Argument : pch : チャンネル番号
- * Return   : None
- * Caution  : None
- * Notes    : 
- ****************************************************/
-void SavEepZerAdjPrm(short pch)
-{
-    short i;
+/****************************************************/
+/* Function : util_eep_zerowrite                   */
+/* Summary  : EEPROM書き込み（ゼロ調整値）             		*/
+/* Argument : pch                  	               */
+/* Return   : なし 									                         */
+/* Caution  : なし                                   */
+/* notes    : なし                                   */
+/****************************************************/
+void util_eep_zerowrite(short pch){
+
+	short i_cnt;
 
 	if(pch >= CH_NUMMAX) return;
+
 	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_flow_qat.WORD.low - &SVD[pch].max_flow), SVD[pch].zero_flow_qat.WORD.low);   /*ゼロ点調整時：流量*/
 	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_flow_qat.WORD.high - &SVD[pch].max_flow), SVD[pch].zero_flow_qat.WORD.high);
 	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_flow_vel.WORD.low - &SVD[pch].max_flow), SVD[pch].zero_flow_vel.WORD.low);   /*ゼロ点調整時：流速*/
@@ -1055,38 +1022,10 @@ void SavEepZerAdjPrm(short pch)
 	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_gain_2nd - &SVD[pch].max_flow), SVD[pch].zero_gain_2nd);		/*ゼロ点調整時：アンプゲイン値(2nd)*/
 	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_fifo_ch - &SVD[pch].max_flow), SVD[pch].zero_fifo_ch);		  /*ゼロ点調整時：FIFO CH*/
 	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_p1p2 - &SVD[pch].max_flow), SVD[pch].zero_p1p2);          /*ゼロ点調整時：受波の差(P1-P2)*/
-	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_FwdTimDif.WORD.low - &SVD[pch].max_flow), SVD[pch].zero_FwdTimDif.WORD.low);
-	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_FwdTimDif.WORD.high - &SVD[pch].max_flow), SVD[pch].zero_FwdTimDif.WORD.high);
-	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_RevTimDif.WORD.low - &SVD[pch].max_flow), SVD[pch].zero_RevTimDif.WORD.low);
-	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_RevTimDif.WORD.high - &SVD[pch].max_flow), SVD[pch].zero_RevTimDif.WORD.high);
-	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_FwdSurplsTim - &SVD[pch].max_flow), SVD[pch].zero_FwdSurplsTim);
-	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_RevSurplsTim - &SVD[pch].max_flow), SVD[pch].zero_RevSurplsTim);
-	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_drive_freq - &SVD[pch].max_flow), SVD[pch].zero_drive_freq);
-	for(i=0; i<WAV_PEK_NUM; i++){
-		eep_write_ch_delay(pch, (short)(&SVD[pch].zero_FwdWavPekPosLst[i] - &SVD[pch].max_flow), SVD[pch].zero_FwdWavPekPosLst[i]);
-		eep_write_ch_delay(pch, (short)(&SVD[pch].zero_FwdWavPekValLst[i] - &SVD[pch].max_flow), SVD[pch].zero_FwdWavPekValLst[i]);
-		eep_write_ch_delay(pch, (short)(&SVD[pch].zero_RevWavPekPosLst[i] - &SVD[pch].max_flow), SVD[pch].zero_RevWavPekPosLst[i]);
-		eep_write_ch_delay(pch, (short)(&SVD[pch].zero_RevWavPekValLst[i] - &SVD[pch].max_flow), SVD[pch].zero_RevWavPekValLst[i]);
+	for(i_cnt= 0; i_cnt<40; i_cnt++){
+		eep_write_ch_delay(pch, (short)(&SVD[pch].zero_sum_abs[i_cnt] - &SVD[pch].max_flow), SVD[pch].zero_sum_abs[i_cnt]); /*ゼロ点調整時：差分相関値*/
 	}
-}
 
-/****************************************************/
-/* Function : util_eep_zerowrite                   */
-/* Summary  : EEPROM書き込み（ゼロ調整値）             		*/
-/* Argument : pch                  	               */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
-/****************************************************/
-void util_eep_zerowrite(short pch){
-
-	short i_cnt;
-
-	if(pch >= CH_NUMMAX) return;
-
-	// EEPROM書き込み
-	SavEepZerAdjPrm(pch);
-	
 	SVD[pch].zero_offset = SVD[pch].zero_zero_offset;
 	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_offset - &SVD[pch].max_flow), (short)SVD[pch].zero_offset);		/*ゼロ点オフセット*/
 }
@@ -1289,19 +1228,6 @@ unsigned long long get_total_offset(short ch, unsigned long long val_total){
 	}
 
 	return val_result;
-}
-
-/****************************************************/
-/* Function : RoundFunc								*/
-/* Summary  : 小数点以下の四捨五入						*/
-/* Argument : src									*/
-/* Return   : 四捨五入結果							*/
-/* Caution  : なし									*/
-/* notes    : 小数点1桁目の四捨五入を行う				*/
-/****************************************************/
-float RoundFunc(float src){
-
-	return ( src >= 0 ) ? src + 0.5 : src - 0.5 ;
 }
 
 /****************************************************/

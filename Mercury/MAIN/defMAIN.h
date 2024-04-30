@@ -45,7 +45,6 @@ struct stMAIN{
 	unsigned short total_judge;				//積算警告判定情報
 	unsigned short cvt_serial[8];			//変換器シリアル番号
 	unsigned short sns_serial[8];			//センサシリアル番号
-	unsigned short err_sub_judge;			//エラー判定情報（MES_SUB[].err_status_subを使用する）
 };
 
 /********************************************************/

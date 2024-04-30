@@ -212,7 +212,7 @@ void	log_detailinfo_save(short ch, short code){
 	LOG_DETAIL[log_ch][log_num].err_pwon_count = SVD[log_ch].pwon_count;			//エラー発生時の電源オンカウンタ
 	LOG_DETAIL[log_ch][log_num].err_time = cmi_count;								//エラー発生時時間
 	LOG_DETAIL[log_ch][log_num].flow_quantity = (long)MES[log_ch].ml_min_now;		//流量
-	LOG_DETAIL[log_ch][log_num].flow_velocity = (long)MES[log_ch].flow_vel_c / 100;//流速
+	LOG_DETAIL[log_ch][log_num].flow_velocity = (long)MES[log_ch].flow_vel_c / 10;//流速
 	LOG_DETAIL[log_ch][log_num].sound_speed = (long)MES[log_ch].sound_vel_f;		//音速
 	LOG_DETAIL[log_ch][log_num].total_count.DWORD = (MES[log_ch].addit_buff.DWORD);//積算値
 	LOG_DETAIL[log_ch][log_num].wave_max = MES[log_ch].rev_max_data;				//受波波形最大値
@@ -272,7 +272,6 @@ void	log_save(short ch, short code){
 		case	ERR_CUNET:				//CUnetエラー
 		case	ERR_ZERO_UNSTABLE:		//ゼロ調整計測時間発散
 		case	ERR_RESTART:			//再起動
-		case	ERR_DEVICE:				//メモリデバイス異常
 			log_basicinfo_save(ch, code);		//エラーログ基本情報の登録
 			log_detailinfo_save(ch, code);		//エラーログ詳細情報の登録
 			break;

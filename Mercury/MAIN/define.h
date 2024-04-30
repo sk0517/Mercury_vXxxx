@@ -20,34 +20,8 @@
 #define SUB_POINT 21		/*60以下（変更不可）*/
 
 /*流量情報*/
-//#define AD_BASE 2047
-//#define AD_MAX 4095		/*12bit MAX*/
-//#define GAIN_CONT_LOW 3700
-// #define AD_BASE_UNIT 2047	/*中心線*/
-#define AD_BASE_UNIT 4095	/*中心線*/
-//#define AD_BASE 8188		/*4回加算分(2047*4)*/
-// #define AD_MAX_UNIT 4095	/*12bit MAX*/
-#define AD_MAX_UNIT 8191	/*12bit MAX*/
-//#define AD_MAX 16380		/*4回加算分(4095*4)*/
-
-//10bitデータ
-// #define GAIN_INIT_LOW	196		/*初期化時の信号レベル*/
-// #define GAIN_CONT_LOW	3700	/*ゲイン制御時の信号レベル*/
-// #define GAIN_WAVE_LOW	1600	/*ゲイン制御時の信号レベル*/
-// #define GAIN_WAVE_HI	2500	/*ゲイン制御時の信号レベル*/
-// #define SONIC_WAVE_HI	3000	/*音速測定時の信号レベル*/
-//13bitデータ
-#define GAIN_INIT_LOW	392		/*初期化時の信号レベル*/
-#define GAIN_CONT_LOW	7400	/*ゲイン制御時の信号レベル*/
-#define GAIN_WAVE_LOW	3200	/*ゲイン制御時の信号レベル*/
-#define GAIN_WAVE_HI	5000	/*ゲイン制御時の信号レベル*/
-#define SONIC_WAVE_HI	6000	/*音速測定時の信号レベル*/
-
-//#define GAIN_INIT_LOW	784		/*初期化時の信号レベル 4回加算分(196*4)*/
-//#define GAIN_CONT_LOW	14800	/*ゲイン制御時の信号レベル 4回加算分(3700*4)*/
-//#define GAIN_WAVE_LOW	6400	/*ゲイン制御時の信号レベル 4回加算分(1600*4)*/
-//#define GAIN_WAVE_HI	10000	/*ゲイン制御時の信号レベル 4回加算分(2500*4)*/
-//#define SONIC_WAVE_HI	12000	/*音速測定時の信号レベル 4回加算分(3000*4)*/
+#define AD_BASE 2047
+#define GAIN_CONT_LOW 3700
 
 /*FPGA アドレス*/
 #define FPGA_OFFSET (*(volatile unsigned short *)0x80000000) /* DP-RAM読出し開始オフセット(0-63) */ 
@@ -57,28 +31,28 @@
 #define FPGA_START  (*(volatile unsigned short *)0x80000008) /* WINDOW開始時間(0-63) */ 
 #define FPGA_END    (*(volatile unsigned short *)0x8000000A) /* WINDOW終了時間(0-63) */ 
 #define FPGA_SYNC   (*(volatile unsigned short *)0x8000000C) /* 位相パルス制御(0-3) */ 
-#define FPGA_ANALOG_FREQ  	(*(volatile unsigned short *)0x8000000E) /* アナログスイッチ周波数切替(0-1) */
-#define FPGA_FILIN0_0	(*(volatile unsigned short *)0x80000010) /* デジタルフィルタ係数(入力側0) (符号1bit+整数17bit) */
-#define FPGA_FILIN0_1	(*(volatile unsigned short *)0x80000012) /* デジタルフィルタ係数(入力側0) (符号1bit+整数17bit) */
-#define FPGA_FILIN1_0	(*(volatile unsigned short *)0x80000014) /* デジタルフィルタ係数(入力側1) (符号1bit+整数17bit) */
-#define FPGA_FILIN1_1	(*(volatile unsigned short *)0x80000016) /* デジタルフィルタ係数(入力側1) (符号1bit+整数17bit) */
-#define FPGA_FILIN2_0	(*(volatile unsigned short *)0x80000018) /* デジタルフィルタ係数(入力側2) (符号1bit+整数17bit) */
-#define FPGA_FILIN2_1	(*(volatile unsigned short *)0x8000001A) /* デジタルフィルタ係数(入力側2) (符号1bit+整数17bit) */
-//<<reserve>>			(*(volatile unsigned short *)0x8000001C) /* reserve */
-//<<reserve>>			(*(volatile unsigned short *)0x8000001E) /* reserve */
-//<<reserve>>			(*(volatile unsigned short *)0x80000020) /* reserve */
-//<<reserve>>			(*(volatile unsigned short *)0x80000022) /* reserve */
-#define FPGA_FIL_EN		(*(volatile unsigned short *)0x80000024) /* デジタルフィルタ有効・無効設定 (0-1) */
-//<<reserve>>			(*(volatile unsigned short *)0x80000026) /* reserve */
-#define FPGA_FILOUT1_0	(*(volatile unsigned short *)0x80000028) /* デジタルフィルタ係数(出力側1) (符号1bit+整数17bit) */
-#define FPGA_FILOUT1_1	(*(volatile unsigned short *)0x8000002A) /* デジタルフィルタ係数(出力側1) (符号1bit+整数17bit) */
-#define FPGA_FILOUT2_0	(*(volatile unsigned short *)0x8000002C) /* デジタルフィルタ係数(出力側2) (符号1bit+整数17bit) */
-#define FPGA_FILOUT2_1	(*(volatile unsigned short *)0x8000002E) /* デジタルフィルタ係数(出力側2) (符号1bit+整数17bit) */
-//<<reserve>>			(*(volatile unsigned short *)0x80000030) /* reserve */
-//<<reserve>>			(*(volatile unsigned short *)0x80000032) /* reserve */
+#define FPGA_ANALOG_FREQ  	(*(volatile unsigned short *)0x8000000E) /* アナログスイッチ周波数切替(0-1) */ 
+#define FPGA_FILCOE_A0_0	(*(volatile unsigned short *)0x80000010) /* デジタルフィルタ係数(a0)(-8～7) */
+#define FPGA_FILCOE_A0_1	(*(volatile unsigned short *)0x80000012) /* デジタルフィルタ係数(a0)(-8～7) */
+#define FPGA_FILCOE_A1_0	(*(volatile unsigned short *)0x80000014) /* デジタルフィルタ係数(a1)(-8～7) */
+#define FPGA_FILCOE_A1_1	(*(volatile unsigned short *)0x80000016) /* デジタルフィルタ係数(a1)(-8～7) */
+#define FPGA_FILCOE_A2_0	(*(volatile unsigned short *)0x80000018) /* デジタルフィルタ係数(a2)(-8～7) */
+#define FPGA_FILCOE_A2_1	(*(volatile unsigned short *)0x8000001A) /* デジタルフィルタ係数(a2)(-8～7) */
+#define FPGA_FILCOE_A3_0	(*(volatile unsigned short *)0x8000001C) /* デジタルフィルタ係数(a3)(-8～7) */
+#define FPGA_FILCOE_A3_1	(*(volatile unsigned short *)0x8000001E) /* デジタルフィルタ係数(a3)(-8～7) */
+#define FPGA_FILCOE_A4_0	(*(volatile unsigned short *)0x80000020) /* デジタルフィルタ係数(a4)(-8～7) */
+#define FPGA_FILCOE_A4_1	(*(volatile unsigned short *)0x80000022) /* デジタルフィルタ係数(a4)(-8～7) */
+#define FPGA_FILCOE_B0_0	(*(volatile unsigned short *)0x80000024) /* デジタルフィルタ係数(b0)(-8～7) */
+#define FPGA_FILCOE_B0_1	(*(volatile unsigned short *)0x80000026) /* デジタルフィルタ係数(b0)(-8～7) */
+#define FPGA_FILCOE_B1_0	(*(volatile unsigned short *)0x80000028) /* デジタルフィルタ係数(b1)(-8～7) */
+#define FPGA_FILCOE_B1_1	(*(volatile unsigned short *)0x8000002A) /* デジタルフィルタ係数(b1)(-8～7) */
+#define FPGA_FILCOE_B2_0	(*(volatile unsigned short *)0x8000002C) /* デジタルフィルタ係数(b2)(-8～7) */
+#define FPGA_FILCOE_B2_1	(*(volatile unsigned short *)0x8000002E) /* デジタルフィルタ係数(b2)(-8～7) */
+#define FPGA_FILCOE_B3_0	(*(volatile unsigned short *)0x80000030) /* デジタルフィルタ係数(b3)(-8～7) */
+#define FPGA_FILCOE_B3_1	(*(volatile unsigned short *)0x80000032) /* デジタルフィルタ係数(b3)(-8～7) */
 #define FPGA_LED_CNT		(*(volatile unsigned short *)0x80000034) /* LED制御レジスタ */
 #define FPGA_SW_DISP		(*(volatile unsigned short *)0x80000036) /* SW表示レジスタ */
-#define FPGA_VERSION 		(*(volatile unsigned short *)0x8000003E) /* FPGAバージョン */ 
+#define FPGA_VERSION 		(*(volatile unsigned short *)0x8000000E) /* FPGAバージョン */ 
 
 /*設定データ数*/
 #define SV_NUM	491			/*SVD の総数*/
@@ -120,17 +94,11 @@
 #define	B_PLUS			1		//+方向
 #define	B_MINUS			-1		//-方向
 
-#define	B_POSI			1
-#define	B_NEGA			2
-
-#define	B_FORWARD		0
-#define	B_REVERSE		1
-
 /*ゼロ点調整情報*/
 #define	SW_ZERO_START		30		//ゼロ点調整開始押下時間:3秒(100msec x 30回 = 3sec)
 #define	ZERO_ADJ_TIME		20		//ゼロ点調整時間：2秒(100msec x 20回 = 2sec)
 #define	VTH_ADJ_TIME		20		//Vth調整時間：2秒(100msec x 20回 = 2sec)
-#define	WAVE_ADJ_TIME		300		//波形認識調整時間：3秒(100msec x 300回 = 30sec)
+#define	WAVE_ADJ_TIME		30		//波形認識調整時間：3秒(100msec x 30回 = 3sec)
 
 /*エラーしきい値*/
 #define	LIM_OVERFLOW 100			/*オーバーフロー*/
@@ -171,11 +139,9 @@
 #define TTL_CACL_ERR	28		//積算値演算異常
 #define TTL_OVERFLOW	29		//積算値オーバーフロー
 
-#define	ERR_DEVICE		30		//メモリデバイス異常
+#define	ERR_CODE_MAX		31		//エラーコード数
 
-#define	ERR_CODE_MAX		32		//エラーコード数
-
-/*エラー判定ビット(MES[].err_statusを使用する)*/
+/*エラー判定ビット*/
 #define	ERR_JUDGE_AGC		0x0001		//AGC不能//
 #define	ERR_JUDGE_EMPTY		0x0002		//エンプティセンサ(異常判定回数以上)
 #define	ERR_JUDGE_LEVEL		0x0004		//波形アンバランス
@@ -192,9 +158,6 @@
 #define	ERR_JUDGE_PRE_CALC	0x2000		//演算異常(異常判定回数未満)
 #define	ERR_JUDGE_UNSTABLE	0x4000		//ゼロ調整計測時間発散エラー
 #define	ERR_JUDGE_ZERO		0x8000		//ゼロ点調整状態
-
-/*エラー判定ビット(MES_SUB[].err_status_subを使用する)*/
-#define	ERR_JUDGE_DEVICE	0x0001		//メモリデバイス異常
 
 /*メール送信エラー(CUnet通信)*/
 #define	MAIL_ERR_NORDY		0x0001		//送信先の受信バッファが受信許可でない
@@ -337,7 +300,7 @@
 
 /*通信メッセージ情報*/
 #define MSG_MAX			550			//通信メッセージ最大数
-#define MSG_MAX_DL		256 + 40	//通信メッセージ最大数(ダウンロード時) 128byte(2文字/1byte)+マージン
+#define MSG_MAX_DL		80			//通信メッセージ最大数(ダウンロード時)
 #define MES_RESEND_MAX	1000		//最大再送回数
 #define MSG_NUM			3			//通信タイプ数（ホスト、サブホスト、メンテナンス）
 #define MES_RESEND_LIM	(60 * CMI_RATIO_1SEC)	//最大再送時間:60秒(60 * カウンタ分解能)
@@ -437,15 +400,9 @@
 #define ZC_POINT_MAX 40 //ゼロクロス点最大値
 
 /*Windowサーチ情報*/
-/*32MHz, 40MHz*/
-#define WS_FIFO_START_14_3240 10	//Windowサーチ開始FIFO CH(1/4"用)
-#define WS_FIFO_START_38_3240 10	//Windowサーチ開始FIFO CH(3/8"用)
-#define WS_FIFO_END_3240 25	//Windowサーチ終了FIFO CH
-/*65MHz*/
 #define WS_FIFO_START_14 15	//Windowサーチ開始FIFO CH(1/4"用)
 #define WS_FIFO_START_38 15	//Windowサーチ開始FIFO CH(3/8"用)
 #define WS_FIFO_END 30	//Windowサーチ終了FIFO CH
-
 #define WS_FIFO_RANGE 8	//FIFO取得範囲
 
 // UART 割り付け定義 
@@ -453,10 +410,3 @@
 #define	INT_UART_COM_HOST	INT_UART6
 #define	UART_COM_MENT_BASE	UART2_BASE
 #define	INT_UART_COM_MENT	INT_UART2
-
-#define WAV_PEK_NUM 10 //取得する波形のピーク値数
-#define LDG_PNT_OFS 40  //Leading Point Offset ((従来値)40 / (オーバーサンプリング倍率)8 = 5)
-
-#define ADD_NO_CMM 0 //Add No Comma
-#define ADD_CMM_BFR_VAL 1 //Add Comma Before Value
-#define ADD_CMM_AFR_VAL 2 //Add Comma After Value

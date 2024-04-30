@@ -1,10 +1,10 @@
 /***********************************************/
-/* File Name : onewire.c						*/
-/*	Summary   : 1Wireメモリ読み書き処理				*/
-/*	Date      : 2023/03/16						*/
-/*												*/
-/*	Copyright(c) 2023 Tokyo Keiso Co.Ltd.		*/
-/*			All rights reserved					*/
+/* File Name : onewire.c		         									   */
+/*	Summary   : 1Wireメモリ読み書き処理              */
+/*	Date      : 2023/03/16										            */
+/*																	                        	   */
+/*	Copyright(c) 2023 Tokyo Keiso Co.Ltd.				   */
+/*			All rights reserved															        */
 /***********************************************/
 #include <machine.h>
 
@@ -94,28 +94,27 @@ unsigned char	GetReflect(unsigned char data);
 unsigned char GetCRC8(const void *buff, short size);
 short	OWCheckDevice(void);
 short	OWCheckROMID(void);
+void OWCheckConnect(short ch);
 short	OWWriteData(short address, const void *buff);
 short	OWCompareData(short address, const void *buff);
 short	OWReadSensinfo(short ch);
 void	OWWriteSensinfo(void);
-void OWCheckDeviceSide(void);
 void OWWaitUS(long us);
 void OWWaitMS(long ms);
 
 /********************************************************/
 /*	モジュール外定義関数								*/
 /********************************************************/
-extern void portmesfwdW(unsigned char data, short pch);
+//extern void portmesfwdW(unsigned char data, short pch);
 extern void portmesrevW(unsigned char data, short pch);
 extern void	util_eep_allwrite(short pch, short opt);
-extern short action_status_check(short pch);
-extern void SelectReverseOn(short pch);
-extern void SelectReverseOff(short pch);
+extern short	action_status_check(short pch);
 
 /********************************************************/
 /*	モジュール内定義変数								*/
 /********************************************************/
 static short phase_owwrite = 1;
+static	short phase_owconnect[6] = {1, 1, 1, 1, 1, 1};
 short ow_pos, ow_cnt, ow_retry;
 short OWwrite[6] = {0, 0, 0, 0, 0, 0};
 short OWwriteCH = CH1;
@@ -123,6 +122,9 @@ char sens_info[256];
 char memory_R_data[MEMORY_MAX];
 char memory_W_data[MEMORY_MAX];
 char memory_C_data[MEMORY_MAX];
+short OW_read[5];
+short OW_write[3];
+short OW_comp[3];
 
 /********************************************************/
 /*	モジュール外定義変数								*/
@@ -289,15 +291,15 @@ void OWSensEnable(short sw){
 /****************************************************/
 short OWSensRX(void){
 
-	short result;
+		short result;
 
-	if(GPIOPinRead(GPIO_PORTG_BASE, GPIO_PIN_3) == 0x00){
-		result = 0;
-	}else{
-		result = 1;
-	}
-
-	return result;
+		if(GPIOPinRead(GPIO_PORTG_BASE, GPIO_PIN_3) == 0x00){
+ 		result = 0;
+		}else{
+ 		result = 1;
+		}
+		
+		return result;
 }
 
 /****************************************************/
@@ -441,13 +443,14 @@ short OWReadBit(void)
 /****************************************************/
 void OWWriteByte(short data)
 {
-	short loop, write_data;
+ short loop, write_data;
 
-	write_data = data;
-	for(loop = 0; loop < 8; loop++){		//8bit分書込む
+ write_data = data;
+ for(loop = 0; loop < 8; loop++){		//8bit分書込む
 		OWWriteBit(write_data & 0x01);			//1Wireデバイスにデータを書込む
+
 		write_data >>= 1;
-	}
+ }
 }
 
 /****************************************************/
@@ -462,8 +465,8 @@ short OWReadByte(void)
 {
 	short loop, result;
 
-	result = 0;
-	for(loop = 0; loop < 8; loop++){		//8bit分読込む
+ result = 0;
+ for(loop = 0; loop < 8; loop++){		//8bit分読込む
 		result >>= 1;
 
 		if(OWReadBit() != 0){				//1Wireデバイスからデータを読込む
@@ -471,7 +474,7 @@ short OWReadByte(void)
 		}
 	}
 
-	return result;
+ return result;
 }
 
 /****************************************************/
@@ -487,16 +490,16 @@ unsigned char	GetReflect(unsigned char data)
 	short loop;
 	unsigned char reflect = 0;
 
-	for(loop = 0; loop < 8; loop++){
-		reflect <<= 1;
+ for(loop = 0; loop < 8; loop++){
+  reflect <<= 1;
 
-		if((data & 0x01) != 0){
+  if((data & 0x01) != 0){
 			reflect |= 0x01;
 		}
 		data >>= 1;
 	}
 
-	return reflect;
+ return reflect;
 }
 
 /****************************************************/
@@ -578,10 +581,10 @@ short	OWCheckROMID(void)
 	char rom_data[8];
 
 	if(OWCheckDevice() != B_OK){	//メモリデバイスの接続判別
-		return B_NG;
+	return B_NG;
 	}
 
-	for(retry = 0; retry < 3; retry++){		//リトライ処理(リトライ3回)
+ for(retry = 0; retry < 3; retry++){		//リトライ処理(リトライ3回)
 		result = B_OK;
 		memset(&rom_data, 0, sizeof(rom_data)); 
 		if(OWResetDevice()!=B_OK){ //RESETパルスを出力し、PRESENCEパルス(返信)を確認する
@@ -606,6 +609,72 @@ short	OWCheckROMID(void)
 }
 
 /****************************************************/
+/* Function : OWCheckConnect                       */
+/* Summary  : メモリデバイスの接続/未接続確認 */
+/* Argument : short ch                  			*/
+/* Return   : なし													        */
+/* Caution  : なし                               */
+/* note     : 未接続状態から接続状態となった場合にセンサ情報を読込む*/
+/****************************************************/
+void OWCheckConnect(short ch)
+{
+
+//	if(CNT_1SEC < GetTimeSpan32(time_sens_ctrl, gSysTimeOrg)){	//周期確認
+//		time_sens_ctrl = gSysTimeOrg;
+//	}else{
+//		return;
+//	}
+
+	if((SVD[ch].sensor_size == SNS_NONE) ||   //センサ無し設定
+   ((MES[ch].err_status & ERR_JUDGE_EMPTY) == 0)){	//受波波形有り時
+		phase_owconnect[ch] = 1;
+		return;
+	}
+
+//	portmesfwdW(0, ch);		//CH切替え有効
+	portmesrevW(0, ch);		//CH切替え有効
+	OWSensPowSW(B_ON);		//ﾒﾓﾘ保護回路有効
+	OWSensSigSW(B_ON);		//ﾒﾓﾘﾃﾞﾊﾞｲｽ有効
+	OWWaitUS(5);					//5usec待機
+
+	switch(phase_owconnect[ch]){
+	
+	//*******
+	//どのCHが未接続となったかを判別する処理を作る
+	//計測不能の場合に接続確認する
+	//*******
+	
+		case 1:	//ﾒﾓﾘﾃﾞﾊﾞｲｽ未接続確認
+			if(OWCheckDevice() == B_NG){		//ﾒﾓﾘﾃﾞﾊﾞｲｽ未接続状態
+				phase_owconnect[ch]++;	//ﾌｪｰｽﾞ更新
+			}
+ 		break;
+		case 2:	//ﾒﾓﾘﾃﾞﾊﾞｲｽ接続確認
+			if(OWCheckDevice() == B_OK){		//ﾒﾓﾘﾃﾞﾊﾞｲｽ接続状態
+				phase_owconnect[ch]++;	//ﾌｪｰｽﾞ更新
+			}
+ 		break;
+		case 3:	//ｾﾝｻ情報を読込む
+			OWReadSensinfo(ch);	//ﾒﾓﾘﾃﾞﾊﾞｲｽからｾﾝｻ情報を読込む
+			phase_owconnect[ch]++;	//ﾌｪｰｽﾞ更新
+			break;
+		case 4:	//読込んだセンサ情報をEEPROM書込む
+			util_eep_allwrite(ch, WR_DEVICE);  //EEPROM書込み
+			phase_owconnect[ch]++;	//ﾌｪｰｽﾞ更新
+			break;
+		case 5:	//完了
+		default:
+			phase_owconnect[ch] = 1;	//ﾌｪｰｽﾞ初期化
+			break;
+	}
+
+//	portmesfwdW(1, ch);		//CH切替え無効
+	portmesrevW(1, ch);		//CH切替え無効
+	OWSensSigSW(B_OFF);		//ﾒﾓﾘﾃﾞﾊﾞｲｽ無効
+	OWSensPowSW(B_OFF);		//ﾒﾓﾘ保護回路無効
+}
+
+/****************************************************/
 /* Function : OWWriteData                       */
 /* Summary  : メモリデバイスにデータを書込む */
 /* Argument : アドレス、書込みデータ      			*/
@@ -622,6 +691,7 @@ short	OWWriteData(short address, const void *buff)
 	result = B_NG;
 
 	if(OWResetDevice()!=B_OK){  //RESETパルスを出力し、PRESENCEパルス(返信)を確認する
+		OW_write[0]++;
 		return result;
 	}
 
@@ -640,6 +710,7 @@ short	OWWriteData(short address, const void *buff)
 	}
 
 	if(OWResetDevice()!=B_OK){  //RESETパルスを出力し、PRESENCEパルス(返信)を確認する
+		OW_write[1]++;
 		return result;
 	}
 
@@ -651,6 +722,7 @@ short	OWWriteData(short address, const void *buff)
 	result = B_OK;
 
 	OWWaitMS(TIM_tPROGMAX);		//ﾒﾓﾘﾃﾞﾊﾞｲｽ書込み待機
+	OW_write[2]++;
 
 	return result;
 }
@@ -671,6 +743,7 @@ short	OWCompareData(short address, const void *buff)
 	result = B_NG;
 
 	if(OWResetDevice()!=B_OK){  //RESETパルスを出力し、PRESENCEパルス(返信)を確認する
+		OW_comp[0]++;
 		return result;
 	}
 
@@ -687,8 +760,9 @@ short	OWCompareData(short address, const void *buff)
 	//照合処理
 	if(memcmp(&memory_C_data[0], buff, 8) == 0){		//ﾒﾓﾘﾃﾞﾊﾞｲｽに書込んだﾃﾞｰﾀとﾒﾓﾘﾃﾞﾊﾞｲｽ読込んだﾃﾞｰﾀが一致
 		result = B_OK;
+		OW_comp[2]++;
 	}else{
-		;
+		OW_comp[1]++;
 	}
 
 	return result;
@@ -704,20 +778,23 @@ short	OWCompareData(short address, const void *buff)
 /****************************************************/
 short	OWReadSensinfo(short ch)
 {
+// char memory_data[MEMORY_MAX];
 	short retry, result, size, cnt, pos;
 
 	clrpsw_i();		/* 割り込み禁止 */
 	result = B_NG;
 
-	SelectReverseOn(ch);	//IN/OUT切替え
-
+//	portmesfwdW(0, ch);		//CH切替え有効
+	portmesrevW(0, ch);		//CH切替え有効
 	OWSensPowSW(B_ON);		//ﾒﾓﾘ保護回路有効
 	OWSensSigSW(B_ON);		//ﾒﾓﾘﾃﾞﾊﾞｲｽ有効
 	OWWaitUS(5);					//5usec待機
 
 	if(OWCheckROMID() != B_OK){		//ROM_IDの確認
-		MES_SUB[ch].err_status_sub |= ERR_JUDGE_DEVICE;	//異常：メモリデバイス検知エラーセット
-		SelectReverseOff(ch);	//IN/OUT打込み切替え
+		OW_read[0]++;
+		MES[ch].err_status |= ERR_JUDGE_EEPROM;		/*EEPROMエラーセット*/
+//		portmesfwdW(1, ch);		//CH切替え無効
+		portmesrevW(1, ch);		//CH切替え無効
 		OWSensSigSW(B_OFF);		//ﾒﾓﾘﾃﾞﾊﾞｲｽ無効
 		OWSensPowSW(B_OFF);	 //ﾒﾓﾘ保護回路無効
 		setpsw_i();		/* 割り込み許可 */	
@@ -727,6 +804,7 @@ short	OWReadSensinfo(short ch)
 	for(retry = 0; retry < 3; retry++){	//リトライ処理(リトライ3回)
 		if(OWResetDevice() != B_OK){  //RESETパルスを出力し、PRESENCEパルス(返信)を確認する
 			result = B_NG;
+			OW_read[1]++;
 			continue;		//リトライ処理
 		}
 
@@ -746,6 +824,7 @@ short	OWReadSensinfo(short ch)
 			;
 		}else{		//「FAMILY CODE」が保持されていない場合
 			result = B_BLANK;		//EEPROM読み込みｴﾗｰにしない(何も書かれていない新品状態のﾒﾓﾘﾃﾞﾊﾞｲｽを読込んだ時は、Modbusにコピーしない為の処理。EEPROMに書き込まない。)
+			OW_read[2]++;
 			continue;		//リトライ処理
 		}
 
@@ -759,6 +838,8 @@ short	OWReadSensinfo(short ch)
 		size += 1;		//先頭のFAMILY CODE分のサイズを加算
 		if(memory_R_data[size] == GetCRC8(&memory_R_data[0], size)){		//保存したCRCと計算したCRCが一致
 			result = B_OK;
+			OW_read[4]+=10;
+
 			pos = 1;  //先頭にFAMILY CODEが保持されているので1から開始する
 			for(cnt=0; OWEepromData[cnt].ch!=0xffff; cnt++){
  		 if(OWEepromData[cnt].ch == ch){  //対象CH
@@ -769,17 +850,19 @@ short	OWReadSensinfo(short ch)
 			break;		//リトライ処理を抜ける		
 		}else{		//CRC不一致
 			result = B_NG;
+			OW_read[3]++;
 			continue;		//リトライ処理
 		}
 	}
 
 	if(result == B_NG){		//センサ情報読込み失敗した場合
-		MES_SUB[ch].err_status_sub |= ERR_JUDGE_DEVICE;	//異常：メモリデバイス検知エラーセット
+		MES[ch].err_status |= ERR_JUDGE_EEPROM;		/*EEPROMエラーセット*/
 	}else{
-		MES_SUB[ch].err_status_sub &= ~ERR_JUDGE_DEVICE;	//正常：メモリデバイス検知エラークリア
+		MES[ch].err_status &= ~ERR_JUDGE_EEPROM;		/*EEPROMエラーリセット*/
 	}
 
-	SelectReverseOff(ch);	//IN/OUT打込み切替え
+//	portmesfwdW(1, ch);	 //CH切替え無効
+	portmesrevW(1, ch);	 //CH切替え無効
 	OWSensSigSW(B_OFF);	 //ﾒﾓﾘﾃﾞﾊﾞｲｽ無効
 	OWSensPowSW(B_OFF);	 //ﾒﾓﾘ保護回路無効
 	setpsw_i();		/* 割り込み許可 */	
@@ -802,22 +885,23 @@ void	OWWriteSensinfo(void)
 	switch(phase_owwrite){
 		/** メモリデバイス書込み要求確認 **/
 		case 1:
-			if(OWwrite[OWwriteCH] == 1){  //メモリデバイス書込み要求あり
-				phase_owwrite++;	//ﾌｪｰｽﾞ更新
+ 		if(OWwrite[OWwriteCH] == 1){  //メモリデバイス書込み要求あり
+ 			phase_owwrite++;	//ﾌｪｰｽﾞ更新
 			}else{
 				OWwriteCH++;  //書込みCH更新
 				if(OWwriteCH >= CH_NUMMAX){
 				 OWwriteCH = CH1;
 				}
 			}
-			break;
+ 		break;
 
 		/** メモリデバイス書込み待機 **/
 		case 2:
-			if((action_status_check(OWwriteCH) == ACT_STS_NORMAL) ||  //通常状態
+ 		if((action_status_check(OWwriteCH) == ACT_STS_NORMAL) ||  //通常状態
  		   (action_status_check(OWwriteCH) == ACT_STS_ADDIT)){    //積算実行中
 				clrpsw_i();		/* 割り込み禁止 */
-				SelectReverseOn(OWwriteCH);		//IN/OUT切替え
+//				portmesfwdW(0, OWwriteCH);		//CH切替え
+				portmesrevW(0, OWwriteCH);		//CH切替え
 				OWSensPowSW(B_ON);		//ﾒﾓﾘ保護回路有効
 				OWSensSigSW(B_ON);		//ﾒﾓﾘﾃﾞﾊﾞｲｽ有効
 				phase_owwrite++;	//ﾌｪｰｽﾞ更新
@@ -882,63 +966,19 @@ void	OWWriteSensinfo(void)
 		/** 処理終了 **/
 		case 7:
 		default:
-			SelectReverseOff(OWwriteCH);	//IN/OUT打込み切替え
+//			portmesfwdW(1, OWwriteCH);	//CH切替え無効
+			portmesrevW(1, OWwriteCH);	//CH切替え無効
 			OWSensSigSW(B_OFF);		//ﾒﾓﾘﾃﾞﾊﾞｲｽ無効
 			OWSensPowSW(B_OFF);		//ﾒﾓﾘ保護回路無効
 			OWwrite[OWwriteCH] = 0;		//メモリデバイス書込み要求ｸﾘｱ
 			OWwriteCH++;  //書込みCH更新
 			if(OWwriteCH >= CH_NUMMAX){
-				OWwriteCH = CH1;
-			}
+			 OWwriteCH = CH1;
+   }
 			phase_owwrite = 1;	//ﾌｪｰｽﾞ初期化
 			setpsw_i();		/* 割り込み許可 */			
 			break;
-	}
-}
-
-/****************************************************/
-/* Function : OWCheckDeviceSide						*/
-/* Summary  : メモリデバイスの実装位置を読込む				*/
-/* Argument : なし									*/
-/* Return   : なし									*/
-/* Caution  : なし									*/
-/* note     : 自動IN/OUT判別機能						*/
-/*          : 上流側にメモリデバイスが実装されているため上流/下流	*/
-/*          : の判別ができる							*/
-/****************************************************/
-void OWCheckDeviceSide(void)
-{
-	short ch;
-
-	clrpsw_i();		/* 割り込み禁止 */
-
-	OWSensSigSW(B_ON);		//ﾒﾓﾘﾃﾞﾊﾞｲｽ有効
-
-	for(ch=CH1; ch<CH_NUMMAX; ch++){
-		MES_SUB[ch].memory_side = 0;
-		portmesrevW(0, ch);		//CH REV切替え有効
-		OWWaitUS(5);			//5usec待機
-		
-		if(OWCheckROMID() == B_OK){		//ROM_IDの確認に成功
-			portmesrevW(1, ch);			//CH REV切替え無効
-			MES_SUB[ch].memory_side = B_POSI;
-		}else{							//ROM_IDの確認に失敗
-			portmesrevW(1, ch);			//CH REV切替え無効
-			portmesfwdW(0, ch);			//CH FWD切替え有効
-			OWWaitUS(5);				//5usec待機
-			if(OWCheckROMID() == B_OK){	//ROM_IDの確認に成功
-				portmesfwdW(1, ch);		//CH FWD切替え無効
-				MES_SUB[ch].memory_side = B_NEGA;
-			}else{						//ROM_IDの確認に失敗
-				portmesfwdW(1, ch);		//CH FWD切替え無効
-				MES_SUB[ch].memory_side = B_NG;	//異常(センサ接続不良)
-			}
 		}
-	}
-
-	OWSensSigSW(B_OFF);		//ﾒﾓﾘﾃﾞﾊﾞｲｽ無効
-
-	setpsw_i();		/* 割り込み許可 */
 }
 
 /****************************************************/

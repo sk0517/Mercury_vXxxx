@@ -87,7 +87,7 @@ void	int_prg(void){
 	
 	int_flow(ChCtrlNow);			/*流量計測*/
 
-//	debug_mode(ChCtrlNow);			/*強制エラー制御（デバッグモード）*/
+	debug_mode(ChCtrlNow);			/*強制エラー制御（デバッグモード）*/
 
 	err_judge_status(ChCtrlNow);	/*エラー判定*/
 	err_judge_holdtime(ChCtrlNow);	/*エラーホールドタイム判定*/

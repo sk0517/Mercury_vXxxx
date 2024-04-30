@@ -16,9 +16,9 @@
 /*  ※パラメータ追加時は util.c内のutil_eep_allwrite() に追記する*/
 /************************************************************/
 typedef struct {
-	/*****             *****/
-	/***   ユーザパラメータ   ***/
-	/*****             *****/
+  /*****             *****/
+  /***   ユーザパラメータ   ***/
+  /*****             *****/
 		short max_flow;			/*フルスケール*/    /*<<メモリデバイス保存>> ※変更禁止※*/
 		unsigned short unit;	/*フルスケール小数点位置、単位*/    /*<<メモリデバイス保存>> ※変更禁止※*/  
 		short sensor_size;		/*センサ種別*/    /*<<メモリデバイス保存>> ※変更禁止※*/
@@ -34,9 +34,9 @@ typedef struct {
 		short	reverse_level;	/*逆流判定閾値*/
 		short reserve_01[64];		    /*予約[64]*/
 
-	/*****             *****/
-	/***   メーカパラメータ    ***/
-	/*****             *****/
+  /*****             *****/
+  /***   メーカパラメータ    ***/
+  /*****             *****/
 		short drive_freq;			/*駆動周波数*/
 		short drive_pls;			/*ドライブパルス数*/
 		short	search_sw;			/*相関値サーチ機能*/
@@ -118,11 +118,7 @@ typedef struct {
 		unsigned short sum_end;   //差分相関終了位置
 		unsigned short sum_step;  //差分相関間隔
 
-		unsigned short fix_data;  //固定値設定 bit0 :ディザリングスイッチ
-		                          //             1 : ゲイン固定値スイッチ
-								  //             2 : fifo開始、終了位置固定スイッチ
-								  //             3 : fifo_no 固定スイッチ
-								  //             4 : 波形先頭位置固定スイッチ
+		unsigned short fix_data;  //固定値設定
 		unsigned short fix_amp_gain_rev;  //Wiper Position(固定値)
 		unsigned short fix_fifo_ch_read;  //FIFO CH(固定値)
 		unsigned short fix_fifo_no_read;  //Leading Position(固定値)
@@ -132,37 +128,17 @@ typedef struct {
 		unsigned short ZerCrsOffset[7]; //ゼロクロスゼロ点オフセット
 		unsigned short ThresholdPeakPos;	//波形認識ピーク位置
 		unsigned short ZerPeakPos;	//波形認識ピーク位置(ゼロクロス計算開始位置用)
-
-		unsigned short DgtFltSwc; //Digital Filter Switch
-		unsigned short DgtFltCefA00; //Digital Filter Coefficient A00
-		unsigned short DgtFltCefA01; //Digital Filter Coefficient A01
-		unsigned short DgtFltCefA10; //Digital Filter Coefficient A10
-		unsigned short DgtFltCefA11; //Digital Filter Coefficient A11
-		unsigned short DgtFltCefA20; //Digital Filter Coefficient A20
-		unsigned short DgtFltCefA21; //Digital Filter Coefficient A21
-		unsigned short DgtFltCefA30; //Digital Filter Coefficient A30
-		unsigned short DgtFltCefA31; //Digital Filter Coefficient A31
-		unsigned short DgtFltCefA40; //Digital Filter Coefficient A40
-		unsigned short DgtFltCefA41; //Digital Filter Coefficient A41
-		unsigned short DgtFltCefB00; //Digital Filter Coefficient B00
-		unsigned short DgtFltCefB01; //Digital Filter Coefficient B01
-		unsigned short DgtFltCefB10; //Digital Filter Coefficient B00
-		unsigned short DgtFltCefB11; //Digital Filter Coefficient B01
-		unsigned short DgtFltCefB20; //Digital Filter Coefficient B00
-		unsigned short DgtFltCefB21; //Digital Filter Coefficient B01
-		unsigned short DgtFltCefB30; //Digital Filter Coefficient B00
-		unsigned short DgtFltCefB31; //Digital Filter Coefficient B01
 //評価用		
 
 #if defined(FRQSCH)
-		short reserve_02[28];		/*予約[28]*/
+		short reserve_02[47];		/*予約[47]*/
 #else
-		short reserve_02[29];		/*予約[29]*/
+		short reserve_02[48];		/*予約[48]*/
 #endif
 
-	/*****             *****/
-	/***   メーカリニアライズ   ***/
-	/*****             *****/
+  /*****             *****/
+		/***   メーカリニアライズ   ***/
+  /*****             *****/
 		short mklnr_num;				/*補正点数*/
 		union{
 			long DWORD;
@@ -375,9 +351,9 @@ typedef struct {
 			}WORD;
 		}mklnr_in15;					/*補正入力15(L/m)*/
 
-	/*****             *****/
-	/***  ユーザリニアライズ   ***/
-	/*****             *****/
+  /*****             *****/
+		/***  ユーザリニアライズ   ***/
+  /*****             *****/
 		unsigned short uslnr_num;		/*補正点数、小数点位置*/    /*<<メモリデバイス保存>> ※変更禁止※*/
 		union{
 			long DWORD;
@@ -590,9 +566,9 @@ typedef struct {
 			}WORD;
 		}uslnr_in15;				/*補正入力15(L/m)*/
 
-	/*****                  *****/
-	/***   ゼロ点調整時ステータス   ***/
-	/*****                  *****/
+  /*****                  *****/
+		/***   ゼロ点調整時ステータス   ***/
+  /*****                  *****/
 		union{
 			long DWORD;
 			struct{
@@ -634,32 +610,11 @@ typedef struct {
 		unsigned short zero_gain_2nd;		/*ゼロ点調整時：アンプゲイン値(2nd)*/
 		unsigned short zero_fifo_ch;		/*ゼロ点調整時：FIFO CH*/
 		unsigned short zero_p1p2;			/*ゼロ点調整時：受波の差(P1-P2)*/
+		unsigned short zero_sum_abs[40];	/*ゼロ点調整時：差分相関値*/
 
-		short zero_FwdSurplsTim; //上流波形無駄時間
-		short zero_RevSurplsTim;
-		union {
-			long DWORD;
-			struct {
-				short low;
-				short high;
-			}WORD;
-		}zero_FwdTimDif; //上流波形時間差
-		union {
-			long DWORD;
-			struct {
-				short low;
-				short high;
-			}WORD;
-		}zero_RevTimDif; //下流波形時間差
-		short zero_drive_freq; //打ち込み周波数
-		short zero_FwdWavPekPosLst[WAV_PEK_NUM]; //上流波形ピーク位置
-		short zero_FwdWavPekValLst[WAV_PEK_NUM]; //上流波形ピーク値
-		short zero_RevWavPekPosLst[WAV_PEK_NUM]; //下流波形ピーク位置
-		short zero_RevWavPekValLst[WAV_PEK_NUM]; //下流波形ピーク値
-
-	/*****            *****/
-	/***   エラーログ関連   ***/
-	/*****            *****/
+  /*****            *****/
+  /***   エラーログ関連   ***/
+  /*****            *****/
 		unsigned short pwon_count;/*起動回数*/
 		short	err_code[LOGMAX];			/*エラーコード（最新10点）*/
 		short	err_pwon_count[LOGMAX];		/*エラー発生時の電源オンカウンタ（最新10点）*/
@@ -671,9 +626,9 @@ typedef struct {
 			}WORD;
 		}err_time[LOGMAX];				/*エラー発生時の時間（最新10点）*/
 
-	/*****         *****/
-	/***   通信関連   ***/
-	/*****         *****/
+  /*****         *****/
+  /***   通信関連   ***/
+  /*****         *****/
 		short com_interval; /*サイレントインターバル*/
 		short com_speed;    /*通信スピード*/
 		short com_mode;     /*通信モード*/
@@ -681,17 +636,17 @@ typedef struct {
 		unsigned short sti;		/*サイレントインターバル(2byte)*/
 		unsigned short cmod;		/*通信モード、パリティ(2byte)*/
 
-	/*****                    *****/
-	/***   バージョン、シリアルナンバー  ***/
-	/*****                    *****/
+  /*****                    *****/
+  /***   バージョン、シリアルナンバー  ***/
+  /*****                    *****/
 		unsigned short soft_ver;	/*ソフトウェアバージョン*/
 		unsigned short hard_ver;	/*ハードウェアバージョン*/
 		unsigned short c_serial[8];		/*変換器シリアルナンバー*/
 		unsigned short s_serial[8];		/*センサシリアルナンバー*/    /*<<メモリデバイス保存>> ※変更禁止※*/
 
- 		short reserve_03[25];		/*予約[25]*/
+ 	short reserve_03[32];		/*予約[32]*/
 
-} stSVD;
+		} stSVD;
 
 //----------------------------------------------------------------------
 //外部宣言

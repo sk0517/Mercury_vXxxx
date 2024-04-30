@@ -34,8 +34,6 @@ struct stLED{	//LED表示
 
 	short zero_dt_buf[3];				/*ゼロ調整用⊿Ts取得値*/
 	short zero_vth_buf[3];			/*ゼロ調時vth取得値*/
-
-	float zero_dt_buf_f[3]; //ΔTs取得値 float用
 };
 
 #endif

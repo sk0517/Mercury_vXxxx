@@ -57,9 +57,6 @@ extern short		mes_err[7];
 extern short 	wave_hight[2][6];
 extern short    OWwrite[6];
 
-extern unsigned short AD_BASE;
-
-
 /************************************************/
 /*		内部関数宣言							*/
 /************************************************/
@@ -163,17 +160,12 @@ void command_Dl (short cm); //FPGAダウンロードコマンド
 void MemoryCom(short); //Debug
 void command_MR(short cm); //Debug
 void command_MW(short cm); //Debug
-void command_MT(short cm); //Debug
-void command_MZ(short cm);
-extern void	value_judge_Hex(short com_mode,short si,short pow); //Debug
+extern void	value_judge_Dbg(short com_mode,short si,short pow); //Debug
 #endif
 
 #if defined(FRQSCH)
 void command_OF(short cm);
 #endif
-
-void command_Wc(short cm);
-void command_Rc(short cm);
 
 /************************************************/
 /*		外部関数宣言							*/
@@ -199,7 +191,6 @@ extern short	err_zero_status(short err_status);
 extern short	err_total_status(short err_status);
 extern void 	LLmode_kind(short vis, short pch);
 extern short check_queue(void);
-extern float GetTimDif(short pch, short Mod);
 
 /* 積算値読出し(OV) */			
 void command_OV (short com_mode){
@@ -1480,214 +1471,125 @@ void command_RT (short com_mode){
 		
  }
 
-/*******************************************
- * Function : command_R3
- * Summary  : ゼロクロス測定データ読み出し
- * Argument : 
- * Return   : 
- * Caution  : None
- * Note     : 差分相関測定データ読み出しはR7
- * *****************************************/
+/* 測定データ読出し(R3) */
  void command_R3 (short com_mode){
 
 	short l;
 	long value;
 	long long diff;
 	unsigned long long addit;
-	short pch = ch_no[com_mode] - 1;
-	float TimDif;
 
 	if(RX_buf[com_mode][7] != '0'){		//測定時データ
 		TX_buf[com_mode][9] = RX_buf[com_mode][7];
 		strncat(TX_buf[com_mode],comma,sizeof(comma));
-
-		//1. 流量[mL/min]
-		value = MES[ch_no[com_mode] -1].ml_min_now;
+	
+		value = MES[ch_no[com_mode] -1].ml_min_now;			//流量[mL/min]
 		read_change(com_mode,value,2,2);
-
-		//2. 流速[m/s]
-		value = MES[ch_no[com_mode] -1].flow_vel_c / 100;
+	
+		value = MES[ch_no[com_mode] -1].flow_vel_c / 10;			//流速[m/s]
 		read_change(com_mode,value,3,2);
-
-		//3. 音速[m/s]
-		value = MES[ch_no[com_mode] -1].sound_vel_f * 100;
+	
+		value = MES[ch_no[com_mode] -1].sound_vel_f * 100;			//音速[m/s]
 		read_change(com_mode,value,2,2);
 		
-		//4. 積算値[mL/min]
-		addit = MES[ch_no[com_mode] -1].addit_buff.DWORD / 10000;
+		addit = MES[ch_no[com_mode] -1].addit_buff.DWORD / 10000;		//積算値[mL/min]
 		read_change(com_mode,addit,3,2);
 		
-		//5. UP伝搬時間[us]
-		TimDif = GetTimDif(pch, 0);
-		read_change(com_mode, TimDif * 1000.0, 3, ADD_CMM_AFR_VAL);
-
-		//6. DN伝搬時間[us]
-		TimDif = GetTimDif(pch, 1);
-		read_change(com_mode, TimDif * 1000.0, 3, ADD_CMM_AFR_VAL);
-
-		//7. 伝搬時間差[ps]
-		diff = MES[ch_no[com_mode] -1].delta_ts_zero * 32;
+		value = 0;				//UP伝搬時間[ps]（該当データなし）
+		read_change(com_mode,value,0,2);
+	
+		value = 0;				//DN伝搬時間[ps]（該当データなし）
+		read_change(com_mode,value,0,2);
+	
+		diff = MES[ch_no[com_mode] -1].delta_ts_zero * 32;		//伝搬時間差[ps]
 		if (diff > 99999999) {diff = 99999999;}
 		else if (diff < -99999999) {diff = -99999999;}
 		read_change(com_mode,diff,0,2);
+	
+		value = 0;				//UP無駄時間[ps]（該当データなし）
+		read_change(com_mode,value,0,2);
+	
+		value = 0;				//DN無駄時間[ps]（該当データなし）
+		read_change(com_mode,value,0,2);
 
-		//8. UP無駄時間[ps]
-		value = MES[pch].FwdSurplsTim;
-		read_change(com_mode,value, 0, ADD_CMM_AFR_VAL);
-
-		//9. DN無駄時間[ps]
-		value = MES[pch].RevSurplsTim;
-		read_change(com_mode,value, 0, ADD_CMM_AFR_VAL);
-
-		//10. status
-		value = MAIN[ch_no[com_mode] -1].err_condition;
+		value = MAIN[ch_no[com_mode] -1].err_condition;			//status
 		read_change0X_status(com_mode,value);
 		strncat(TX_buf[com_mode],comma,sizeof(comma));
 
-		//11. Window Position[us]
-		value = ((MES[pch].fifo_ch_read & 0xFF) << 8);
-		value += (MES[pch].fifo_no_read & 0xFF);
-		read_change(com_mode,value, 0, ADD_CMM_AFR_VAL);
-
-		//12. Gain 1st stage(未使用)
-		value = get_attenuator_gain(ch_no[com_mode]-1);
-		read_change(com_mode,value, 0, ADD_CMM_AFR_VAL);
-
-		//13. Gain 2nd stage
-		value = MES[ch_no[com_mode] -1].amp_gain_for;
+		value = 0;				//Window Position[us]（該当データなし）
+		read_change(com_mode,value,0,2);
+	
+		value = get_attenuator_gain(ch_no[com_mode]-1);				//Gain 1st stage
 		read_change(com_mode,value,0,2);
 
-		//14. Peak[mV] (おそらくアンプ増幅後は512mVが最大)
-		// value = 512 * (MES[pch].rev_max_data - AD_BASE_UNIT) / 4095;
-        value = 512 * (MES[pch].rev_max_data - AD_BASE_UNIT) / AD_MAX_UNIT;
-		read_change(com_mode,value, 0, ADD_CMM_AFR_VAL);
+		value = MES[ch_no[com_mode] -1].amp_gain_for;				//Gain 2nd stage
+		read_change(com_mode,value,0,2);
+	
+		value = 0;				//Peak[mV]（該当データなし）
+		read_change(com_mode,value,0,2);
+	
+		value = 0;				//Threshold[mV]（該当データなし）
+		read_change(com_mode,value,0,0);
 
-		//15. 打ち込み周波数(014Eでは打ち込み周波数を表示)
-		value = SVD[pch].drive_freq;				
-		read_change(com_mode,value, 0, ADD_NO_CMM);
-
-		//16-25. 上流波形ピーク位置
-		for (l = 0; l < WAV_PEK_NUM / 2; l++){
-			value = MES[pch].FwdWavMaxPekPosLst[l];
-			read_change(com_mode, value, 0, ADD_CMM_BFR_VAL);
-			value = MES[pch].FwdWavMinPekPosLst[l];
-			read_change(com_mode, value, 0, ADD_CMM_BFR_VAL);
-		}
-
-		//26-35. 上流波形ピーク値
-		for (l = 0; l < WAV_PEK_NUM / 2; l++){
-			value = MES[pch].FwdWavMaxPekValLst[l];
-			read_change(com_mode,value, 0, ADD_CMM_BFR_VAL);
-			value = MES[pch].FwdWavMinPekValLst[l];
-			read_change(com_mode,value, 0, ADD_CMM_BFR_VAL);
-		}
-
-		//36-45. 下流波形ピーク位置
-		for (l = 0; l < WAV_PEK_NUM / 2; l++){
-			value = MES[pch].RevWavMaxPekPosLst[l];
-			read_change(com_mode, value, 0, ADD_CMM_BFR_VAL);
-			value = MES[pch].RevWavMinPekPosLst[l];
-			read_change(com_mode, value, 0, ADD_CMM_BFR_VAL);
-		}
-
-		//46-55. 上流波形ピーク位置
-		for (l = 0; l < WAV_PEK_NUM / 2; l++){
-			value = MES[pch].RevWavMaxPekValLst[l];
-			read_change(com_mode,value, 0, ADD_CMM_BFR_VAL);
-			value = MES[pch].RevWavMinPekValLst[l];
-			read_change(com_mode,value, 0, ADD_CMM_BFR_VAL);
-		}
+		for (l = 0; l < 40; l++){
+			value = 0;			//極値（該当データなし）
+			read_change(com_mode,value,0,1);
+		 }
 	}else{				//ゼロ調整時データ
 		TX_buf[com_mode][9] = RX_buf[com_mode][7];
 		strncat(TX_buf[com_mode],comma,sizeof(comma));
-
-		//1. 流量[mL/min]
-		value = SVD[ch_no[com_mode] -1].zero_flow_qat.DWORD;
+	
+		value = SVD[ch_no[com_mode] -1].zero_flow_qat.DWORD / 100;	//流量[mL/min]
 		read_change(com_mode,value,2,2);
-
-		//2. 流速[m/s]
-		value = SVD[ch_no[com_mode] -1].zero_flow_vel.DWORD / 100;
+	
+		value = SVD[ch_no[com_mode] -1].zero_flow_vel.DWORD / 10;		//流速[m/s]
 		read_change(com_mode,value,3,2);
-
-		//3. 音速[m/s]
-		value = SVD[ch_no[com_mode] -1].zero_sound_spd * 100;
+	
+		value = SVD[ch_no[com_mode] -1].zero_sound_spd * 100;			//音速[m/s]
 		read_change(com_mode,value,2,2);
 		
-		//4. 積算値[mL/min]
-		addit = SVD[ch_no[com_mode] -1].zero_addit.DWORD / 10000;
+		addit = SVD[ch_no[com_mode] -1].zero_addit.DWORD / 10000;	//積算値[mL/min]
 		read_change(com_mode,addit,3,2);
 	
-		//5. UP伝搬時間[ps]
-		value = SVD[pch].zero_FwdTimDif.DWORD;
-		read_change(com_mode,value, 3, ADD_CMM_AFR_VAL);
+		value = 0;				//UP伝搬時間[ps]（該当データなし）
+		read_change(com_mode,value,0,2);
 	
-		//6. DN伝搬時間[ps]
-		value = SVD[pch].zero_RevTimDif.DWORD;
-		read_change(com_mode,value, 3, ADD_CMM_AFR_VAL);
-
-		//7. 伝搬時間差[ps]
-		diff = SVD[ch_no[com_mode] -1].zero_delta_ts.DWORD * 32;
+		value = 0;				//DN伝搬時間[ps]（該当データなし）
+		read_change(com_mode,value,0,2);
+	
+		diff = SVD[ch_no[com_mode] -1].zero_delta_ts.DWORD * 32;	//伝搬時間差[ps]
 		if (diff > 99999999) {diff = 99999999;}
 		else if (diff < -99999999) {diff = -99999999;}
 		read_change(com_mode,diff,0,2);
 	
-		//8. UP無駄時間[ps]
-		value = SVD[pch].zero_FwdSurplsTim;
-		read_change(com_mode,value, 0, ADD_CMM_AFR_VAL);
+		value = 	0;				//UP無駄時間[ps]（該当データなし）
+		read_change(com_mode,value,0,2);
 	
-		//9. DN無駄時間[ps]
-		value = SVD[pch].zero_RevSurplsTim;
-		read_change(com_mode,value, 0, ADD_CMM_AFR_VAL);
+		value = 0;				//DN無駄時間[ps]（該当データなし）
+		read_change(com_mode,value,0,2);
 
-		//10. status
-		value = SVD[ch_no[com_mode] -1].zero_condition;
+		value = SVD[ch_no[com_mode] -1].zero_condition;			//status
 		read_change0X_status(com_mode,value);
 		strncat(TX_buf[com_mode],comma,sizeof(comma));
 
-		//11. Window Position[us]
-		value = ((SVD[pch].zero_fifo_ch & 0xFF) << 8);
-		value += (SVD[pch].zero_fifo_pos & 0xFF);
-		read_change(com_mode,value, 0, ADD_CMM_AFR_VAL);
-
-		//12. Gain 1st stage(未使用)
-		value = SVD[ch_no[com_mode] -1].zero_gain_1st;
-		read_change(com_mode,value,0,2);
-
-		//13. Gain 2nd stage
-		value = SVD[ch_no[com_mode] -1].zero_gain_2nd;
+		value = 0;				//Window Position[us]（該当データなし）
 		read_change(com_mode,value,0,2);
 	
-		//14. Peak[mV]
-		// value = 512 * (SVD[pch].zero_wave_max - AD_BASE_UNIT) / 4095;
-        value = 512 * (SVD[pch].zero_wave_max - AD_BASE_UNIT) / AD_MAX_UNIT;
-		read_change(com_mode,value, 0, ADD_CMM_AFR_VAL);
+		value = SVD[ch_no[com_mode] -1].zero_gain_1st;			//Gain 1st stage
+		read_change(com_mode,value,0,2);
+
+		value = SVD[ch_no[com_mode] -1].zero_gain_2nd;			//Gain 2nd stage
+		read_change(com_mode,value,0,2);
 	
-		//15. 打ち込み周波数(014Eでは打ち込み周波数を表示)
-		value = SVD[pch].zero_drive_freq;
-		read_change(com_mode,value, 0, ADD_NO_CMM);
+		value = 0;				//Peak[mV]（該当データなし）
+		read_change(com_mode,value,0,2);
+	
+		value = 0;				//Threshold[mV]（該当データなし）
+		read_change(com_mode,value,0,0);
 
-		//16-25. 上流波形ピーク位置
-		for (l = 0; l < WAV_PEK_NUM; l++){
-			value = SVD[pch].zero_FwdWavPekPosLst[l];
-			read_change(com_mode,value, 0, ADD_CMM_BFR_VAL);
-		}
-
-		//26-35. 上流波形ピーク値
-		for (l = 0; l < WAV_PEK_NUM; l++){
-			value = SVD[pch].zero_FwdWavPekValLst[l];
-			read_change(com_mode,value, 0, ADD_CMM_BFR_VAL);
-		}
-
-		//36-45. 下流波形ピーク位置
-		for (l = 0; l < WAV_PEK_NUM; l++){
-			value = SVD[pch].zero_RevWavPekPosLst[l];
-			read_change(com_mode,value, 0, ADD_CMM_BFR_VAL);
-		}
-
-		//46-55. 上流波形ピーク位置
-		for (l = 0; l < WAV_PEK_NUM; l++){
-			value = SVD[pch].zero_RevWavPekValLst[l];
-			read_change(com_mode,value, 0, ADD_CMM_BFR_VAL);
+		for (l = 0; l < 40; l++){
+			value = 0;			//極値（該当データなし）
+			read_change(com_mode,value,0,1);
 		}
 	}
  }
@@ -1735,11 +1637,9 @@ void WavInBuff(short com_mode){
 	if(ofs <= (MESWAVSIZ / 100)) {
 		for (l = 0; l < 100; l++){
 			if(RX_buf[com_mode][8] == 0x2c){						//FWDデータ
-//				value = (fow_wave_data[(ofs*100)+l] - AD_BASE)/4;	//受波波形データ
-				value = (fow_wave_data[(ofs*100)+l] - AD_BASE)>>4;	//受波波形データ(4回分加算してあるので更に4で割って1/16とする)
+				value = (fow_wave_data[(ofs*100)+l] - AD_BASE)/4;	//受波波形データ
 			}else{													//REVデータ
-//				value = (rev_wave_data[(ofs*100)+l] - AD_BASE)/4;	//受波波形データ
-				value = (rev_wave_data[(ofs*100)+l] - AD_BASE)>>4;	//受波波形データ(4回分加算してあるので更に4で割って1/16とする)
+				value = (rev_wave_data[(ofs*100)+l] - AD_BASE)/4;	//受波波形データ
 			}
 			read_change(com_mode,value,0,1);
 		}
@@ -1801,11 +1701,9 @@ void command_R4 (short com_mode){
 	if(ofs <= 2) {
 		for (l = 0; l < 100; l++){
 			if(RX_buf[com_mode][8] == 0x2c){						//FWDデータ
-//				value = (fow_wave_data[(ofs*100)+l] - AD_BASE)/4;	//受波波形データ
-				value = (fow_wave_data[(ofs*100)+l] - AD_BASE)>>4;	//受波波形データ(4回分加算してあるので更に4で割って1/16とする)
+				value = (fow_wave_data[(ofs*100)+l] - AD_BASE)/4;	//受波波形データ
 			}else{													//REVデータ
-//				value = (rev_wave_data[(ofs*100)+l] - AD_BASE)/4;	//受波波形データ
-				value = (rev_wave_data[(ofs*100)+l] - AD_BASE)>>4;	//受波波形データ(4回分加算してあるので更に4で割って1/16とする)
+				value = (rev_wave_data[(ofs*100)+l] - AD_BASE)/4;	//受波波形データ
 			}
 			read_change(com_mode,value,0,1);
 		}
@@ -1963,14 +1861,7 @@ void command_R6 (short com_mode){
 	read_change(com_mode,value,0,0);
 }
 
-/*******************************************
- * Function : command_R7
- * Summary  : 差分相関測定データ読み出し
- * Argument : 
- * Return   : 
- * Caution  : None
- * Note     : ゼロクロス測定データ読み出しはR3
- * *****************************************/
+/* 測定データ読出し(SFC9000対応)(R7) */
 void command_R7 (short com_mode){
 
 	short l;
@@ -1988,107 +1879,89 @@ void command_R7 (short com_mode){
 		//返信列作成
 		TX_buf[com_mode][9] = RX_buf[com_mode][7];
 		strncat(TX_buf[com_mode],comma,sizeof(comma));
-
-		//1. 流量[mL/min]
-		value = MES[ch_no[com_mode] -1].ml_min_now;
+	
+		value = MES[ch_no[com_mode] -1].ml_min_now;			//流量[mL/min]
 		read_change(com_mode,value,2,2);
-
-		//2. 流速[m/s]
-		value = MES[ch_no[com_mode] -1].flow_vel_c / 100;
+	
+		value = MES[ch_no[com_mode] -1].flow_vel_c / 10;			//流速[m/s]
 		read_change(com_mode,value,3,2);
-
-		//3. 音速[m/s]
-		value = MES[ch_no[com_mode] -1].sound_vel_f;
+	
+		value = MES[ch_no[com_mode] -1].sound_vel_f;				//音速[m/s]
 		read_change(com_mode,value,0,2);
-
-		//4. 積算値[mL/min]
-		addit = MES[ch_no[com_mode] -1].addit_buff.DWORD  / 10000;
+	
+		addit = MES[ch_no[com_mode] -1].addit_buff.DWORD  / 10000;	//積算値[mL/min]
 		read_change(com_mode,addit,3,2);
-
-		//5. 受波波形最大値
-		value = MES[ch_no[com_mode] -1].rev_max_data;
+	
+		value = MES[ch_no[com_mode] -1].rev_max_data;				//受波波形最大値
 		read_change(com_mode,value,0,2);
-
-		//6. 
-		value = MES[ch_no[com_mode] -1].rev_min_data;					
+	
+		value = MES[ch_no[com_mode] -1].rev_min_data;				//受波波形最小値
 		read_change(com_mode,value,0,2);
-
-		//7. 伝搬時間差[ps]
-		diff = MES[ch_no[com_mode] -1].delta_ts_zero * 32;
+	
+		diff = MES[ch_no[com_mode] -1].delta_ts_zero * 32;			//伝搬時間差[ps]
 		if (diff > 99999999) {diff = 99999999;}
 		else if (diff < -99999999) {diff = -99999999;}
 		read_change(com_mode,diff,0,2);
-
-		//8. 相関値幅
-		value = (MES[ch_no[com_mode] -1].correlate * 1000);
+	
+		value = (MES[ch_no[com_mode] -1].correlate * 1000);		//相関値幅
+		read_change(com_mode,value,0,2);
+	
+		value = (SVD[ch_no[com_mode] -1].zero_offset - 4000) * 32;	//ゼロ点オフセット
 		read_change(com_mode,value,0,2);
 
-		//9. ゼロ点オフセット
-		value = (SVD[ch_no[com_mode] -1].zero_offset - 4000) * 32;
-		read_change(com_mode,value,0,2);
-
-		//10. status
-		err_st = MAIN[ch_no[com_mode] -1].err_condition;
+		err_st = MAIN[ch_no[com_mode] -1].err_condition;			//status
 		read_change0X_status(com_mode,err_st);
 		strncat(TX_buf[com_mode],comma,sizeof(comma));
 
-		//11. FIFO受波波形検出位置
-		if((SVD[ch_no[com_mode] -1].fix_data & 0x08) != 0){  //固定値設定
-			if(SVD[ch_no[com_mode] -1].fix_fifo_no_read == 0){
-				value = MES[ch_no[com_mode] -1].zero_fifo_no_read;
-			}else{
-				value = SVD[ch_no[com_mode] -1].fix_fifo_no_read;
+ 	if((SVD[ch_no[com_mode] -1].fix_data & 0x08) != 0){  //固定値設定
+   if(SVD[ch_no[com_mode] -1].fix_fifo_no_read == 0){
+  		value = MES[ch_no[com_mode] -1].zero_fifo_no_read;				//FIFO受波波形検出位置
+   }else{
+  		value = SVD[ch_no[com_mode] -1].fix_fifo_no_read;				//FIFO受波波形検出位置
 			}
-		}else{
-			value = MES[ch_no[com_mode] -1].fifo_no_read;
-		}
-		read_change(com_mode,value,0,2);
-		
-		//12. Gain 1st stage
-		value = get_attenuator_gain(ch_no[com_mode]-1);
+  }else{
+ 		value = MES[ch_no[com_mode] -1].fifo_no_read;				//FIFO受波波形検出位置
+	 }
+ 	read_change(com_mode,value,0,2);
+	
+		value = get_attenuator_gain(ch_no[com_mode]-1);				//Gain 1st stage
 		read_change(com_mode,value,0,2);
 
-		//13. Gain 2nd stage
-		if((SVD[ch_no[com_mode] -1].fix_data & 0x02) != 0){  //固定値設定
-			if(SVD[ch_no[com_mode] -1].fix_amp_gain_rev == 0){
-				value = MES[ch_no[com_mode] -1].zero_amp_gain_rev;
-			}else{
-				value = SVD[ch_no[com_mode] -1].fix_amp_gain_rev;
+ 	if((SVD[ch_no[com_mode] -1].fix_data & 0x02) != 0){  //固定値設定
+   if(SVD[ch_no[com_mode] -1].fix_amp_gain_rev == 0){
+   	value = MES[ch_no[com_mode] -1].zero_amp_gain_rev;				//Gain 2nd stage
+	  }else{
+   	value = SVD[ch_no[com_mode] -1].fix_amp_gain_rev;				//Gain 2nd stage
 			}
-		}else{
-			value = MES[ch_no[com_mode] -1].amp_gain_for;
+  }else{
+	  value = MES[ch_no[com_mode] -1].amp_gain_for;				//Gain 2nd stage
 		}
 		read_change(com_mode,value,0,2);
 
-		//14. FIFO CH
-		if((SVD[ch_no[com_mode] -1].fix_data & 0x04) != 0){  //固定値設定
-			if(SVD[ch_no[com_mode] -1].fix_fifo_ch_read == 0){
-				value = MES[ch_no[com_mode] -1].zero_fifo_ch_read;
+ 	if((SVD[ch_no[com_mode] -1].fix_data & 0x04) != 0){  //固定値設定
+   if(SVD[ch_no[com_mode] -1].fix_fifo_ch_read == 0){
+  		value = MES[ch_no[com_mode] -1].zero_fifo_ch_read;			//FIFO CH
 			}else{
-				value = SVD[ch_no[com_mode] -1].fix_fifo_ch_read;
-			}
+  		value = SVD[ch_no[com_mode] -1].fix_fifo_ch_read;			//FIFO CH
+   }
 		}else{
-			value = MES[ch_no[com_mode] -1].fifo_ch_read;
+ 		value = MES[ch_no[com_mode] -1].fifo_ch_read;			//FIFO CH
 		}
 		read_change(com_mode,value,0,2);
-		
-		//15. 受波の差(P1-P2)
-		if(MES[ch_no[com_mode] -1].max_point_sub_f >= LIM_OVERFLOW)	{ value = (LIM_OVERFLOW - 1); }
-		else if(MES[ch_no[com_mode] -1].max_point_sub_f <= -LIM_OVERFLOW)	{ value = -(LIM_OVERFLOW - 1); }
-		else { value = MES[ch_no[com_mode] -1].max_point_sub_f; }
-		read_change(com_mode, 0, 0, ADD_NO_CMM);
+	
+		value = MES[ch_no[com_mode] -1].max_point_sub_f;			//受波の差(P1-P2)
+		read_change(com_mode,value,0,0);
 
-		//16-55. 差分相関値
 		if(MES[ch_no[com_mode] -1].wave_monitor_mode == 0 ||					//常に更新設定
-		(MES[ch_no[com_mode]-1].err_status & ERR_FLOW_CONT) == 0){		//流量エラー無し
-				
+			(MES[ch_no[com_mode]-1].err_status & ERR_FLOW_CONT) == 0){		//流量エラー無し
+			
 			if((MES[ch_no[com_mode]-1].err_status & ERR_JUDGE_EMPTY) != 0){	//Empty Sensor時 波形データ0
 				for (l = 0; l < 40; l++){
 					sum_abs_data[l] = 0;	//波形データ0
 				}
 			}else{
 				for (l = 0; l < 40; l++){
-					sum_abs_data[l] = SAVE[ch_no[com_mode] -1].sum_abs_com[l];	//16-55. 差分相関値
+					sum_abs_data[l] = SAVE[ch_no[com_mode] -1].sum_abs_com[l];	//差分相関値
 				}
 			}
 		}
@@ -2109,7 +1982,7 @@ void command_R7 (short com_mode){
 		value = SVD[ch_no[com_mode] -1].zero_flow_qat.DWORD;		//流量[mL/min]
 		read_change(com_mode,value,2,2);
 	
-		value = SVD[ch_no[com_mode] -1].zero_flow_vel.DWORD / 100;		//流速[m/s]
+		value = SVD[ch_no[com_mode] -1].zero_flow_vel.DWORD / 10;		//流速[m/s]
 		read_change(com_mode,value,3,2);
 	
 		value = SVD[ch_no[com_mode] -1].zero_sound_spd;			//音速[m/s]
@@ -2163,9 +2036,8 @@ void command_R7 (short com_mode){
 			}
 		}else{
 			for (l = 0; l < 40; l++){
-				// value = SVD[ch_no[com_mode] -1].zero_sum_abs[l];		//差分相関値;
-				value = 0;
-			    read_change(com_mode,value,0,1);
+				value = SVD[ch_no[com_mode] -1].zero_sum_abs[l];		//差分相関値;
+				read_change(com_mode,value,0,1);
 			}
 		}
 	}
@@ -2278,21 +2150,19 @@ void command_R8 (short com_mode){
 	short value;
 	short *data;
 	short ofs;
-	short pch = ch_no[com_mode] -1;
-	short AmpOfs; //波形振幅オフセット値
 
 	TX_buf[com_mode][9] = RX_buf[com_mode][7];
 	if(RX_buf[com_mode][8] == 0x2c){						//Data block部が1文字の場合
 		//波形表示(全波形or正常波形)選択
-		if(RX_buf[com_mode][9] == '0'){MES[pch].wave_monitor_mode = 0;}
-		else{MES[pch].wave_monitor_mode = 1;}
+		if(RX_buf[com_mode][9] == '0'){MES[ch_no[com_mode] -1].wave_monitor_mode = 0;}
+		else{MES[ch_no[com_mode] -1].wave_monitor_mode = 1;}
 		//返信列作成
 		strncat(TX_buf[com_mode],comma,sizeof(comma));	//最後尾に','追加
 		TX_buf[com_mode][11] = '0';
 	}else{													//Data block部が2文字の場合
 		//波形表示(全波形or正常波形)選択
-		if(RX_buf[com_mode][10] == '0'){MES[pch].wave_monitor_mode = 0;}
-		else{MES[pch].wave_monitor_mode = 1;}
+		if(RX_buf[com_mode][10] == '0'){MES[ch_no[com_mode] -1].wave_monitor_mode = 0;}
+		else{MES[ch_no[com_mode] -1].wave_monitor_mode = 1;}
 		//返信列作成
 		TX_buf[com_mode][10] = RX_buf[com_mode][8];
 		strncat(TX_buf[com_mode],comma,sizeof(comma));	//最後尾に','追加
@@ -2300,7 +2170,7 @@ void command_R8 (short com_mode){
 	}
 #if 0
 	for (l = 0; l < 100; l++){
-		value = (MES[pch].fow_data[l]-AmpOfs)/4;		//受波波形データ
+		value = (MES[ch_no[com_mode] -1].fow_data[l]-AD_BASE)/4;		//受波波形データ
 		read_change(com_mode,value,0,1);
 	}
 #else
@@ -2308,58 +2178,36 @@ void command_R8 (short com_mode){
 #if defined(MESWAVEXP)
 	WavInBuff(com_mode);
 #else
-	if(MES[pch].wave_monitor_mode == 0 ||				//常に更新設定
-		(MES[pch].err_status & ERR_FLOW_CONT) == 0){	//流量エラー無し
+	if(MES[ch_no[com_mode]-1].wave_monitor_mode == 0 ||				//常に更新設定
+		(MES[ch_no[com_mode]-1].err_status & ERR_FLOW_CONT) == 0){	//流量エラー無し
 
-		if((MES[pch].err_status & ERR_JUDGE_EMPTY) != 0){	//Empty Sensor時 波形データ0
+		if((MES[ch_no[com_mode]-1].err_status & ERR_JUDGE_EMPTY) != 0){	//Empty Sensor時 波形データ0
 			ofs = 3;
 		}else{		
 			if(RX_buf[com_mode][8] == 0x2c){		// 0～2はFWDのデータ
 				ofs = RX_buf[com_mode][7] - '0';
 				if(ofs == 0) {
 					for(l = 0; l < 300; l++){
-						fow_wave_data[l] = MES[pch].fow_data[l];
+						fow_wave_data[l] = MES[ch_no[com_mode]-1].fow_data[l];
 					}
 				}
 			}else{									// 10～12はREVのデータ
 				ofs = RX_buf[com_mode][8] - '0';
 				if(ofs == 0) {
 					for(l = 0; l < 300; l++){
-						rev_wave_data[l] = MES[pch].rev_data[l];
+						rev_wave_data[l] = MES[ch_no[com_mode]-1].rev_data[l];
 					}
 				}
 			}
 		}		
 	}
 
-
-
-	//評価用
-	if(SVD[pch].sum_step == 2){	//打込み回数上流下流各2回
-		MES_SUB[pch].sample_cnt = 2;
-	}else if(SVD[pch].sum_step == 3){	//打込み回数上流下流各3回
-		MES_SUB[pch].sample_cnt = 3;
-	}else if(SVD[pch].sum_step == 4){	//打込み回数上流下流各4回
-		MES_SUB[pch].sample_cnt = 4;
-	}else{	//打込み回数上流下流各4回
-		MES_SUB[pch].sample_cnt = 4;
-	}
-	// AmpOfs = 2047 * MES_SUB[pch].sample_cnt;
-	AmpOfs = AD_BASE_UNIT * MES_SUB[pch].sample_cnt;
-	//評価用
-
-	
-	
 	if(ofs <= 2) {
 		for (l = 0; l < 100; l++){
 			if(RX_buf[com_mode][8] == 0x2c){						//FWDデータ
-//				value = (fow_wave_data[(ofs*100)+l] - AmpOfs)/4;	//受波波形データ
-				// value = (fow_wave_data[(ofs*100)+l] - AmpOfs)>>4;	//受波波形データ(4回分加算してあるので更に4で割って1/16とする)
-				value = (fow_wave_data[(ofs*100)+l] - AmpOfs);	//受波波形データ(4回分加算してあるので更に4で割って1/16とする)
+				value = (fow_wave_data[(ofs*100)+l] - AD_BASE)/4;	//受波波形データ
 			}else{													//REVデータ
-//				value = (rev_wave_data[(ofs*100)+l] - AmpOfs)/4;	//受波波形データ
-				// value = (rev_wave_data[(ofs*100)+l] - AmpOfs)>>4;	//受波波形データ(4回分加算してあるので更に4で割って1/16とする)
-				value = (rev_wave_data[(ofs*100)+l] - AmpOfs);	//受波波形データ(4回分加算してあるので更に4で割って1/16とする)
+				value = (rev_wave_data[(ofs*100)+l] - AD_BASE)/4;	//受波波形データ
 			}
 			read_change(com_mode,value,0,1);
 		}
@@ -2686,107 +2534,6 @@ void read_change0X_versionRV(short com_mode,long version){
 
 }
 
-
-/****************************************************
- * Function : JdgIdxErr
- * Summary  : デジタルフィルタ配置インデックスの判定
- * Argument : Idx -> インデックス
- * Return   : JdgFlg -> B_OK : 正常
- *                      B_NG : 異常
- * Caution  : None
- * Notes    : 新デジタルフィルタ仕様のため、
- *            以前に使用していた6,7,8,9,11,16,17,18,19は削除
- ****************************************************/
-short JdgIdxErr(short Idx)
-{
-	short JdgFlg = B_OK;
-
-	//0~20以外はNG
-	if((Idx < 0) || (20 < Idx)){
-		JdgFlg = B_NG;
-	}
-	else{
-		//指定番号は仕様変更のため削除
-		switch (Idx)
-		{
-		case 6:
-		case 7:
-		case 8:
-		case 9:
-		case 10:
-		case 11:
-		case 16:
-		case 17:
-		case 18:
-		case 19:
-			JdgFlg = B_NG;
-			break;
-		
-		default:
-			JdgFlg = B_OK;
-			break;
-		}
-	}
-
-	return JdgFlg;
-}
-
-/****************************************************
- * Function : command_Rc
- * Summary  : デジタルフィルタ係数読み出し
- * Argument : com_mode -> 0 : ホスト
- *          :             1 : メンテ
- * Return   : void
- * Caution  : None
- * Notes    : フォーマットは以下
- *          : @Rc00x,ii,FCS
- *          :   x -> チャンネル番号
- *          :   ii -> デジタルフィルタインデックス
- ****************************************************/
-void command_Rc(short com_mode)
-{
-	short Idx;
-	unsigned short Cef;
-	//valueを取得
-	value_judge(com_mode,7,0);
-	
-	Idx = (short)value[com_mode];
-	if(JdgIdxErr(Idx) == B_NG)
-	{
-		end_code[com_mode] = FORMAT_ERROR;
-	}
-	else
-	{
-		switch (Idx)
-		{
-		case 0:  Cef = FPGA_FILIN0_0; break;	/* デジタルフィルタ係数(入力側0) */
-		case 1:  Cef = FPGA_FILIN0_1; break;	/* デジタルフィルタ係数(入力側0) */
-		case 2:  Cef = FPGA_FILIN1_0; break;	/* デジタルフィルタ係数(入力側1) */
-		case 3:  Cef = FPGA_FILIN1_1; break;	/* デジタルフィルタ係数(入力側1) */
-		case 4:  Cef = FPGA_FILIN2_0; break;	/* デジタルフィルタ係数(入力側2) */
-		case 5:  Cef = FPGA_FILIN2_1; break;	/* デジタルフィルタ係数(入力側2) */
-//		case 6:  Cef = FPGA_FILCOE_A3_0; break;
-//		case 7:  Cef = FPGA_FILCOE_A3_1; break;
-//		case 8:  Cef = FPGA_FILCOE_A4_0; break;
-//		case 9:  Cef = FPGA_FILCOE_A4_1; break;
-		// case 10: Cef = FPGA_FIL_EN; break;		/* デジタルフィルタ有効・無効設定 */
-//		case 11: Cef = FPGA_FILCOE_B0_1; break;
-		case 12: Cef = FPGA_FILOUT1_0; break;	/* デジタルフィルタ係数(出力側1) */
-		case 13: Cef = FPGA_FILOUT1_1; break;	/* デジタルフィルタ係数(出力側1) */
-		case 14: Cef = FPGA_FILOUT2_0; break;	/* デジタルフィルタ係数(出力側2) */
-		case 15: Cef = FPGA_FILOUT2_1; break;	/* デジタルフィルタ係数(出力側2) */
-//		case 16: Cef = FPGA_FILCOE_B3_0; break;
-//		case 17: Cef = FPGA_FILCOE_B3_1; break;
-		case 20: Cef = FPGA_FIL_EN; break;	/* デジタルフィルタ有効・無効設定 */
-		default:
-			break;
-		}
-        read_change(com_mode, Idx, 0, 2);
-		read_change(com_mode, Cef, 0, 0);
-	}
-
-}
-
 void read_command_R(short com_mode){
 	
 	switch (RX_buf[com_mode][2]){		//ヘッダーコード末尾
@@ -2961,10 +2708,6 @@ void read_command_R(short com_mode){
 /* センサ情報読出し（評価用）(Ra) */
 	case 'a':
 		command_Ra(com_mode);
-		break;
-/* デジタルフィルタ係数 */
-	case 'c':
-		command_Rc(com_mode);
 		break;
 	}
 }
@@ -4487,207 +4230,6 @@ void command_W6 (short com_mode){
 }
 
 /* ゼロ調整詳細データ書込み(SFC9000対応)(W7) */
-void command_W3 (short com_mode){
-
-	short z;
-	short l;
-	short h;
-	short check;
-	short check_14;
-	short ret;
-	unsigned short status;
-	char sta[MES_W7_STATUS] = {0};			// ステータス読込用
-	short pch = ch_no[com_mode] -1;
-	short DgtNum = 0;
-	
-	check = 0;
-	check_14 = 0;
-	ret = 0;
-	
-	// //01. 流量[mL/min]
-	
-	// DgtNum = 2;
-	// value_judge(com_mode, 7, DgtNum);
-	// check_14 += ChkFmtErr(com_mode, 1, 9, DgtNum);
-	// if(check_14 == 0)
-	// {
-	// 	check += ChkRng(com_mode, -3000000, 3000000);
-	// 	if(check == 0)
-	// 	{
-	// 		SVD[pch].zero_flow_qat.DWORD = value[com_mode];
-	// 	}
-	// }
-	// i_num[com_mode]++;
-	
-	// //02. 流速[m/s]
-	// DgtNum = 3;
-	// value_judge(com_mode, i_num[com_mode], DgtNum);
-	// check_14 += ChkFmtErr(com_mode, 1, 7, DgtNum);
-	// if(check_14 == 0)
-	// {
-	// 	check += ChkRng(com_mode, -30000, 30000);
-	// 	if(check == 0)
-	// 	{
-	// 		SVD[pch].zero_flow_vel.DWORD = value[com_mode] * 10;
-	// 	}
-	// }
-	// i_num[com_mode]++;
-	
-	// //03. 音速[m/s]
-	// DgtNum = 0;
-	// value_judge(com_mode, i_num[com_mode], DgtNum);
-	// check_14 += ChkFmtErr(com_mode, 1, 4, DgtNum);
-	// if(check_14 == 0)
-	// {
-	// 	check += ChkRng(com_mode, 0, 3000);
-	// 	if(check == 0)
-	// 	{
-	// 		SVD[pch].zero_flow_vel.DWORD = value[com_mode] * 10;
-	// 	}
-	// }
-	// i_num[com_mode]++;
-	
-	// //04. 積算値[mL/min]
-	// DgtNum = 3;
-	// value_judge(com_mode, i_num[com_mode], DgtNum);
-	// check_14 += ChkFmtErr(com_mode, 1, 12, DgtNum);
-	// if(check_14 == 0)
-	// {
-	// 	check += ChkRng(com_mode, 0, 99999999999);
-	// 	if(check == 0)
-	// 	{
-	// 		SVD[pch].zero_flow_vel.DWORD = value[com_mode] * 10000;
-	// 	}
-	// }
-	// i_num[com_mode]++;
-	
-	// /* 受波波形最大値 */
-	// 	value_judge(com_mode,i_num[com_mode],0);
-	// 	if ( ( value[com_mode] >= 0 && value[com_mode] <= 5000 ) && ( size[com_mode] >= 1 && size[com_mode] <= 4 ) && digit_check[com_mode] <= 0){
-	// 		SVD[ch_no[com_mode] -1].zero_wave_max = value[com_mode];
-	// 		check++;
-	// 	}
-	// 	else if ( size[com_mode] < 1 || size[com_mode] > 4 || digit_check[com_mode] > 0){ check_14++;}
-	// 	i_num[com_mode]++;
-	// /* 受波波形最小値 */
-	// 	value_judge(com_mode,i_num[com_mode],0);
-	// 	if ( ( value[com_mode] >= 0 && value[com_mode] <= 5000 ) && ( size[com_mode] >= 1 && size[com_mode] <= 4 ) && digit_check[com_mode] <= 0){
-	// 		SVD[ch_no[com_mode] -1].zero_wave_min = value[com_mode];
-	// 		check++;
-	// 	}
-	// 	else if ( size[com_mode] < 1 || size[com_mode] > 4 || digit_check[com_mode] > 0){ check_14++;}
-	// 	i_num[com_mode]++;
-	// /* 伝搬時間差[ps] */
-	// 	value_judge(com_mode,i_num[com_mode],0);
-	// 	if ( ( value[com_mode] >= -99999999 && value[com_mode] <= 99999999 ) && ( size[com_mode] >= 1 && size[com_mode] <= 9 ) && digit_check[com_mode] <= 0){
-	// 		SVD[ch_no[com_mode] -1].zero_delta_ts.DWORD = value[com_mode] / 32;
-	// 		check++;
-	// 	}
-	// 	else if ( size[com_mode] < 1 || size[com_mode] > 9 || digit_check[com_mode] > 0){ check_14++;}
-	// 	i_num[com_mode]++;
-	// /* 相関値幅 */
-	// 	value_judge(com_mode,i_num[com_mode],0);
-	// 	if ( ( value[com_mode] >= 0 && value[com_mode] <= 2550000 ) && ( size[com_mode] >= 1 && size[com_mode] <= 7 ) && digit_check[com_mode] <= 0){
-	// 		SVD[ch_no[com_mode] -1].zero_correlate = value[com_mode] / 1000;
-	// 		check++;
-	// 	}
-	// 	else if ( size[com_mode] < 1 || size[com_mode] > 7 || digit_check[com_mode] > 0){ check_14++;}
-	// 	i_num[com_mode]++;
-	// /* ゼロ点オフセット */
-	// 	value_judge(com_mode,i_num[com_mode],0);
-	// 	if ( ( ( value[com_mode] >= -100000 && value[com_mode] <= 100000 ) || value[com_mode] == -128000) && ( size[com_mode] >= 1 && size[com_mode] <= 7 ) && digit_check[com_mode] <= 0){
-	// 		SVD[ch_no[com_mode] -1].zero_zero_offset = (value[com_mode] / 32) + 4000;
-	// 		check++;
-	// 	}
-	// 	else if ( size[com_mode] < 1 || size[com_mode] > 7 || digit_check[com_mode] > 0){ check_14++;}
-	// 	i_num[com_mode]++;
-	// /* status */
-	// 	z = 0;
-	// 	status = 0;
-	// 	while (RX_buf[com_mode][i_num[com_mode]] != ','){
-	// 		sta[z] = RX_buf[com_mode][i_num[com_mode]];
-	// 		i_num[com_mode]++;
-	// 		z++;
-	// 		if(z >= MES_W7_STATUS){	//配列外書込み防止
-	// 			break;
-	// 		}
-	// 	}
-	// 	if (sta[3] >= 0x30 && sta[3] <= 0x39)		status = sta[3] - 0x30;
-	// 	else if (sta[3] >= 0x41 && sta[3] <= 0x46)	status = sta[3] - 0x37;
-		
-	// 	if (sta[2] >= 0x30 && sta[2] <= 0x39)		status += (sta[2] - 0x30) * 0x10;
-	// 	else if (sta[2] >= 0x41 && sta[2] <= 0x46)	status += (sta[2] - 0x37) * 0x10;
-		
-	// 	if (sta[1] >= 0x30 && sta[1] <= 0x39)		status += (sta[1] - 0x30) * 0x100;
-	// 	else if (sta[1] >= 0x41 && sta[1] <= 0x46)	status += (sta[1] - 0x37) * 0x100;
-
-	// 	if (sta[0] >= 0x30 && sta[0] <= 0x39)		status += (sta[0] - 0x30) * 0x1000;
-	// 	else if (sta[0] >= 0x41 && sta[0] <= 0x46)	status += (sta[0] - 0x37) * 0x1000;		
-		
-	// 	SVD[ch_no[com_mode] -1].zero_condition = status;
-		
-	// 	for (h = 0; h < MES_W7_STATUS; h++){sta[h] = 0;}
-	// 	i_num[com_mode]++;
-	// /* FIFO受波波形検出位置 */
-	// 	value_judge(com_mode,i_num[com_mode],0);
-	// 	if ( ( value[com_mode] >= 0 && value[com_mode] <= 3800 ) && ( size[com_mode] >= 1 && size[com_mode] <= 4 ) && digit_check[com_mode] <= 0){
-	// 		SVD[ch_no[com_mode] -1].zero_fifo_pos = value[com_mode];
-	// 		check++;
-	// 	}
-	// 	else if ( size[com_mode] < 1 || size[com_mode] > 4 || digit_check[com_mode] > 0){ check_14++;}
-	// 	i_num[com_mode]++;
-	// /* Gain 1st stage */
-	// 	value_judge(com_mode,i_num[com_mode],0);
-	// 	if ( ( value[com_mode] >= 0 && value[com_mode] <= 255 ) && ( size[com_mode] >= 1 && size[com_mode] <= 3 ) && digit_check[com_mode] <= 0){
-	// 		SVD[ch_no[com_mode] -1].zero_gain_1st = value[com_mode];
-	// 		check++;
-	// 	}
-	// 	else if ( size[com_mode] < 1 || size[com_mode] > 3 || digit_check[com_mode] > 0){ check_14++;}
-	// 	i_num[com_mode]++;
-	// /* Gain 2nd stage */
-	// 	value_judge(com_mode,i_num[com_mode],0);
-	// 	if ( ( value[com_mode] >= 0 && value[com_mode] <= 255 ) && ( size[com_mode] >= 1 && size[com_mode] <= 3 ) && digit_check[com_mode] <= 0){
-	// 		SVD[ch_no[com_mode] -1].zero_gain_2nd = value[com_mode];
-	// 		check++;
-	// 	}
-	// 	else if ( size[com_mode] < 1 || size[com_mode] > 3 || digit_check[com_mode] > 0){ check_14++;}
-	// 	i_num[com_mode]++;
-	// /* FIFO CH */
-	// 	value_judge(com_mode,i_num[com_mode],0);
-	// 	if ( ( value[com_mode] >= 0 && value[com_mode] <= 63 ) && ( size[com_mode] >= 1 && size[com_mode] <= 2 ) && digit_check[com_mode] <= 0){
-	// 		SVD[ch_no[com_mode] -1].zero_fifo_ch = value[com_mode];
-	// 		check++;
-	// 	}
-	// 	else if ( size[com_mode] < 1 || size[com_mode] > 2 || digit_check[com_mode] > 0){ check_14++;}
-	// 	i_num[com_mode]++;
-	// /* 受波の差(P1-P2) */
-	// 	value_judge(com_mode,i_num[com_mode],0);
-	// 	if ( ( value[com_mode] >= 0 && value[com_mode] <= 99 ) && ( size[com_mode] >= 1 && size[com_mode] <= 2 ) && digit_check[com_mode] <= 0){
-	// 		SVD[ch_no[com_mode] -1].zero_p1p2 = value[com_mode];
-	// 		check++;
-	// 	}
-	// 	else if ( size[com_mode] < 1 || size[com_mode] > 2 || digit_check[com_mode] > 0){ check_14++;}
-	// 	i_num[com_mode]++;
-	// /* 差分相関値 */
-	// 	for (l = 0; l < 40; l++){
-	// 		value_judge(com_mode,i_num[com_mode],0);
-	// 		if ( ( value[com_mode] >= 0 && value[com_mode] <= 65535 ) && ( size[com_mode] >= 1 && size[com_mode] <= 5 ) && digit_check[com_mode] <= 0){
-	// 			// SVD[ch_no[com_mode] -1].zero_sum_abs[l] = value[com_mode];
-	// 			check++;
-	// 		}
-	// 		else if ( size[com_mode] < 1 || size[com_mode] > 5 || digit_check[com_mode] > 0){ check_14++;}
-	// 		i_num[com_mode]++;
-	// 	}		
-		
-	if (check_14 > 0){
-		end_code[com_mode] = FORMAT_ERROR;	//End Code 14 = フォーマットエラー
-	}
-	else if (check != 54){
-		end_code[com_mode] = MAKERSET_ERROR;				//End Code 49 = 範囲外指定・桁数異常
-	}
-}
-
-/* ゼロ調整詳細データ書込み(SFC9000対応)(W7) */
 void command_W7 (short com_mode){
 
 	short z;
@@ -4846,7 +4388,7 @@ void command_W7 (short com_mode){
 		for (l = 0; l < 40; l++){
 			value_judge(com_mode,i_num[com_mode],0);
 			if ( ( value[com_mode] >= 0 && value[com_mode] <= 65535 ) && ( size[com_mode] >= 1 && size[com_mode] <= 5 ) && digit_check[com_mode] <= 0){
-				// SVD[ch_no[com_mode] -1].zero_sum_abs[l] = value[com_mode];
+				SVD[ch_no[com_mode] -1].zero_sum_abs[l] = value[com_mode];
 				check++;
 			}
 			else if ( size[com_mode] < 1 || size[com_mode] > 5 || digit_check[com_mode] > 0){ check_14++;}
@@ -5051,210 +4593,51 @@ void command_Wn (short com_mode){
 }
 
 /****************************************************
- * Function : GetValSiz (Get Value Size)
- * Summary  : Valの桁数を取得する
- * Argument : Val : 対象の値
- * Return   : Siz : 桁数
- * Caution  : 
- * notes    : 負数の場合は-も1桁とカウントする
+ * Function : JdgValFmt
+ * Summary  : パラメータのフォーマットチェック
+ * Argument : MinVal -> パラメータ最小値
+ *          : MaxVal -> パラメータ最大値
+ *            MinSiz -> パラメータ最小桁数
+ *            MaxSiz -> パラメータ最大桁数
+ *            DgtSiz -> 小数点以下桁数
+ * Return   : 0 -> フォーマットに適合する
+ *            1 -> パラメータ桁数不適合
+ *            2 -> 小数点以下桁数不適合
+ *            3 -> パラメータレンジ不適合
+ * Caution  : なし
+ * note     : DgtSiz = -1 の時判定しない
  ****************************************************/
-short GetValSiz(long long Val){
-	short Siz = 0;
-	if(Val < 0)
-	{
-		Val *= -1;
-		Siz = 1;
-	}
-	while(0 < Val)
-	{
-		Val /= 10;
-		Siz++;
-	}
-	return Siz;
-}
-
-/****************************************************
- * Function : CngUstPrm (Change Signed short Parameter)
- * Summary  : 要求が来たパラメータの値を判定、更新する
- * Argument : com_mode : 
- *            Prm : パラメータのメモリアドレス
- *            MinVal : 入力可能レンジ最小値
- *            MaxVal : 入力可能レンジ最大値
- *            pow : 小数点以下桁数
- *            ErrCod : エラーコード
- * Return   : Flg :  0 正常終了
- *                  -1 フォーマットエラー
- *                  -2 入力レンジ外エラー
- * Caution  : 
- * notes    : 
- ****************************************************/
-short CngSstPrm(short com_mode, short *Prm, long long MinVal, long long MaxVal, short pow, short ErrCod)
-{
-	short Flg = 0;
-	short MinSiz = GetValSiz(MinVal);
-	short MaxSiz = GetValSiz(MaxVal);
-
-	//小数点以下桁数を使用する場合は.の分1増やす
-	if(pow > 0)
-	{
-		MaxSiz += 1;
-	}
-
-	//value[], size[], digit_check[] を取得する
-	value_judge(com_mode, i_num[com_mode], pow);
-
-	//文字列長判定
-	if(size[com_mode] < MinSiz || MaxSiz < size[com_mode])
-	{
-		Flg = -1; //FORMAT ERROR
-		end_code[com_mode] = FORMAT_ERROR;
-	}
-	//入力範囲判定
-	else if(value[com_mode] < MinVal || MaxVal < value[com_mode])
-	{
-		Flg = -2; //
-		end_code[com_mode] = ErrCod;
-	}
-	else if(digit_check[com_mode] > pow)
-	{
-		Flg = -1; //FORMAT ERROR
-		end_code[com_mode] = FORMAT_ERROR;
-	}
-	else
-	{
-		*Prm = (short)value[com_mode];
-		i_num[com_mode]++;
-	}
-	return Flg;
-}
-
-/****************************************************
- * Function : CngUstPrm (Change Unsigned short Parameter)
- * Summary  : 要求が来たパラメータの値を判定、更新する
- * Argument : com_mode : 
- *            Prm : パラメータのメモリアドレス
- *            MinVal : 入力可能レンジ最小値
- *            MaxVal : 入力可能レンジ最大値
- *            pow : 小数点以下桁数
- *            ErrCod : エラーコード
- * Return   : Flg :  0 正常終了
- *                  -1 フォーマットエラー
- *                  -2 入力レンジ外エラー
- * Caution  : 
- * notes    : 
- ****************************************************/
-short CngUstPrm(short com_mode, unsigned short *Prm, long long MinVal, long long MaxVal, short pow, short ErrCod)
-{
-	short Flg = 0;
-	short MinSiz = GetValSiz(MinVal);
-	short MaxSiz = GetValSiz(MaxVal);
-
-	//小数点以下桁数を使用する場合は.の分1増やす
-	if(pow > 0)
-	{
-		MaxSiz += 1;
-	}
-
-	//value[], size[], digit_check[] を取得する
-	value_judge(com_mode, i_num[com_mode], pow);
-	//文字列長判定
-	if(size[com_mode] < MinSiz || MaxSiz < size[com_mode])
-	{
-		Flg = -1; //FORMAT ERROR
-		end_code[com_mode] = FORMAT_ERROR;
-	}
-	//入力範囲判定
-	else if(value[com_mode] < MinVal || MaxVal < value[com_mode])
-	{
-		Flg = -2; //
-		end_code[com_mode] = ErrCod;
-	}
-	else if(digit_check[com_mode] > pow)
-	{
-		Flg = -1; //FORMAT ERROR
-		end_code[com_mode] = FORMAT_ERROR;
-	}
-	else
-	{
-		*Prm = (unsigned short)value[com_mode];
-		i_num[com_mode]++;
-	}
-	return Flg;
-}
+// short JdgValFmt(short MinVal, short MaxVal, short MinSiz, short MaxSiz, short DgtSiz){
+// 	short FmtFlg = 0;
+// 	//上下限判定
+// 	if((MinVal <= value[com_mode] && value[com_mode] <= MaxVal) ){
+// 		//サイズ判定
+// 		if(MinSiz <= size[com_mode] && size[com_mode] <= MaxSiz){
+// 			//-1の時判定しない
+// 			if(digit_check[com_mode] == -1){
+// 				FmtFlg = 0; //OK
+// 			}
+// 			//条件に適合
+// 			else if(digit_check[com_mode] <= DgtSiz){
+// 				FmtFlg = 0; //OK
+// 			}
+// 			else{
+// 				FmtFlg = 2; //NG
+// 			}
+// 		}
+// 		else{
+// 			FmtFlg = 1; //NG
+// 		}
+// 	}
+// 	else{
+// 		FmtFlg = 3; //NG
+// 	}
+// 	return FmtFlg;
+// }
 
 /* センサ情報書込み(評価用)(Wa) */
 void command_Wa (short com_mode){
-	short pch = ch_no[com_mode] -1;
-	short Flg = 0;
-#if 1
-	i_num[com_mode] = 7;
-	//1. センサオプション
-	Flg = CngUstPrm(com_mode, &SVD[pch].sns_option, 0, 1, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
 
-	//2. センサ間距離(L)
-	Flg = CngUstPrm(com_mode, &SVD[pch].sns_disL, 100, 9999, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//3. センサ間距離(L_l)
-	Flg = CngUstPrm(com_mode, &SVD[pch].sns_disL_l, 100, 9999, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//4. 無駄時間
-	Flg = CngUstPrm(com_mode, &SVD[pch].sns_tau, 100, 9999, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//5. 互換係数
-	Flg = CngUstPrm(com_mode, &SVD[pch].sns_coef, 1000, 99999, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//6. ADCクロック
-	Flg = CngUstPrm(com_mode, &SVD[pch].adc_clock, 0, 3, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//7. WINDOW OFFSET
-	Flg = CngUstPrm(com_mode, &SVD[pch].wind_offset, 0, 63, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//8. 差分相関開始位置
-	Flg = CngUstPrm(com_mode, &SVD[pch].sum_start, 4, 210, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//9. 差分相関終了位置
-	Flg = CngUstPrm(com_mode, &SVD[pch].sum_end, 5, 210, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//10. 差分相関間隔
-	Flg = CngUstPrm(com_mode, &SVD[pch].sum_step, 1, 10, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//11. 固定値設定
-	Flg = CngUstPrm(com_mode, &SVD[pch].fix_data, 0x0000, 0xFFFF, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//12. Wiper Position(固定値)
-	Flg = CngUstPrm(com_mode, &SVD[pch].fix_amp_gain_rev, 0, 255, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//13. FIFO CH(固定値)
-	Flg = CngUstPrm(com_mode, &SVD[pch].fix_fifo_ch_read, 0, 63, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//14. Leading Position(固定値)
-	Flg = CngUstPrm(com_mode, &SVD[pch].fix_fifo_no_read, 0, 1000, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-
-	//15. Zero Cross Start Point
-	// Flg = CngSstPrm(com_mode, &SVD[pch].ZerCrsSttPnt, 0, 50, 0, FREQUENCY_ERROR);
-	Flg = CngUstPrm(com_mode, &SVD[pch].ZerCrsSttPnt, 0, 300, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-	SVD[pch].ZerPeakPos = MES[pch].zc_peak = SVD[pch].ZerCrsSttPnt;
-	eep_write_ch_delay(pch, (short)(&SVD[pch].ZerPeakPos - &SVD[pch].max_flow), SVD[pch].ZerPeakPos);
-
-	//16. Zero Cross Use Number
-	Flg = CngUstPrm(com_mode, &SVD[pch].ZerCrsUseNum, 0, 50, 0, FREQUENCY_ERROR);
-	if(Flg != 0) return;
-#else 
  /* センサオプション */  //0～1
 	value_judge(com_mode,7,0);
 	if (value[com_mode] >= 0 && value[com_mode] <= 1 && size[com_mode] == 1){
@@ -5329,13 +4712,9 @@ void command_Wa (short com_mode){
 
 /* Zero Cross Start Point */ //0~50
 				value_judge(com_mode,i_num[com_mode],0);
-	            // if ( ( value[com_mode] >= 0 && value[com_mode] <= 50 ) && size[com_mode] <= 2 )
-	            if ( ( value[com_mode] >= 0 && value[com_mode] <= 300 ) && size[com_mode] <= 3 )
-				{
+	            if ( ( value[com_mode] >= 0 && value[com_mode] <= 50 ) && size[com_mode] <= 2 ){
 		          SVD[ch_no[com_mode] -1].ZerCrsSttPnt = value[com_mode];
-				  SVD[ch_no[com_mode] -1].ZerPeakPos = MES[ch_no[com_mode] -1].zc_peak = value[com_mode];
   	           	  i_num[com_mode]++;
-				  eep_write_ch_delay(pch, (short)(&SVD[pch].ZerPeakPos - &SVD[pch].max_flow), SVD[pch].ZerPeakPos);
 
 /* Zero Cross Use Number */ //0~50
 				  value_judge(com_mode,i_num[com_mode],0);
@@ -5426,7 +4805,6 @@ void command_Wa (short com_mode){
  }else{
   end_code[com_mode] = FREQUENCY_ERROR;
  }
-#endif
 }
 
 /* 設定値保存(OS) */
@@ -5540,84 +4918,6 @@ void command_OZ (short com_mode){
 		return;
 	}
  SAVE[ch_no[com_mode] -1].control |= 0x0001;
-}
-
-/*******************************************
- * Function : command_Wc
- * Summary  : デジタルフィルタ係数書き込み
- * Argument : int com_mode -> 0 : ホスト
- *                            1 : メンテ
- * Return   : void
- * Caution  : なし
- * Note     : @Wc000,n,dddd
- *          :   n : デジタルフィルタ係数のインデックス(偶数:整数下位16bit, 奇数:整数上位2bit)
- *          :   dddd : 書き込むデータ
- * *****************************************/
-void command_Wc(short com_mode){
-	short Idx, i;
-	long Val;
-	unsigned short MinVal, MaxVal;
-
-	//1つ目のデータ取得
-	i_num[com_mode] = 7;
-	value_judge(com_mode, i_num[com_mode], 0);
-	Idx = value[com_mode];
-
-	//2つ目のデータ取得
-	i_num[com_mode]++;
-	value_judge(com_mode, i_num[com_mode], 0);
-	Val = value[com_mode];
-
-	//デジタルフィルタスイッチ切り替え
-	if(Idx == 20){
-		MinVal = 0;
-		MaxVal = 0xFFFF;
-	}
-	//整数書き込み(最大16bit)
-	else if(Idx % 2 == 0){
-		MinVal = 0;
-		MaxVal = 0xFFFF;
-	}
-	//符号/整数書き込み(最大2bit)
-	else{
-		MinVal = 0;
-		MaxVal = 0x3;
-	}
-	
-	if(JdgIdxErr(Idx) == B_NG)
-	{
-		end_code[com_mode] = FORMAT_ERROR;
-	}
-	else if((Val < MinVal) || (MaxVal < Val))
-	{
-		end_code[com_mode] = FORMAT_ERROR;
-	}
-	else{
-		switch (Idx)
-		{
-		case 0:  FPGA_FILIN0_0 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefA00 = Val; break;	/* デジタルフィルタ係数(入力側0) */
-		case 1:  FPGA_FILIN0_1 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefA01 = Val; break;	/* デジタルフィルタ係数(入力側0) */
-		case 2:  FPGA_FILIN1_0 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefA10 = Val; break;	/* デジタルフィルタ係数(入力側1) */
-		case 3:  FPGA_FILIN1_1 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefA11 = Val; break;	/* デジタルフィルタ係数(入力側1) */
-		case 4:  FPGA_FILIN2_0 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefA20 = Val; break;	/* デジタルフィルタ係数(入力側2) */
-		case 5:  FPGA_FILIN2_1 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefA21 = Val; break;	/* デジタルフィルタ係数(入力側2) */
-//		case 6:  FPGA_FILCOE_A3_0 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefA30 = Val; break;
-//		case 7:  FPGA_FILCOE_A3_1 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefA31 = Val; break;
-//		case 8:  FPGA_FILCOE_A4_0 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefA40 = Val; break;
-//		case 9:  FPGA_FILCOE_A4_1 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefA41 = Val; break;
-		// case 10: FPGA_FIL_EN = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefB00 = Val; break;	/* デジタルフィルタ有効・無効設定 */
-//		case 11: FPGA_FILCOE_B0_1 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefB01 = Val; break;
-		case 12: FPGA_FILOUT1_0 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefB10 = Val; break;	/* デジタルフィルタ係数(出力側1) */
-		case 13: FPGA_FILOUT1_1 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefB11 = Val; break;	/* デジタルフィルタ係数(出力側1) */
-		case 14: FPGA_FILOUT2_0 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefB20 = Val; break;	/* デジタルフィルタ係数(出力側2) */
-		case 15: FPGA_FILOUT2_1 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefB21 = Val; break;	/* デジタルフィルタ係数(出力側2) */
-//		case 16: FPGA_FILCOE_B3_0 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefB30 = Val; break;
-//		case 17: FPGA_FILCOE_B3_1 = Val; for(i=0; i<6; i++) SVD[i].DgtFltCefB31 = Val; break;
-		case 20: FPGA_FIL_EN = Val; for(i=0; i<6; i++) SVD[i].DgtFltSwc = Val; break;	/* デジタルフィルタ有効・無効設定 */
-		default:
-			break;
-		}
-	}
 }
 
 void read_command_W(short com_mode){
@@ -5749,10 +5049,6 @@ void read_command_W(short com_mode){
 	case 'a':
 		command_Wa(com_mode);
 		break;
-/* デジタルフィルタ係数 */
-	case 'c':
-		command_Wc(com_mode);
-		break;
 	}
 	
 }
@@ -5779,12 +5075,7 @@ void MemoryCom(short com_mode){
 		/* メモリ書き込み */
 		command_MW(com_mode);
 		break;
-	case 'T':
-		command_MT(com_mode);
-		break;
-	case 'Z':
-		command_MZ(com_mode);
-		break;
+	
 	
 	default:
 		break;
@@ -5808,7 +5099,7 @@ void command_MR (short com_mode){
 	unsigned char pAdd;
 	long TxCnt = 9;
 	short TmpChr[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'}; 
-	value_judge_Hex(com_mode,7,0);
+	value_judge_Dbg(com_mode,7,0);
 
 	//1パラメータ目、アドレス
 	if((value[com_mode] < 0x00000000) || (0xFFFFFFFF < value[com_mode]))
@@ -5825,7 +5116,7 @@ void command_MR (short com_mode){
 	    Add = value[com_mode];
 
 	    i_num[com_mode]++;
-	    value_judge_Hex(com_mode,i_num[com_mode],0);
+	    value_judge_Dbg(com_mode,i_num[com_mode],0);
 
 	    //2パラメータ目、個数
 	    if((value[com_mode] < 0x00) || (0x80 < value[com_mode]))
@@ -5877,7 +5168,7 @@ void command_MW (short com_mode){
 	unsigned long LngDat;
 	long TxCnt = 9;
 	short TmpChr[] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'}; 
-	value_judge_Hex(com_mode,7,0);
+	value_judge_Dbg(com_mode,7,0);
 
 	//書き込みアドレス
 	if((value[com_mode] < 0x00000000) || (0xFFFFFFFF < value[com_mode]))
@@ -5894,7 +5185,7 @@ void command_MW (short com_mode){
 	    Add = value[com_mode];
 
 	    i_num[com_mode]++;
-	    value_judge_Hex(com_mode,i_num[com_mode],0);
+	    value_judge_Dbg(com_mode,i_num[com_mode],0);
 
 	    //書き込みバイト数
 	    if((value[com_mode] < 0x01) || (0x04 < value[com_mode]))
@@ -5909,7 +5200,7 @@ void command_MW (short com_mode){
 	    {
 	        Cnt = value[com_mode];
 	        i_num[com_mode]++;
-	        value_judge_Hex(com_mode,i_num[com_mode],0);
+	        value_judge_Dbg(com_mode,i_num[com_mode],0);
 
 	        //書き込みデータ
 	        if((value[com_mode] < 0x00000000) || (0xFFFFFFFF < value[com_mode])){
@@ -6203,7 +5494,7 @@ void command_Dl (short com_mode){
 	TbfPtr = (char *)&TX_buf[com_mode][8];
 
 	//valueを取得
-	value_judge_Hex(com_mode,7,0);
+	value_judge_Dbg(com_mode,7,0);
 	ReqTyp = (short)value[com_mode];
 
 	//0-2のみ受付
@@ -6216,7 +5507,7 @@ void command_Dl (short com_mode){
 	    if(ReqTyp != 0)
 	    {
 	        i_num[com_mode]++;
-	        value_judge_Hex(com_mode, i_num[com_mode], 0);
+	        value_judge_Dbg(com_mode, i_num[com_mode], 0);
 	        Add = (unsigned long)value[com_mode];
 	    }
 
@@ -6271,167 +5562,5 @@ void command_Dl (short com_mode){
 			}
 		}
 	}
-}
-void command_MT(short com_mode)
-{
-	short pch = ch_no[com_mode] - 1;
-
-	TX_buf[com_mode][6] = ',';
-	TX_buf[com_mode][7] = RX_buf[com_mode][5];
-
-	value_judge(com_mode,7,0);
-	if(value[com_mode] < 0 || 1 < value[com_mode])
-	{
-		end_code[com_mode] = FORMAT_ERROR;
-	}
-	else
-	{
-		MES[pch].zc_peak_UpdateFlg = value[com_mode];
-	}
-	
-	read_change(com_mode, MES[pch].zc_peak_UpdateFlg, 0, ADD_CMM_BFR_VAL);
-}
-
-/*******************************************
- * Function : read_change2
- * Summary  : 数値を指定した桁数でTX_bufに格納する
- * Argument : 
- * Return   : void
- * Caution  : None
- * Note     : 数値先頭の0も無視しない
- * *****************************************/
-void read_change2(short com_mode, long long Val, char point, short pos, short Odr)
-{
-	short i;
-	long long Num = 1;
-	for(i = 0; i < Odr - 1; i++)
-	{
-		Num *= 10;
-	}
-	for(i = 0; i < Odr; i++)
-	{
-		read_change(com_mode, (Val / Num), 0, ADD_NO_CMM);
-		Val = Val % Num;
-		Num /= 10;
-	}
-}
-
-void command_MZ(short com_mode)
-{
-	short pch = ch_no[com_mode] - 1;
-	short i;
-	short Num = 0;
-
-	short Mod = RX_buf[com_mode][7] - 0x30;
-	short sPnt = 0;
-	short ePnt = 15;
-	long Hvl, Lvl;
-	if(SVD[pch].ZerCrsUseNum > 15)
-	{
-		//1点あたり30文字弱, 500byte/30~16 マージンを見て15
-		ePnt = sPnt + 15;
-	}
-	else
-	{
-		ePnt = sPnt + 15;
-	}
-    TX_buf[com_mode][6] = '0';
-    TX_buf[com_mode][7] = '0';
-	TX_buf[com_mode][8] = ',';
-    TX_buf[com_mode][9] = RX_buf[com_mode][7];
-
-	//引数が0の時の値を保持する
-	if(Mod == 0)
-	{
-		MES[pch].ZcLog.Flw = MES[pch].ml_min_now; //流量
-		MES[pch].ZcLog.Tup = MES_SUB[pch].zc_Tup; //上流時間差
-		MES[pch].ZcLog.Tdw = MES_SUB[pch].zc_Tdown; //下流時間差
-		//ゼロクロス点
-		for(i = 0; i < ZC_POINT_MAX; i++)
-		{
-			MES[pch].ZcLog.FowZcd[i][0] = MES[pch].zc_nearzero_point[0][i];
-			MES[pch].ZcLog.FowZcd[i][1] = MES[pch].zc_nearzero_data1[0][i];
-			MES[pch].ZcLog.FowZcd[i][2] = MES[pch].zc_nearzero_data2[0][i];
-			MES[pch].ZcLog.FowZcd[i][3] = MES[pch].zc_nearzero_data3[0][i];
-			MES[pch].ZcLog.FowZcd[i][4] = MES[pch].zc_nearzero_data4[0][i];
-			MES[pch].ZcLog.RevZcd[i][0] = MES[pch].zc_nearzero_point[1][i];
-			MES[pch].ZcLog.RevZcd[i][1] = MES[pch].zc_nearzero_data1[1][i];
-			MES[pch].ZcLog.RevZcd[i][2] = MES[pch].zc_nearzero_data2[1][i];
-			MES[pch].ZcLog.RevZcd[i][3] = MES[pch].zc_nearzero_data3[1][i];
-			MES[pch].ZcLog.RevZcd[i][4] = MES[pch].zc_nearzero_data4[1][i];
-
-			MES[pch].ZcLog.FowClcZcd[i] = MES[pch].FwdClcZerPnt[i];
-			MES[pch].ZcLog.RevClcZcd[i] = MES[pch].RevClcZerPnt[i];
-		}
-	}
-
-	//生ゼロクロス点を読み出す
-	if(Mod == 0)
-	{
-		read_change(com_mode, MES[pch].ZcLog.Flw, 2, ADD_CMM_BFR_VAL);
-		
-		Hvl = (long)(MES[pch].ZcLog.Tup); //整数部
-		Lvl = (long)((MES[pch].ZcLog.Tup - Hvl) * 10000000); //小数部
-		read_change(com_mode, Hvl, 0, ADD_CMM_BFR_VAL);
-		strcat(TX_buf[com_mode], ".");
-		read_change2(com_mode, Lvl, 0, ADD_NO_CMM, 7);
-
-		Hvl = (long)(MES[pch].ZcLog.Tdw); //整数部
-		Lvl = (long)((MES[pch].ZcLog.Tdw - Hvl) * 10000000); //小数部
-		read_change(com_mode, Hvl, 0, ADD_CMM_BFR_VAL);
-		strcat(TX_buf[com_mode], ".");
-		read_change2(com_mode, Lvl, 0, ADD_NO_CMM, 7);
-	}
-	//上流生ゼロクロス点を読み出す
-	else if(Mod == 1)
-	{
-		for(i = sPnt; i < ePnt; i++)
-		{
-			read_change(com_mode, MES[pch].ZcLog.FowZcd[i][0], 0, ADD_CMM_BFR_VAL);
-			read_change(com_mode, MES[pch].ZcLog.FowZcd[i][1], 0, ADD_CMM_BFR_VAL);
-			read_change(com_mode, MES[pch].ZcLog.FowZcd[i][2], 0, ADD_CMM_BFR_VAL);
-			read_change(com_mode, MES[pch].ZcLog.FowZcd[i][3], 0, ADD_CMM_BFR_VAL);
-			read_change(com_mode, MES[pch].ZcLog.FowZcd[i][4], 0, ADD_CMM_BFR_VAL);
-		}
-	}
-	//下流生ゼロクロス点を読み出す
-	else if(Mod == 2)
-	{
-		for(i = sPnt; i < ePnt; i++)
-		{
-			read_change(com_mode, MES[pch].ZcLog.RevZcd[i][0], 0, ADD_CMM_BFR_VAL);
-			read_change(com_mode, MES[pch].ZcLog.RevZcd[i][1], 0, ADD_CMM_BFR_VAL);
-			read_change(com_mode, MES[pch].ZcLog.RevZcd[i][2], 0, ADD_CMM_BFR_VAL);
-			read_change(com_mode, MES[pch].ZcLog.RevZcd[i][3], 0, ADD_CMM_BFR_VAL);
-			read_change(com_mode, MES[pch].ZcLog.RevZcd[i][4], 0, ADD_CMM_BFR_VAL);
-		}
-	}
-	//計算後ゼロクロス点を読み出す
-	else if(Mod == 3)
-	{
-		//上流
-		for(i = sPnt; i < ePnt; i++)
-		{
-			Hvl = (long)(MES[pch].ZcLog.FowClcZcd[i]); //整数部
-			Lvl = (long)((MES[pch].ZcLog.FowClcZcd[i] - Hvl) * 10000000); //小数部
-			read_change(com_mode, Hvl, 0, ADD_CMM_BFR_VAL);
-			strcat(TX_buf[com_mode], ".");
-			read_change2(com_mode, Lvl, 0, ADD_NO_CMM, 7);
-		}
-		//下流
-		for(i = sPnt; i < ePnt; i++)
-		{
-			Hvl = (long)(MES[pch].ZcLog.RevClcZcd[i]); //整数部
-			Lvl = (long)((MES[pch].ZcLog.RevClcZcd[i] - Hvl) * 10000000); //小数部
-			read_change(com_mode, Hvl, 0, ADD_CMM_BFR_VAL);
-			strcat(TX_buf[com_mode], ".");
-			read_change2(com_mode, Lvl, 0, ADD_NO_CMM, 7);
-		}
-	}
-	else
-	{
-		end_code[com_mode] = FORMAT_ERROR;
-	}
-
 	
 }

@@ -30,18 +30,12 @@ extern struct stMES_SUB MES_SUB[CH_NUMMAX];	//流量計測
 //----------------------------------------------------------------------
 //構造体
 //----------------------------------------------------------------------
-
-typedef struct
-{
-    long Flw; //流量
-    float Tup; //Time Difference Up
-    float Tdw; //Time Difference Down
-    short FowZcd[ZC_POINT_MAX][5]; //Foward Zerocross Data
-    short RevZcd[ZC_POINT_MAX][5]; //Reverse Zerocross Data
-    float FowClcZcd[ZC_POINT_MAX]; //Fow Calculate Zerocross Data
-    float RevClcZcd[ZC_POINT_MAX]; //Fow Calculate Zerocross Data
-}stZcLog;
-
+/*           !!!!!!!!!! 注意 !!!!!!!!!!                       */
+/*                                                            */
+/* 構造体stMESにメンバ変数を増やしていくと、ファームウェアが正常に起動しなくなるため */
+/* 流量計測の変数を増やす場合は、構造体stMES_SUBに追加すること           */
+/*                                                            */
+/*           !!!!!!!!!! 注意 !!!!!!!!!!                       */
 struct stMES{	//流量計測
 	
 	short amp_gain_for;
@@ -78,25 +72,6 @@ struct stMES{	//流量計測
 	short rev_min_data;	//最小
 	short fow_max_data_point; //波形振幅の最大値をとるx座標
 	short rev_max_data_point;
-	
-	short FwdWavPekNum;
-	short RevWavPekNum;
-	short FwdWavPekValLst[WAV_PEK_NUM]; //上流波形ピーク値前から
-	short FwdWavPekPosLst[WAV_PEK_NUM]; //上流波形ピーク位置前から
-	short RevWavPekValLst[WAV_PEK_NUM]; //下流波形ピーク値前から
-	short RevWavPekPosLst[WAV_PEK_NUM]; //下流波形ピーク位置前から
-	short FwdWavMinPekValLst[WAV_PEK_NUM];
-	short FwdWavMaxPekValLst[WAV_PEK_NUM];
-	short FwdWavMinPekPosLst[WAV_PEK_NUM];
-	short FwdWavMaxPekPosLst[WAV_PEK_NUM];
-	short RevWavMinPekValLst[WAV_PEK_NUM];
-	short RevWavMaxPekValLst[WAV_PEK_NUM];
-	short RevWavMinPekPosLst[WAV_PEK_NUM];
-	short RevWavMaxPekPosLst[WAV_PEK_NUM];
-	short FwdUseZerDat[ZC_POINT_MAX][5];
-	float FwdClcZerPnt[ZC_POINT_MAX];
-	short RevUseZerDat[ZC_POINT_MAX][5];
-	float RevClcZerPnt[ZC_POINT_MAX];
 
 	short m0_point_fow[3];	//最小ポイント
 	short m0_point_rev[3];	//最小ポイント
@@ -137,11 +112,7 @@ struct stMES{	//流量計測
 	unsigned short delta_ts_buf[50];
 	unsigned short delta_ts0;
 	unsigned long delta_ts_sum;		//⊿ts加算データ
-	short ts_cont;				//移動平均用時間差バッファカウンタ
-
-	short MvgAveFlwCnt; //移動平均用流量バッファカウンタ
-	long MvgAveFlwBuf[50]; //移動平均用流量バッファ
-	long long MvgAveFlwSum; //移動平均用流量バッファ総和
+	short i_cont;				//移動平均カウンタ
 
 	long vth_sum;
 	short vth_count;
@@ -271,12 +242,12 @@ struct stMES{	//流量計測
 	short zc_nearzero_data2[2][ZC_POINT_MAX];
 	short zc_nearzero_data3[2][ZC_POINT_MAX];
 	short zc_nearzero_data4[2][ZC_POINT_MAX];
+	float zc_Tdata_buf[4];
 	float zc_Tdata;
 	float zc_zero_calc;
 	float zc_zero_offset;
 
 	short zc_peak;
-	short zc_peak_UpdateFlg;
 	unsigned short ThresholdWave;	/*波形認識閾値*/
 	unsigned short ThresholdPeak;	/*波形認識ピーク*/
 	unsigned short ThresholdPeakPos;	 /*波形認識ピーク位置*/
@@ -285,35 +256,22 @@ struct stMES{	//流量計測
 	//Windowサーチ
 	short ws_FifoCh;
 	unsigned long ws_work_add;
-
-	short FwdSurplsTim; //上流波形無駄時間
-	short RevSurplsTim; //下流波形無駄時間
-	
-	stZcLog ZcLog; //ゼロクロスログデータ
-
-	short ZerAdjPhs; //ゼロ点調整フェーズ
 };
 
+/*           !!!!!!!!!! 注意 !!!!!!!!!!                       */
+/*                                                            */
+/* 構造体stMESにメンバ変数を増やしていくと、ファームウェアが正常に起動しなくなるため */
+/* 流量計測の変数を増やす場合は、構造体stMES_SUBに追加すること           */
+/*                                                            */
+/*           !!!!!!!!!! 注意 !!!!!!!!!!                       */
 struct stMES_SUB{	//流量計測
 	float zc_delta_ts;
-	float zc_delta_ts_buf[50];
+	float zc_delta_ts_buf[18];
 	float zc_delta_ts_sum;
 	float zc_delta_ts_zero;
 	
 	short fifo_result;
 	short zc_peak_req;
-
-	short ws_work_gain;			/*Windowサーチ時のゲイン値*/
-	unsigned long ws_add_max;	/*Windowサーチ時の極値の加算値*/
-	short memory_side;		/*1Wireメモリデバイス方向*/
-	
-	short sample_cnt;
-	short ItvVal;
-	
-	unsigned short err_status_sub;	//エラー情報
-
-	float zc_Tup;
-	float zc_Tdown;
 };
 
 #ifdef FRQSCH

@@ -23,6 +23,8 @@ void	drive_led(unsigned short led_num);
 void	disp_led_ch(void);
 void	disp_led_alm(void);
 void	disp_init(void);
+void	disp_sw_clock(void);
+void	disp_sw_load(void);
 void	disp_zerosw_check(void);
 short	disp_zero_read(void);
 short	disp_ch_read(void);
@@ -128,6 +130,38 @@ void	disp_init(void){
 }
 
 /****************************************************/
+/* Function : disp_sw_clock                    */
+/* Summary  : スイッチ制御 : クロックパルス    				*/
+/* Argument : なし                  	               */
+/* Return   : なし 									                         */
+/* Caution  : なし                                   */
+/* notes    : なし                                   */
+/****************************************************/
+void	disp_sw_clock(void){
+
+	// GPIO_PF2
+	__bit_output(GPIO_PORTF_BASE, 2, 1);				//R_CLK=1
+	// GPIO_PF2
+	__bit_output(GPIO_PORTF_BASE, 2, 0);				//R_CLK=0
+}
+
+/****************************************************/
+/* Function : disp_sw_load                    */
+/* Summary  : スイッチ制御 : Loadパルス    				*/
+/* Argument : なし                  	               */
+/* Return   : なし 									                         */
+/* Caution  : なし                                   */
+/* notes    : なし                                   */
+/****************************************************/
+void	disp_sw_load(void){
+
+	// GPIO_PF1
+	__bit_output(GPIO_PORTF_BASE, 1, 0);				//R_SHnLD=0
+	// GPIO_PF1
+	__bit_output(GPIO_PORTF_BASE, 1, 1);				//R_SHnLD=1
+}
+
+/****************************************************/
 /* Function : disp_zerosw_check                    */
 /* Summary  : スイッチ制御 : ゼロ点調整スイッチ確認      				*/
 /* Argument : なし                  	               */
@@ -214,8 +248,8 @@ short	disp_ch_read(void){
 
 //	sw_status = (FPGA_SW_DISP & 0x000F);	//SW表示レジスタ読込み
 	sw_status = FPGA_SW_DISP;	//SW表示レジスタ読込み
-	sw_status = (sw_status ^ 0xFFFFFFFF);	//ビット反転
-	sw_status = (sw_status & 0x000F);	//CHスイッチの有効ビット
+	sw_status = (sw_status ^ 0xFFFFFFFF);
+	sw_status = (sw_status & 0x000F);	//SW表示レジスタ読込み
 
 	return (sw_status);
 }
@@ -234,8 +268,8 @@ short	disp_cunet_read(void){
 	
 //	sw_status = ((FPGA_SW_DISP & 0x00F0) >> 4);	//SW表示レジスタ読込み
 	sw_status = FPGA_SW_DISP;	//SW表示レジスタ読込み
-	sw_status = (sw_status ^ 0xFFFFFFFF);	//ビット反転
-	sw_status = ((sw_status & 0x00F0) >> 4);	//CUnetアドレススイッチの有効ビット
+	sw_status = (sw_status ^ 0xFFFFFFFF);
+	sw_status = ((sw_status & 0x00F0) >> 4);	//SW表示レジスタ読込み
 	
 	return (sw_status);
 }

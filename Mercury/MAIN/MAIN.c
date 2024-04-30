@@ -64,18 +64,16 @@ short	zero_check_sub(short d[]);
 void	zero_adj_control(short pch);
 void	zero_adj_error(short pch);
 void	alm_reset_control(short pch);
-void	zero_adj_status(short pch);
+void zero_adj_status(short pch);
 void	com_req_check(void);
 void	com_req_control(short pch);
 void	ram_clear_check(void);
 void	ram_clear_debug(void);
-void	ReadSensDevice(void);
-void	CheckDeviceDetect(void);
+void ReadSensDevice(void);
 void	watchdog_refresh(void);
 void CheckBOOTCFG(void);
 void main(void);
 void WatchdogIntHandler(void);
-void SetZerAdjPrm(short pch, short Mod);
 
 /********************************************************/
 /*	モジュール外定義関数								*/
@@ -119,9 +117,6 @@ extern void	InitFPGA(void);
 extern void WaitCDONE(void);
 extern short SearchWindow(short pch);
 extern void	SetDigitalFilterRegister(void);
-extern void OWCheckDeviceSide(void);
-extern float GetTimDif(short pch, short Mod);
-extern void SavEepZerAdjPrm(short pch);
 
 /********************************************************/
 /*	モジュール内定義変数								*/
@@ -143,10 +138,6 @@ extern short	led_channel;			//Channel LED表示状態
 extern short	led_alarm;				//Alarm LED表示状態
 extern short 	CH_LED[6];				//CH-LED点灯情報
 
-extern unsigned short AD_BASE;
-extern unsigned short AD_MAX;
-
-
 #ifdef __cplusplus
 extern "C" {
 void abort(void);
@@ -155,8 +146,6 @@ void main(void);
 #ifdef __cplusplus
 }
 #endif
-
-// #define WAVE_RECOGNITION //ゼロ点調整時に波形認識を実行する
 
 /****************************************************/
 /* Function : fpga_config_send_SSI                  */
@@ -328,6 +317,21 @@ void init(void){
 
 	/*EEPROM初期化*/
 	eeprom_init();
+
+	/*メモリデバイスからセンサ情報を読込む*/
+	ReadSensDevice();
+
+	/*起動回数の更新*/
+	pwon_count();
+
+	/*バージョンセット*/
+	version_set();
+
+	/*エラーログの初期化*/
+	log_init();
+
+	/*動粘度テーブル初期化*/
+	viscos_tbl_init();
 	
 #if defined(FPGADOWNLOAD)
 	/* FPGA Config Data Send(SPI Passive Mode) */
@@ -342,29 +346,8 @@ void init(void){
 	/*CDONE信号の待機(FPGA起動待機)*/
 	WaitCDONE();
 
-	/*RAMクリアの確認*/
-	ram_clear_check();
-	
-	/*メモリデバイス実装位置の判別*/
-	OWCheckDeviceSide();
-
-	/*メモリデバイスからセンサ情報を読込む*/
-	ReadSensDevice();
-
 	/*デジタルフィルタ係数レジスタの設定*/
 	SetDigitalFilterRegister();
-	
-	/*起動回数の更新*/
-	pwon_count();
-
-	/*バージョンセット*/
-	version_set();
-
-	/*エラーログの初期化*/
-	log_init();
-
-	/*動粘度テーブル初期化*/
-	viscos_tbl_init();
 	
 	/*受波波形データ初期化*/
 	recv_wave_init();
@@ -385,10 +368,7 @@ void init(void){
 
 	/*通信初期化*/
 	com_init();
-
-	/*メモリデバイス検知の確認*/
-	CheckDeviceDetect();
-
+	
 	/*ウォッチドッグタイマ開始*/
 	WatchdogStallEnable(WATCHDOG0_BASE);
 	watchdog_refresh();
@@ -641,6 +621,8 @@ void	eeprom_init(void){
 		MES[ch].signal_count = MES[ch].ThresholdPeakPos = SVD[ch].ThresholdPeakPos;
 		MES[ch].zc_peak = SVD[ch].ZerPeakPos;
 	}
+
+	ram_clear_check();		/*RAMクリア*/
 }
 
 /****************************************************/
@@ -697,23 +679,6 @@ void	recv_wave_init(void){
 
 	for(ch = CH1; ch < CH_NUMMAX; ch++){
   MES[ch].clk_phase = 0;
-  
-  	//評価用
-	if(SVD[ch].sum_step == 2){	//打込み回数上流下流各2回
-		MES_SUB[ch].sample_cnt = 2;
-	}else if(SVD[ch].sum_step == 3){	//打込み回数上流下流各3回
-		MES_SUB[ch].sample_cnt = 3;
-	}else if(SVD[ch].sum_step == 4){	//打込み回数上流下流各4回
-		MES_SUB[ch].sample_cnt = 4;
-	}else{	//打込み回数上流下流各4回
-		MES_SUB[ch].sample_cnt = 4;
-	}
-	AD_BASE = AD_BASE_UNIT * MES_SUB[ch].sample_cnt;
-	AD_MAX = AD_MAX_UNIT * MES_SUB[ch].sample_cnt;
-	//評価用
-
-  
-  
  	/*受波格納領域の初期化*/
 		for(i_cnt=0; i_cnt<300; i_cnt++)
 		{
@@ -770,8 +735,8 @@ void	counter_control(void){
 /* Argument : なし                                  */
 /* Return   : なし 									                         */
 /* Caution  : なし                                   */
-/* notes    : 100msに1度実行される
- ****************************************************/
+/* notes    : なし                                   */
+/****************************************************/
 void	zero_alm_check(void){
 
 	short ch;
@@ -793,8 +758,7 @@ void	zero_alm_check(void){
 /****************************************************/
 //#define DIFF_LIMIT	(1)
 //#define DIFF_LIMIT	(5)
-//#define DIFF_LIMIT	(15)
-#define DIFF_LIMIT	(60)  /*4回加算分(15*4)*/
+#define DIFF_LIMIT	(15)
 short	zero_check_sub(short d[]) {
 
 	if( (abs(d[0] - d[1]) > DIFF_LIMIT) ||
@@ -803,518 +767,6 @@ short	zero_check_sub(short d[]) {
 		return 0;
 	}
 	return 1;
-}
-// #define FLOAT_DIFF_LIMIT (0.0001) //時間差は10^-6～10^-4のオーダー
-#define FLOAT_DIFF_LIMIT (0.015) //3σ~0.15(@1/4"), 0.002(@3/8")
-short	zero_check_sub_f(float d[]) {
-	//absの戻り値はint
-	if(
-		(d[0] - d[1] < -FLOAT_DIFF_LIMIT) || (FLOAT_DIFF_LIMIT < d[0] - d[1])
-		|| (d[1] - d[2] < -FLOAT_DIFF_LIMIT) || (FLOAT_DIFF_LIMIT < d[1] - d[2])
-		|| (d[2] - d[0] < -FLOAT_DIFF_LIMIT) || (FLOAT_DIFF_LIMIT < d[2] - d[0])
-		)
-		{
-			return 0;
-		}
-	return 1;
-}
-
-/****************************************************************************
- * Function : JdgZadErr (Judge Zero adjust Error)
- * Summary  : ゼロ点調整中のエラーを判定する
- * Argument : pch : チャンネル番号
- *            Phs : ゼロ点調整のフェーズ
- * Return   : void
- * Caution  : なし
- * Note     : Vth収束収束待ちとゼロ点調整完了処理時のエラーのみerr_statusを更新する
- *          : -> 理由は不明
- ***************************************************************************/
-void JdgZadErr(short pch, short Phs)
-{
-	/*ゼロ調整失敗*/
-	zero_adj_error(pch);		/*ゼロ調整エラー処理*/
-	if(Phs == 2 || Phs == 4)
-	{
-		MES[pch].err_status |= (ERR_JUDGE_ZERO + ERR_JUDGE_UNSTABLE);	/*ゼロ調整計測時間発散エラーセット*/
-		MAIN[pch].com_err_status = ERR_ZERO_UNSTABLE;
-		err_judge_status(pch);
-	}
-	zero_adj_status(pch);		/*ゼロ点調整時の波形データを保持する*/
-	
-}
-
-/****************************************************************************
- * Function : LedCtlZaj (LED Control for Zeroadjust)
- * Summary  : ゼロ点調整時のLED処理
- * Argument : pch : チャンネル番号
- * Return   : void
- * Caution  : なし
- * Note     : 100msに一度実行される
- ***************************************************************************/
-void LedCtlZaj(short pch)
-{
-	static short ZajTmr[6];
-	switch(MES[pch].ZerAdjPhs)
-	{
-		case 0:
-			ZajTmr[pch] = 0;
-			break;
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-		case 5:
-			ZajTmr[pch]++;
-			if((ZajTmr[pch] % 5)== 0)
-			{
-				led_channel ^= CH_LED[pch];
-			}
-			break;
-		default:
-			break;
-	}
-}
-
-/****************************************************************************
- * Function : EndAdjVth (End Adjust Vth)
- * Summary  : Vth調整終了処理
- * Argument : pch : チャンネル番号
- * Return   : Flg : 0x00  -> 正常
- *                  0x01  -> フェーズ更新
- *                  0x100 -> エラー
- * Caution  : なし
- * Note     : Phase2
- *            使用する変数    初期値  増減
- *            vth_do_cnt     20      100msに一度
- *            vth_count      0       100msに一度
- *            zero_retry_cnt 0       100msに一度
- *            vth_sum        0       3ms x 6 = 18msに一度
- ***************************************************************************/
-short EndAdjVth(short pch)
-{
-	short Flg = 0;
-	short wave_vth_buf;
-	/*Vth調整時（2秒間）のVthを算出*/
-	wave_vth_buf = (short)(((long long)MES[pch].vth_sum * 25) / ((long long)MES[pch].vth_count * AD_MAX));
-
-	LED[pch].zero_vth_buf[LED[pch].zero_retry_cnt] = wave_vth_buf;
-	/*Vthデータの収束確認*/
-	if( (SVD[pch].wave_vth == wave_vth_buf) ||
-	    ((LED[pch].zero_retry_cnt >= 2) && zero_check_sub(&LED[pch].zero_vth_buf[0])) ) {
-		/*Vth調整成功*/
-		MES[pch].vth_count = 0;
-		SVD[pch].wave_vth = wave_vth_buf;
-		eep_write_ch_delay(pch, (short)(&SVD[pch].wave_vth - &SVD[pch].max_flow), SVD[pch].wave_vth);	//エンプティセンサ判定閾値
-		Flg = 0x01;
-	}else{
-		if(LED[pch].zero_retry_cnt >= 2){			/*Vthが収束しない場合*/
-			/*Vth調整失敗*/
-			Flg = 0x100;
-		}else{
-			/*Vth調整リトライ*/
-			Flg = 0x02;
-		}
-	}
-	return Flg;
-}
-
-/****************************************************************************
- * Function : NowZerAdj (Now Zero Adjust)
- * Summary  : ゼロ点調整中処理
- * Argument : pch : チャンネル番号
- * Return   : Flg : 0x00  -> 正常
- *                  0x01  -> フェーズ更新
- *                  0x100 -> エラー
- * Caution  : なし
- * Note     : Phase3
- *            使用する変数    初期値  増減
- *            zero_do_cnt    0       100msに一度
- *            zero_cal_cnt   0       100msに一度
- *            zero_delta_ts  0       100msに一度
- *            zc_zero_calc   0       100msに一度
- ***************************************************************************/
-short NowZerAdj(short pch)
-{
-	short Flg = 0;
-	/*ゼロ点調整中*/
-	if(LED[pch].zero_do_cnt > 0){
-		/*ゼロ調整用⊿Tsの加算*/
-		LED[pch].zero_cal_cnt ++;
-		LED[pch].zero_delta_ts += (unsigned long)MES[pch].delta_ts;
-		MES[pch].zc_zero_calc += MES[pch].zc_Tdata;  //ゼロクロス
-	}
-	else {
-		Flg = 0x01;
-	}
-	return Flg;
-}
-
-/****************************************************************************
- * Function : SavZajPrm (Save Zero adjust Parameter)
- * Summary  : ゼロ点調整成功時のパラメータ保存
- * Argument : pch : チャンネル番号
- * Return   : 
- * Caution  : なし
- * Note     : MES[pch].zc_zero_offset : ゼロクロス用ゼロオフセット点
- ***************************************************************************/
-void SavZajPrm(short pch)
-{
-	char work_ch[14];
-	short cnt;
-
-	/*ゼロ調整用⊿Tsの平均値(四捨五入)*/
-	memset(work_ch, 0, sizeof(work_ch));
-	MES[pch].zc_zero_offset = MES[pch].zc_zero_calc / LED[pch].zero_cal_cnt;  //ゼロクロス時のゼロ点オフセット
-	sprintf(&work_ch[0], "%3.11f", MES[pch].zc_zero_offset);
-	memcpy(&SVD[pch].ZerCrsOffset[0], &work_ch[0], sizeof(work_ch));
-	for(cnt=0; cnt<7; cnt++){  //ゼロクロス時のゼロ点オフセットのEEPROM保存
-		eep_write_ch_delay(pch, (short)(&SVD[pch].ZerCrsOffset[cnt] - &SVD[pch].max_flow), SVD[pch].ZerCrsOffset[cnt]);
-	}
-#if defined(WAVE_RECOGNITION)
-	SVD[pch].ThresholdPeakPos = MES[pch].ThresholdPeakPos;	//受波波形検出しきい値のEEPROM保存
-	eep_write_ch_delay(pch, (short)(&SVD[pch].ThresholdPeakPos - &SVD[pch].max_flow), SVD[pch].ThresholdPeakPos);
-	SVD[pch].fifo_ch_init = MES[pch].ws_FifoCh;		//FIFO CHのEEPROM保存
-	eep_write_ch_delay(pch, (short)(&SVD[pch].fifo_ch_init - &SVD[pch].max_flow), SVD[pch].fifo_ch_init);
-#else
-#endif
-
-	//Debug
-	/*ゼロ調整時のゲイン値を保持*/
-	MES[pch].zero_amp_gain_rev = MES[pch].amp_gain_rev;
-	/*ゼロ調整時のFIFO位置を保持*/
-	MES[pch].zero_fifo_ch_read = MES[pch].fifo_ch_read;
-	/*ゼロ調整時のFIFO受波波形検出位置を保持*/
-	MES[pch].zero_signal_count = MES[pch].signal_count;
-	MES[pch].zero_fifo_no_read = MES[pch].fifo_no_read;
-	/*ゼロ調整時の波形先頭位置を保持*/
-	MES[pch].zero_sonic_point_rev_p2 = MES[pch].sonic_point_rev_p2;
-	MES[pch].zero_sonic_point_fow_p1 = MES[pch].sonic_point_fow_p1;
-	//Debug
-
-	if(MES[pch].zc_peak_UpdateFlg != 0)
-	{
-		MES[pch].zc_peak = 0;
-	}
-	MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求	
-}
-
-/****************************************************************************
- * Function : EndZerAdj (End Zero Adjust)
- * Summary  : ゼロ点終了時処理
- * Argument : pch : チャンネル番号
- * Return   : Flg : 0x00  -> 正常
- *                  0x01  -> フェーズ更新
- *                  0x100 -> エラー
- * Caution  : なし
- * Note     : Phase4
- *            
- ***************************************************************************/
-#if 1 //ゼロクロス用
-short EndZerAdj(short pch)
-{
-	short Flg = 0;
-	char work_ch[14];
-	float zc_work_delta_ts;
-	float SvdWork;
-	/*ゼロ調整終了処理*/
-	// if(LED[pch].zero_do_cnt == 0 && LED[pch].zero_cal_cnt != 0){
-	if(LED[pch].zero_cal_cnt != 0)
-	{
-		//現在のΔTsの計算
-		zc_work_delta_ts = MES[pch].zc_zero_calc / LED[pch].zero_cal_cnt;
-		LED[pch].zero_dt_buf_f[LED[pch].zero_retry_cnt] = zc_work_delta_ts;
-		
-		//前回のΔTsの計算
-		memcpy(&work_ch[0], &SVD[pch].ZerCrsOffset[0], sizeof(SVD[pch].ZerCrsOffset));
-		SvdWork = atof(&work_ch[0]);
-
-		/*⊿Tsデータの収束確認*/
-		if((SvdWork == zc_work_delta_ts) ||
-		   ((LED[pch].zero_retry_cnt >= 2) && zero_check_sub_f(&LED[pch].zero_dt_buf_f[0])) ) {
-			SavZajPrm(pch);
-			Flg = 0x01;
-		}else{
-			if(LED[pch].zero_retry_cnt >= 2){			/*⊿Tsが収束しない場合*/
-				/*ゼロ調整失敗*/
-				Flg = 0x100;
-			}else{
-				/*ゼロ調整リトライ*/
-				//ΔTs更新
-				memset(work_ch, 0, sizeof(work_ch));
-				sprintf(&work_ch[0], "%3.11f", zc_work_delta_ts);
-				memcpy(&SVD[pch].ZerCrsOffset[0], &work_ch[0], sizeof(work_ch));
-				
-				Flg = 0x02;
-			}
-		}
-	}
-	else 
-	{
-		Flg = 0x100;
-	}
-	return Flg;
-}
-#else //差分相関用
-short EndZerAdj(short pch)
-{
-	short Flg = 0;
-	char work_ch[14];
-	unsigned short work_delta_ts;
-	short cnt;
-	/*ゼロ調整終了処理*/
-	// if(LED[pch].zero_do_cnt == 0 && LED[pch].zero_cal_cnt != 0){
-	if(LED[pch].zero_cal_cnt != 0)
-	{
-		work_delta_ts = (unsigned short)((LED[pch].zero_delta_ts * 2 + 1) / (LED[pch].zero_cal_cnt * 2));
-		LED[pch].zero_dt_buf[LED[pch].zero_retry_cnt] = (short)work_delta_ts;
-		SavZajPrm(pch); //パラメータ保存
-
-		if(MES[pch].zc_peak_UpdateFlg != 0)
-		{
-			MES[pch].zc_peak = 0;
-		}
-		MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求
-		
-		/*⊿Tsデータの収束確認*/
-		if((SVD[pch].zero_offset == work_delta_ts) ||
-		   ((LED[pch].zero_retry_cnt >= 2) && zero_check_sub(&LED[pch].zero_dt_buf[0])) ) {
-			/*ゼロ調整成功*/
-			SVD[pch].zero_offset = work_delta_ts;
-			eep_write_ch_delay(pch, (short)(&SVD[pch].zero_offset - &SVD[pch].max_flow), (short)work_delta_ts);
-			Flg = 0x01;
-		}else{
-			if(LED[pch].zero_retry_cnt >= 2){			/*⊿Tsが収束しない場合*/
-				/*ゼロ調整失敗*/
-				Flg = 0x100;
-			}else{
-				/*ゼロ調整リトライ*/
-				SVD[pch].zero_offset = work_delta_ts;	/*⊿Ts更新*/
-				Flg = 0x02;
-			}
-		}
-		work_delta_ts = (unsigned short)((LED[pch].zero_delta_ts * 2 + 1) / (LED[pch].zero_cal_cnt * 2));
-		LED[pch].zero_dt_buf[LED[pch].zero_retry_cnt] = (short)work_delta_ts;
-		SavZajPrm(pch); //パラメータ保存
-
-		if(MES[pch].zc_peak_UpdateFlg != 0)
-		{
-			MES[pch].zc_peak = 0;
-		}
-		MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求
-		
-		/*⊿Tsデータの収束確認*/
-		if((SVD[pch].zero_offset == work_delta_ts) ||
-		   ((LED[pch].zero_retry_cnt >= 2) && zero_check_sub(&LED[pch].zero_dt_buf[0])) ) {
-			/*ゼロ調整成功*/
-			SVD[pch].zero_offset = work_delta_ts;
-			eep_write_ch_delay(pch, (short)(&SVD[pch].zero_offset - &SVD[pch].max_flow), (short)work_delta_ts);
-			Flg = 0x01;
-		}else{
-			if(LED[pch].zero_retry_cnt >= 2){			/*⊿Tsが収束しない場合*/
-				/*ゼロ調整失敗*/
-				Flg = 0x100;
-			}else{
-				/*ゼロ調整リトライ*/
-				SVD[pch].zero_offset = work_delta_ts;	/*⊿Ts更新*/
-				Flg = 0x02;
-			}
-		}
-	}
-	else 
-	{
-		Flg = 0x100;
-	}
-	return Flg;
-}
-#endif //ゼロクロス用
-
-/****************************************************************************
- * Function : IniZajPrm (Init Zeroadjust Parameter)
- * Summary  : ゼロ点調整各フェーズごとのパラメータ初期化
- * Argument : pch : チャンネル番号
- *            Phs : フェーズ番号
- * Return   : void
- * Caution  : なし
- * Note     : 
- ***************************************************************************/
-void IniZajPrm(short pch, short Phs)
-{
-	switch(Phs)
-	{
-		//波形認識終了待ち
-		case 1:
-			LED[pch].wave_do_cnt = 0; //波形認識時間カウンタ
-			break;
-		//Vth調整中
-		case 2:
-			LED[pch].vth_do_cnt = VTH_ADJ_TIME; //vth調整時間カウンタ
-			MES[pch].vth_count = 0; //vth加算数
-			MES[pch].vth_sum = 0; //vth合計
-			memset(LED[pch].zero_vth_buf, 0, sizeof(LED[pch].zero_vth_buf)); //リトライ用バッファ
-			LED[pch].zero_retry_cnt = 0; //vthリトライ回数
-			break;
-		//Vth調整リトライ
-		case 12:
-			LED[pch].vth_do_cnt = VTH_ADJ_TIME;
-			MES[pch].vth_count = 0;
-			MES[pch].vth_sum = 0;
-			// memset(LED[pch].zero_vth_buf, 0, sizeof(LED[pch].zero_vth_buf));
-			LED[pch].zero_retry_cnt++;
-			break;
-		//時間差調整中
-		case 3:
-			LED[pch].zero_retry_cnt = 0;
-			memset(LED[pch].zero_dt_buf, 0, sizeof(LED[pch].zero_dt_buf)); //差分相関リトライ用バッファ
-			memset(LED[pch].zero_dt_buf_f, 0, sizeof(LED[pch].zero_dt_buf_f)); //ゼロクロスリトライ用バッファ
-			LED[pch].zero_do_cnt = ZERO_ADJ_TIME; //dt調整時間
-			LED[pch].zero_cal_cnt = 0; //dt加算数
-			LED[pch].zero_delta_ts = 0; //フィルタ後dt(上下流時間差)合計
-			MES[pch].zc_zero_calc = 0; //dt(上下流時間差)合計
-			if(reset_factor != RESTART_WDOG){				//再起動エラー以外
-				MAIN[pch].com_err_status = (short)0;			/*エラーステータスクリア*/
-			}
-			break;
-		//時間差調整リトライ
-		case 13:
-			LED[pch].zero_retry_cnt++;
-			// memset(LED[pch].zero_dt_buf, 0, sizeof(LED[pch].zero_dt_buf));
-			LED[pch].zero_do_cnt = ZERO_ADJ_TIME;		/*ゼロ点調整時間セット*/
-			LED[pch].zero_cal_cnt = 0;
-			LED[pch].zero_delta_ts = 0;
-			MES[pch].zc_zero_calc = 0;
-			break;
-		//時間差調整終了
-		case 4:
-			break;
-		//ゼロ点調整正常終了
-		case 5:
-			/*ゼロ調整用⊿Tsの初期化*/
-			LED[pch].zero_cal_cnt = 0;
-			LED[pch].zero_delta_ts = 0;
-			MES[pch].zc_zero_calc = 0;  //ゼロクロス
-			MES[pch].err_status &= ~ERR_JUDGE_ZERO;	/*ゼロ点調整状態リセット*/
-			if(reset_factor != RESTART_WDOG){				//再起動エラー以外
-				MAIN[pch].com_err_status = (short)0;			/*エラーステータスクリア*/
-				MAIN[pch].led_err_status = (short)0;			/*エラーステータスクリア*/
-			}
-			LED[pch].zero_active = 0;
-			action_status_control(pch, ACT_STS_NORMAL);	/*動作ステータス更新*/
-			zero_adj_status(pch);						/*ゼロ点調整時の波形データを保持する*/
-			break;
-		default:
-			break;
-	}
-}
-
-/****************************************************************************
- * Function : JdgZerAdjPhs (Judge Zero Adjust Phase)
- * Summary  : ゼロ点調整フェーズ判定
- * Argument : pch : チャンネル番号
- * Return   : void
- * Caution  : なし
- * Note     : Flg : 0x00  -> 正常、フェーズ更新なし
- *                  0x01  -> 正常、フェーズ更新あり
- *                  0x02  -> 異常、リトライ
- *                  0x100 -> 異常、ゼロ点調整終了
- ***************************************************************************/
-void JdgZerAdjPhs(short pch)
-{
-	short Flg = 0;
-
-	//LED処理
-	LedCtlZaj(pch);
-
-	//ゼロ点調整エラー
-	if((LED[pch].zero_active != 0) && ((MES[pch].err_status & ERR_ZERO_ADJ) != 0))
-	{
-		Flg |= 0x100;
-	}
-
-	switch (MES[pch].ZerAdjPhs)
-	{
-		//通常測定中
-		case 0:
-			if(LED[pch].zero_active != 0)
-			{
-				MES[pch].ZerAdjPhs = 1;
-				IniZajPrm(pch, 1); //Phase1用初期化
-			}
-			break;
-		//波形認識終了待ち
-		case 1:
-#if defined(WAVE_RECOGNITION)
-			if(MES[pch].ThresholdReq == 99)
-			{
-				MES[pch].ZerAdjPhs = 2;
-				IniZajPrm(pch, 2); //Phase2用初期化
-			}
-#else
-			MES[pch].ZerAdjPhs = 2;
-			IniZajPrm(pch, 2); //Phase2用初期化
-#endif
-			break;
-		//Vth収束待ち
-		case 2:
-			//フェーズ変更から2s経過
-			if(LED[pch].vth_do_cnt == 0)
-			{
-				//2s間で1度はvthを取得
-				if(MES[pch].vth_count != 0)
-				{
-					Flg |= EndAdjVth(pch);
-				}
-			}
-			//Vth収束を確認(ゼロ調エラーなし&EndAdjVth()が正常終了)
-			if(Flg == 0x01)
-			{
-				MES[pch].ZerAdjPhs = 3;
-				IniZajPrm(pch, 3); //Phase3用初期化
-			}
-			//Vth調整リトライ(ゼロ調エラーなし&EndAdjVth()がリトライ)
-			else if(Flg == 0x02)
-			{
-				MES[pch].ZerAdjPhs = 2; //変数初期化だけしてリトライ
-				IniZajPrm(pch, 12); //Phase2リトライ用初期化
-			}
-			break;
-		//ゼロ点調整中
-		case 3:
-			Flg |= NowZerAdj(pch);
-			//zero_do_cnt分待ち完了(ゼロ調エラーなし&NowZerAdj()が正常終了)
-			if(Flg == 0x01)
-			{
-				MES[pch].ZerAdjPhs = 4;
-				IniZajPrm(pch, 4); //Phase4用初期化
-			}
-			break;
-		//ゼロ点調整完了処理
-		case 4:
-			Flg |= EndZerAdj(pch);
-			//ゼロ点調整完了(ゼロ調エラーなし&EndZerAdj()が正常終了)
-			if(Flg == 0x01)
-			{
-				MES[pch].ZerAdjPhs = 0;
-				IniZajPrm(pch, 5); //ゼロ点調整終了時用初期化
-			}
-			//Vthの調整からリトライ(ゼロ調エラーなし&EndZerAdj()がリトライ)
-			else if(Flg == 0x02)
-			{
-				MES[pch].ZerAdjPhs = 3;
-				IniZajPrm(pch, 13); //Phase3リトライ用初期化
-			}
-			break;
-		//エラー処理
-		default:
-			MES[pch].ZerAdjPhs = 0;
-			break;
-	}
-
-	//ゼロ点調整エラー判定
-	if((Flg & 0x100) != 0)
-	{
-		JdgZadErr(pch, MES[pch].ZerAdjPhs);
-		MES[pch].ZerAdjPhs = 0;
-	}
 }
 
 /****************************************************/
@@ -1326,13 +778,11 @@ void JdgZerAdjPhs(short pch)
 /* notes    : Vth調整後にゼロ点調整を実施する             */
 /****************************************************/
 void	zero_adj_control(short pch){
-#if 1
-	JdgZerAdjPhs(pch);
-#else
+
 	unsigned short work_delta_ts;
 	short wave_vth_buf;
 	short cnt;
-	char work_ch[14];
+	char work_ch[20];
 
 	/*Vth調整中*/
 	if(LED[pch].vth_do_cnt != 0){
@@ -1364,7 +814,7 @@ void	zero_adj_control(short pch){
 	/*Vth調整終了処理*/
 	if(LED[pch].vth_do_cnt == 0 && MES[pch].vth_count != 0){
 		/*Vth調整時（2秒間）のVthを算出*/
-		wave_vth_buf = (short)(((long long)MES[pch].vth_sum * 25) / ((long long)MES[pch].vth_count * AD_MAX));
+		wave_vth_buf = (MES[pch].vth_sum * 25)/ ((long)MES[pch].vth_count * 4095);
 
 		LED[pch].zero_vth_buf[LED[pch].zero_retry_cnt] = wave_vth_buf;
 		/*Vthデータの収束確認*/
@@ -1448,10 +898,7 @@ void	zero_adj_control(short pch){
 		MES[pch].zero_sonic_point_fow_p1 = MES[pch].sonic_point_fow_p1;
 		//Debug
 		
-		if(MES[pch].zc_peak_UpdateFlg != 0)
-		{
-			MES[pch].zc_peak = 0;
-		}
+		MES[pch].zc_peak = 0;
 		MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求
 		
 		/*⊿Tsデータの収束確認*/
@@ -1492,8 +939,7 @@ void	zero_adj_control(short pch){
 				LED[pch].zero_do_cnt = ZERO_ADJ_TIME;	/*ゼロ点調整時間セット*/
 			}
 		}
-	}
-#endif
+	}	
 }
 
 /****************************************************/
@@ -1517,8 +963,6 @@ void	zero_adj_error(short pch){
 	MES[pch].err_status &= ~ERR_JUDGE_ZERO;	/*ゼロ点調整状態リセット*/
 	MES[pch].zc_zero_calc = 0;  //ゼロクロス
 	action_status_control(pch, ACT_STS_NORMAL);	/*動作ステータス更新*/
-
-	MES[pch].ThresholdReq = 0; //zero_active=0になるので99ではなく0
 }
 
 /****************************************************/
@@ -1592,21 +1036,35 @@ void zero_adj_status(short pch){
 	SVD[pch].zero_gain_2nd = MES[pch].amp_gain_for;			//Gain 2nd stage
 	SVD[pch].zero_fifo_ch = MES[pch].fifo_ch_read;				//FIFO CH
 	SVD[pch].zero_p1p2 = MES[pch].max_point_sub_f;				//受波の差(P1-P2)
-	SVD[pch].zero_FwdTimDif.DWORD = (long)(GetTimDif(pch, 0) * 1000.0);
-	SVD[pch].zero_RevTimDif.DWORD = (long)(GetTimDif(pch, 1) * 1000.0);
-	SVD[pch].zero_FwdSurplsTim = MES[pch].FwdSurplsTim;
-	SVD[pch].zero_RevSurplsTim = MES[pch].RevSurplsTim;
-	SVD[pch].zero_drive_freq = SVD[pch].drive_freq;
-	for(i_cnt=0; i_cnt<WAV_PEK_NUM; i_cnt++){
-		SVD[pch].zero_FwdWavPekPosLst[i_cnt] = MES[pch].FwdWavPekPosLst[i_cnt];
-		SVD[pch].zero_FwdWavPekValLst[i_cnt] = MES[pch].FwdWavPekValLst[i_cnt];
-		SVD[pch].zero_RevWavPekPosLst[i_cnt] = MES[pch].RevWavPekPosLst[i_cnt];
-		SVD[pch].zero_RevWavPekValLst[i_cnt] = MES[pch].RevWavPekValLst[i_cnt];
+	for(i_cnt= 0; i_cnt<40; i_cnt++){
+		SVD[pch].zero_sum_abs[i_cnt] = SAVE[pch].sum_abs_com[i_cnt];	//差分相関値;
 	}
-	
+
 	//EEPROM書き込み
-	SavEepZerAdjPrm(pch);
-	
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_flow_qat.WORD.low - &SVD[pch].max_flow), SVD[pch].zero_flow_qat.WORD.low);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_flow_qat.WORD.high - &SVD[pch].max_flow), SVD[pch].zero_flow_qat.WORD.high);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_flow_vel.WORD.low - &SVD[pch].max_flow), SVD[pch].zero_flow_vel.WORD.low);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_flow_vel.WORD.high - &SVD[pch].max_flow), SVD[pch].zero_flow_vel.WORD.high);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_sound_spd - &SVD[pch].max_flow), SVD[pch].zero_sound_spd);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_addit.WORD.low1 - &SVD[pch].max_flow), SVD[pch].zero_addit.WORD.low1);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_addit.WORD.low2 - &SVD[pch].max_flow), SVD[pch].zero_addit.WORD.low2);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_addit.WORD.high1 - &SVD[pch].max_flow), SVD[pch].zero_addit.WORD.high1);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_addit.WORD.high2 - &SVD[pch].max_flow), SVD[pch].zero_addit.WORD.high2);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_wave_max - &SVD[pch].max_flow), SVD[pch].zero_wave_max);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_wave_min - &SVD[pch].max_flow), SVD[pch].zero_wave_min);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_delta_ts.WORD.low - &SVD[pch].max_flow), SVD[pch].zero_delta_ts.WORD.low);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_delta_ts.WORD.high - &SVD[pch].max_flow), SVD[pch].zero_delta_ts.WORD.high);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_correlate - &SVD[pch].max_flow), SVD[pch].zero_correlate);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_zero_offset - &SVD[pch].max_flow), SVD[pch].zero_zero_offset);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_condition - &SVD[pch].max_flow), SVD[pch].zero_condition);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_fifo_pos - &SVD[pch].max_flow), SVD[pch].zero_fifo_pos);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_gain_1st - &SVD[pch].max_flow), SVD[pch].zero_gain_1st);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_gain_2nd - &SVD[pch].max_flow), SVD[pch].zero_gain_2nd);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_fifo_ch - &SVD[pch].max_flow), SVD[pch].zero_fifo_ch);
+	eep_write_ch_delay(pch, (short)(&SVD[pch].zero_p1p2 - &SVD[pch].max_flow), SVD[pch].zero_p1p2);
+	for(i_cnt= 0; i_cnt<40; i_cnt++){
+		eep_write_ch_delay(pch, (short)(&SVD[pch].zero_sum_abs[i_cnt] - &SVD[pch].max_flow), SVD[pch].zero_sum_abs[i_cnt]);
+	}
 }
 
 /****************************************************/
@@ -1624,79 +1082,6 @@ void	com_req_check(void){
 	for(ch = CH1; ch < CH_NUMMAX; ch++){
 		com_req_control(ch);
 	}
-}
-
-/*******************************************
- * Function : SetZerAdjPrm
- * Summary  : ゼロ調整のパラメータを設定する
- * Argument : Mod : Mode
- *                : 0 -> ゼロ調整用⊿Tsの初期化
- *                : 1 -> 波形認識処理開始
- * Return   : void
- * Caution  : None
- * Note     : None
- * *****************************************/
-void SetZerAdjPrm(short pch, short Mod)
-{
-	if(Mod == 0)
-	{
-		/*ゼロ調整用⊿Tsの初期化*/
-		LED[pch].zero_cal_cnt = 0;
-		LED[pch].zero_delta_ts = 0;
-		MES[pch].vth_sum = 0;
-		MES[pch].vth_count = 0;
-													/*コンフィグレータからのゼロ点調整は、エラーステータスがある場合でも*/
-													/*ゼロ点調整を実行する（SFC-012と同仕様とする）						*/
-		MES[pch].err_status = (short)0;				/*正常ステータスに更新	*/
-		MES[pch].err_status |= ERR_JUDGE_ZERO;		/*ゼロ点調整状態セット	*/
-		MES[pch].alm_status = (short)0;			//正常ステータスに更新
-		MAIN[pch].err_sub_judge = MES_SUB[pch].err_status_sub = (short)0;	//正常ステータスに更新
-		MES[pch].zc_zero_calc = 0;  //ゼロクロス
-		LED[pch].zero_vth_buf[0] = LED[pch].zero_vth_buf[1] = LED[pch].zero_vth_buf[2] = 0;
-	}
-	else if(Mod == 1)
-	{
-		/*波形認識処理開始*/
-		LED[pch].zero_active = 1;					/*ゼロ調整実行中*/
-		LED[pch].zero_retry_cnt = 0;				/*ゼロ調整リトライカウンタ初期化*/
-#if defined(WAVE_RECOGNITION)  //FIFO CHサーチを実行する
-		MES[pch].ThresholdReq = 11;	/*波形認識実行要求*/
-		MES[pch].ThresholdWave = AD_MAX_UNIT;		/*波形認識閾値*/
-		MES[pch].ThresholdPeak = 0;	/*波形認識ピーク*/
-		MES[pch].ThresholdPeakPos = 0;	 /*波形認識ピーク位置*/
-#else //実行しない
-		MES[pch].ThresholdReq = 0;	/*波形認識実行要求*/
-#endif
-		LED[pch].wave_do_cnt = WAVE_ADJ_TIME;	/*波形認識調整時間セット*/
-		led_channel |= CH_LED[pch];				/*点滅させるLEDをセット*/
-		led_alarm = 0;								/*ALM-LED消灯*/
-		action_status_control(pch, ACT_STS_ZERO);	/*動作ステータス更新*/
-	}
-}
-
-/*******************************************
- * Function : CheckSearchWindow
- * Summary  : ウィンドウサーチの判定をする
- * Argument : 
- * Return   : B_NG -> 失敗
- *            B_OK -> 成功
- * Caution  : None
- * Note     : None
- * *****************************************/
-short CheckSearchWindow(short pch)
-{
-	/*Windowサーチ(最適なFIFO CHを探す)*/
-	action_status_control(pch, ACT_STS_ZERO);	/*動作ステータス更新*/
-	if(SearchWindow(pch) != B_OK){	/*Windowサーチ*/			
-		/*ゼロ調整失敗*/
-		zero_adj_error(pch);				/*ゼロ調整エラー処理*/
-		MES[pch].err_status |= (ERR_JUDGE_ZERO + ERR_JUDGE_UNSTABLE);	/*ゼロ調整計測時間発散エラーセット*/
-		MAIN[pch].com_err_status = ERR_ZERO_UNSTABLE;
-		err_judge_status(pch);
-		zero_adj_status(pch);				/*ゼロ点調整時の波形データを保持する*/
-		return B_NG;
-	}
-	return B_OK;
 }
 
 /****************************************************/
@@ -1718,23 +1103,41 @@ void	com_req_control(short pch){
 		ch_read = disp_ch_read();				//CHスイッチ読み込み
 		if((ch_read == SW_CH0)||				//CH0設定時：全CHゼロ点調整
 			(pch == (ch_read - 1))){			//指定CHゼロ点調整
+			/*ゼロ調整用⊿Tsの初期化*/
+			LED[pch].zero_cal_cnt = 0;
+			LED[pch].zero_delta_ts = 0;
+			MES[pch].vth_sum = 0;
+			MES[pch].vth_count = 0;
 
-			// /*ゼロ調整用⊿Tsの初期化*/
-			SetZerAdjPrm(pch, 0);
+			MES[pch].err_status = (short)0;				/*正常ステータスに更新	*/
+			MES[pch].err_status |= ERR_JUDGE_ZERO;		/*ゼロ点調整状態セット	*/
+			MES[pch].alm_status = (short)0;			//正常ステータスに更新
+			MES[pch].zc_zero_calc = 0;  //ゼロクロス
+			LED[pch].zero_vth_buf[0] = LED[pch].zero_vth_buf[1] = LED[pch].zero_vth_buf[2] = 0;
 
-			/*メモリデバイス実装位置の判別*/
-			OWCheckDeviceSide();
+			/*Windowサーチ(最適なFIFO CHを探す)*/
+			action_status_control(pch, ACT_STS_ZERO);	/*動作ステータス更新*/
+			if(SearchWindow(pch) != B_OK){	/*Windowサーチ*/			
+				/*ゼロ調整失敗*/
+				zero_adj_error(pch);				/*ゼロ調整エラー処理*/
+				MES[pch].err_status |= (ERR_JUDGE_ZERO + ERR_JUDGE_UNSTABLE);	/*ゼロ調整計測時間発散エラーセット*/
+				MAIN[pch].com_err_status = ERR_ZERO_UNSTABLE;
+				err_judge_status(pch);
+				zero_adj_status(pch);				/*ゼロ点調整時の波形データを保持する*/
+				return;
+			}
 
-			/*メモリデバイス検知の確認*/
-			CheckDeviceDetect();
-
-#if defined(WAVE_RECOGNITION)
-			// /*Windowサーチ(最適なFIFO CHを探す)*/
-			if(CheckSearchWindow(pch) == B_NG) return;
-#endif
-
-			// /*波形認識処理開始*/
-			SetZerAdjPrm(pch, 1);
+			/*波形認識処理開始*/
+			LED[pch].zero_active = 1;					/*ゼロ調整実行中*/
+			LED[pch].zero_retry_cnt = 0;				/*ゼロ調整リトライカウンタ初期化*/
+			MES[pch].ThresholdReq = 11;	/*波形認識実行要求*/
+			MES[pch].ThresholdWave = 4096;		/*波形認識閾値*/
+			MES[pch].ThresholdPeak = 0;	/*波形認識ピーク*/
+			MES[pch].ThresholdPeakPos = 0;	 /*波形認識ピーク位置*/
+			LED[pch].wave_do_cnt = WAVE_ADJ_TIME;	/*波形認識調整時間セット*/
+			led_channel |= CH_LED[pch];				/*点滅させるLEDをセット*/
+			led_alarm = 0;								/*ALM-LED消灯*/
+			action_status_control(pch, ACT_STS_ZERO);	/*動作ステータス更新*/
 		}
 	}
 
@@ -1753,23 +1156,43 @@ void	com_req_control(short pch){
 		SAVE[pch].control &= ~0x0001;			/*ゼロ調整コマンドリセット*/
 
 		if((SVD[pch].sensor_size != SNS_NONE) && (MES[pch].inspect_enable == 0)){
-
 			/*ゼロ調整用⊿Tsの初期化*/
-			SetZerAdjPrm(pch, 0);
+			LED[pch].zero_cal_cnt = 0;
+			LED[pch].zero_delta_ts = 0;
+			MES[pch].zc_zero_calc = 0;  //ゼロクロス
+			MES[pch].vth_sum = 0;
+			MES[pch].vth_count = 0;
+														/*コンフィグレータからのゼロ点調整は、エラーステータスがある場合でも*/
+														/*ゼロ点調整を実行する（SFC-012と同仕様とする）						*/
+			MES[pch].err_status = (short)0;				/*正常ステータスに更新	*/
+			MES[pch].err_status |= ERR_JUDGE_ZERO;		/*ゼロ点調整状態セット	*/
+			MES[pch].alm_status = (short)0;			//正常ステータスに更新
 
-			/*メモリデバイス実装位置の判別*/
-			OWCheckDeviceSide();
+			LED[pch].zero_vth_buf[0] = LED[pch].zero_vth_buf[1] = LED[pch].zero_vth_buf[2] = 0;
 
-			/*メモリデバイス検知の確認*/
-			CheckDeviceDetect();
+			/*Windowサーチ(最適なFIFO CHを探す)*/
+			action_status_control(pch, ACT_STS_ZERO);	/*動作ステータス更新*/
+			if(SearchWindow(pch) != B_OK){	/*Windowサーチ*/
+				/*ゼロ調整失敗*/
+				zero_adj_error(pch);				/*ゼロ調整エラー処理*/
+				MES[pch].err_status |= (ERR_JUDGE_ZERO + ERR_JUDGE_UNSTABLE);	/*ゼロ調整計測時間発散エラーセット*/
+				MAIN[pch].com_err_status = ERR_ZERO_UNSTABLE;
+				err_judge_status(pch);
+				zero_adj_status(pch);				/*ゼロ点調整時の波形データを保持する*/
+				return;
+			}
 
-#if defined(WAVE_RECOGNITION)
-			// /*Windowサーチ(最適なFIFO CHを探す)*/
-			if(CheckSearchWindow(pch) == B_NG) return;
-#endif
-
-			// /*波形認識処理開始*/
-			SetZerAdjPrm(pch, 1);
+			/*波形認識処理開始*/
+			LED[pch].zero_active = 1;					/*ゼロ調整実行中*/
+			LED[pch].zero_retry_cnt = 0;				/*ゼロ調整リトライカウンタ初期化*/
+			MES[pch].ThresholdReq = 11;	/*波形認識実行要求*/
+			MES[pch].ThresholdWave = 4096;		/*波形認識閾値*/
+			MES[pch].ThresholdPeak = 0;	/*波形認識ピーク*/
+			MES[pch].ThresholdPeakPos = 0;	 /*波形認識ピーク位置*/
+			LED[pch].wave_do_cnt = WAVE_ADJ_TIME;	/*波形認識調整時間セット*/
+			led_channel |= CH_LED[pch];					/*点滅させるLEDをセット*/
+			led_alarm = 0;								/*ALM-LED消灯*/
+			action_status_control(pch, ACT_STS_ZERO);	/*動作ステータス更新*/
 		}
 	}	
 
@@ -1872,29 +1295,7 @@ void	ReadSensDevice(void){
 		}
 	}
 }
-
-/****************************************************/
-/* Function : CheckDeviceDetect						*/
-/* Summary  : メモリデバイス検知の確認						*/
-/* Argument : なし									*/
-/* Return   : なし									*/
-/* Caution  : なし									*/
-/* notes    : メモリデバイスがIN側とOUT側共に検知できない場合	*/
-/*          : にエラーとする								*/
-/****************************************************/
-void	CheckDeviceDetect(void){
-
-	short ch;
-
-	for(ch=CH1; ch<CH_NUMMAX; ch++){
-		if(SVD[ch].sensor_size != SNS_NONE && MES_SUB[ch].memory_side == B_NG){	//メモリデバイスがIN側とOUT側共に検知できない場合
-			MES_SUB[ch].err_status_sub |= ERR_JUDGE_DEVICE;	//異常：メモリデバイス検知エラーセット
-		}else{
-			MES_SUB[ch].err_status_sub &= ~ERR_JUDGE_DEVICE;	//正常：メモリデバイス検知エラークリア
-		}
-	}
-}
-
+	
 /****************************************************/
 /* Function : watchdog_refresh                      */
 /* Summary  : ウォッチドッグリフレッシュ    				*/
