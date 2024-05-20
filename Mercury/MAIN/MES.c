@@ -165,6 +165,7 @@ void command_MR(short cm); //Debug
 void command_MW(short cm); //Debug
 void command_MT(short cm); //Debug
 void command_MZ(short cm);
+void command_MS(short cm);
 extern void	value_judge_Hex(short com_mode,short si,short pow); //Debug
 #endif
 
@@ -5785,7 +5786,10 @@ void MemoryCom(short com_mode){
 	case 'Z':
 		command_MZ(com_mode);
 		break;
-	
+	case 'S':
+		/* メモリデバイスシリアルナンバー読出し */
+		command_MS(com_mode);
+		break;
 	default:
 		break;
 	}
@@ -6435,3 +6439,21 @@ void command_MZ(short com_mode)
 
 	
 }
+
+/* メモリデバイスシリアルナンバー読出し(MS) */
+ void command_MS (short com_mode){
+
+	long value;
+
+	TX_buf[com_mode][6] = ',';
+	TX_buf[com_mode][7] = RX_buf[com_mode][5];
+
+	value = SVD[ch_no[com_mode] -1].m_serial[0];	//メモリデバイスシリアルナンバー
+	read_change(com_mode,value,0,ADD_CMM_BFR_VAL);
+	
+	value = SVD[ch_no[com_mode] -1].m_serial[1];	//メモリデバイスシリアルナンバー
+	read_change(com_mode,value,0,ADD_CMM_BFR_VAL);
+
+	value = SVD[ch_no[com_mode] -1].m_serial[2];	//メモリデバイスシリアルナンバー
+	read_change(com_mode,value,0,ADD_CMM_BFR_VAL);
+} 

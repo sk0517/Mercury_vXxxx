@@ -688,8 +688,9 @@ typedef struct {
 		unsigned short hard_ver;	/*ハードウェアバージョン*/
 		unsigned short c_serial[8];		/*変換器シリアルナンバー*/
 		unsigned short s_serial[8];		/*センサシリアルナンバー*/    /*<<メモリデバイス保存>> ※変更禁止※*/
+		unsigned short m_serial[3];		/*メモリデバイスシリアルナンバー*/
 
- 		short reserve_03[25];		/*予約[25]*/
+ 		short reserve_03[22];		/*予約[22]*/
 
 } stSVD;
 

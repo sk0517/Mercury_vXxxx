@@ -336,7 +336,7 @@
 #define OWN_FLOW		3			//流量計
 
 /*通信メッセージ情報*/
-#define MSG_MAX			550			//通信メッセージ最大数
+#define MSG_MAX			600			//通信メッセージ最大数
 #define MSG_MAX_DL		256 + 40	//通信メッセージ最大数(ダウンロード時) 128byte(2文字/1byte)+マージン
 #define MES_RESEND_MAX	1000		//最大再送回数
 #define MSG_NUM			3			//通信タイプ数（ホスト、サブホスト、メンテナンス）

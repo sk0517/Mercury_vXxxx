@@ -132,6 +132,7 @@ short com_type;
 short initializing = 0;
 uint32_t g_ui32SysClock;
 static uint8_t pui8ControlTable[1024] __attribute__ ((aligned(1024)));	// uDMAControlBaseSet で使用 
+short FpgaVersion;
 
 /********************************************************/
 /*	モジュール外定義変数								*/
@@ -662,6 +663,9 @@ void	version_set(void){
 		/*ハードウェアバージョン*/
 		SVD[ch].hard_ver = HARD_VERSION;
 	}
+
+	/*FPGAバージョン*/
+	FpgaVersion = FPGA_VERSION;
 }
 
 /****************************************************/

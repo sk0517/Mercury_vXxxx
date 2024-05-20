@@ -110,6 +110,8 @@ void SetFifoNo(short pch);
 void SetFifoPos(short pch);
 void SchZerDat(short pch, short *WavPtr, short *ZerPnt, short *ZerDat1, short *ZerDat2, short *ZerDat3, short *ZerDat4);
 void SchTrshld(short pch, short *WavPtr, short *OutVal);
+float DelAbnPnt(float *FwdPnt, float *RevPnt, float zc_SumOld, short zc_num, float SmpTdt);
+float DelAbnPntMod(float *FwdPnt, float *RevPnt, float zc_SumOld, short zc_num, float SmpTdt);
 
 /********************************************************/
 /*	モジュール外定義関数								*/
@@ -178,6 +180,7 @@ short Mgn = 8;
 /********************************************************/
 extern short	com_type;
 extern short initializing;
+extern short FpgaVersion;
 
 /********************************************************/
 /*	センサ情報											*/
@@ -573,10 +576,10 @@ void	dma_start(short *read_add){
 }
 void	us_dma_start(short *read_add){
 
-	unsigned short TmpBuf[200];
-	short i;
+//	unsigned short TmpBuf[200];
+//	short i;
 
-	uDMAChannelTransferSet(UDMA_CHANNEL_SW | UDMA_PRI_SELECT, UDMA_MODE_AUTO, (void*)&FIFO, read_add, 200);	// DMA 転送開始
+	uDMAChannelTransferSet(UDMA_CHANNEL_SW | UDMA_PRI_SELECT, UDMA_MODE_AUTO, (void*)&FIFO, read_add, 240);	// DMA 転送開始
 
 	uDMAChannelEnable(UDMA_CHANNEL_SW);
 	uDMAChannelRequest(UDMA_CHANNEL_SW);	// DMA 転送開始 
@@ -862,7 +865,7 @@ short GetMinWaveValue(short* data, short* StartPos)
 {
 	short i = *StartPos;
 	short MinValue = 0;
-	for(i = *StartPos; i < 210; i++){
+	for(i = *StartPos; i < 250; i++){
 		if(data[i - 1] > data[i] && data[i] <= data[i + 1])
 		{
 			MinValue = data[i];
@@ -978,7 +981,7 @@ void GetWav(short pch)
 // __bit_output(GPIO_PORTG_BASE, 6, 1);
 		/*上流側FIFO処理*/
 		DriveFIFOFwd(pch, sample);	//パルス打ち込み、FIFO読込み
-		for (i = 12; i < 210; i++)
+		for (i = 12; i < 250; i++)
 		{
 			if(sample == 0){
 				*(FowWav + i) = fwd_temp_data[sample][i];
@@ -992,7 +995,7 @@ void GetWav(short pch)
 // __bit_output(GPIO_PORTG_BASE, 6, 0);
 		/*下流側FIFO処理*/
 		DriveFIFORev(pch, sample);	//パルス打ち込み、FIFO読込み
-		for (i = 12; i < 210; i++)
+		for (i = 12; i < 250; i++)
 		{
 			if(sample == 0){
 				*(RevWav + i) = rev_temp_data[sample][i];
@@ -1114,11 +1117,18 @@ void SchZerDat(short pch, short *WavPtr, short *ZerPnt, short *ZerDat1, short *Z
 	short i, ZerCnt = 0;
 	short Wav1, Wav2, Wav3, Wav4;
 	short FndFlg = -1;
-	short SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 4;
+	short SkpPnt;
+
+	if(FpgaVersion == 0x2211){	//FPGAオーバーサンプリング4点バージョン
+		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 4 / 4;
+	}else{
+		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 4;
+	}
+
 	// i = 14;
 	i = MES[pch].zc_peak;
 	if(i < 14) i = 14;
-	while(i < 210)
+	while(i < 250)
 	{
 		if(ZerCnt < ZC_POINT_MAX)
 		{
@@ -1178,7 +1188,7 @@ void SchTrshld(short pch, short *WavPtr, short *OutVal)
 	short TrshldPos;
 	short TrshldVal;
 	short WavVal;
-	for(i = 12; i < 210; i++)
+	for(i = 12; i < 250; i++)
 	{
 		WavVal = *(WavPtr + i);
 		if(WavVal < Trshld){
@@ -1207,11 +1217,18 @@ void SchMaxPek(short pch, short *WavPtr, short *OutVal, short *OutPos)
 	short MaxPekCnt = 0;
 	short FndFlg = -1;
 	short DatM1, Dat0, DatP1;
-	//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
-	short SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
+	short SkpPnt;
+
+	if(FpgaVersion == 0x2211){	//FPGAオーバーサンプリング4点バージョン
+		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/4
+		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 4 / 2; //Skip Point (デフォルトで13.54)
+	}else{
+		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
+		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
+	}
 
 	FndFlg = -1;
-	while(i < 210)
+	while(i < 250)
 	{
 		DatM1 = *(WavPtr + i - 1);
 		Dat0 = *(WavPtr + i);
@@ -1265,11 +1282,18 @@ void SchMinPek(short pch, short *WavPtr, short *OutVal, short *OutPos)
 	short MinPekCnt = 0;
 	short FndFlg = -1;
 	short DatM1, Dat0, DatP1;
-	//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
-	short SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
+	short SkpPnt;
+
+	if(FpgaVersion == 0x2211){	//FPGAオーバーサンプリング4点バージョン
+		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/4
+		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 4 / 2; //Skip Point (デフォルトで13.54)
+	}else{
+		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
+		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
+	}
 
 	FndFlg = -1;
-	while(i < 210)
+	while(i < 250)
 	{
 		DatM1 = *(WavPtr + i - 1);
 		Dat0 = *(WavPtr + i);
@@ -1734,7 +1758,7 @@ void fifo_read(short pch)
 #if defined(FLWWAVEXP)
 		for (i = 12; i < FLWWAVSIZ + 10; i++)
 #else
-		for (i = 12; i < 210; i++)
+		for (i = 12; i < 250; i++)
 #endif
 		{
 			/*最大、最小を探す*/
@@ -1892,7 +1916,7 @@ void fifo_read(short pch)
 #if defined(FLWWAVEXP)
 	for (i = 12; i < FLWWAVSIZ + 10; i++)
 #else
-	for (i = 12; i < 210; i++)
+	for (i = 12; i < 250; i++)
 #endif
 	{
 #if defined(ShtCntTwo)
@@ -2235,6 +2259,34 @@ float DelAbnPnt(float *FwdPnt, float *RevPnt, float zc_SumOld, short zc_num, flo
 	return zc_TdataNew;
 }
 
+float DelAbnPntMod(float *FwdPnt, float *RevPnt, float zc_SumOld, short zc_num, float SmpTdt)
+{
+	short i;
+	float zc_SumNew;
+	float zc_TdataNew;
+	float zc_TdataWorkSum;
+	float zc_TdataWorkBuf[ZC_POINT_MAX];
+	short zc_TdataWorkCnt;
+
+	zc_TdataWorkSum = zc_TdataWorkCnt = 0;
+	for(i = 0; i < zc_num; i++)
+	{
+		zc_TdataWorkBuf[i] = (FwdPnt[i] - RevPnt[i]) * SmpTdt / 2.0;
+		if(-0.00015 <= zc_TdataWorkBuf[i] && zc_TdataWorkBuf[i] <= 0.00015){
+			zc_TdataWorkCnt ++;
+			zc_TdataWorkSum += zc_TdataWorkBuf[i];
+		}
+	}
+	if(zc_TdataWorkCnt >= 5){
+		zc_TdataNew = zc_TdataWorkSum / zc_TdataWorkCnt;
+	}else{
+		zc_SumNew = zc_SumOld;
+		zc_TdataNew = zc_SumNew / zc_num;
+	}
+
+	return zc_TdataNew;
+}
+
 /****************************************************
  * Function : CaluculateDeltaT
  * Summary  : 上下流の時間差を計算する
@@ -2300,10 +2352,14 @@ void CalculateDeltaT(short pch, float *FwdPnt, float *RevPnt)
 	}
 
 	//評価用
-	if(SVD[pch].sum_start == 11 || SVD[pch].sum_start == 13){	//DelAbnPntの計算結果を有効にする
+	if(SVD[pch].sum_start == 11){	//DelAbnPntの計算結果を有効にする
 		//--異常値2点除外--
 		zc_TdataDiff = zc_Tup - zc_Tdw;
 		zc_TdataDiff = DelAbnPnt(FwdPnt, RevPnt, zc_TdataDiff, zc_num, SmpTdt);
+	}else if(SVD[pch].sum_start == 12){	//DelAbnPntの計算結果を有効にする
+		//--異常値除外--
+		zc_TdataDiff = zc_Tup - zc_Tdw;
+		zc_TdataDiff = DelAbnPntMod(FwdPnt, RevPnt, zc_TdataDiff, zc_num, SmpTdt);
 	}else{
 		zc_TdataDiff = (zc_Tup - zc_Tdw) / zc_num;	//伝搬時間差
 	}
@@ -2503,7 +2559,7 @@ void SchZerPnt(short pch)
 	fow_before = *(TmpFowDat + zc_start - 1);
 	rev_before = *(TmpRevDat + zc_start - 1);
 	// for (i = 12; i < 210; i++)
-	for (i = zc_start; i < 210; i++)
+	for (i = zc_start; i < 250; i++)
 	{
 		// TmpRevDat++;
 		if(
@@ -2532,7 +2588,7 @@ void SchZerPnt(short pch)
 			break;  //「ゼロクロス開始位置+ゼロクロス回数」以上のゼロクロス点を探す必要がない
 		}
 	}
-	for (i = zc_start; i < 210; i++)
+	for (i = zc_start; i < 250; i++)
 	{
 		// TmpFowDat++;
 		if(
@@ -2911,7 +2967,7 @@ short	gain_adj_init(short pch){
 #if defined(FLWWAVEXP)
 	 	for(j=10; j<FLWWAVSIZ + 10; j++)
 #else
-	 	for(j=10; j<210; j++)					/*最大、最小を探す*/
+	 	for(j=10; j<250; j++)					/*最大、最小を探す*/
 #endif
 	 	{
 			if(forward_max < MES[pch].fow_data[j]){	/*forward data max*/
@@ -3127,7 +3183,7 @@ void	sum_adder(short pch){
 #if defined(FLWWAVEXP)
 			for (j = 10; j < FLWWAVSIZ + 10; j = j + 2)
 #else
-			for (j = 10; j < 210; j = j + 2)
+			for (j = 10; j < 250; j = j + 2)
 #endif
 			{ /*10～210のデータを1つ飛ばして100word分の差分演算*/
 				 sum_work += (long)abs(*(FowDat + j - 4 + offset) - *(RevDat + j));
@@ -3290,7 +3346,7 @@ short	temp_v(short pch){
 #if defined(FLWWAVEXP)
 	for(i=10; i<FLWWAVSIZ; i++)
 #else
-	for(i=10; i<210; i++)
+	for(i=10; i<250; i++)
 #endif
 	{
 		if(MES[pch].ThresholdPeakPos == 0){  /*波形認識閾値の未設定(ゼロ点調整未実施)*/
@@ -3316,7 +3372,7 @@ short	temp_v(short pch){
 #if defined(FLWWAVEXP)
 	if(i != FLWWAVSIZ + 10)
 #else
-	if(i != 210)
+	if(i != 250)
 #endif
 	{
 		MES[pch].ThreasholdPoint_Fow = v_work_fow;/*fow*/
@@ -3326,7 +3382,7 @@ short	temp_v(short pch){
 #if defined(FLWWAVEXP)
 	for(i=10; i<FLWWAVSIZ + 10; i++)
 #else
-	for(i=10; i<210; i++)
+	for(i=10; i<250; i++)
 #endif
 	{
 		if(MES[pch].ThresholdPeakPos == 0){  /*波形認識閾値の未設定(ゼロ点調整未実施)*/
@@ -3351,7 +3407,7 @@ short	temp_v(short pch){
 #if defined(FLWWAVEXP)
 	if(i != FLWWAVSIZ)
 #else
-	if(i != 210)
+	if(i != 250)
 #endif
 	{
 		MES[pch].ThreasholdPoint_Rev = v_work_rev;/*rev*/
@@ -5496,7 +5552,7 @@ short FrqSchPrc(short pch){
 #if defined(FLWWAVEXP)
 			for(i = 10; i < FLWWAVSIZ + 10; i++)
 #else
-			for(i = 10; i < 210; i++)
+			for(i = 10; i < 250; i++)
 #endif
 			{
 				/*最小値を探す*/
@@ -5879,7 +5935,7 @@ void int_flow(short pch)
 		MES_SUB[pch].ItvVal = 1000 + (SVD[pch].sum_end - 20)*100 - 500; //特殊仕様(波形取得後の波形加算時間約50usを考慮)
 	}
 
-	if(SVD[pch].sum_start == 12 || SVD[pch].sum_start == 13){
+	if(FpgaVersion == 0x2211){	//FPGAオーバーサンプリング4点バージョン
 		Mgn = 4;	//ADC65MHzを1/4して16.25MHzサンプリングとする
 	}else{
 		Mgn = 8;	//ADC65MHzを1/8して8.125MHzサンプリングとする

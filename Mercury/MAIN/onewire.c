@@ -7,6 +7,7 @@
 /*			All rights reserved					*/
 /***********************************************/
 #include <machine.h>
+#include <string.h>
 
 #include "define.h"
 #include "SV_def.h"
@@ -93,7 +94,7 @@ short OWReadByte(void);
 unsigned char	GetReflect(unsigned char data);
 unsigned char GetCRC8(const void *buff, short size);
 short	OWCheckDevice(void);
-short	OWCheckROMID(void);
+short	OWCheckROMID(short ch);
 short	OWWriteData(short address, const void *buff);
 short	OWCompareData(short address, const void *buff);
 short	OWReadSensinfo(short ch);
@@ -567,12 +568,12 @@ short	OWCheckDevice(void)
 /* Function : OWCheckROMID                        */
 /* Summary  : メモリデバイスのROM IDを取得し、 */
 /* 　　　　　　   　FAMILY CODEを確認する 					*/
-/* Argument : なし                            			*/
+/* Argument : short ch   読込むCH            	*/
 /* Return   : 正常:0 異常:0以外                   */
 /* Caution  : なし                               */
 /* note     : FAMILY CODEが0x2Dならば正常             */
 /****************************************************/
-short	OWCheckROMID(void)
+short	OWCheckROMID(short ch)
 {
 	short i, retry, result;
 	char rom_data[8];
@@ -600,6 +601,12 @@ short	OWCheckROMID(void)
 
 		//ROM ID正常取得
 		break;			//リトライ処理を抜ける
+	}
+
+	if(result == B_OK){	//正常時
+		SVD[ch].m_serial[0] = (rom_data[2] << 8) | rom_data[1];	//メモリデバイスのSERIAL NUMBERを保持
+		SVD[ch].m_serial[1] = (rom_data[4] << 8) | rom_data[3];
+		SVD[ch].m_serial[2] = (rom_data[6] << 8) | rom_data[5];
 	}
 
 	return result;
@@ -715,7 +722,7 @@ short	OWReadSensinfo(short ch)
 	OWSensSigSW(B_ON);		//ﾒﾓﾘﾃﾞﾊﾞｲｽ有効
 	OWWaitUS(5);					//5usec待機
 
-	if(OWCheckROMID() != B_OK){		//ROM_IDの確認
+	if(OWCheckROMID(ch) != B_OK){		//ROM_IDの確認
 		MES_SUB[ch].err_status_sub |= ERR_JUDGE_DEVICE;	//異常：メモリデバイス検知エラーセット
 		SelectReverseOff(ch);	//IN/OUT打込み切替え
 		OWSensSigSW(B_OFF);		//ﾒﾓﾘﾃﾞﾊﾞｲｽ無効
@@ -919,14 +926,14 @@ void OWCheckDeviceSide(void)
 		portmesrevW(0, ch);		//CH REV切替え有効
 		OWWaitUS(5);			//5usec待機
 		
-		if(OWCheckROMID() == B_OK){		//ROM_IDの確認に成功
+		if(OWCheckROMID(ch) == B_OK){		//ROM_IDの確認に成功
 			portmesrevW(1, ch);			//CH REV切替え無効
 			MES_SUB[ch].memory_side = B_POSI;
 		}else{							//ROM_IDの確認に失敗
 			portmesrevW(1, ch);			//CH REV切替え無効
 			portmesfwdW(0, ch);			//CH FWD切替え有効
 			OWWaitUS(5);				//5usec待機
-			if(OWCheckROMID() == B_OK){	//ROM_IDの確認に成功
+			if(OWCheckROMID(ch) == B_OK){	//ROM_IDの確認に成功
 				portmesfwdW(1, ch);		//CH FWD切替え無効
 				MES_SUB[ch].memory_side = B_NEGA;
 			}else{						//ROM_IDの確認に失敗
