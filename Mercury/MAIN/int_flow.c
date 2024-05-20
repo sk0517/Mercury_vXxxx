@@ -5935,7 +5935,8 @@ void int_flow(short pch)
 		MES_SUB[pch].ItvVal = 1000 + (SVD[pch].sum_end - 20)*100 - 500; //特殊仕様(波形取得後の波形加算時間約50usを考慮)
 	}
 
-	if(FpgaVersion == 0x2211){	//FPGAオーバーサンプリング4点バージョン
+	if((FpgaVersion == 0x2211) || (FpgaVersion == 0x3211))
+	{	//FPGAオーバーサンプリング4点バージョン
 		Mgn = 4;	//ADC65MHzを1/4して16.25MHzサンプリングとする
 	}else{
 		Mgn = 8;	//ADC65MHzを1/8して8.125MHzサンプリングとする
