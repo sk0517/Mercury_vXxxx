@@ -292,6 +292,9 @@ struct stMES{	//流量計測
 	stZcLog ZcLog; //ゼロクロスログデータ
 
 	short ZerAdjPhs; //ゼロ点調整フェーズ
+
+	short ComVthCount; //通信デバッグ用
+	long ComVthSum; //通信デバッグ用
 };
 
 struct stMES_SUB{	//流量計測

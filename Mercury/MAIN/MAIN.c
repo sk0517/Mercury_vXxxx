@@ -900,6 +900,8 @@ short EndAdjVth(short pch)
 	short wave_vth_buf;
 	/*Vth調整時（2秒間）のVthを算出*/
 	wave_vth_buf = (short)(((long long)MES[pch].vth_sum * 25) / ((long long)MES[pch].vth_count * AD_MAX));
+	MES[pch].ComVthSum = MES[pch].vth_sum;
+	MES[pch].ComVthCount = MES[pch].vth_count;
 
 	LED[pch].zero_vth_buf[LED[pch].zero_retry_cnt] = wave_vth_buf;
 	/*Vthデータの収束確認*/
@@ -1154,6 +1156,8 @@ void IniZajPrm(short pch, short Phs)
 			LED[pch].vth_do_cnt = VTH_ADJ_TIME; //vth調整時間カウンタ
 			MES[pch].vth_count = 0; //vth加算数
 			MES[pch].vth_sum = 0; //vth合計
+			MES[pch].ComVthCount = 0;
+			MES[pch].ComVthSum = 0;
 			memset(LED[pch].zero_vth_buf, 0, sizeof(LED[pch].zero_vth_buf)); //リトライ用バッファ
 			LED[pch].zero_retry_cnt = 0; //vthリトライ回数
 			break;
