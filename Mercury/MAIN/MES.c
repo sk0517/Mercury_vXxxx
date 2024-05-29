@@ -1003,7 +1003,8 @@ void command_RF (short com_mode){
 	 read_change0X_versionRV(com_mode,value);
 	 strncat(TX_buf[com_mode],comma,sizeof(comma));
 	
-	 value = SVD[ch_no[com_mode] -1].hard_ver;		//hardware version
+	//  value = SVD[ch_no[com_mode] -1].hard_ver;		//hardware version
+	 value = FPGA_VERSION;		//FPGA version
 	 read_change0X_versionRV(com_mode,value);
 
  }
