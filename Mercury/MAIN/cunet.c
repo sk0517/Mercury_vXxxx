@@ -373,12 +373,11 @@ void SetProtcolTimer(unsigned short recv_sa)
 	}
 }
 
-short DebugPhase = 0;
-short JudgeMessageFormat(char* Buf, short BufSize);
+short JudgeMessageFormat(unsigned short recv_sa, char* Buf, short BufSize);
 void DelChAndLength(char* Buf, short BufSize);
 short tttest(short buf_side, unsigned short recv_size, unsigned short recv_sa);
 short SearchChar(char* Buf, char Str, short BufSize);
-short AnalyzeReceiveBuffer(char* Buf);
+short AnalyzeReceiveBuffer(unsigned short recv_sa, char* Buf);
 void CopyReceiveBuf(short Mode)
 {
 	unsigned short	recv_size;		//メールデータサイズ
@@ -410,15 +409,15 @@ void CopyReceiveBuf(short Mode)
 
 	if(EndFlg != -1)
 	{
-		AnalyzeReceiveBuffer(Buf);
+		AnalyzeReceiveBuffer(recv_sa, Buf);
 		SetProtcolTimer(recv_sa);
 	}
 
 }
 
-short AnalyzeReceiveBuffer(char* Buf)
+short AnalyzeReceiveBuffer(unsigned short recv_sa, char* Buf)
 {
-	short Flg = JudgeMessageFormat(Buf, MSG_MAX);
+	short Flg = JudgeMessageFormat(recv_sa, Buf, MSG_MAX);
 	DelChAndLength(Buf, MSG_MAX);
 	return Flg;
 }
@@ -433,7 +432,6 @@ short AnalyzeReceiveBuffer(char* Buf)
 /****************************************************/
 void	mky43_mail_recv(void){
 #if 1
-#if 1
 	/*MRB0:メール受信バッファ0*/
 	if(MKY43.REG.MR0CR.BIT.RCV != 0){					//メール受信完了
 		CopyReceiveBuf(0);
@@ -447,55 +445,6 @@ void	mky43_mail_recv(void){
 	MKY43.REG.INT0CR.BIT.MR = 1;						//メール受信完了割込み許可	
 	MKY43.REG.INT0SR.BIT.MR = 1;						//メール受信完了割込み解除
 	MKY43.REG.MR0CR.BIT.RDY = 1;						//メール受信許可
-#else
-	unsigned short	recv_size;		//メールデータサイズ
-	unsigned short	recv_sa;		//送信元ステーションアドレス
-	short buf_count;
-
-	/*MRB0:メール受信バッファ0*/
-	if(MKY43.REG.MR0CR.BIT.RCV != 0){					//メール受信完了
-		// memset(RX_buf_host, 0, MSG_MAX);
-		
-		//受信バッファ初期化
-		memset(recv_data0, 0, 32 * 4 * sizeof(short));	
-		
-		recv_sa = ((MKY43.REG.MR0CR.WORD & 0x3F00) >> 8);		//送信元ステーションアドレス取得
-		recv_size = (MKY43.REG.MR0CR.WORD & 0x003F);	//メール受信データサイズ取得(8Byteを1単位)
-
-		//メール受信データ取得
-		memcpy(recv_data0, (unsigned short**)MKY43.MRB0.RECV, recv_size * 4 * sizeof(short));
-		
-		// mky43_rxbuf_save(0, recv_size, recv_sa);		//取得データをRX_buf_host[]に保存
-		buf_count = tttest(0, recv_size, recv_sa);
-	}
-
-	/*MRB1:メール受信バッファ1*/
-	if(MKY43.REG.MR1CR.BIT.RCV != 0){					//メール受信完了
-		//受信バッファ初期化
-		memset(recv_data1, 0, 32 * 4 * sizeof(short));	
-		
-		recv_sa = ((MKY43.REG.MR1CR.WORD & 0x3F00) >> 8);		//送信元ステーションアドレス取得
-		recv_size = (MKY43.REG.MR1CR.WORD & 0x003F);	//メール受信データサイズ取得(8Byteを1単位)
-
-		//メール受信データ取得
-		memcpy(recv_data1, (unsigned short**)MKY43.MRB1.RECV, recv_size * 4 * sizeof(short));
-		
-		// mky43_rxbuf_save(1, recv_size, recv_sa);		//取得データをRX_buf_host[]に保存
-		buf_count = tttest(1, recv_size, recv_sa);
-	}
-	if(buf_count == 0){		//全メッセージ(CRまでのデータ)受信完了		
-		/*フォーマット判定*/
-		JudgeMessageFormat(RX_buf_host, (short)MSG_MAX);
-		
-		//Ch, Length削除
-		DelChAndLength(RX_buf_host, MSG_MAX);
-		protocol_timer_host(1);		//通信プロトコル解析開始タイマーセット	
-	}
-
-	MKY43.REG.INT0CR.BIT.MR = 1;						//メール受信完了割込み許可	
-	MKY43.REG.INT0SR.BIT.MR = 1;						//メール受信完了割込み解除
-	MKY43.REG.MR0CR.BIT.RDY = 1;						//メール受信許可
-#endif
 #else
 	short				i_cnt;
 	short				j_cnt;
@@ -1345,51 +1294,6 @@ void JudgeCuMailError(char* Buf, short BufSiz)
 }
 
 
-void ReceiveAndAnalyze(char* Buf, short Mode, unsigned short recv_size)
-{
-	short buf_offset;
-	// char *BufPtr0 = (char*)&recv_data0;
-	// char *BufPtr1 = (char*)&recv_data1;
-	short Flg = 0;
-
-	buf_offset = buf_count;
-
-	//初期化
-	if(Mode == 0)
-	{	
-		memset(Buf, 0, MSG_MAX);
-	}
-
-	// //ステーションアドレス指定
-	// recv_sa_host = recv_sa;
-	//受信サイズ指定
-	recv_size *= 8;
-	
-	if(Mode == 0)
-	{
-		DebugPhase = 2;
-		// buf_count = MemCpyAndSearchCR(&Buf[buf_offset], (char*)recv_data0, recv_size);
-		buf_count = MemCpyAndSearchCR(&Buf[0], (char*)recv_data0, recv_size);
-	}
-	else
-	{
-		DebugPhase = 3;
-		buf_count = MemCpyAndSearchCR(&Buf[256], (char*)recv_data1, recv_size);
-	}
-
-	if(buf_count == 0)
-	{
-		/*フォーマット判定*/
-		Flg = JudgeMessageFormat(Buf, (short)MSG_MAX);
-		
-		//Ch, Length削除
-		DelChAndLength(Buf, MSG_MAX);
-			
-		//通信プロトコル解析開始タイマーセット
-		protocol_timer_host(1);
-	}
-}
-
 short	tttest(short buf_side, unsigned short recv_size, unsigned short recv_sa)
 {
 	short buf_offset;
@@ -1432,145 +1336,12 @@ short	tttest(short buf_side, unsigned short recv_size, unsigned short recv_sa)
 /* notes    : なし                                   */
 /****************************************************/
 void	mky43_rxbuf_save(short buf_side, unsigned short recv_size, unsigned short recv_sa){
-#if 0
-	if(recv_sa == SA_HOST)
-	{
-		DebugPhase = 1;
-		recv_sa_host = SA_HOST;
-		ReceiveAndAnalyze(&RX_buf_host[0], buf_side, recv_size);
-	}
-	else
-	{
-		recv_sa_sub = SUB_HOST;
-		ReceiveAndAnalyze(RX_buf_subhost, buf_side, recv_size);
-	}
-#else
 	short i;
 	short j;
 	short buf_num;
 	short buf_offset;
 	short data_len;
 	short data_offset;
-#if 1
-	short Flg = 0;
-	if(recv_sa == SA_HOST){		//ホスト(SA=0)からの取得データ
-		buf_offset = buf_count;
-		if(buf_offset == 0){
-			// for (i=0; i<MSG_MAX; i++){
-			// 	RX_buf_host[i] = 0;
-			// }	
-			memset(RX_buf_host, 0, MSG_MAX);
-		}
-		recv_sa_host = recv_sa;
-		recv_size *= 8;
-
-		if(buf_side == 0)
-		{
-			buf_count = MemCpyAndSearchCR(&RX_buf_host[buf_offset], (char*)recv_data0, recv_size);
-			// buf_count = MemCpyAndSearchCR(&RX_buf_host[0], (char*)recv_data0, recv_size);
-		}
-		else
-		{
-			buf_count = MemCpyAndSearchCR(&RX_buf_host[256], (char*)recv_data1, recv_size);
-		}
-		
-		if(buf_count == 0){		//全メッセージ(CRまでのデータ)受信完了		
-#if 1
-			/*フォーマット判定*/
-			Flg = JudgeMessageFormat(RX_buf_host, (short)MSG_MAX);
-
-#else
-			data_offset = 0;
-			format_err_host = 0;
-			while(RX_buf_host[data_offset]!= HEADER_CH){	//CHデータ検索
-				data_offset++;
-				if(data_offset >= MSG_MAX)	break;
-			}		
-			if(RX_buf_host[data_offset + 2] != 0x40)	format_err_host++;
-		
-			/*Header CH 判定*/
-			if(RX_buf_host[MES_1ST_TOP + data_offset] != HEADER_CH){
-				return;			// Header CH 異常
-			}
-			
-			/*終端文字検索*/
-			data_len = 2;
-			while(RX_buf_host[data_len + data_offset]!= CR){	//@から検索を開始する
-				data_len++;
-				if((data_len + data_offset) == 257 || (data_len + data_offset) == 513){/*データ長が格納されている配列は無視する(データ長が13(0x0D)の場合があるので)*/
-					data_len++;
-				}
-			}
-			data_len++;				/*data_len = CH,Length含 メッセージ全受信データ*/
-			if(data_len < 0) data_len = 0;
-#endif
-
-#if 1
-			//Ch, Length削除
-			DelChAndLength(RX_buf_host, MSG_MAX);
-#else
-			mky43_del_message(data_len, data_offset, recv_sa);	//通信メッセージから『CHデータ』『Lengthフィールド』を削除する
-#endif
-			protocol_timer_host(1);		//通信プロトコル解析開始タイマーセット	
-		}
-	// //ホスト(SA=0)からの取得データ
-	// if(recv_sa == SA_HOST)
-	// {
-	// 	buf_offset = buf_count;
-
-	// 	//バッファ初期化
-	// 	if(buf_offset == 0){
-	// 		memset(RX_buf_host, 0, MSG_MAX * sizeof(short));
-	// 	}
-
-	// 	//StationAddress指定
-	// 	recv_sa_host = recv_sa;
-	// 	//受信サイズ指定
-	// 	recv_size *= 8;
-
-	// 	//受信バッファへ移動
-	// 	if(buf_side == 0)
-	// 	{
-	// 		buf_count = MemCpyAndSearchCR(TmpBuff1, (char*)recv_data0, recv_size);
-	// 	}
-	// 	else
-	// 	{
-	// 		buf_count = MemCpyAndSearchCR(TmpBuff2, (char*)recv_data1, recv_size);
-	// 	}
-	// 	if(buf_count == 0){		//全メッセージ(CRまでのデータ)受信完了		
-	// 		memcpy(RX_buf_host, TmpBuff1, 256);
-	// 		memcpy(&RX_buf_host[256], TmpBuff2, 256);
-	
-	// 		/*フォーマット判定*/
-	// 		data_offset = 0;
-	// 		format_err_host = 0;
-	// 		while(RX_buf_host[data_offset]!= HEADER_CH){	//CHデータ検索
-	// 			data_offset++;
-	// 			if(data_offset >= MSG_MAX)	break;
-	// 		}		
-	// 		if(RX_buf_host[data_offset + 2] != 0x40)	format_err_host++;
-		
-	// 		/*Header CH 判定*/
-	// 		if(RX_buf_host[MES_1ST_TOP + data_offset] != HEADER_CH){
-	// 			return;			// Header CH 異常
-	// 		}
-			
-	// 		/*終端文字検索*/
-	// 		data_len = 2;
-	// 		while(RX_buf_host[data_len + data_offset]!= CR){	//@から検索を開始する
-	// 			data_len++;
-	// 			if((data_len + data_offset) == 257 || (data_len + data_offset) == 513){/*データ長が格納されている配列は無視する(データ長が13(0x0D)の場合があるので)*/
-	// 				data_len++;
-	// 			}
-	// 		}
-	// 		data_len++;				/*data_len = CH,Length含 メッセージ全受信データ*/
-	// 		if(data_len < 0) data_len = 0;
-
-	// 		mky43_del_message(data_len, data_offset, recv_sa);	//通信メッセージから『CHデータ』『Lengthフィールド』を削除する
-
-	// 		protocol_timer_host(1);		//通信プロトコル解析開始タイマーセット	
-	// 	}
-#else
 	if(recv_sa == SA_HOST){		//ホスト(SA=0)からの取得データ
 		buf_offset = buf_count;
 		if(buf_offset == 0){
@@ -1638,7 +1409,6 @@ void	mky43_rxbuf_save(short buf_side, unsigned short recv_size, unsigned short r
 
 			protocol_timer_host(1);		//通信プロトコル解析開始タイマーセット	
 		}
-#endif
 	}else{				//ホスト以外のSA(Station Address)からの取得データ
 		buf_offset = buf_count_sub;
 		if(buf_offset == 0){
@@ -1707,7 +1477,6 @@ void	mky43_rxbuf_save(short buf_side, unsigned short recv_size, unsigned short r
 			protocol_timer_subhost();		//通信プロトコル解析開始タイマーセット	
 		}
 	}
-#endif
 }
 
 /****************************************************/
@@ -1898,41 +1667,7 @@ short		mky43_add_message(unsigned short len, short com_mode){
 	return add_len;
 }
 
-short JudgeMessageLength(short Mode, char* Buf, unsigned short Len, unsigned short Offset)
-{
-	short Err = 0;
-	if(Mode == 0){
-		if(Len > 256) Len = 256;
-		if(Buf[MES_1ST_TOP + 1 + Offset] != (Len - 2))
-		{
-			Err++;
-		}
-		memcpy(&Buf[0], &Buf[2], Len - 2);
-		Buf[Len - 2] = 0;
-	}
-	else if(Mode == 1)
-	{
-		if(Len > 512) Len = 512;
-		if(Buf[MES_2ND_TOP + 1 + Offset] != (Len - 258))
-		{
-			Err++;
-		}
-		memcpy(&Buf[254], &Buf[258], Len - 4);
-		Buf[Len - 4] = 0;
-	}
-	else
-	{
-		if(Len > 768) Len = 768;
-		if(Buf[MES_3RD_TOP + 1 + Offset] != (Len - 514))
-		{
-			Err++;
-		}
-		memcpy(&Buf[509], &Buf[515], Len - 6);
-		Buf[Len - 6] = 0;
-	}
-	return Err;
-}
-short JudgeMessageFormat(char* Buf, short BufSize)
+short JudgeMessageFormat(unsigned short recv_sa, char* Buf, short BufSize)
 {
 	short Flg = 0;
 	short BufTop[3] = {MES_1ST_TOP, MES_2ND_TOP, MES_3RD_TOP};
@@ -1942,7 +1677,14 @@ short JudgeMessageFormat(char* Buf, short BufSize)
 	if(Buf[MES_1ST_TOP + 2] != '@')
 	{
 		Flg |= 0x01;
-		format_err_host++;
+		if(recv_sa == SA_HOST)
+		{
+			format_err_host++;
+		}
+		else
+		{
+			format_err_sub++;
+		}
 	}
 	for(i = 0; i < BufSize / 256; i++)
 	{
@@ -2005,38 +1747,6 @@ void	mky43_del_message(unsigned short len, unsigned short offset, short com_mode
 
 	if(com_mode == SA_HOST){		//ホスト(SA=0)へ送信する場合
 		len_err_host = 0;
-#if 0
-		for(cnt = 0; cnt < (len / 256); cnt++)
-		{
-			//CH,Length削除
-			memcpy(Buf[BufTop[i]], Buf[BufTop[i] + 2 * i], 256);
-		}
-		/*256byte以下（分割していないメッセージを受信した場合）*/
-		if(len <= 256){
-			/*メッセージ長判定*/
-			len_err_host += JudgeMessageLength(0, RX_buf_host, len, offset);
-		}
-		/*257byte～512byte（2分割したメッセージを受信した場合）*/
-		else if(len > 256 && len <= 512){
-			/*1回目に受信したメッセージ*/
-			len_err_host += JudgeMessageLength(0, RX_buf_host, len, offset);
-			
-			/*2回目に受信したメッセージ*/
-			len_err_host += JudgeMessageLength(1, RX_buf_host, len, offset);
-		}
-		/*513byte以上（3分割したメッセージを受信した場合）*/
-		else{
-			/*1回目に受信したメッセージ*/
-			len_err_host += JudgeMessageLength(0, RX_buf_host, len, offset);
-			
-			/*2回目に受信したメッセージ*/
-			len_err_host += JudgeMessageLength(1, RX_buf_host, len, offset);
-			
-			/*3回目に受信したメッセージ*/
-			len_err_host += JudgeMessageLength(2, RX_buf_host, len, offset);
-			
-		}
-#else
 		/*256byte以下（分割していないメッセージを受信した場合）*/
 		if(len <= 256){
 			/*メッセージ長判定*/
@@ -2105,7 +1815,6 @@ void	mky43_del_message(unsigned short len, unsigned short offset, short com_mode
 			}
 			RX_buf_host[len-6] = 0;
 		}
-#endif
 	}else{						//ホスト以外のSA(Station Address)へ送信する場合
 		len_err_sub = 0;
 
