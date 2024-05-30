@@ -131,34 +131,16 @@ void	mky43_start(void){
 	unsigned short	bcr_bps;
 	unsigned short	bcr_own;
 	unsigned short	bcr_lfs;
-	short i_cnt;
-	short j_cnt;
 
 	/*RAMクリア*/
 	//GM領域のクリア
-	for(i_cnt=0; i_cnt<64; i_cnt++){
-		for(j_cnt=0; j_cnt<4; j_cnt++){
-			MKY43.GM.SA[i_cnt].DATA[j_cnt].DATA = 0;
-		}
-	}
+	memset((unsigned short **)MKY43.GM.SA, 0, 256);
 	//MSB領域のクリア
-	for(i_cnt=0; i_cnt<32; i_cnt++){
-		for(j_cnt=0; j_cnt<4; j_cnt++){
-			MKY43.MSB.SEND[i_cnt].DATA[j_cnt].DATA = 0;
-		}
-	}
+	memset((unsigned short **)MKY43.MSB.SEND, 0, 256);
 	//MRB0領域のクリア
-	for(i_cnt=0; i_cnt<32; i_cnt++){
-		for(j_cnt=0; j_cnt<4; j_cnt++){
-			MKY43.MRB0.RECV[i_cnt].DATA[j_cnt].DATA = 0;
-		}
-	}
+	memset((unsigned short **)MKY43.MRB0.RECV, 0, 256);
 	//MRB1領域のクリア
-	for(i_cnt=0; i_cnt<32; i_cnt++){
-		for(j_cnt=0; j_cnt<4; j_cnt++){
-			MKY43.MRB1.RECV[i_cnt].DATA[j_cnt].DATA = 0;
-		}
-	}
+	memset((unsigned short **)MKY43.MRB1.RECV, 0, 256);
 	
 	/*基本(BCR)設定*/
 	if(MKY43.REG.SCR.BIT.START == 1){			//CUnet通信起動中
@@ -303,6 +285,15 @@ void	mky43_ping_active(void){
 
 }
 
+/****************************************************
+ * Function : GetStationAddress
+ * Summary  : ステーションアドレスを取得する
+ * Argument : Mode : 0 : Mail Receive 0
+ *                   1 : Mail Receive 1
+ * Return   : ステーションアドレス
+ * Caution  : 
+ * notes    : 
+ ****************************************************/
 unsigned short GetStationAddress(short Mode)
 {
 	unsigned short MrcrReg;
@@ -320,6 +311,15 @@ unsigned short GetStationAddress(short Mode)
 	return StationAddress;
 }
 
+/****************************************************
+ * Function : GetReceiveSize
+ * Summary  : 受信サイズを取得する
+ * Argument : Mode : 0 : Mail Receive 0
+ *                   1 : Mail Receive 1
+ * Return   : 受信サイズ
+ * Caution  : 
+ * notes    : 
+ ****************************************************/
 unsigned short GetReceiveSize(short Mode){
 	unsigned short MrcrReg;
 	unsigned short ReceiveSize;
@@ -333,6 +333,15 @@ unsigned short GetReceiveSize(short Mode){
 	return ReceiveSize;
 }
 
+/****************************************************
+ * Function : GetSrcBuf
+ * Summary  : 受信バッファを取得する
+ * Argument : Mode : 0 : Mail Receive 0
+ *                   1 : Mail Receive 1
+ * Return   : 受信バッファ
+ * Caution  : 
+ * notes    : 
+ ****************************************************/
 unsigned short* GetSrcBuf(short Mode)
 {
 	unsigned short* Src;
@@ -347,6 +356,15 @@ unsigned short* GetSrcBuf(short Mode)
 	return Src;
 }
 
+/****************************************************
+ * Function : SetReceiveBuf
+ * Summary  : 受信バッファのコピー先を決める
+ * Argument : recv_sa : 0 : RX_buf_host
+ *                      1 : RX_buf_subhost
+ * Return   : 受信バッファのコピー先
+ * Caution  : 
+ * notes    : 
+ ****************************************************/
 char* SetReceiveBuf(unsigned short recv_sa)
 {
 	char *Buf;
@@ -363,6 +381,15 @@ char* SetReceiveBuf(unsigned short recv_sa)
 	return Buf;
 }
 
+/****************************************************
+ * Function : SetProtcolTimer
+ * Summary  : 受信解析完了後に起動するプロトコルタイマ
+ * Argument : recv_sa : 0 : RX_buf_host
+ *                      1 : RX_buf_subhost
+ * Return   : 
+ * Caution  : 
+ * notes    : 
+ ****************************************************/
 void SetProtcolTimer(unsigned short recv_sa)
 {
 	if(recv_sa == SA_HOST){
@@ -378,6 +405,18 @@ void DelChAndLength(char* Buf, short BufSize);
 short tttest(short buf_side, unsigned short recv_size, unsigned short recv_sa);
 short SearchChar(char* Buf, char Str, short BufSize);
 short AnalyzeReceiveBuffer(unsigned short recv_sa, char* Buf);
+
+/****************************************************
+ * Function : CopyReceiveBuf
+ * Summary  : 受信レジスタから受信配列にコピーする
+ * Argument : recv_sa : 0 : RX_buf_host
+ *                      1 : RX_buf_subhost
+ * Return   : 
+ * Caution  : 
+ * notes    : 受信配列にCRを含む場合、以下の処理をおこなう
+ *          : 1. 受信配列中に含むCH, Lengthを削除する
+ *          : 2. 受信解析処理のためにプロトコルタイマを起動する
+ ****************************************************/
 void CopyReceiveBuf(short Mode)
 {
 	unsigned short	recv_size;		//メールデータサイズ
@@ -415,9 +454,21 @@ void CopyReceiveBuf(short Mode)
 
 }
 
+/****************************************************
+ * Function : AnalyzeReceiveBuffer
+ * Summary  : 受信バッファを解析可能な形式に整える
+ * Argument : recv_sa : 0 : RX_buf_host
+ *                      1 : RX_buf_subhost
+ *          : Buf : 受信配列
+ * Return   : 
+ * Caution  : 
+ * notes    : 
+ ****************************************************/
 short AnalyzeReceiveBuffer(unsigned short recv_sa, char* Buf)
 {
+	//Header, @, CRのチェックを行う
 	short Flg = JudgeMessageFormat(recv_sa, Buf, MSG_MAX);
+	//CH, Lengthを削除する
 	DelChAndLength(Buf, MSG_MAX);
 	return Flg;
 }
