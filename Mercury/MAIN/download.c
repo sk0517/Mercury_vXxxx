@@ -1256,11 +1256,68 @@ RESEND:
 	}
 }
 
+short SearchCR(char* Buf, char Str, short BufSize)
+{
+    short i;
+    short Flg = -1;
+    for(i = 2; i < BufSize; i++){
+        if(Buf[i] == Str)
+        {
+            Flg = 1;
+            break;
+        }
+    }
+    return Flg;
+}
+
 /****************************************************************/
 /* メール受信(MRB0:メール受信バッファ0							*/
 /****************************************************************/
 void	mky43_mail_recv_dl(void){
+#if 1
+	unsigned short	recv_size;		//メールデータサイズ
+    static short RecvCnt = 0;
+    unsigned short *Src;
+    short EndFlg = -1;
 
+	// recv_data0_dl[32][4] = { 0 } で初期値をセットすると例外発生する。 
+	// 後続処理にて memset_dl で初期化しているのでここでの初期化は不要。 
+	
+	recv_sa_dl = 0;
+	recv_size = 0;
+	
+	/*MRB0:メール受信バッファ0*/
+	if(MKY43.REG.MR0CR.BIT.RCV != 0){					//メール受信完了
+		recv_sa_dl = (MKY43.REG.MR0CR.WORD & 0x3F00);	//送信元ステーションアドレス取得
+		recv_size = (MKY43.REG.MR0CR.WORD & 0x003F);	//メール受信データサイズ取得(8Byteを1単位)
+
+        if(RecvCnt == 0){
+            memset_dl(RX_buf_dl, 0, MSG_MAX_DL);
+        }
+	
+		recv_size *= 8;
+        Src = (unsigned short*)MKY43.MRB0.RECV;
+        memcpy_dl(&RX_buf_dl[256 * RecvCnt], (unsigned short**)MKY43.MRB0.RECV, recv_size);
+        EndFlg = SearchCR((char*)Src, 0x0d, recv_size);
+        if(EndFlg == -1){
+            RecvCnt++;
+        }
+        else{
+            RecvCnt = 0;
+        }
+
+        if(RecvCnt == 0)
+        {
+            memcpy_dl(&RX_buf_dl[0], &RX_buf_dl[1], 255);
+            memcpy_dl(&RX_buf_dl[255], &RX_buf_dl[257], MSG_MAX_DL - 256);
+            rx_end_dl = 1;
+        }
+		MKY43.REG.MR0CR.BIT.RDY = 1;					//メール受信許可
+	}
+
+	MKY43.REG.INT0CR.BIT.MR = 1;						//メール受信完了割込み許可	
+	MKY43.REG.INT0SR.BIT.MR = 1;						//メール受信完了割込み解除
+#else
 	short	i_cnt;
 	short	j_cnt;
 	short i;
@@ -1337,6 +1394,7 @@ void	mky43_mail_recv_dl(void){
 
 	MKY43.REG.INT0CR.BIT.MR = 1;						//メール受信完了割込み許可	
 	MKY43.REG.INT0SR.BIT.MR = 1;						//メール受信完了割込み解除
+#endif
 }
 
 /******************************************************************************************
