@@ -1087,7 +1087,7 @@ void SchZerDat(short pch, short *WavPtr, short *ZerPnt, short *ZerDat1, short *Z
 	short FndFlg = -1;
 	short SkpPnt;
 
-	if(FpgaVersion == 0x2211){	//FPGAオーバーサンプリング4点バージョン
+	if((FpgaVersion == 0x2211) || (FpgaVersion == 0x3211)){	//FPGAオーバーサンプリング4点バージョン
 		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 4 / 4;
 	}else{
 		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 4;
@@ -1187,8 +1187,8 @@ void SchMaxPek(short pch, short *WavPtr, short *OutVal, short *OutPos)
 	short DatM1, Dat0, DatP1;
 	short SkpPnt;
 
-	if(FpgaVersion == 0x2211){	//FPGAオーバーサンプリング4点バージョン
-		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/4
+	if((FpgaVersion == 0x2211) || (FpgaVersion == 0x3211)){	//FPGAオーバーサンプリング4点バージョン
+		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング4点) = 1/600kHz * 65MHz/4
 		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 4 / 2; //Skip Point (デフォルトで13.54)
 	}else{
 		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
@@ -1252,8 +1252,8 @@ void SchMinPek(short pch, short *WavPtr, short *OutVal, short *OutPos)
 	short DatM1, Dat0, DatP1;
 	short SkpPnt;
 
-	if(FpgaVersion == 0x2211){	//FPGAオーバーサンプリング4点バージョン
-		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/4
+	if((FpgaVersion == 0x2211) || (FpgaVersion == 0x3211)){	//FPGAオーバーサンプリング4点バージョン
+		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング4点) = 1/600kHz * 65MHz/4
 		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 4 / 2; //Skip Point (デフォルトで13.54)
 	}else{
 		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
