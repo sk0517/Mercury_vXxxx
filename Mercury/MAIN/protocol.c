@@ -1109,6 +1109,38 @@ void check_wdt(short com_mode)
 	}
 }
 
+void JudgeErrCode21_23(short com_mode, short ch_check, short enable_20, short enable_21, short enable_22, short enable_23)
+{
+	/* EEPROM書込み中　実行不可 */	
+	if(action_status_check(ch_check) == ACT_STS_WRITE){
+		if (enable_23 != 0){
+			end_code[com_mode] = EEPROMWRITE_NOW;
+			error_check[com_mode]++;
+		}
+	}
+	/* ダウンロード中　実行不可 */
+	if(action_status_check(ch_check) == ACT_STS_DLOAD){
+		if (enable_22 != 0){
+			end_code[com_mode] = DOWNLOAD_NOW;
+			error_check[com_mode]++;
+			}
+		}
+	/* 積算中　実行不可 */
+	if(action_status_check(ch_check) == ACT_STS_ADDIT){
+		if (enable_21 != 0){
+			end_code[com_mode] = INTEGRATE_NOW;
+			error_check[com_mode]++;
+		}
+	}
+	/* ゼロ調整中　実行不可 */
+	if(action_status_check(ch_check) == ACT_STS_ZERO){
+		if (enable_20 != 0){
+			end_code[com_mode] = ZEROADJUST_NOW;
+			error_check[com_mode]++;
+		}
+	}
+}
+
 /************************************************/
 /*    実行不可 (End Code 20～23)    */
 /************************************************/
@@ -1198,65 +1230,11 @@ void check_act_disable(short com_mode)
 		if (ch_no[com_mode] == 0){		//マルチコマンド
 			for(cnt = 0; cnt < ch_z[com_mode]; cnt++){		//マルチCH数(1～6)分実行不可をチェックする
 				ch_check = multi_ch_no[com_mode][cnt] - 1;
-				/* EEPROM書込み中　実行不可 */	
-				if(action_status_check(ch_check) == ACT_STS_WRITE){
-					if (enable_23 != 0){
-						end_code[com_mode] = EEPROMWRITE_NOW;
-						error_check[com_mode]++;
-					}
-				}
-				/* ダウンロード中　実行不可 */
-				if(action_status_check(ch_check) == ACT_STS_DLOAD){
-					if (enable_22 != 0){
-						end_code[com_mode] = DOWNLOAD_NOW;
-						error_check[com_mode]++;
-						}
-					}
-				/* 積算中　実行不可 */
-				if(action_status_check(ch_check) == ACT_STS_ADDIT){
-					if (enable_21 != 0){
-						end_code[com_mode] = INTEGRATE_NOW;
-						error_check[com_mode]++;
-					}
-				}
-				/* ゼロ調整中　実行不可 */
-				if(action_status_check(ch_check) == ACT_STS_ZERO){
-					if (enable_20 != 0){
-						end_code[com_mode] = ZEROADJUST_NOW;
-						error_check[com_mode]++;
-					}
-				}
+				JudgeErrCode21_23(com_mode, ch_check, enable_20, enable_21, enable_22, enable_23);
 			}
 		}else{				//シングルコマンド
 			ch_check = ch_no[com_mode] -1;
-			/* EEPROM書込み中　実行不可 */	
-			if(action_status_check(ch_check) == ACT_STS_WRITE){
-				if (enable_23 != 0){
-					end_code[com_mode] = EEPROMWRITE_NOW;
-					error_check[com_mode]++;
-				}
-			}
-			/* ダウンロード中　実行不可 */
-			if(action_status_check(ch_check) == ACT_STS_DLOAD){
-				if (enable_22 != 0){
-					end_code[com_mode] = DOWNLOAD_NOW;
-					error_check[com_mode]++;
-					}
-				}
-			/* 積算中　実行不可 */
-			if(action_status_check(ch_check) == ACT_STS_ADDIT){
-				if (enable_21 != 0){
-					end_code[com_mode] = INTEGRATE_NOW;
-						error_check[com_mode]++;
-				}
-			}
-			/* ゼロ調整中　実行不可 */
-			if(action_status_check(ch_check) == ACT_STS_ZERO){
-				if (enable_20 != 0){
-					end_code[com_mode] = ZEROADJUST_NOW;
-					error_check[com_mode]++;
-				}
-			}
+			JudgeErrCode21_23(com_mode, ch_check, enable_20, enable_21, enable_22, enable_23);
 		}
 	}
 }
@@ -1296,11 +1274,376 @@ void check_act_able(short com_mode)
 	}
 }
 
+short CalcFcs(char* Buf, short Len){
+	short i;
+	short Fcs = Buf[0];
+	for(i = 1; i < Len; i++)
+	{
+		Fcs ^= Buf[i];
+	}
+	return Fcs;
+}
+
+char ConvertAscii(char Val){
+	if('0' <= Val && Val <= '9'){
+		Val -= 0x30;
+	}
+	else if('A' <= Val && Val <= 'F'){
+		Val -= 0x37;
+	}
+	return Val;
+}
+
+short GetBufToVal(char Val1, char Val2)
+{
+	short BufFcs = 0;
+	Val1 = ConvertAscii(Val1);
+	Val2 = ConvertAscii(Val2);
+	BufFcs = Val1 * 10 + Val2;
+	return BufFcs;
+}
+
+short JudgeChNo(char* Buf)
+{
+	char c1 = Buf[1];
+	char c4 = Buf[4];
+	char c5 = Buf[5];
+	char c6 = Buf[6];
+	char c7 = Buf[7];
+	short Flg = 0;
+	if(c4 == '0' && ('1' <= c5 && c5 <= '6'))
+	{
+		Flg = 10;
+	}
+	else if(c4 == 'X' && c5 == 'X' && c6 == '0' && ('1' <= c7 && c7 <= '6'))
+	{
+		Flg = 20;
+	}
+	else if(c1 == 'd' && c4 == 'X' && c5 == 'X' && c6 == ',')
+	{
+		Flg = 30;
+	}
+	else{
+		Flg = 90;
+	}
+	return Flg;
+}
+
+short ConvertAsciiIndex(char c)
+{
+	short Index = 0;
+	if('a' <= c && c <= 'z')
+	{
+		Index = c - 'a';
+	}
+	else if('A' <= c && c <= 'Z')
+	{
+		Index = c - 'A' + 27;
+	}
+	else if('0' <= c && c <= '9')
+	{
+		Index = c - '0' + 53;
+	}
+	else {
+		Index = 99;
+	}
+	return Index;
+}
+short JudgeMultiCmd(char c1, char c2){
+	short MltiFlg = 0;
+	//RS, Rs, OE, OQ, oq, Rl, Rz, RD, RZ, Wz, WZ, WP, RW
+	if(c1 == 'R'){
+		if(
+			(c2 == 'S') 
+			|| (c2 == 's')
+			|| (c2 == 'l')
+			|| (c2 == 'z')
+			|| (c2 == 'D')
+			|| (c2 == 'Z')
+			|| (c2 == 'W')
+		)
+		{
+			MltiFlg = 1;
+		}
+	}
+	else if(c1 == 'W'){
+		if(
+			(c2 == 'z')
+			|| (c2 == 'Z')
+			|| (c2 == 'P')
+		)
+		{
+			MltiFlg = 1;
+		}
+	}
+	else if(c1 == 'O'){
+		if(
+			(c2 == 'E')
+			|| (c2 == 'Q')
+		)
+		{
+			MltiFlg = 1;
+		}
+	}
+	else if(c1 == 'o'){
+		if(
+			(c2 == 'q')
+		)
+		{
+			MltiFlg = 1;
+		}
+	}
+	return MltiFlg;
+}
+
+short GetCmdIndex(char* Buf)
+{
+	//WXYZ
+	// W : コマンド系統(R=0, W=1, O=2, M=3)
+	// X : 0=シングル/1=マルチコマンド
+	// YZ : a-z, A-Z, 0-9 (Max 62)
+	short Index = 0;
+	char c1 = Buf[1];
+	char c2 = Buf[2];
+	short MultiFlg = JudgeMultiCmd(c1, c2);
+	if(c1 == 'R')
+	{
+		Index = 0;
+	}
+	else if(c1 == 'W')
+	{
+		Index = 1000;
+	}
+	Index += ConvertAsciiIndex(c2);
+	if(MultiFlg != 0){
+		Index += 100;
+	}
+	return Index;
+}
+
+const struct
+{
+	char Cmd[2];
+	char Bank;
+	char Multi;
+}CmdList[]={
+	{ 'R', 'g', 0, 0 },
+	{ 'R', 'r', 0, 0 },
+	{ 'R', 'k', 0, 0 },
+	{ 'R', 'd', 0, 0 },
+	{ 'R', 'b', 0, 0 },
+	{ 'R', 'v', 0, 0 },
+	{ 'R', 'h', 0, 0 },
+	{ 'R', 'u', 0, 0 },
+	{ 'R', 'R', 0, 0 },
+	{ 'R', 'F', 0, 0 },
+	{ 'R', 'V', 0, 0 },
+	{ 'R', 'G', 0, 0 },
+	{ 'R', 'L', 0, 0 },
+	{ 'R', 'y', 0, 0 },
+	{ 'R', 'M', 0, 0 },
+	{ 'R', 'f', 0, 0 },
+	{ 'R', 't', 0, 0 },
+	{ 'R', 'T', 0, 0 },
+	{ 'R', 'p', 0, 0 },
+	{ 'R', 'n', 0, 0 },
+	{ 'R', 'a', 0, 0 },
+	{ 'R', 'm', 1, 0 },
+	{ 'R', '1', 1, 0 },
+	{ 'R', '2', 1, 0 },
+	{ 'R', '3', 1, 0 },
+	{ 'R', '4', 1, 0 },
+	{ 'R', '5', 1, 0 },
+	{ 'R', '6', 1, 0 },
+	{ 'R', '7', 1, 0 },
+	{ 'R', '8', 1, 0 },
+	{ 'R', '9', 1, 0 },
+	{ 'R', 'X', 1, 0 },
+	{ 'R', 'E', 1, 0 },
+	{ 'R', 'A', 1, 0 },
+	{ 'R', 'i', 1, 0 },
+	{ 'R', 'D', 1, 1 },
+	{ 'R', 'Z', 1, 1 },
+	{ 'R', 'S', 1, 2 },
+	{ 'R', 's', 1, 2 },
+	{ 'R', 'l', 1, 2 },
+	{ 'R', 'z', 1, 2 },
+	{ 'R', 'W', 1, 2 },
+	{ 'R', 'C', 1, 2 },
+	{ 'R', 'c', 1, 2 },
+	{ 'W', 'g', 0, 0 },
+	{ 'W', 'r', 0, 0 },
+	{ 'W', 'k', 0, 0 },
+	{ 'W', 'd', 0, 0 },
+	{ 'W', 'l', 0, 0 },
+	{ 'W', 'b', 0, 0 },
+	{ 'W', 'v', 0, 0 },
+	{ 'W', 'h', 0, 0 },
+	{ 'W', 'R', 0, 0 },
+	{ 'W', 'u', 0, 0 },
+	{ 'W', 'U', 0, 0 },
+	{ 'W', 'y', 0, 0 },
+	{ 'W', 'f', 0, 0 },
+	{ 'W', 't', 0, 0 },
+	{ 'W', 't', 0, 0 },
+	{ 'W', 'T', 0, 0 },
+	{ 'W', 'p', 0, 0 },
+	{ 'W', 'n', 0, 0 },
+	{ 'W', 'a', 0, 0 },
+	{ 'W', 'm', 1, 0 },
+	{ 'W', '1', 1, 0 },
+	{ 'W', '2', 1, 0 },
+	{ 'W', '3', 1, 0 },
+	{ 'W', '4', 1, 0 },
+	{ 'W', '5', 1, 0 },
+	{ 'W', '6', 1, 0 },
+	{ 'W', '7', 1, 0 },
+	{ 'W', '8', 1, 0 },
+	{ 'W', '9', 1, 0 },
+	{ 'W', 'E', 1, 0 },
+	{ 'W', 'A', 1, 0 },
+	{ 'W', 'i', 1, 0 },
+	{ 'W', 'P', 1, 1 },
+	{ 'W', 'Z', 1, 1 },
+	{ 'W', 'z', 1, 2 },
+	{ 'W', 'c', 1, 2 },
+	{ 'O', 'V', 0, 0 },
+	{ 'O', 'Z', 0, 0 },
+	{ 'O', 'S', 0, 0 },
+	{ 'O', 's', 0, 0 },
+	{ 'O', 'J', 0, 0 },
+	{ 'O', 'C', 0, 0 },
+	{ 'O', 'L', 0, 0 },
+	{ 'O', 'R', 0, 0 },
+	{ 'O', 'T', 0, 0 },
+	{ 'O', 'A', 0, 0 },
+	{ 'O', 't', 0, 0 },
+	{ 'O', 'F', 0, 0 },
+	{ 'O', 'E', 0, 1 },
+	{ 'O', 'Q', 0, 1 },
+	{ 'o', 'v', 0, 0 },
+	{ 'o', 'q', 0, 1 },
+	{ 'd', 'p', 0, 0 },
+	{ 'd', 't', 0, 0 },
+	{ 'd', 'w', 0, 0 },
+	{ 'd', 'c', 0, 0 },
+	{ 'd', 'r', 0, 0 },
+	{ 'D', 'L', 1, 0 },
+	{ 'D', 'l', 1, 0 },
+	{ 'E', 'R', 0, 0 },
+	{ 'M', 'R', 0, 0 },
+	{ 'M', 'W', 0, 0 },
+	{ 'M', 'T', 0, 0 },
+	{ 'M', 'Z', 0, 0 },
+	{ 'M', 'S', 0, 0 },
+	{ 0xFF, 0xFF, 0xFF, 0xFF }
+};
+
+short JudgeUsableCommand(char* Buf, short* Index, short *Bank, short *Multi)
+{
+	short i = 0;
+	char* Cmd;
+	short Flg = 0x04;
+	short MaxNum = sizeof(CmdList) / (sizeof(char) * 4);
+	Bank = 0;
+	Multi = 0;
+	Index = -1;
+	for(i = 0; i < MaxNum; i++)
+	{
+		Cmd = (char*)CmdList[i].Cmd;
+		Bank = CmdList[i].Bank;
+		Multi = CmdList[i].Multi;
+		if(strncmp(Buf, Cmd, 2) == 0)
+		{
+			Index = i;
+			Flg = 0;
+			break;
+		}
+	}
+	return Flg;
+}
+
+short JudgeReceiveFormat(short com_mode)
+{
+	short Flg = 0;
+    char* Buf = RX_buf[com_mode];
+	short BufLen = strlen(Buf);
+	short ClcFcs, BufFcs;
+	short ChFlg = 0;
+	short MultiChNo = 0;
+	short ChCnt = 0;
+	short MultiCh = 0;
+	short CmdIndex = 0;
+	short BankNo;
+	short MultiFlg;
+	short ErrFlg;
+
+	//受信メッセージ長判定
+	if(BufLen < 9)
+	{
+		Flg |= 0x01;
+	}
+	else
+	{
+		//FCS判定
+		ClcFcs = CalcFcs(Buf, BufLen - 3); //FCS(2byte), CR(1byte)
+		BufFcs = GetBufToVal(Buf[BufLen - 2], Buf[BufLen - 1]);
+		if(ClcFcs != BufFcs)
+		{
+			Flg |= 0x02;
+		}
+
+		//コマンド有効判定
+		Flg |= JudgeUsableCommand(Buf, CmdIndex, BankNo, MultiFlg);
+
+		//コマンドが存在する
+		if(Flg == 0)
+		{
+			//CH番号判定
+			ChFlg = JudgeChNo(Buf);
+			if(ChFlg == 10){
+				ch_no[com_mode] = ConvertAscii(Buf[5]);
+			}
+			else if(ChFlg == 20){
+				MultiChNo = ConvertAscii(Buf[7]);
+				for(ChCnt = 0; ChCnt < MultiChNo; ChCnt++)
+				{
+					MultiCh = GetBufToVal(Buf[8 + 2 * ChCnt], Buf[8 + 2 * ChCnt + 1]);
+					if(1 <= MultiCh && MultiCh <= 6){
+						multi_ch_no[com_mode][ChCnt] = MultiCh;
+					}
+				}
+			}
+			else if(Flg == 30){
+				ch_no[com_mode] = 0;
+			}
+			else{
+				ch_no[com_mode] = 9;
+			}
+
+			//
+		}
+	}
+}
+
 /************************************************/
 /*    通信プロトコル処理					    */
 /************************************************/
 void protocol(short com_mode)
 {
+#if 1
+	//1. フォーマット判定
+	// 1-1. コマンド長判定
+	// 1-2. FCS判定
+	// 1-3. コマンド・バンク・チャネル判定
+	// 1-4. 各コマンドフォーマット判定
+	//2. ウォッチドッグ再起動判定
+	//3. 各コマンド処理
+	// 3-1. Endcode20-23判定
+	// 3-2. 測定障害判定
+	// 3-3. コマンド解析&返送バッファ作成
+	//4. 送信
+#else
 	short i;
 	short h;
 	short l;
@@ -1336,23 +1679,7 @@ void protocol(short com_mode)
 	/*************************** 判定終了 ***************************/
 	else {
 		/* FCS判定用処理 */
-		fcs = RX_buf[com_mode][0];		//=@(0x40)
-		z = 1;
-		while (z != l-3){
-			fcs ^= RX_buf[com_mode][z];	//受信データからFCSを計算=fcs
-			z++;
-		}
-		fcs_c[0] = RX_buf[com_mode][l-3];	//受信データ記載のFCSを判定用文字列に保存
-		fcs_c[1] = RX_buf[com_mode][l-2];
-		
-		if (fcs_c[0] >= 0x30 && fcs_c[0] <= 0x39)	fcs_cal = (fcs_c[0] - 0x30) * 0x10;	// 0x30:ASCII→16進数字変換0-9
-		else	/*A-F*/				fcs_cal = (fcs_c[0] - 0x37) * 0x10;	// 0x37:ASCII→16進数字変換A-F
-		
-		if (fcs_c[1] >= 0x30 && fcs_c[1] <= 0x39)	fcs_cal += fcs_c[1] - 0x30;	// 0x30:ASCII→16進数字変換0-9
-		else	/*A-F*/				fcs_cal += fcs_c[1] - 0x37;	// 0x37:ASCII→16進数字変換A-F
-	
-		//fcs_d = strtol (fcs_c, NULL,16);	//文字列から変数(16進数)に変換=fcs_d ※計算値との比較用
-		fcs_d = fcs_cal;
+		fcs_d = GetBufFcs(RX_buf[com_mode][l - 3], RX_buf[com_mode][l - 2]);
 	
 		/* 共通：返信用列準備（End Code代入欄まで作成）*/
 		RX_buf[com_mode][l-1] = 0;		//CR 削除
@@ -1653,12 +1980,13 @@ void protocol(short com_mode)
 		else if (flow_check[com_mode] == 2)	{l = 10 + 72*ch_z[com_mode];}
 
 		for(h = l; h < MSG_MAX; h++){TX_buf[com_mode][h]= 0;}	//TEXT欄以降 配列初期化
-		fcs = TX_buf[com_mode][0];		//=@(0x40)
-		z = 1;
-		while (z != l){
-			fcs ^= TX_buf[com_mode][z];
-			z++;
-		}
+		// fcs = TX_buf[com_mode][0];		//=@(0x40)
+		// z = 1;
+		// while (z != l){
+		// 	fcs ^= TX_buf[com_mode][z];
+		// 	z++;
+		// }
+		fcs = CalcFcs(TX_buf[com_mode], l);
 		
 		fcs_cal = fcs / 0x10;
 		
@@ -1709,4 +2037,5 @@ void protocol(short com_mode)
 		}		
 		download(com_mode, com_type);				//ファームウェアダウンロード
 	}
+#endif
 }

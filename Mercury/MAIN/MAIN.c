@@ -1965,6 +1965,7 @@ void CheckBOOTCFG(void){
 	}
 }
 
+extern short JudgeUsableCommand(char* Buf);
 /****************************************************/
 /* Function : main                                  */
 /* Summary  : メイン処理                          				 */
@@ -1974,13 +1975,15 @@ void CheckBOOTCFG(void){
 /* notes    : なし                                   */
 /****************************************************/
 void main(void){
-
+    char CList[] = {'R', '@'};
+    short Index;
 	// BOOTCFG レジスタが設定済みかどうかのチェックと設定 
 	CheckBOOTCFG();
 
  /*初期化*/
 	init();
 
+	Index = JudgeUsableCommand(CList);
 	while(1){
 		/*** 100msec待機 ***/
 		while(timer_main != 0){
