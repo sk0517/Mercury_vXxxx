@@ -404,12 +404,6 @@
 
 /*センサ情報*/
 #define SNS_NONE		0			//センサ無し
-#define SNS_TYPE_04E	1			//04Eセンサ
-#define SNS_TYPE_06E	2			//06Eセンサ
-#define SNS_TYPE_10K	3			//10Kセンサ
-#define SNS_TYPE_04AT	4			//04ATセンサ
-#define SNS_TYPE_06AT	5			//06ATセンサ
-
 #define SNS_TYPE_1_8	1			//PFA 1/8"
 #define SNS_TYPE_4_3	2			//PFA 4x3
 #define SNS_TYPE_1_4	3			//PFA 1/4"
