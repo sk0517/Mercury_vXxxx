@@ -42,7 +42,7 @@ void CheckEndPulse(void);
 /* notes    : ‚È‚µ                                   */
 /****************************************************/
 void portmesfwdW(unsigned char data, short pch){
-
+pch = 0;
 	if(data == 0) {
 		switch(pch){
 		// GPIO_PE1
@@ -87,7 +87,7 @@ void portmesfwdW(unsigned char data, short pch){
 /* notes    : ‚È‚µ                                   */
 /****************************************************/
 void portmesrevW(unsigned char data, short pch){
-
+pch = 0;
 	if(data == 0) {
 		switch(pch){
 		// GPIO_PE0
