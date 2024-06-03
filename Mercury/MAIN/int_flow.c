@@ -137,15 +137,8 @@ short	get_cyc[6] = {0, 0, 0, 0, 0, 0};
 unsigned short AD_BASE = 2047;
 unsigned short AD_MAX = 4095;
 
-// #define FLWWAVEXP
-#define FLWWAVSIZ 600
-#if defined(FLWWAVEXP)
-short fwd_temp_data[4][FLWWAVSIZ + 100];
-short rev_temp_data[4][FLWWAVSIZ + 100];
-#else
 short fwd_temp_data[4][256];
 short rev_temp_data[4][256];
-#endif
 
 const	short center_ratio={5000};		/*50%*/
 const	short search_ratio={10000};		/*100%*/
@@ -162,7 +155,6 @@ short SumPntInc = 0; //差分相関点数を増加させない / させる
 #define SumPnt_Inc 1
 
 #define DatInc //オーバーサンプリング
-//#define ShtCntTwo //打ち込み回数2回に変更
 #define ShtItv //打ち込み後インターバル (+200 = +20us)
 //const short ItvVal = 1000; //200us
 // const short ItvVal = 1250; //230us
@@ -532,11 +524,7 @@ void dma_dummy( short count, short pch){
 /****************************************************/
 void	dma_start(short *read_add){
 
-#if defined(FLWWAVEXP)
-	uDMAChannelTransferSet(UDMA_CHANNEL_SW | UDMA_PRI_SELECT, UDMA_MODE_AUTO, (void*)&FIFO, read_add, FLWWAVSIZ);	// DMA 転送開始 
-#else
 	uDMAChannelTransferSet(UDMA_CHANNEL_SW | UDMA_PRI_SELECT, UDMA_MODE_AUTO, (void*)&FIFO, read_add, 200);	// DMA 転送開始
-#endif
 	uDMAChannelEnable(UDMA_CHANNEL_SW);
 	uDMAChannelRequest(UDMA_CHANNEL_SW);	// DMA 転送開始 
 	while(uDMAChannelModeGet(UDMA_CHANNEL_SW) != UDMA_MODE_STOP);	//転送待ち
@@ -883,22 +871,14 @@ short get_vth2(short data[], short vth){
 
 	wave_level = (unsigned short)((long)AD_MAX * (long)vth / 100);
 
-#if defined(FLWWAVEXP)
-	for(ptr = 12; ptr < FLWWAVSIZ + 10; ptr++) 
-#else
 	for(ptr = 12; ptr < 210; ptr++) 
-#endif
 	{
 		if(data[ptr] < wave_level) break;
 	}
 	cross_ptr = ptr;
 
-#if defined(FLWWAVEXP)
-	for(ptr = cross_ptr; ptr < FLWWAVSIZ + 10; ptr++) 
-#else
 	// for(ptr = 12; ptr < 210; ptr++) 
 	for(ptr = cross_ptr; ptr < 210; ptr++) 
-#endif
 	{
 		if(data[ptr] < data[ptr+1]) break;
 	}
@@ -1818,11 +1798,7 @@ void fifo_read(short pch)
 		fow_max = rev_max = 0;	  /*初期値*/
 		fow_min = rev_min = AD_MAX; /*12bit MAX*/
 
-#if defined(FLWWAVEXP)
-		for (i = 12; i < FLWWAVSIZ + 10; i++)
-#else
 		for (i = 12; i < 250; i++)
-#endif
 		{
 			/*最大、最小を探す*/
 			if (fow_max < *(FowWav + i))
@@ -1852,240 +1828,19 @@ void fifo_read(short pch)
 #endif
 
 	// MES.fifo_no, MES.fifo_no_read, MES.fifo_ch_readを決める
-#ifdef NEW_MEASURE_METHOD
 	SetFifoNo(pch);
-#else
-	if (TopPosFix == PosFix_NotMov)
-	{
-		MES[pch].fifo_no = MES[pch].zero_signal_count - LDG_PNT_OFS; /*FIFO Read Address Point*/
-	}
-	else
-	{
-		if ((SVD[pch].fix_data & 0x08) != 0)
-		{ // 固定値設定
-			if (SVD[pch].fix_fifo_no_read == 0)
-			{
-				MES[pch].fifo_no = MES[pch].zero_signal_count - LDG_PNT_OFS; /*FIFO Read Address Point*/
-			}
-			else
-			{
-
-				MES[pch].fifo_no = MES[pch].signal_count - LDG_PNT_OFS; /*FIFO Read Address Point*/
-				if (MES[pch].fifo_no < 0)
-					MES[pch].fifo_no = 0;
-				MES[pch].fifo_no_read = MES[pch].fifo_no;
-				MES[pch].fifo_ch_read = MES[pch].fifo_ch;
-				while (MES[pch].fifo_no_read > (256 + 128))
-				{
-					MES[pch].fifo_no_read -= 256;
-					MES[pch].fifo_ch_read += 1;
-				}
-				fix_signal_count[pch] = ((MES[pch].fifo_ch_read - MES[pch].fifo_ch) * 256) + SVD[pch].fix_fifo_no_read + LDG_PNT_OFS;
-				MES[pch].fifo_no = fix_signal_count[pch] - LDG_PNT_OFS; /*FIFO Read Address Point*/
-			}
-		}
-		else
-		{
-			MES[pch].fifo_no = MES[pch].signal_count - LDG_PNT_OFS; /*FIFO Read Address Point*/
-		}
-	}
-
-	if (MES[pch].fifo_no < 0)	MES[pch].fifo_no = 0;
-
-	MES[pch].fifo_no_read = MES[pch].fifo_no;
-	MES[pch].fifo_ch_read = MES[pch].fifo_ch;	//FIFO CHサーチで決めたCH
-
-	while (MES[pch].fifo_no_read > (256 + 128))
-	{
-		MES[pch].fifo_no_read -= 256;
-//		MES[pch].fifo_ch_read += 1;
-	}
-#endif
 
 	// MES.fifo_start, MES.fifo_endを決める
-#ifdef NEW_MEASURE_METHOD
 	SetFifoPos(pch);
-#else
-	if ((SVD[pch].fix_data & 0x04) != 0)
-	{
-		// 固定値設定
-		if (SVD[pch].fix_fifo_ch_read == 0)
-		{
-			MES[pch].fifo_start = MES[pch].zero_fifo_ch_read; /*ゼロ点調整時のFIFO位置*/
-			MES[pch].fifo_end = MES[pch].zero_fifo_ch_read + WS_FIFO_RANGE;
-		}
-		else
-		{
-			MES[pch].fifo_start = SVD[pch].fix_fifo_ch_read; /*固定設定時のFIFO位置*/
-			MES[pch].fifo_end = SVD[pch].fix_fifo_ch_read + WS_FIFO_RANGE;
-		}
-	}
-	else
-	{
-		MES[pch].fifo_start = MES[pch].fifo_ch_read;	/*WINDOW開始時間を設定*/
-		MES[pch].fifo_end = MES[pch].fifo_ch_read + WS_FIFO_RANGE; /*WINDOW終了時間を設定*/
-	}
-#endif
+
 	MES[pch].fifo_offset = SVD[pch].wind_offset; /*WINDOWオフセット時間を設定*/
 	SetFpgaRegister(pch);   //FPGAレジスタの設定
 
 	// 波形を取得する
-#ifdef NEW_MEASURE_METHOD
 	GetWav(pch);
-#else
-	/*上流/下流交互に4回ずつ打込む処理*/
-#if defined(ShtCntTwo)
-	for (sample = 0; sample < 2; sample++)
-#else
-//    for (sample = 0; sample < 4; sample++)
-    for (sample = 0; sample < MES_SUB[pch].sample_cnt; sample++)
-#endif
-	{
-//__bit_output(GPIO_PORTG_BASE, 6, 1);
-#if defined(ShtItv)
-//        delay(ItvVal); /*打ち込み後インターバル*/
-        delay(MES_SUB[pch].ItvVal); /*打ち込み後インターバル*/
-#endif
-		/*上流側FIFO処理*/
-		DriveFIFOFwd(pch, sample);	//パルス打ち込み、FIFO読込み
-#if defined(ShtItv)
-//        delay(ItvVal); /*打ち込み後インターバル*/
-        delay(MES_SUB[pch].ItvVal); /*打ち込み後インターバル*/
-#endif
-//__bit_output(GPIO_PORTG_BASE, 6, 0);
-		/*下流側FIFO処理*/
-		DriveFIFORev(pch, sample);	//パルス打ち込み、FIFO読込み
-	}
-#endif
 
 	// 取得した波形を解析する
-#ifdef NEW_MEASURE_METHOD
 	AnalyzeWave(pch);
-#else
-	/*上流/下流交互に4回ずつ打込み動作後の処理*/
-	fow_max = rev_max = 0;					   /*初期値*/
-	fow_min = rev_min = AD_MAX;				   /*12bit MAX*/
-	work_old = 0;
-
-#if defined(DatInc)
-	SelMult[SVD[pch].adc_clock] = SelMult[SVD[pch].adc_clock] / Mgn;
-#endif
-
-	for(i = 0; i<12; i++)
-	{
-		*(FowWav + i) = AD_BASE;
-		*(RevWav + i) = AD_BASE;
-	}
-#if defined(FLWWAVEXP)
-	for (i = 12; i < FLWWAVSIZ + 10; i++)
-#else
-	for (i = 12; i < 250; i++)
-#endif
-	{
-#if defined(ShtCntTwo)
-        *(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i)) / 2;
-        *(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i)) / 2;
-#else
-//        *(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i) + *(FowWav3 + i) + *(FowWav4 + i)) / 4;
-//        *(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i) + *(RevWav3 + i) + *(RevWav4 + i)) / 4;
-
-//        *(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i) + *(FowWav3 + i) + *(FowWav4 + i));
-//        *(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i) + *(RevWav3 + i) + *(RevWav4 + i));
-
-		//評価用
-		if(MES_SUB[pch].sample_cnt == 2){
-			*(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i));
-			*(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i));
-		}else if(MES_SUB[pch].sample_cnt == 3){
-			*(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i) + *(FowWav3 + i));
-			*(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i) + *(RevWav3 + i));
-		}else if(MES_SUB[pch].sample_cnt == 4){
-			*(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i) + *(FowWav3 + i) + *(FowWav4 + i));
-			*(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i) + *(RevWav3 + i) + *(RevWav4 + i));
-		}else{
-			*(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i) + *(FowWav3 + i) + *(FowWav4 + i));
-			*(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i) + *(RevWav3 + i) + *(RevWav4 + i));
-		}
-		//評価用
-		
-		
-#endif
-		/*最大、最小を探す*/
-		if (fow_max < *(FowWav + i))
-		{ /*fow data max*/
-			fow_max = *(FowWav + i);
-			fow_max_point = i;
-		}
-		if (fow_min > *(FowWav + i))
-		{ /*fow data min*/
-			fow_min = *(FowWav + i);
-		}
-		//極値を探す
-		if(
-			(FwdPekCnt < WAV_PEK_NUM) &&
-			(((*(FowWav + i - 1) < *(FowWav + i)) && (*(FowWav + i) > *(FowWav + i + 1))) //極大値
-			 || ((*(FowWav + i - 1) > *(FowWav + i)) && (*(FowWav + i) < *(FowWav + i + 1)))) //極小値
-			)
-		{
-			MES[pch].FwdWavPekValLst[FwdPekCnt] = *(FowWav + i);
-			MES[pch].FwdWavPekPosLst[FwdPekCnt] = i;
-			FwdPekCnt++;
-		}
-		if (rev_max < *(RevWav + i))
-		{ /*rev data max*/
-			rev_max = *(RevWav + i);
-			rev_max_point = i;
-		}
-		if (rev_min > *(RevWav + i))
-		{ /*rev data min*/
-			rev_min = *(RevWav + i);
-		}
-		//極値を探す
-		if(
-			(RevPekCnt < WAV_PEK_NUM) &&
-			(((*(RevWav + i - 1) < *(RevWav + i)) && (*(RevWav + i) > *(RevWav + i + 1))) //極大値
-			 || ((*(RevWav + i - 1) > *(RevWav + i)) && (*(RevWav + i) < *(RevWav + i + 1)))) //極小値
-			)
-		{
-			MES[pch].RevWavPekValLst[RevPekCnt] = *(RevWav + i);
-			MES[pch].RevWavPekPosLst[RevPekCnt] = i;
-			RevPekCnt++;
-		}
-
-		// /*波形認識閾値付近のピーク位置を検索(ゼロ点調整時のみ実施する)*/
-		// if(MES[pch].ThresholdPeakPos != 0 && MES_SUB[pch].zc_peak_req == 1 && MES[pch].zc_peak == 0){  /*波形認識閾値の未設定(ゼロ点調整未実施)*/
-		// 	/*signal_count-50位置のﾏｲﾅｽ半周期～プラス半周期のピークを探す*/
-		// 	if((50 - (SelMult[SVD[pch].adc_clock] / 2)) <= i && i <= (50 + (SelMult[SVD[pch].adc_clock] / 2)))
-		// 	{
-		// 		if(*(RevWav + i) < work_old){
-		// 			MES[pch].zc_peak = i - 1;  /*1つ前がピーク*/
-		// 		}else{
-		// 			work_old = *(RevWav + i);
-		// 		}
-		// 	}
-		// }
-	}
-	if(MES[pch].ThresholdPeakPos != 0 && MES_SUB[pch].zc_peak_req == 1 && MES[pch].zc_peak == 0 && MES[pch].zc_peak_UpdateFlg != 0)
-	{
-	    //最大値の2.5周期(13.54 x 2.5)前～そこから1周期(-34 + 13.54)でピークを探す(65MHzの場合)
-	    for(i = rev_max_point - 34; i < rev_max_point - 20; i++)
-	    {
-	        if(*(RevWav + i) > work_old)
-	        {
-	            work_old = *(RevWav + i);
-	            MES[pch].zc_peak = i;  /*1つ前がピーク*/
-	        }
-	    }
-	}
-
-	SVD[pch].ZerCrsSttPnt = MES[pch].zc_peak;
-#endif
-
-	// if(MES_SUB[pch].zc_peak_req == 1){
-	// 	MES_SUB[pch].zc_peak_req = 0;	//波形認識閾値付近のピーク位置を検索要求をクリア
-	// 	SVD[pch].ZerPeakPos = MES[pch].zc_peak;		//波形認識ピーク位置(ゼロクロス計算開始位置用)のEEPROM保存
-	// 	eep_write_ch_delay(pch, (short)(&SVD[pch].ZerPeakPos - &SVD[pch].max_flow), SVD[pch].ZerPeakPos);
-	// }
 
 	if (LED[pch].vth_do_cnt != 0)
 	{																			// ゼロ点調整中
@@ -2891,8 +2646,8 @@ void DriveFIFOFwd(short pch, short sample){
 	ActBfrFifRed(pch);
 	
 	// dma_start(&fwd_temp_data[sample][10]); /*FIFO読込み開始*/
-	// us_dma_start(&fwd_temp_data[sample][10]); /*FIFO読込み開始*/
-	memcpy(&fwd_temp_data[sample][10], &DmyWave1[10], 200 * sizeof(short));
+	us_dma_start(&fwd_temp_data[sample][10]); /*FIFO読込み開始*/
+	// memcpy(&fwd_temp_data[sample][10], &DmyWave1[10], 200 * sizeof(short));
 	OutputRestartPulse();		/*RESTARTパルス出力*/
 
 	SelectReverseOff(pch);	//IN/OUT打込み切替え
@@ -2924,13 +2679,13 @@ void DriveFIFORev(short pch, short sample){
 	ActBfrFifRed(pch);
 
 	// dma_start(&rev_temp_data[sample][10]); /*FIFO読込み開始*/
-	// us_dma_start(&rev_temp_data[sample][10]); /*FIFO読込み開始*/
-	if(DmyFlg == 0){
-		memcpy(&rev_temp_data[sample][10], &DmyWave1[10], 200 * sizeof(short));
-	}
-	else{
-		memcpy(&rev_temp_data[sample][10], &DmyWave3[10], 200 * sizeof(short));
-	}
+	us_dma_start(&rev_temp_data[sample][10]); /*FIFO読込み開始*/
+	// if(DmyFlg == 0){
+	// 	memcpy(&rev_temp_data[sample][10], &DmyWave1[10], 200 * sizeof(short));
+	// }
+	// else{
+	// 	memcpy(&rev_temp_data[sample][10], &DmyWave3[10], 200 * sizeof(short));
+	// }
 	OutputRestartPulse();	/*RESTARTパルス出力*/
 
 	SelectForwardOff(pch);	//IN/OUT打込み切替え
@@ -3034,11 +2789,7 @@ short	gain_adj_init(short pch){
 		forward_max = reverse_max = 0;			/*初期値*/
 		forward_min = reverse_min = AD_MAX;		/*12bit MAX*/
 
-#if defined(FLWWAVEXP)
-	 	for(j=10; j<FLWWAVSIZ + 10; j++)
-#else
 	 	for(j=10; j<250; j++)					/*最大、最小を探す*/
-#endif
 	 	{
 			if(forward_max < MES[pch].fow_data[j]){	/*forward data max*/
 				forward_max = MES[pch].fow_data[j];
@@ -3250,11 +3001,7 @@ void	sum_adder(short pch){
 		/*相関演算、差の絶対値を加算する*/
 		if (SumPntInc == SumPnt_Inc)
 		{
-#if defined(FLWWAVEXP)
-			for (j = 10; j < FLWWAVSIZ + 10; j = j + 2)
-#else
 			for (j = 10; j < 250; j = j + 2)
-#endif
 			{ /*10～210のデータを1つ飛ばして100word分の差分演算*/
 				 sum_work += (long)abs(*(FowDat + j - 4 + offset) - *(RevDat + j));
 			}
@@ -3413,11 +3160,7 @@ short	temp_v(short pch){
 	SelMult[SVD[pch].adc_clock] = SelMult[SVD[pch].adc_clock] / Mgn;
 #endif
 
-#if defined(FLWWAVEXP)
-	for(i=10; i<FLWWAVSIZ; i++)
-#else
 	for(i=10; i<250; i++)
-#endif
 	{
 		if(MES[pch].ThresholdPeakPos == 0){  /*波形認識閾値の未設定(ゼロ点調整未実施)*/
 			/*受波しきい値を探す*/
@@ -3439,21 +3182,15 @@ short	temp_v(short pch){
 		}
 
 	}
-#if defined(FLWWAVEXP)
-	if(i != FLWWAVSIZ + 10)
-#else
+
 	if(i != 250)
-#endif
 	{
 		MES[pch].ThreasholdPoint_Fow = v_work_fow;/*fow*/
 	}
 
 	 work_old = 0;
-#if defined(FLWWAVEXP)
-	for(i=10; i<FLWWAVSIZ + 10; i++)
-#else
+
 	for(i=10; i<250; i++)
-#endif
 	{
 		if(MES[pch].ThresholdPeakPos == 0){  /*波形認識閾値の未設定(ゼロ点調整未実施)*/
 			/*受波しきい値を探す*/
@@ -3474,11 +3211,8 @@ short	temp_v(short pch){
 			}
 		}
 	}
-#if defined(FLWWAVEXP)
-	if(i != FLWWAVSIZ)
-#else
+
 	if(i != 250)
-#endif
 	{
 		MES[pch].ThreasholdPoint_Rev = v_work_rev;/*rev*/
 	}
@@ -5616,11 +5350,8 @@ short FrqSchPrc(short pch){
 		//正常波形
 		else{
 			FrqSch[pch].CenPntCnt = 0;
-#if defined(FLWWAVEXP)
-			for(i = 10; i < FLWWAVSIZ + 10; i++)
-#else
+
 			for(i = 10; i < 250; i++)
-#endif
 			{
 				/*最小値を探す*/
 				if( MES[pch].fow_data[i] < MinAmp){	
