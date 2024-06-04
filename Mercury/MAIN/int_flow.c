@@ -1025,7 +1025,7 @@ void SetFifoPos(short pch)
  * Caution  : None
  * Note     : 1周期の点数 = ADCの周波数[MHz] / 波形の周波数[kHz] / オーバーサンプリング数
  * *****************************************/
-short GetSkpPnt(short Div)
+short GetSkpPnt(short pch, short Div)
 {
 	short SkpPnt;
 	
@@ -1065,10 +1065,10 @@ void SchZerDat(short pch, short *WavPtr, short *ZerPnt, short *ZerDat1, short *Z
 	short SkpPnt;
 
 	// SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 4;
-	SkpPnt = GetSkpPnt(4);
+	SkpPnt = GetSkpPnt(pch, 4);
 
 	// i = 14;
-	i = MES[pch].zc_peak;
+	i = SVD[pch].ZerPeakPos;
 	if(i < 14) i = 14;
 	while(i < 250)
 	{
@@ -1163,7 +1163,7 @@ void SchMaxPek(short pch, short *WavPtr, short *OutVal, short *OutPos)
 
 	//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
 	SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
-	SkpPnt = GetSkpPnt(2);
+	SkpPnt = GetSkpPnt(pch, 2);
 	
 	FndFlg = -1;
 	while(i < 250)
@@ -1224,7 +1224,7 @@ void SchMinPek(short pch, short *WavPtr, short *OutVal, short *OutPos)
 
 	//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
 	// SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
-	SkpPnt = GetSkpPnt(2);
+	SkpPnt = GetSkpPnt(pch, 2);
 
 	FndFlg = -1;
 	while(i < 250)
@@ -1323,8 +1323,8 @@ void SchMaxMinPnt(short pch)
 
 	// MES[pch].ThresholdPeakPos != 0 : ゼロ点調整中に波形と5点交わる点が見つかっている
 	// MES_SUB[pch].zc_peak_req == 1 : エラーが起きずにゼロ点調整が終了している
-	// MES[pch].zc_peak == 0 : エラーが起きずにゼロ点調整が終了している(zc_peakはゼロ点調整終了時に0リセットされる)
-	// if(MES[pch].ThresholdPeakPos != 0 && MES_SUB[pch].zc_peak_req == 1 && MES[pch].zc_peak == 0 && MES[pch].zc_peak_UpdateFlg != 0)
+	// SVD[pch].ZerPeakPos == 0 : エラーが起きずにゼロ点調整が終了している(zc_peakはゼロ点調整終了時に0リセットされる)
+	// if(MES[pch].ThresholdPeakPos != 0 && MES_SUB[pch].zc_peak_req == 1 && SVD[pch].ZerPeakPos == 0 && MES[pch].zc_peak_UpdateFlg != 0)
 	//MES_SUB[pch].zc_peak_req == 1 : エラーが起きずにゼロ点調整が終了している
 	//MES[pch].zc_peak_UpdateFlg != 0 : 通信によるzc_peak更新要求がある
 	if(MES_SUB[pch].zc_peak_req == 1 && MES[pch].zc_peak_UpdateFlg != 0)
@@ -1371,9 +1371,9 @@ void SchMaxMinPnt(short pch)
 			}
 		}
 		TrshldPos--;
-		MES[pch].zc_peak = MES[pch].RevWavMaxPekPosLst[TrshldPos];
+		SVD[pch].ZerPeakPos = MES[pch].RevWavMaxPekPosLst[TrshldPos];
 
-		SVD[pch].ZerCrsSttPnt = SVD[pch].ZerPeakPos = MES[pch].zc_peak;		//波形認識ピーク位置(ゼロクロス計算開始位置用)のEEPROM保存
+		SVD[pch].ZerCrsSttPnt = SVD[pch].ZerPeakPos;		//波形認識ピーク位置(ゼロクロス計算開始位置用)のEEPROM保存
 		eep_write_ch_delay(pch, (short)(&SVD[pch].ZerPeakPos - &SVD[pch].max_flow), SVD[pch].ZerPeakPos);
 		eep_write_ch_delay(pch, (short)(&SVD[pch].ZerCrsSttPnt - &SVD[pch].max_flow), SVD[pch].ZerCrsSttPnt);
 	}
@@ -2119,7 +2119,7 @@ void SchZerPnt(short pch)
 
 	SmpTdt = (float)SmpTs[SVD[pch].adc_clock] / 100000;
 
-	zc_start = MES[pch].zc_peak;
+	zc_start = SVD[pch].ZerPeakPos;
 	TmpFowDat = (short *)(&MES[pch].fow_data[0]);//ゼロクロス探索開始位置は[zc_start]番目から
 	TmpRevDat = (short *)(&MES[pch].rev_data[0]);
 	fow_before = *(TmpFowDat + zc_start - 1);
