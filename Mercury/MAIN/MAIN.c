@@ -993,7 +993,7 @@ void SavZajPrm(short pch)
 
 	if(MES[pch].zc_peak_UpdateFlg != 0)
 	{
-	    SVD[pch].ZerPeakPos = 0;
+		SVD[pch].ZerPeakPos = 0;
 	}
 	MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求	
 }
@@ -1098,7 +1098,7 @@ short EndZerAdj(short pch)
 
 		if(MES[pch].zc_peak_UpdateFlg != 0)
 		{
-			MES[pch].zc_peak = 0;
+			SVD[pch].ZerPeakPos = 0;
 		}
 		MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求
 		
@@ -1450,7 +1450,7 @@ void	zero_adj_control(short pch){
 		
 		if(MES[pch].zc_peak_UpdateFlg != 0)
 		{
-			MES[pch].zc_peak = 0;
+			SVD[pch].ZerPeakPos = 0;
 		}
 		MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求
 		
