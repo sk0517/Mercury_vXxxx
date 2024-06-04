@@ -1017,6 +1017,14 @@ void SetFifoPos(short pch)
 	}
 }
 
+/*******************************************
+ * Function : GetSkpPnt (Get Skip Point)
+ * Summary  : スキップする点数を決定する
+ * Argument : Div : 1周期の1/Divの値を取得する
+ * Return   : SkpPnt : スキップする点数
+ * Caution  : None
+ * Note     : 1周期の点数 = ADCの周波数[MHz] / 波形の周波数[kHz] / オーバーサンプリング数
+ * *****************************************/
 short GetSkpPnt(short Div)
 {
 	short SkpPnt;
