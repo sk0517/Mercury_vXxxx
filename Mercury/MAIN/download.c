@@ -967,6 +967,7 @@ short s_read(char *ptr) {
         data = (unsigned char)(datah * 16 + datal);
         s_data.sum_calc += data;
         ltmp = data;
+        break;
     case 2:     // 6バイトアドレス
     case 8:
         datah =ascii2char(*ptr++);
@@ -974,6 +975,7 @@ short s_read(char *ptr) {
         data = (unsigned char)(datah * 16 + datal);
         s_data.sum_calc += data;
         ltmp = ltmp * 256UL + data;
+        break;
     case 0:     // 4バイトアドレス
     case 1:
     case 9:

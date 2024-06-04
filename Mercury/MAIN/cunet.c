@@ -56,11 +56,8 @@ void	mky43_del_message(unsigned short len, unsigned short offset, short com_mode
 /*	モジュール外定義関数								*/
 /********************************************************/
 extern short	disp_cunet_read(void);
-extern void protocol_host(void);
 extern void	protocol_timer_host(unsigned short value);
 extern void protocol_timer_subhost(void);
-extern void delay(unsigned short delay_count);
-extern void	cpu_reinit_cunet(void);
 extern short	util_passed_time(unsigned long basic_time, unsigned long target_time);
 extern void	util_delay(short target_time);
 
