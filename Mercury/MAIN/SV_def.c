@@ -110,9 +110,9 @@ stSVD SVD_default={
 		2,    //差分相関間隔
 		0,    //固定値設定
 		0,    //Wiper Position(ゲイン値)
-		0,    //FIFO CH
+		22,    //FIFO CH
 		0,    //Leading Position
-		30,    //Zero Cross Start point
+		23,    //Zero Cross Start point
 		12,    //Zero Cross Use Number
 		{0,0,0,0,0,0,0},	//ゼロクロスゼロ点オフセット
 		0,		//波形認識ピーク位置
