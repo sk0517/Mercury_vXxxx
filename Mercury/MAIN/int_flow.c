@@ -543,21 +543,11 @@ void	dma_start(short *read_add){
 
 }
 void	us_dma_start(short *read_add){
-
-//	unsigned short TmpBuf[200];
-//	short i;
-
 	uDMAChannelTransferSet(UDMA_CHANNEL_SW | UDMA_PRI_SELECT, UDMA_MODE_AUTO, (void*)&FIFO, read_add, 240);	// DMA 転送開始
 
 	uDMAChannelEnable(UDMA_CHANNEL_SW);
 	uDMAChannelRequest(UDMA_CHANNEL_SW);	// DMA 転送開始 
 	while(uDMAChannelModeGet(UDMA_CHANNEL_SW) != UDMA_MODE_STOP);	//転送待ち
-
-	//for(i=0; i<200; i++){
-	//	*(read_add + i) = (short)(TmpBuf[i] >> 2);
-        // *(read_add + i) = (short)(TmpBuf[i]);
-	//}
-
 }
 
 /****************************************************/
@@ -829,21 +819,6 @@ short fifo_search(short pch, short search_ch){
 	return (ret);
 }
 
-short GetMinWaveValue(short* data, short* StartPos)
-{
-	short i = *StartPos;
-	short MinValue = 0;
-	for(i = *StartPos; i < 250; i++){
-		if(data[i - 1] > data[i] && data[i] <= data[i + 1])
-		{
-			MinValue = data[i];
-			break;
-		}
-	}
-	*StartPos = i;
-	return MinValue;
-}
-
 /****************************************************/
 /* Function : get_vth2                     */
 /* Summary  : Vthの取得        */
@@ -853,29 +828,6 @@ short GetMinWaveValue(short* data, short* StartPos)
 /* note     : なし                                 */
 /****************************************************/
 short get_vth2(short data[], short vth){
-#if 0
-	short i = 0;
-	short VthPos = 0;
-	unsigned short VthVal = (unsigned short)((long)AD_MAX * vth / 100);
-	short min1 = 0;
-	short min2 = 0;
-
-	for(i = 0; i < 300; i++)
-	{
-		if(data[i] < VthVal)
-		{
-			break;
-		}
-	}
-	VthPos = i;
-	if(VthPos < 12)
-	{
-		VthPos = 12;
-	}
-
-	min1 = GetMinWaveValue(&data[0], &VthPos);
-	min2 = GetMinWaveValue(&data[0], &VthPos);
-#else
 	unsigned short wave_level;
 	short ptr, cross_ptr;
 	short min1, min2;
@@ -922,7 +874,6 @@ short get_vth2(short data[], short vth){
 		}
 	}
 	min2 = data[ptr];
-#endif
 	return (min1 + min2);
 }
 /*******************************************
@@ -1297,134 +1248,6 @@ void SchMinPek(short pch, short *WavPtr, short *OutVal, short *OutPos)
 		}
 	}
 }
-
-// void SchMaxPek(short pch, short *WavPtr, short *OutVal, short *OutPos, short ZerRng0, short ZerRng1)
-// {
-// 	short TmpIdx, TmpMax, i;
-// 	short MaxPekCnt = 0;
-// 	short FndFlg = -1;
-// 	short DatM1, Dat0, DatP1;
-// 	//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
-// 	short SkpPnt = 13; //Skip Point (デフォルトで13.54)
-
-// 	//1点目はゼロクロス点の間をちゃんと探す
-// 	TmpMax = AD_BASE;
-// 	TmpIdx = 0;
-// 	for(i = ZerRng0; i < ZerRng1; i++)
-// 	{
-// 		Dat0 = WavPtr[i];
-// 		if(Dat0 > TmpMax)
-// 		{
-// 			TmpMax = Dat0;
-// 			TmpIdx = i;
-// 		}
-// 	}
-// 	OutVal[0] = TmpMax;
-// 	OutPos[0] = TmpIdx;
-// 	//2点目以降は周期から雑に探す
-// 	i = TmpIdx + SkpPnt;
-// 	MaxPekCnt = 1;
-// 	FndFlg = -1;
-// 	while(i < 210)
-// 	{
-// 		DatM1 = *(WavPtr + i - 1);
-// 		Dat0 = *(WavPtr + i);
-// 		DatP1 = *(WavPtr + i + 1);
-// 		//極大値
-// 		if(MaxPekCnt < WAV_PEK_NUM)
-// 		{
-// 			if(DatM1 < Dat0)
-// 			{
-// 				if(Dat0 >= DatP1)
-// 				{
-// 					OutVal[MaxPekCnt] = Dat0;
-// 					OutPos[MaxPekCnt] = i;
-// 					MaxPekCnt++;
-// 					FndFlg = 1;
-// 				}
-// 			}
-// 		}
-// 		else
-// 		{
-// 			break;
-// 		}
-		
-// 		//見つかっていればループ短縮のためにiを飛ばす
-// 		if(FndFlg == 1)
-// 		{
-// 			i += SkpPnt;
-// 			FndFlg = 0;
-// 		}
-// 		else
-// 		{
-// 			i++;
-// 		}
-// 	}
-// }
-
-// void SchMinPek(short pch, short *WavPtr, short *OutVal, short *OutPos, short ZerRng0, short ZerRng1)
-// {
-// 	short TmpIdx, TmpMin, i;
-// 	short MinPekCnt = 0;
-// 	short FndFlg = -1;
-// 	short DatM1, Dat0, DatP1;
-// 	//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
-// 	short SkpPnt = 13; //Skip Point (デフォルトで13.54)
-
-// 	//1点目はゼロクロス点の間をちゃんと探す
-// 	TmpMin = AD_BASE;
-// 	TmpIdx = 0;
-// 	for(i = ZerRng0; i < ZerRng1; i++)
-// 	{
-// 		Dat0 = WavPtr[i];
-// 		if(Dat0 < TmpMin)
-// 		{
-// 			TmpMin = Dat0;
-// 			TmpIdx = i;
-// 		}
-// 	}
-// 	OutVal[0] = TmpMin;
-// 	OutPos[0] = TmpIdx;
-// 	//2点目以降は周期から雑に探す
-// 	i = TmpIdx + SkpPnt;
-// 	MinPekCnt = 1;
-// 	FndFlg = -1;
-// 	while(i < 210)
-// 	{
-// 		DatM1 = *(WavPtr + i - 1);
-// 		Dat0 = *(WavPtr + i);
-// 		DatP1 = *(WavPtr + i + 1);
-// 		//極小値
-// 		if(MinPekCnt < WAV_PEK_NUM)
-// 		{
-// 			if(DatM1 > Dat0)
-// 			{
-// 				if(Dat0 <= DatP1)
-// 				{
-// 					OutVal[MinPekCnt] = Dat0;
-// 					OutPos[MinPekCnt] = i;
-// 					MinPekCnt++;
-// 					FndFlg = 1;
-// 				}
-// 			}
-// 		}
-// 		else
-// 		{
-// 			break;
-// 		}
-		
-// 		//見つかっていればループ短縮のためにiを飛ばす
-// 		if(FndFlg == 1)
-// 		{
-// 			i += SkpPnt;
-// 			FndFlg = 0;
-// 		}
-// 		else
-// 		{
-// 			i++;
-// 		}
-// 	}
-// }
 
 /*******************************************
  * Function : GetFwdAnyPnt (Get Foward Any Point)
@@ -1956,19 +1779,6 @@ void fifo_read(short pch)
 			MES[pch].RevWavPekPosLst[RevPekCnt] = i;
 			RevPekCnt++;
 		}
-
-		// /*波形認識閾値付近のピーク位置を検索(ゼロ点調整時のみ実施する)*/
-		// if(MES[pch].ThresholdPeakPos != 0 && MES_SUB[pch].zc_peak_req == 1 && MES[pch].zc_peak == 0){  /*波形認識閾値の未設定(ゼロ点調整未実施)*/
-		// 	/*signal_count-50位置のﾏｲﾅｽ半周期～プラス半周期のピークを探す*/
-		// 	if((50 - (SelMult[SVD[pch].adc_clock] / 2)) <= i && i <= (50 + (SelMult[SVD[pch].adc_clock] / 2)))
-		// 	{
-		// 		if(*(RevWav + i) < work_old){
-		// 			MES[pch].zc_peak = i - 1;  /*1つ前がピーク*/
-		// 		}else{
-		// 			work_old = *(RevWav + i);
-		// 		}
-		// 	}
-		// }
 	}
 	if(MES[pch].ThresholdPeakPos != 0 && MES_SUB[pch].zc_peak_req == 1 && MES[pch].zc_peak == 0 && MES[pch].zc_peak_UpdateFlg != 0)
 	{
@@ -2508,19 +2318,6 @@ void SchZerPnt(short pch)
 
 	SmpTdt = (float)SmpTs[SVD[pch].adc_clock] / 100000;
 
-	/*ゼロ点(中心線2047)を通過する前2点、後2点を保持する*/
-	// if(MES[pch].ThresholdPeakPos == 0){  /*波形認識閾値の未設定(ゼロ点調整未実施)*/
-	// 	;		//ゼロクロス探索開始位置は[12]番目から
-	// }else{		/*波形認識閾値の設定(ゼロ点調整実施)*/
-	// 	// zc_start = MES[pch].zc_peak - SelMult[SVD[pch].adc_clock];  //ゼロクロス探索開始位置 (波形認識閾値付近のピーク位置の1周期前から開始する) 
-	// 	zc_start = MES[pch].zc_peak - SelMult[SVD[pch].adc_clock] * 10 / 6 / 8;
-	// 	if(zc_start < 12){
-	// 		;	//ゼロクロス探索開始位置は[12]番目から
-	// 	}else{
-	// 		TmpFowDat = (short *)(&MES[pch].fow_data[zc_start]);//ゼロクロス探索開始位置は[zc_start]番目から
-	// 		TmpRevDat = (short *)(&MES[pch].rev_data[zc_start]);
-	// 	}
-	// }
 	zc_start = MES[pch].zc_peak;
 	TmpFowDat = (short *)(&MES[pch].fow_data[0]);//ゼロクロス探索開始位置は[zc_start]番目から
 	TmpRevDat = (short *)(&MES[pch].rev_data[0]);
@@ -2532,10 +2329,6 @@ void SchZerPnt(short pch)
 		// TmpRevDat++;
 		if(
 			(i > 12) && (
-				// ((rev_before < AD_BASE) && (AD_BASE <= *(TmpRevDat + i)))
-				// || ((rev_before <= AD_BASE) && (AD_BASE < *(TmpRevDat + i)))
-				// || ((AD_BASE < rev_before) && (*(TmpRevDat + i) <= AD_BASE))
-				// || ((AD_BASE <= rev_before) && (*(TmpRevDat + i) < AD_BASE))
 				((rev_before < AD_BASE) && (AD_BASE <= *(TmpRevDat + i)))
 				|| ((AD_BASE < rev_before) && (*(TmpRevDat + i) <= AD_BASE))
 				)
@@ -2561,10 +2354,6 @@ void SchZerPnt(short pch)
 		// TmpFowDat++;
 		if(
 			(i > 12) && (
-				// ((fow_before < AD_BASE) && (AD_BASE <= *(TmpFowDat + i)))
-				// || ((fow_before <= AD_BASE) && (AD_BASE < *(TmpFowDat + i)))
-				// || ((AD_BASE < fow_before) && (*(TmpFowDat + i) <= AD_BASE))
-				// || ((AD_BASE <= fow_before) && (*(TmpFowDat + i) < AD_BASE))
 				((fow_before < AD_BASE) && (AD_BASE <= *(TmpFowDat + i)))
 				|| ((AD_BASE < fow_before) && (*(TmpFowDat + i) <= AD_BASE))
 				)
