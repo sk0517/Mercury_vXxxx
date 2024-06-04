@@ -1303,6 +1303,88 @@ void GetRevAnyPnt(short pch)
 }
 
 /*******************************************
+ * Function : SearchZerPeakPos
+ * Summary  : ZerPeakPosを探す
+ * Argument : pch : チャンネル番号
+ *            StartPos : 探索開始点
+ *            EndPos : 探索終了点
+ * Return   : zerPeakPos
+ * Caution  : None
+ * Note     : 
+ * *****************************************/
+short SearchZerPeakPos(short pch, short StartPos, short EndPos)
+{
+//指定範囲内の極大値を探すver
+#if 0
+	short i;
+	short zerPeakPos = 0;
+	for(i = 0; i < WAV_PEK_NUM)
+	{
+		if(
+			(StartPos <= MES[pch].FwdWavMaxPekPosLst[i]) 
+			&& (MES[pch].FwdWavMaxPekPosLst[i] < EndPos)
+		)
+		{
+			zerPeakPos = MES[pch].FwdWavMaxPekValLst[i];
+			break;
+		}
+	}
+//指定範囲内の極値を探すver
+#elif 0
+	short i;
+	short zerPeakPos = 0;
+	short PeakVal[2 * WAV_PEK_NUM];
+	short PeakPos[2 * WAV_PEK_NUM];
+
+	//極大極小混合リスト作成
+	for(i = 0; i < WAV_PEK_NUM; i++)
+	{
+		if(MES[pch].FwdWavMaxPekPosLst[i] < MES[pch].FwdWavMinPekPosLst[i])
+		{
+			PeakPos[2 * i + 0] = MES[pch].FwdWavMaxPekPosLst[i];
+			PeakVal[2 * i + 0] = MES[pch].FwdWavMaxPekValLst[i];
+			PeakPos[2 * i + 1] = MES[pch].FwdWavMinPekPosLst[i];
+			PeakVal[2 * i + 1] = MES[pch].FwdWavMinPekValLst[i];
+		}
+		else
+		{
+			PeakVal[2 * i + 0] = MES[pch].FwdWavMinPekValLst[i];
+			PeakPos[2 * i + 0] = MES[pch].FwdWavMinPekPosLst[i];
+			PeakVal[2 * i + 1] = MES[pch].FwdWavMaxPekValLst[i];
+			PeakPos[2 * i + 1] = MES[pch].FwdWavMaxPekPosLst[i];
+		}
+	}
+
+	for(i = 0; i < WAV_PEK_NUM)
+	{
+		if(
+			(StartPos <= PeakPos[i]) 
+			&& (PeakPos[i] < EndPos)
+		)
+		{
+			zerPeakPos = PeakVal[i];
+			break;
+		}
+	}
+#else
+	short j;
+	short TrshldVal = 0;
+	short TrshldPos = 0;
+	short zerPeakPos;
+	for(j = 0; j < WAV_PEK_NUM; j++){
+		if(TrshldVal < MES[pch].RevWavMaxPekValLst[j])
+		{
+			TrshldVal = MES[pch].RevWavMaxPekValLst[j];
+			TrshldPos = j;
+		}
+	}
+	TrshldPos--;
+	zerPeakPos = MES[pch].RevWavMaxPekPosLst[TrshldPos];
+#endif
+	return zerPeakPos;
+}
+
+/*******************************************
  * Function : SchMaxMinPnt (Search Max Min Point)
  * Summary  : 最大/最小値を検索する
  * Argument : pch : チャンネル番号
@@ -1362,16 +1444,8 @@ void SchMaxMinPnt(short pch)
 	//ゼロ調整未実施の場合
 	if(ZerAdjYetFlg != 0)
 	{
-		TrshldVal = 0;
-		for(j = 0; j < WAV_PEK_NUM; j++){
-			if(TrshldVal < MES[pch].RevWavMaxPekValLst[j])
-			{
-				TrshldVal = MES[pch].RevWavMaxPekValLst[j];
-				TrshldPos = j;
-			}
-		}
-		TrshldPos--;
-		SVD[pch].ZerPeakPos = MES[pch].RevWavMaxPekPosLst[TrshldPos];
+		//0~250の間でZerPeakPosを探す
+		SVD[pch].ZerPeakPos = SearchZerPeakPos(pch, 0, 250);
 
 		SVD[pch].ZerCrsSttPnt = SVD[pch].ZerPeakPos;		//波形認識ピーク位置(ゼロクロス計算開始位置用)のEEPROM保存
 		eep_write_ch_delay(pch, (short)(&SVD[pch].ZerPeakPos - &SVD[pch].max_flow), SVD[pch].ZerPeakPos);
