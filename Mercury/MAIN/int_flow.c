@@ -3792,6 +3792,7 @@ void LLmode_kind(short vis, short pch){
 
 	short i;
 	short point;
+	short SensorSize = SVD[pch].sensor_size;
 
 	point = (short)(SVD[pch].uslnr_num >> 8) & 0x00FF;	/*リニアライズ点数取得*/
 	
@@ -3800,8 +3801,8 @@ void LLmode_kind(short vis, short pch){
 	for(i = 0; i < LL_NUM; i++){
 		if(	
 			(LL_TBL[i].Vis == vis) &&
-			(LL_TBL[i].SensorSize == SVD[pch].sensor_size) &&
-			(LL_TBL[i].MaxFlow == SVD[pch].max_flow) &&
+			(SensorSize == 3 || SensorSize == 4) &&
+			(LL_TBL[i].MaxFlow[SensorSize] == SVD[pch].max_flow) &&
 			(LL_TBL[i].LinerPnt == point)
 			){
 			SVD[pch].LL_kind = i;
