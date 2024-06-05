@@ -439,30 +439,129 @@ const KV_TBL AUTO_COEFF_3_8[]={
 		{4001,-192,124,429,700,905,1007,959,706,0,0,0,0,0,0,0,0,0,0,0,0,0}
 };
 
-/********************************************************************************/
-/*			薬液リニアライズモードテーブル				*/
-/* 	前半：判定項目（動粘度,センサ種類,フルスケール,リニアライズ点数）	*/
-/* 	後半：薬液毎の補正量（mL/min 10倍データ）				*/
-/********************************************************************************/
-const struct {
-	short dat[19];
-}LL_TBL[]={
-		/* 0: None(DIW) */
-		{100, SNS_TYPE_1_4, 300, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 1: OK73*/
-		{84, SNS_TYPE_1_4, 300, 5, 20, 30, 20, 35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 2: ONNR20*/
-		{167, SNS_TYPE_1_4, 300, 5, 0, -40, -130, -190, -210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 3: IPA*/
-		{90, SNS_TYPE_1_4, 300, 5, 23, 28, 1, -3, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 4: Butyl Acetate*/
-		{30, SNS_TYPE_1_4, 300, 5, 40, 100, 170, 240, 280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 5: EL*/
-		{260, SNS_TYPE_1_4, 300, 5, -5, -39, -119, -184, -243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 6: LA95*/
-		{160, SNS_TYPE_1_4, 300, 5, -6, -29, -61, -82, -94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 7: PM*/
-		{40, SNS_TYPE_1_4, 300, 5, 39, 84, 144, 184, 205, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+/********************************************************************************
+ *			薬液リニアライズモードテーブル
+ * 判定項目
+ * 00 : 動粘度
+ * 01 : センサ種類
+ * 02 : フルスケール
+ * 03 : リニアライズ点数
+ * 04-07 : FIFO CH (センサ4種類に対応)
+ * 08-11 : ゼロクロス点検索開始位置(波形の極大値となるように実測, センサ4種類に対応)
+ * 12-26 : リニアライズ設定値（mL/min 10倍データ）
+ ********************************************************************************/
+// const struct {
+// 	short dat[19];
+// }LL_TBL[]={
+// 		/* 0: None(DIW) */
+// 		{100, SNS_TYPE_1_4, 300, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 1: OK73*/
+// 		{84, SNS_TYPE_1_4, 300, 5, 20, 30, 20, 35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 2: ONNR20*/
+// 		{167, SNS_TYPE_1_4, 300, 5, 0, -40, -130, -190, -210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 3: IPA*/
+// 		{90, SNS_TYPE_1_4, 300, 5, 23, 28, 1, -3, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 4: Butyl Acetate*/
+// 		{30, SNS_TYPE_1_4, 300, 5, 40, 100, 170, 240, 280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 5: EL*/
+// 		{260, SNS_TYPE_1_4, 300, 5, -5, -39, -119, -184, -243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 6: LA95*/
+// 		{160, SNS_TYPE_1_4, 300, 5, -6, -29, -61, -82, -94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 7: PM*/
+// 		{40, SNS_TYPE_1_4, 300, 5, 39, 84, 144, 184, 205, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+// };
+struct strLLModeInfo
+{
+	short Vis;
+	short SensorSize;
+	short MaxFlow;
+	short LinerPnt;
+	short FifoCh[SNS_KIND];
+	short ZerPeakPos[SNS_KIND];
+	short LinerData[15];
+};
+const struct strLLModeInfo LL_TBL[] =
+{
+	/* 0: None(DIW) */
+	{
+		100, 
+		SNS_TYPE_1_4, 
+		300, 
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 1: OK73*/
+	{
+		84, 
+		SNS_TYPE_1_4, 
+		300, 
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		20, 30, 20, 35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 2: ONNR20*/
+	{
+		167, 
+		SNS_TYPE_1_4, 
+		300, 
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		0, -40, -130, -190, -210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 3: IPA*/
+	{
+		90, 
+		SNS_TYPE_1_4, 
+		300, 
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		23, 28, 1, -3, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 4: Butyl Acetate*/
+	{
+		30, 
+		SNS_TYPE_1_4, 
+		300, 
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		40, 100, 170, 240, 280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 5: EL*/
+	{
+		260, 
+		SNS_TYPE_1_4, 
+		300, 
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		-5, -39, -119, -184, -243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 6: LA95*/
+	{
+		160, 
+		SNS_TYPE_1_4, 
+		300, 
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		-6, -29, -61, -82, -94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 7: PM*/
+	{
+		40, 
+		SNS_TYPE_1_4, 
+		300, 
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		39, 84, 144, 184, 205, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
 };
 
 /****************************************************/
@@ -3255,6 +3354,8 @@ void	make_viscos_tbl(short pch){
 	short ratio;
 	long work;
 	short swork;
+	short iNum;
+	short DataNum;
 
 	KV_TBL *tbl;
 
@@ -3263,7 +3364,7 @@ void	make_viscos_tbl(short pch){
 		if(SVD[pch].LL_enable == 1 && SVD[pch].LL_kind != 0){
 			MES[pch].viscos_val = 100;
 		}else{
-			MES[pch].viscos_val = SVD[pch].viscos;/*水の動粘度(0.891)*/
+			MES[pch].viscos_val = SVD[pch].viscos;/*設定動粘度*/
 		}
 	}else{								/*動粘度の演算（水）*/
 		/*動粘度cp = 12.069 - 0.00746 * V0(音速m/sec)*/
@@ -3292,19 +3393,36 @@ void	make_viscos_tbl(short pch){
 			break;
 	}
 
-	for (i=0; i<21; i++){/*動粘度テーブルを探す*/
+	iNum = sizeof(tbl) / sizeof(KV_TBL);
+	for (i=0; i<iNum; i++){/*動粘度テーブルを探す*/
 		if ( MES[pch].viscos_val < tbl[i].viscos){
 			no = i;
 			break;
 		}
 	}
 	/*no-1 と　no の間を補間 */
+	DataNum = sizeof(tbl[0].dat) / sizeof(short);
 	ratio = (short)((long)(MES[pch].viscos_val - tbl[no-1].viscos) * 1000 / (tbl[no].viscos - tbl[no-1].viscos));
-	for (i=0; i<21; i++){
+	for (i=0; i<DataNum; i++){
 		swork = (short)((long)(tbl[no].dat[i] - tbl[no-1].dat[i]) * ratio / 1000 + tbl[no-1].dat[i]);
 		MES[pch].viscos_table[i] = (short)((long)100000000 / (swork + 10000));
 		/*10000 = 1倍*/
 	}
+}
+
+float CalcLinerCorrection(long x0, long x1, long y0, long y1, float x)
+{
+	float xf0 = (float)x0;
+	float xf1 = (float)x1;
+	float yf0 = (float)y0;
+	float yf1 = (float)y1;
+	float y = yf0;
+	//分母=0になる場合は計算しない
+	if(x0 != x1)
+	{
+		y = (x - xf0) * (yf1 - yf0) / (xf1 - xf0) + yf0;
+	}
+	return y;
 }
 
 /****************************************************/
@@ -3316,7 +3434,53 @@ void	make_viscos_tbl(short pch){
 /* notes    : 動粘度により流速を補正する                  */
 /****************************************************/
 long	auto_linear(long viscos, short pch){
+#if 1
+	short i,no;
+	short ratio;
+	short malt;
+	long work,ret;
+	short SignFlg;
+	long x0, x1, y0, y1;
+	float x, y;
+	
+	work = viscos;
+	
+	/*** 一時的に流速を絶対値へ変更 ***/
+	if(work < 0){
+		SignFlg = 1;
+		work = work * -1;
+	}else{
+		SignFlg = 0;
+	}
 
+	for (i=0; i < 21; i++){				/*リ二アポイント数*/
+		if ( work >= flow_vel_tbl[i]*10){		/*第一折線からｎ折線まで*/
+			break;
+		}
+	}
+	no = i;
+	if(no < 1)
+	{
+		no = 1;
+	}
+	else if(20 < no)
+	{
+		no = 20;
+	}
+	x = (float)work;
+	x0 = flow_vel_tbl[no - 1] * 10;
+	x1 = flow_vel_tbl[no - 0] * 10;
+	y0 = (long)MES[pch].viscos_table[no - 1];
+	y1 = (long)MES[pch].viscos_table[no - 0];
+	malt = (short)CalcLinerCorrection(x0, x1, y0, y1, x);
+
+	ret = work * malt / 10000;
+
+	/*** 符号判定 ***/
+	if(SignFlg != 0){
+		ret = ret * -1;				/* 流速が負の値だった場合、真値へ戻す */
+	}
+#else
 	short i,no;
 	short ratio;
 	short malt;
@@ -3358,7 +3522,7 @@ long	auto_linear(long viscos, short pch){
 	if(SignFlg != 0){
 		ret = ret * -1;				/* 流速が負の値だった場合、真値へ戻す */
 	}
-	
+#endif
 	return ret;
 }
 
@@ -3507,7 +3671,7 @@ long ClcChmLnr(long work, short point, short pch)
 	// work *= FlwMgn; //入力が0.1mL/minの場合
 	x_val0 = x_ptr[0] * FlwMgn;
 	y_val0 = y_ptr[0] * FlwMgn;
-	tbl_val0 = LL_TBL[SVD[pch].LL_kind].dat[LL_POINT1] * FlwMgn;
+	tbl_val0 = LL_TBL[SVD[pch].LL_kind].LinerData[0] * FlwMgn;
 
 	/*原点(0,0)から第1折線までの補正処理*/
 	if(work < y_val0){
@@ -3521,8 +3685,8 @@ long ClcChmLnr(long work, short point, short pch)
 		x_val1 = x_ptr[i + 1] * FlwMgn;
 		y_val0 = y_ptr[i + 0] * FlwMgn;
 		y_val1 = y_ptr[i + 1] * FlwMgn;
-		tbl_val0 = LL_TBL[SVD[pch].LL_kind].dat[LL_POINT1 + (i + 0)] * FlwMgn;
-		tbl_val1 = LL_TBL[SVD[pch].LL_kind].dat[LL_POINT1 + (i + 1)] * FlwMgn;
+		tbl_val0 = LL_TBL[SVD[pch].LL_kind].LinerData[(i + 0)] * FlwMgn;
+		tbl_val1 = LL_TBL[SVD[pch].LL_kind].LinerData[(i + 1)] * FlwMgn;
 
 		if((work <= y_val1)
 			&& (work >= y_val0)){
@@ -3541,8 +3705,8 @@ long ClcChmLnr(long work, short point, short pch)
 		x_val1 = x_ptr[i + 1] * FlwMgn;
 		y_val0 = y_ptr[i + 0] * FlwMgn;
 		y_val1 = y_ptr[i + 1] * FlwMgn;
-		tbl_val0 = LL_TBL[SVD[pch].LL_kind].dat[LL_POINT1 + (i + 0)] * FlwMgn;
-		tbl_val1 = LL_TBL[SVD[pch].LL_kind].dat[LL_POINT1 + (i + 1)] * FlwMgn;
+		tbl_val0 = LL_TBL[SVD[pch].LL_kind].LinerData[(i + 0)] * FlwMgn;
+		tbl_val1 = LL_TBL[SVD[pch].LL_kind].LinerData[(i + 1)] * FlwMgn;
 
 		x_ptr_LL1 = x_val1 + tbl_val1;
 		x_ptr_LL0 = x_val0 + tbl_val0;
@@ -3550,7 +3714,6 @@ long ClcChmLnr(long work, short point, short pch)
 			* ((float)(x_ptr_LL1 - x_ptr_LL0) / (float)(y_val1 - y_val0))
 			+ x_ptr_LL0;
 	}
-
 	return out_flow;
 }
 
@@ -3635,10 +3798,12 @@ void LLmode_kind(short vis, short pch){
 	SVD[pch].LL_kind = 0;
 	//一致条件検索：ない場合は0設定に
 	for(i = 0; i < LL_NUM; i++){
-		if(	(LL_TBL[i].dat[LL_KV] == vis) &&
-			(LL_TBL[i].dat[LL_SS] == SVD[pch].sensor_size) &&
-			(LL_TBL[i].dat[LL_FS] == SVD[pch].max_flow) &&
-			(LL_TBL[i].dat[LL_LP] == point)){
+		if(	
+			(LL_TBL[i].Vis == vis) &&
+			(LL_TBL[i].SensorSize == SVD[pch].sensor_size) &&
+			(LL_TBL[i].MaxFlow == SVD[pch].max_flow) &&
+			(LL_TBL[i].LinerPnt == point)
+			){
 			SVD[pch].LL_kind = i;
 		}
 	}
@@ -5523,6 +5688,8 @@ void SelectReverseOff(short pch){
 	}
 }
 
+short iNum = 0;
+short DataNum = 0;
 /****************************************************/
 /* Function : int_flow								*/
 /* Summary  : 流量計測処理							*/
