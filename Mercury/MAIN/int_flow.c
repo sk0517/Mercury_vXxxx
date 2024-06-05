@@ -444,7 +444,7 @@ const KV_TBL AUTO_COEFF_3_8[]={
  * 判定項目
  * 00 : 動粘度
  * 01 : センサ種類
- * 02 : フルスケール
+ * 02 : フルスケール(センサ4種類に対応)
  * 03 : リニアライズ点数
  * 04-07 : FIFO CH (センサ4種類に対応)
  * 08-11 : ゼロクロス点検索開始位置(波形の極大値となるように実測, センサ4種類に対応)
@@ -474,7 +474,7 @@ struct strLLModeInfo
 {
 	short Vis;
 	short SensorSize;
-	short MaxFlow;
+	short MaxFlow[SNS_KIND];
 	short LinerPnt;
 	short FifoCh[SNS_KIND];
 	short ZerPeakPos[SNS_KIND];
@@ -486,7 +486,7 @@ const struct strLLModeInfo LL_TBL[] =
 	{
 		100, 
 		SNS_TYPE_1_4, 
-		300, 
+		300, 300, 300, 4000,
 		5, 
 		22, 22, 22, 22, 
 		23, 23, 23, 23,
@@ -496,7 +496,7 @@ const struct strLLModeInfo LL_TBL[] =
 	{
 		84, 
 		SNS_TYPE_1_4, 
-		300, 
+		300, 300, 300, 4000,
 		5, 
 		22, 22, 22, 22, 
 		23, 23, 23, 23,
@@ -506,7 +506,7 @@ const struct strLLModeInfo LL_TBL[] =
 	{
 		167, 
 		SNS_TYPE_1_4, 
-		300, 
+		300,  300, 300, 4000,
 		5, 
 		22, 22, 22, 22, 
 		23, 23, 23, 23,
@@ -516,7 +516,7 @@ const struct strLLModeInfo LL_TBL[] =
 	{
 		90, 
 		SNS_TYPE_1_4, 
-		300, 
+		300,  300, 300, 4000,
 		5, 
 		22, 22, 22, 22, 
 		23, 23, 23, 23,
@@ -526,7 +526,7 @@ const struct strLLModeInfo LL_TBL[] =
 	{
 		30, 
 		SNS_TYPE_1_4, 
-		300, 
+		300,  300, 300, 4000,
 		5, 
 		22, 22, 22, 22, 
 		23, 23, 23, 23,
@@ -536,7 +536,7 @@ const struct strLLModeInfo LL_TBL[] =
 	{
 		260, 
 		SNS_TYPE_1_4, 
-		300, 
+		300,  300, 300, 4000,
 		5, 
 		22, 22, 22, 22, 
 		23, 23, 23, 23,
@@ -546,7 +546,7 @@ const struct strLLModeInfo LL_TBL[] =
 	{
 		160, 
 		SNS_TYPE_1_4, 
-		300, 
+		300,  300, 300, 4000,
 		5, 
 		22, 22, 22, 22, 
 		23, 23, 23, 23,
@@ -556,7 +556,7 @@ const struct strLLModeInfo LL_TBL[] =
 	{
 		40, 
 		SNS_TYPE_1_4, 
-		300, 
+		300,  300, 300, 4000,
 		5, 
 		22, 22, 22, 22, 
 		23, 23, 23, 23,
