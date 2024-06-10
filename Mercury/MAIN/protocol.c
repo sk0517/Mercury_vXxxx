@@ -334,6 +334,55 @@ FUNCEND:
 	
 }
 
+short JudgeCharRange(char c){
+    short Flg = 0;
+    if(('0' <= c) && (c <= '9')){
+        Flg = 1;
+    }
+    else if(('A' <= c) && (c <= 'F')){
+        Flg = 2;
+    }
+    else {
+        Flg = -1;
+    }
+    return Flg;
+}
+short ConvertCharToSome(short com_mode, char* cBuf, short Magnif)
+{
+    short Flg = 0;
+    short i;
+    short Len = strlen(cBuf);
+    long long TmpVal = 0;
+
+    value[com_mode] = 0;
+    for(i = 0; i < Len; i++){
+        value[com_mode] *= Magnif;
+        if(JudgeCharRange(cBuf[i]) == 1)
+        {
+            TmpVal = cBuf[i] - 0x30;
+        }
+        else if(JudgeCharRange(cBuf[i]) == 2)
+        {
+            TmpVal = cBuf[i] - 0x37;
+        }
+        else{
+            Flg = -1;
+        }
+        value[com_mode] += TmpVal;
+    }
+    return Flg;
+}
+short ConvertCharToHex(short com_mode, char* cBuf)
+{
+    short Flg = ConvertCharToSome(com_mode, cBuf, 16);
+    return Flg;
+}
+short ConvertCharToLong(short com_mode, char* cBuf)
+{
+    short Flg = ConvertCharToSome(com_mode, cBuf, 10);
+    return Flg;
+}
+
 #ifdef MEMDBG
 //Debug
 /*******************************************
@@ -352,6 +401,29 @@ FUNCEND:
  * *****************************************/
 void value_judge_Hex(short com_mode, short sPos, short pow)
 {	
+#if 1
+	short i;
+	char OutBuf[20];
+	short Len;
+
+	//バッファ初期化
+	memset(OutBuf, 0, sizeof(OutBuf));
+
+	//RX_bufから文字列を取り出す(文字長はsize[], 小数点以下サイズはdegit_check[]に格納)
+	GetInputBuf(com_mode, RX_buf[com_mode], OutBuf, sPos);
+
+	//小数点以下桁数を合わせる
+	Len = strlen(OutBuf);
+	for(i = 0; i < pow - digit_check[com_mode]; i++)
+	{
+		OutBuf[Len + i] = '0';
+	}
+
+	//文字列を数値に変換(value <- OutBuf)
+	ConvertCharToHex(com_mode, OutBuf);
+
+	i_num[com_mode] = sPos + size[com_mode];
+#else
 	short j;
 	char input[20] ={0};			// 入力値判定用
 	short Pos = sPos;
@@ -385,6 +457,7 @@ void value_judge_Hex(short com_mode, short sPos, short pow)
 FUNCEND:
 	i_num[com_mode] = sPos + size[com_mode];
 	memset(input, 0, sizeof(input));//判定用配列 初期化
+#endif
 }
 #endif
 
