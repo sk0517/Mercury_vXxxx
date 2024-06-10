@@ -953,6 +953,113 @@ short NowZerAdj(short pch)
 	return Flg;
 }
 
+/*******************************************
+ * Function : GetIntegSize
+ * Summary  : 整数部の桁数を取得する
+ * Argument : Integ : input
+ * Return   : 桁数
+ * Caution  : None
+ * Note     : 
+ * *****************************************/
+short GetIntegSize(short Integ){
+    short i;
+    for(i = 0; i < 5; i++){
+        if(Integ < 10){
+            break;
+        }
+        Integ /= 10;
+    }
+    return i + 1; //N桁
+}
+
+/*******************************************
+ * Function : CopyIntegToBuff
+ * Summary  : 整数部をバッファに格納する
+ * Argument : Integ : input
+ *            IntegSize : 整数部桁数
+ *            *Buf : output
+ * Return   : void
+ * Caution  : None
+ * Note     : 
+ * *****************************************/
+void CopyIntegToBuff(char* Buf, short Integ, short IntegSize)
+{
+    short i;
+    // printf("%2d\n", IntegSize);
+    for(i = IntegSize - 1; i >= 0; i--)
+    {
+        Buf[i] = Integ % 10 + 0x30;
+        Integ /= 10;
+    }
+}
+
+/*******************************************
+ * Function : CopyDecmlToBuff
+ * Summary  : 小数部をバッファに格納する
+ * Argument : Decml : input
+ *            DecmlSize : 小数点以下桁数
+ *            *Buf : output
+ * Return   : void
+ * Caution  : None
+ * Note     : 
+ * *****************************************/
+void CopyDecmlToBuff(char* Buf, float Decml, short DecmlSize)
+{
+    short i;
+    long long MagnfSize = 10000000;
+    long long Magnf = Decml * MagnfSize;
+
+    for(i = 0; (i < 7) && (i < DecmlSize); i++){
+        MagnfSize /= 10;
+        Buf[i] = Magnf / MagnfSize + 0x30;
+        Magnf = Magnf % MagnfSize;
+    }
+}
+
+/*******************************************
+ * Function : CopyFloatToChar
+ * Summary  : float変数をchar[]にasciiとして格納する
+ * Argument : fVal : input
+ *            *Buf : output
+ * Return   : void
+ * Caution  : None
+ * Note     : floatの小数点以下は約7桁
+ *          : sprintfでのfloatからの変換はスタック消費量が多量のため不採用
+ * *****************************************/
+void CopyFloatToChar(float fVal, char* Buf)
+{
+    short Integ = 0; //fVal整数部
+    short IntegSize = 0; //整数部桁数
+    float Decml = 0.0; //fVal小数部
+    short BufCnt = 0; //
+
+	//符号判定
+    if(fVal < 0)
+	{
+        fVal *= -1;
+        Buf[0] = '-';
+        BufCnt++;
+    }
+
+    //整数部と小数部を分離
+    Integ = (short)fVal;
+    Decml = (float)(fVal - Integ);
+
+    //整数部処理
+    IntegSize = GetIntegSize(Integ);
+    CopyIntegToBuff(&Buf[BufCnt], Integ, IntegSize);
+
+    //小数点処理
+    Buf[BufCnt + IntegSize] = '.';
+    BufCnt = BufCnt + IntegSize;
+
+    //小数部処理
+    CopyDecmlToBuff(&Buf[BufCnt + 1], Decml, 14 - IntegSize);
+
+	//14番目を0に変更
+	Buf[13] = 0;
+}
+
 /****************************************************************************
  * Function : SavZajPrm (Save Zero adjust Parameter)
  * Summary  : ゼロ点調整成功時のパラメータ保存
@@ -969,7 +1076,8 @@ void SavZajPrm(short pch)
 	/*ゼロ調整用⊿Tsの平均値(四捨五入)*/
 	memset(work_ch, 0, sizeof(work_ch));
 	MES[pch].zc_zero_offset = MES[pch].zc_zero_calc / LED[pch].zero_cal_cnt;  //ゼロクロス時のゼロ点オフセット
-	sprintf(&work_ch[0], "%3.11f", MES[pch].zc_zero_offset);
+	// sprintf(&work_ch[0], "%3.11f", MES[pch].zc_zero_offset);
+	CopyFloatToChar(MES[pch].zc_zero_offset, work_ch);
 	memcpy(&SVD[pch].ZerCrsOffset[0], &work_ch[0], sizeof(work_ch));
 	for(cnt=0; cnt<7; cnt++){  //ゼロクロス時のゼロ点オフセットのEEPROM保存
 		eep_write_ch_delay(pch, (short)(&SVD[pch].ZerCrsOffset[cnt] - &SVD[pch].max_flow), SVD[pch].ZerCrsOffset[cnt]);
@@ -1045,7 +1153,8 @@ short EndZerAdj(short pch)
 				/*ゼロ調整リトライ*/
 				//ΔTs更新
 				memset(work_ch, 0, sizeof(work_ch));
-				sprintf(&work_ch[0], "%3.11f", zc_work_delta_ts);
+				// sprintf(&work_ch[0], "%3.11f", zc_work_delta_ts);
+				CopyFloatToChar(zc_work_delta_ts, work_ch);
 				memcpy(&SVD[pch].ZerCrsOffset[0], &work_ch[0], sizeof(work_ch));
 				
 				Flg = 0x02;
