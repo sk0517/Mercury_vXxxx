@@ -87,9 +87,7 @@ extern void	com_init();
 extern void	make_viscos_tbl(short pch);
 extern short	gain_adj_init(short pch);
 extern void	eep_write_ch(short,short,short);
-extern short	ch_search(short, short);
 extern void	log_init(void);
-extern void	util_delay(short target_time);
 extern void	pwon_count(void);
 extern void	action_status_control(short pch, short act);
 extern void err_judge_status(short pch);
@@ -109,13 +107,11 @@ extern short get_attenuator_gain(short pch);
 extern void eep_write_ch_delay(short ch, short addr, short data);
 extern void eep_write_pending_data(void);
 extern short check_queue(void);
-extern void	SetFrequency(short ch);
 extern void	util_eep_allwrite(short pch, short opt);
 extern short	OWReadSensinfo(short ch);
 extern void	OWWriteSensinfo(void);
 extern void	read_serial_num(short pch);
 extern void	write_serial_num(short pch);
-extern void	InitFPGA(void);
 extern void WaitCDONE(void);
 extern short SearchWindow(short pch);
 extern void	SetDigitalFilterRegister(void);
@@ -640,7 +636,7 @@ void	eeprom_init(void){
 		memcpy(&work_ch[0], &SVD[ch].ZerCrsOffset[0], sizeof(SVD[ch].ZerCrsOffset));
 		MES[ch].zc_zero_offset = atof(&work_ch[0]);	//ゼロクロスゼロ点オフセット
 		MES[ch].signal_count = MES[ch].ThresholdPeakPos = SVD[ch].ThresholdPeakPos;
-		MES[ch].zc_peak = SVD[ch].ZerPeakPos;
+		
 	}
 }
 
@@ -1105,7 +1101,7 @@ void SavZajPrm(short pch)
 
 	if(MES[pch].zc_peak_UpdateFlg != 0)
 	{
-		MES[pch].zc_peak = 0;
+		SVD[pch].ZerPeakPos = 0;
 	}
 	MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求	
 }
@@ -1211,7 +1207,7 @@ short EndZerAdj(short pch)
 
 		if(MES[pch].zc_peak_UpdateFlg != 0)
 		{
-			MES[pch].zc_peak = 0;
+			SVD[pch].ZerPeakPos = 0;
 		}
 		MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求
 		
@@ -1563,7 +1559,7 @@ void	zero_adj_control(short pch){
 		
 		if(MES[pch].zc_peak_UpdateFlg != 0)
 		{
-			MES[pch].zc_peak = 0;
+			SVD[pch].ZerPeakPos = 0;
 		}
 		MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求
 		

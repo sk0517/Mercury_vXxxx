@@ -5250,7 +5250,7 @@ void command_Wa (short com_mode){
 	// Flg = CngSstPrm(com_mode, &SVD[pch].ZerCrsSttPnt, 0, 50, 0, FREQUENCY_ERROR);
 	Flg = CngUstPrm(com_mode, &SVD[pch].ZerCrsSttPnt, 0, 300, 0, FREQUENCY_ERROR);
 	if(Flg != 0) return;
-	SVD[pch].ZerPeakPos = MES[pch].zc_peak = SVD[pch].ZerCrsSttPnt;
+	SVD[pch].ZerPeakPos = SVD[pch].ZerCrsSttPnt;
 	eep_write_ch_delay(pch, (short)(&SVD[pch].ZerPeakPos - &SVD[pch].max_flow), SVD[pch].ZerPeakPos);
 
 	//16. Zero Cross Use Number
@@ -5335,7 +5335,7 @@ void command_Wa (short com_mode){
 	            if ( ( value[com_mode] >= 0 && value[com_mode] <= 300 ) && size[com_mode] <= 3 )
 				{
 		          SVD[ch_no[com_mode] -1].ZerCrsSttPnt = value[com_mode];
-				  SVD[ch_no[com_mode] -1].ZerPeakPos = MES[ch_no[com_mode] -1].zc_peak = value[com_mode];
+				  SVD[ch_no[com_mode] -1].ZerPeakPos = value[com_mode];
   	           	  i_num[com_mode]++;
 				  eep_write_ch_delay(pch, (short)(&SVD[pch].ZerPeakPos - &SVD[pch].max_flow), SVD[pch].ZerPeakPos);
 
