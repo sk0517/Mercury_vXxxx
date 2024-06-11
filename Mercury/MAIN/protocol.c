@@ -495,17 +495,17 @@ void value_judge_Hex(short com_mode, short sPos, short pow)
 	//RX_bufから文字列を取り出す(文字長はsize[], 小数点以下サイズはdegit_check[]に格納)
 	GetInputBuf(com_mode, RX_buf[com_mode], OutBuf, sPos);
 
-	// //小数点以下桁数を合わせる
-	// Len = strlen(OutBuf);
-	// for(i = 0; i < pow - digit_check[com_mode]; i++)
-	// {
-	// 	OutBuf[Len + i] = '0';
-	// }
+	//小数点以下桁数を合わせる
+	Len = strlen(OutBuf);
+	for(i = 0; i < pow - digit_check[com_mode]; i++)
+	{
+		OutBuf[Len + i] = '0';
+	}
 
-	// //文字列を数値に変換(value <- OutBuf)
-	// ConvertCharToHex(com_mode, OutBuf);
+	//文字列を数値に変換(value <- OutBuf)
+	ConvertCharToHex(com_mode, OutBuf);
 
-	// i_num[com_mode] = sPos + size[com_mode];
+	i_num[com_mode] = sPos + size[com_mode];
 #else
 	short j;
 	char input[20] ={0};			// 入力値判定用
