@@ -334,6 +334,16 @@ FUNCEND:
 	
 }
 
+/*******************************************
+ * Function : JudgeCharRange
+ * Summary  : Char変数の範囲判定
+ * Argument : c  : 文字列
+ * Return   : 1  : '0'-'9'
+ *          : 2  : 'A'-'F'
+ *          : -1 : その他
+ * Caution  : 
+ * Note     : 
+ * *****************************************/
 short JudgeCharRange(char c){
     short Flg = 0;
     if(('0' <= c) && (c <= '9')){
@@ -347,6 +357,18 @@ short JudgeCharRange(char c){
     }
     return Flg;
 }
+
+/*******************************************
+ * Function : ConvertCharToSome
+ * Summary  : AsciiをN進数値に変換する
+ * Argument : int com_mode -> 0 : ホスト
+ *                            1 : メンテ
+ *            cBuf -> 文字列
+ *            Magnif -> N進数
+ * Return   : N進数値
+ * Caution  : なし
+ * Note     : 
+ * *****************************************/
 short ConvertCharToSome(short com_mode, char* cBuf, short Magnif)
 {
     short Flg = 0;
@@ -372,16 +394,51 @@ short ConvertCharToSome(short com_mode, char* cBuf, short Magnif)
     }
     return Flg;
 }
+
+/*******************************************
+ * Function : ConvertCharToHex
+ * Summary  : Asciiを16進数値に変換する
+ * Argument : int com_mode -> 0 : ホスト
+ *                            1 : メンテ
+ *            cBuf -> 文字列
+ * Return   : 16進数値
+ * Caution  : なし
+ * Note     : 
+ * *****************************************/
 short ConvertCharToHex(short com_mode, char* cBuf)
 {
     short Flg = ConvertCharToSome(com_mode, cBuf, 16);
     return Flg;
 }
+
+/*******************************************
+ * Function : ConvertCharToLong
+ * Summary  : Asciiを10進数値に変換する
+ * Argument : int com_mode -> 0 : ホスト
+ *                            1 : メンテ
+ *            cBuf -> 文字列
+ * Return   : 10進数値
+ * Caution  : なし
+ * Note     : 
+ * *****************************************/
 short ConvertCharToLong(short com_mode, char* cBuf)
 {
     short Flg = ConvertCharToSome(com_mode, cBuf, 10);
     return Flg;
 }
+
+/*******************************************
+ * Function : GetInputBuf
+ * Summary  : RX_bufのStartPos~','までを抜き出す
+ * Argument : int com_mode -> 0 : ホスト
+ *                            1 : メンテ
+ *            _RX_buf -> 受信文字列
+ *            OutBuf -> 抜き出した文字列
+ *            Startpos -> 抜き出し開始位置
+ * Return   : void
+ * Caution  : なし
+ * Note     : 
+ * *****************************************/
 void GetInputBuf(short com_mode, char* _RX_buf, char* OutBuf, short StartPos)
 {
     short i = 0;
