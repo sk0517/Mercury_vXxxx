@@ -5689,8 +5689,6 @@ void SelectReverseOff(short pch){
 	}
 }
 
-short iNum = 0;
-short DataNum = 0;
 /****************************************************/
 /* Function : int_flow								*/
 /* Summary  : —¬—ÊŒv‘ªˆ—							*/
