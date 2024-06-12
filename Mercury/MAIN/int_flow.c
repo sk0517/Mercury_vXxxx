@@ -3806,6 +3806,8 @@ void LLmode_kind(short vis, short pch){
 			(LL_TBL[i].LinerPnt == point)
 			){
 			SVD[pch].LL_kind = i;
+			SVD[pch].fifo_ch_init = LL_TBL[i].FifoCh[SensorSize];
+			SVD[pch].ZerPeakPos = LL_TBL[i].ZerPeakPos[SensorSize];
 		}
 	}
 }
