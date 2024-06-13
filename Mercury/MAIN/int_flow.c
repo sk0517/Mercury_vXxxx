@@ -3851,21 +3851,25 @@ void LLmode_kind(short vis, short pch){
 	short i;
 	short point;
 	short SensorSize = SVD[pch].sensor_size;
+	short Index = 0;
 
 	point = (short)(SVD[pch].uslnr_num >> 8) & 0x00FF;	/*リニアライズ点数取得*/
 	
 	SVD[pch].LL_kind = 0;
-	//一致条件検索：ない場合は0設定に
-	for(i = 0; i < LL_NUM; i++){
-		if(	
-			(LL_TBL[i].Vis == vis) &&
-			(SensorSize == 3 || SensorSize == 4) &&
-			(LL_TBL[i].MaxFlow[SensorSize] == SVD[pch].max_flow) &&
-			(LL_TBL[i].LinerPnt == point)
-			){
-			SVD[pch].LL_kind = i;
-			SVD[pch].fifo_ch_init = LL_TBL[i].FifoCh[SensorSize];
-			SVD[pch].ZerPeakPos = LL_TBL[i].ZerPeakPos[SensorSize];
+	if((SensorSize == 3) || (SensorSize == 4))
+	{
+		Index = SensorSize - 1;
+		//一致条件検索：ない場合は0設定に
+		for(i = 0; i < LL_NUM; i++){
+			if(	
+				(LL_TBL[i].Vis == vis) &&
+				(LL_TBL[i].MaxFlow[Index] == SVD[pch].max_flow) &&
+				(LL_TBL[i].LinerPnt == point)
+				){
+				SVD[pch].LL_kind = i;
+				SVD[pch].fifo_ch_init = LL_TBL[i].FifoCh[Index];
+				SVD[pch].ZerPeakPos = LL_TBL[i].ZerPeakPos[Index];
+			}
 		}
 	}
 }
