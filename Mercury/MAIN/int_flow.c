@@ -1735,20 +1735,9 @@ void AnalyzeWave(short pch)
 void fifo_read(short pch)
 {
 	short i, j;
-	short *FowWav1, *FowWav2, *FowWav3, *FowWav4;
-	short *RevWav1, *RevWav2, *RevWav3, *RevWav4;
 	short *FowWav, *RevWav;
 	short fifo_ch;
 	unsigned short alm_level;
-
-	FowWav1 = (short *)(&fwd_temp_data[0][0]);
-	FowWav2 = (short *)(&fwd_temp_data[1][0]);
-	FowWav3 = (short *)(&fwd_temp_data[2][0]);
-	FowWav4 = (short *)(&fwd_temp_data[3][0]);
-	RevWav1 = (short *)(&rev_temp_data[0][0]);
-	RevWav2 = (short *)(&rev_temp_data[1][0]);
-	RevWav3 = (short *)(&rev_temp_data[2][0]);
-	RevWav4 = (short *)(&rev_temp_data[3][0]);
 
 	FowWav = (short *)(&MES[pch].fow_data[0]);
 	RevWav = (short *)(&MES[pch].rev_data[0]);
