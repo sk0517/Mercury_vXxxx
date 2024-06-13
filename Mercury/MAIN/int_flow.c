@@ -3838,14 +3838,22 @@ long ClcNmlLnr(long work, short point, short pch)
 	return out_flow;
 }
 
-/****************************************************/
-/* Function : LLmode_kind                           */
-/* Summary  : 薬液リニアライズモード・種別設定    				*/
-/* Argument : vis,  pch                            */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
-/****************************************************/
+/****************************************************
+ * Function : LLmode_kind
+ * Summary  : 薬液リニアライズモード・種別設定
+ * Argument : vis,  pch
+ * Return   : なし
+ * Caution  : なし
+ * notes    : LLmode一致条件
+ *          :   センサ種類 : 
+ *          :   動粘度 : 
+ *          :   フルスケール : 
+ *          :   リニアライズ点数 : 
+ *          : LLmode移行時の変更対象
+ *          :   薬液種類(LL_kind)
+ *          :   FIFO CH
+ *          :   ゼロクロス点探索開始位置(ZerPeakPos)
+ ****************************************************/
 void LLmode_kind(short vis, short pch){
 
 	short i;
