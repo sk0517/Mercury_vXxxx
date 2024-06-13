@@ -1405,6 +1405,29 @@ void GetRevAnyPnt(short pch)
 	SchTrshld(pch, &MES[pch].rev_data[0], &MES[pch].ThreasholdPoint_Rev);
 }
 
+void GetSearchRange(short sType, short lType, short* StartPos, short* EndPos)
+{
+	short Flg = 0;
+	*StartPos = 10;
+	*EndPos = 210;
+	//センサ設定値は1~SNS_KINDまで
+	if((sType < 1) || (SNS_KIND < sType))
+	{
+		Flg++;
+	}
+	//薬液の種類はLL_TBLの要素数
+	if((lType < 0) || (sizeof(LL_TBL)/sizeof(LL_TBL[0]) < lType))
+	{
+		Flg++;
+	}
+
+	if(Flg == 0)
+	{
+		*StartPos = LL_TBL[lType].ZerPeakPos[sType - 1] - 3;
+		*EndPos = LL_TBL[lType].ZerPeakPos[sType - 1] + 3;
+	}
+}
+
 /*******************************************
  * Function : SearchZerPeakPos
  * Summary  : ZerPeakPosを探す
@@ -1418,17 +1441,17 @@ void GetRevAnyPnt(short pch)
 short SearchZerPeakPos(short pch, short StartPos, short EndPos)
 {
 //指定範囲内の極大値を探すver
-#if 0
+#if 1
 	short i;
 	short zerPeakPos = 0;
-	for(i = 0; i < WAV_PEK_NUM)
+	for(i = 0; i < WAV_PEK_NUM; i++)
 	{
 		if(
 			(StartPos <= MES[pch].FwdWavMaxPekPosLst[i]) 
 			&& (MES[pch].FwdWavMaxPekPosLst[i] < EndPos)
 		)
 		{
-			zerPeakPos = MES[pch].FwdWavMaxPekValLst[i];
+			zerPeakPos = MES[pch].FwdWavMaxPekPosLst[i];
 			break;
 		}
 	}
@@ -1465,7 +1488,7 @@ short SearchZerPeakPos(short pch, short StartPos, short EndPos)
 			&& (PeakPos[i] < EndPos)
 		)
 		{
-			zerPeakPos = PeakVal[i];
+			zerPeakPos = PeakPos[i];
 			break;
 		}
 	}
@@ -1497,14 +1520,9 @@ short SearchZerPeakPos(short pch, short StartPos, short EndPos)
  * *****************************************/
 void SchMaxMinPnt(short pch)
 {
-	short work_old = 0, i, j;
-	short SelMult[] = { 32, 40, 65, 80 }; // 現行クランプオンではサンプリング周波数に近似?
+	short i;
 	short ZerAdjYetFlg = 0; //0:ゼロ調整実施, 1:ゼロ調整未実施
-	short CrsCnt = 0;
-	short TrshldVal = 0;
-	short TrshldPos = 0;
-
-	SelMult[SVD[pch].adc_clock] = SelMult[SVD[pch].adc_clock] / Mgn;
+	short StartPos = 0, EndPos = 0;
 
 	// MES[pch].ThresholdPeakPos != 0 : ゼロ点調整中に波形と5点交わる点が見つかっている
 	// MES_SUB[pch].zc_peak_req == 1 : エラーが起きずにゼロ点調整が終了している
@@ -1520,7 +1538,6 @@ void SchMaxMinPnt(short pch)
 	
 	fow_max = rev_max = 0;					   /*初期値*/
 	fow_min = rev_min = AD_MAX;				   /*12bit MAX*/
-	work_old = 0;
 
 	//最大最小値検索
 	for(i = 0; i < WAV_PEK_NUM; i++)
@@ -1547,8 +1564,10 @@ void SchMaxMinPnt(short pch)
 	//ゼロ調整未実施の場合
 	if(ZerAdjYetFlg != 0)
 	{
-		//0~250の間でZerPeakPosを探す
-		SVD[pch].ZerPeakPos = SearchZerPeakPos(pch, 0, 250);
+		//探索範囲を決める
+		GetSearchRange(SVD[pch].sensor_size, SVD[pch].LL_kind, &StartPos, &EndPos);
+		//探索範囲でZerPeakPosを探す
+		SVD[pch].ZerPeakPos = SearchZerPeakPos(pch, StartPos, EndPos);
 
 		SVD[pch].ZerCrsSttPnt = SVD[pch].ZerPeakPos;		//波形認識ピーク位置(ゼロクロス計算開始位置用)のEEPROM保存
 		eep_write_ch_delay(pch, (short)(&SVD[pch].ZerPeakPos - &SVD[pch].max_flow), SVD[pch].ZerPeakPos);
@@ -1647,6 +1666,23 @@ void ClcDifWavPos(short pch)
 }
 
 /*******************************************
+ * Function : UserMemSet
+ * Summary  : short配列に同じ値を入れる
+ * Argument : pch : チャンネル番号
+ * Return   : 
+ * Caution  : None
+ * Note     : 
+ * *****************************************/
+void UserMemSet(short* Buf, short Val, short Size)
+{
+	short i;
+	for(i = 0; i < Size; i++)
+	{
+		Buf[i] = Val;
+	}
+}
+
+/*******************************************
  * Function : AnalyzeWave
  * Summary  : 取得した波形データを解析する
  * Argument : pch : チャンネル番号
@@ -1658,14 +1694,14 @@ void AnalyzeWave(short pch)
 {
 	short i;
 	//変数初期化
-	memset(MES[pch].FwdWavMaxPekPosLst, 300, sizeof(MES[pch].FwdWavMaxPekPosLst));
-	memset(MES[pch].FwdWavMinPekPosLst, 300, sizeof(MES[pch].FwdWavMinPekPosLst));
-	memset(MES[pch].RevWavMaxPekPosLst, 300, sizeof(MES[pch].RevWavMaxPekPosLst));
-	memset(MES[pch].RevWavMinPekPosLst, 300, sizeof(MES[pch].RevWavMinPekPosLst));
-	memset(MES[pch].FwdWavMaxPekValLst, AD_BASE, sizeof(MES[pch].FwdWavMaxPekValLst));
-	memset(MES[pch].FwdWavMinPekValLst, AD_BASE, sizeof(MES[pch].FwdWavMinPekValLst));
-	memset(MES[pch].RevWavMaxPekValLst, AD_BASE, sizeof(MES[pch].RevWavMaxPekValLst));
-	memset(MES[pch].RevWavMinPekValLst, AD_BASE, sizeof(MES[pch].RevWavMinPekValLst));
+	UserMemSet(MES[pch].FwdWavMaxPekPosLst, 300, sizeof(MES[pch].FwdWavMaxPekPosLst));
+	UserMemSet(MES[pch].FwdWavMinPekPosLst, 300, sizeof(MES[pch].FwdWavMinPekPosLst));
+	UserMemSet(MES[pch].RevWavMaxPekPosLst, 300, sizeof(MES[pch].RevWavMaxPekPosLst));
+	UserMemSet(MES[pch].RevWavMinPekPosLst, 300, sizeof(MES[pch].RevWavMinPekPosLst));
+	UserMemSet(MES[pch].FwdWavMaxPekValLst, AD_BASE, sizeof(MES[pch].FwdWavMaxPekValLst));
+	UserMemSet(MES[pch].FwdWavMinPekValLst, AD_BASE, sizeof(MES[pch].FwdWavMinPekValLst));
+	UserMemSet(MES[pch].RevWavMaxPekValLst, AD_BASE, sizeof(MES[pch].RevWavMaxPekValLst));
+	UserMemSet(MES[pch].RevWavMinPekValLst, AD_BASE, sizeof(MES[pch].RevWavMinPekValLst));
 	memset(MES[pch].zc_nearzero_point, 0, sizeof(MES[pch].zc_nearzero_point));
 
 	//上流波形
