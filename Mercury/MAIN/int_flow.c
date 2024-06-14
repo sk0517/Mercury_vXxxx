@@ -112,6 +112,24 @@ void SchZerDat(short pch, short *WavPtr, short *ZerPnt, short *ZerDat1, short *Z
 void SchTrshld(short pch, short *WavPtr, short *OutVal);
 float DelAbnPnt(float *FwdPnt, float *RevPnt, float zc_SumOld, short zc_num, float SmpTdt);
 float DelAbnPntMod(float *FwdPnt, float *RevPnt, float zc_SumOld, short zc_num, float SmpTdt);
+short GetSkpPnt(short, short);
+void SchMaxPek(short, short*, short* ,short*);
+void SchMinPek(short, short*, short* ,short*);
+void GetFwdAnyPnt(short);
+void GetRevAnyPnt(short pch);
+void GetSearchRange(short sType, short lType, short* StartPos, short* EndPos);
+short SearchZerPeakPos(short pch, short StartPos, short EndPos);
+void SchMaxMinPnt(short pch);
+void SetWavTopPos(short pch);
+void ClcDifWavPos(short pch);
+void UserMemSet(short* Buf, short Val, short BufSize);
+void AnalyzeWave(short pch);
+float CalFx(float y0, float y1);
+float CalRegLin(float x1, float x2, float x3, float x4, float y1, float y2, float y3, float y4);
+float CorZrcPnt(short x1, short x2, short x3, short x4, short y1, short y2, short y3, short y4);
+void CalculateDeltaT(short pch, float *FwdPnt, float *RevPnt);
+float CalcLinerCorrection(long x0, long x1, long y0, long y1, float x);
+void ChkClcActFlg(short pch);
 
 /********************************************************/
 /*	ÉÇÉWÉÖÅ[ÉãäOíËã`ä÷êî								*/
@@ -1520,7 +1538,7 @@ short SearchZerPeakPos(short pch, short StartPos, short EndPos)
  * *****************************************/
 void SchMaxMinPnt(short pch)
 {
-	short i;
+	short i = 0;
 	short ZerAdjYetFlg = 0; //0:É[Éçí≤êÆé¿é{, 1:É[Éçí≤êÆñ¢é¿é{
 	short StartPos = 0, EndPos = 0;
 
@@ -1673,10 +1691,10 @@ void ClcDifWavPos(short pch)
  * Caution  : None
  * Note     : 
  * *****************************************/
-void UserMemSet(short* Buf, short Val, short Size)
+void UserMemSet(short* Buf, short Val, short BufSize)
 {
 	short i;
-	for(i = 0; i < Size; i++)
+	for(i = 0; i < BufSize; i++)
 	{
 		Buf[i] = Val;
 	}
