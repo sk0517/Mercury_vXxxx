@@ -58,6 +58,9 @@ void	debug_mode(short pch);
 extern void	log_save(short ch, short code);
 extern void	eep_write_ch(short, short, short);
 extern void eep_write_ch_delay(short ch, short addr, short data);
+extern short	eep_read(short rom_addr);
+extern void WatchdogReloadSet_dl(uint32_t ui32Base, uint32_t ui32LoadVal);
+extern void WatchdogResetEnable_dl(uint32_t ui32Base);
 
 /********************************************************/
 /*	ƒ‚ƒWƒ…[ƒ‹“à’è‹`•Ï”								*/
