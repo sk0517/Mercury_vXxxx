@@ -43,8 +43,6 @@ void protocol(short com_mode);
 extern void TX_start_host(short);
 extern void TX_start_ment(short);
 extern void mky43_TX_start(short com_mode);
-extern void eep_write_ch(short,short,short);
-extern void make_viscos_tbl(short);
 extern void command_OV(short);
 extern void command_ov(short);
 extern void command_OE(short);

@@ -37,8 +37,6 @@ void	int_mky_recv1(void);
 /*	モジュール外定義関数								*/
 /********************************************************/
 extern void int_flow(short pch);
-extern void int_rx_ascii_host(void);
-extern void int_rx_ascii_ment(void);
 extern void	err_judge_status(short pch);
 extern void	err_judge_holdtime(short pch);
 extern void	disp_led_control(void);
@@ -46,10 +44,8 @@ extern void disp_led_ch(void);
 extern void disp_led_alm(void);
 extern void	mky43_check_recv0(void);
 extern void	mky43_check_recv1(void);
-extern void	mky43_write_data(void);
 extern void	mky43_write_alarm(short ch);
 extern void	mky43_write_flow(short ch);
-extern void	debug_mode(short pch);
 extern void	flow_save_control(void);
 
 /********************************************************/

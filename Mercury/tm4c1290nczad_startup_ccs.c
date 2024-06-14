@@ -63,7 +63,6 @@ void	int_cmt1(void);
 void	int_cmt2(void);
 void	int_cmt3(void);
 void	int_mtu0(void);
-void int15_handler(void);
 void	WatchdogIntHandler(void);
 void	int_mky_recv0(void);
 void	int_mky_recv1(void);
