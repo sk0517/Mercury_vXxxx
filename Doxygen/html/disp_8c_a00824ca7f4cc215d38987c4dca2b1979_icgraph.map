@@ -1,0 +1,7 @@
+<map id="disp_led_cpu" name="disp_led_cpu">
+<area shape="rect" id="Node000001" title=" " alt="" coords="267,5,364,32"/>
+<area shape="rect" id="Node000002" href="$disp_8c.html#a55c72fd77bbd05cde58371c8f547cde5" title=" " alt="" coords="103,5,219,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="251,21,219,21,219,16,251,16"/>
+<area shape="rect" id="Node000003" href="$_m_a_i_n_8c.html#a6288eba0f8e8ad3ab1544ad731eb7667" title=" " alt="" coords="5,5,55,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
+</map>

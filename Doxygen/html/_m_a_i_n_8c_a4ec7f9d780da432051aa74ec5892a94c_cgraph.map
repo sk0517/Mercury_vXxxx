@@ -1,0 +1,40 @@
+<map id="eeprom_init" name="eeprom_init">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,157,94,184"/>
+<area shape="rect" id="Node000002" href="$disp_8c.html#a0604262ce4442df57cea2ede1ad95f4b" title=" " alt="" coords="165,5,237,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="56,155,89,105,113,76,140,49,155,38,158,42,143,53,117,79,94,109,61,158"/>
+<area shape="rect" id="Node000003" href="$eeprom__spi_8c.html#a0633d5554b624df958bd6833407218c2" title=" " alt="" coords="320,107,394,133"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,155,93,122,115,105,141,92,183,83,227,83,269,89,306,99,305,104,268,95,227,88,184,88,143,97,118,109,96,126,63,159"/>
+<area shape="rect" id="Node000007" href="$eeprom__spi_8c.html#abec4963a7f5cb405784810bc86c09027" title=" " alt="" coords="154,107,248,133"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="91,154,144,136,145,141,93,159"/>
+<area shape="rect" id="Node000008" href="$eeprom__spi_8c.html#add8fe67b28109b71dd00af2a6266c20a" title=" " alt="" coords="153,208,249,235"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="93,182,145,200,144,205,91,187"/>
+<area shape="rect" id="Node000014" href="$eeprom__spi_8c.html#a8e327391853cdb0cb6fe7e325d7e2a3a" title=" " alt="" coords="308,284,405,311"/>
+<area shape="poly" id="edge18_Node000001_Node000014" title=" " alt="" coords="58,183,69,209,87,241,112,271,143,295,179,308,218,313,256,313,292,309,293,315,257,319,218,319,178,313,140,300,108,275,83,244,65,211,53,185"/>
+<area shape="rect" id="Node000015" href="$util_8c.html#a20a496a10d19f8c798b0c8fcc867b60c" title=" " alt="" coords="143,157,259,184"/>
+<area shape="poly" id="edge19_Node000001_Node000015" title=" " alt="" coords="94,168,127,168,127,173,94,173"/>
+<area shape="rect" id="Node000016" href="$util_8c.html#a3fce7378c63ee8827de0519813c6b522" title=" " alt="" coords="142,259,260,285"/>
+<area shape="poly" id="edge21_Node000001_Node000016" title=" " alt="" coords="66,182,100,213,143,244,151,249,149,254,140,249,97,217,63,186"/>
+<area shape="rect" id="Node000004" href="$eeprom__spi_8c.html#a135104f5cba8d8add4f48d38fa10d991" title=" " alt="" coords="590,107,642,133"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="394,117,575,117,575,123,394,123"/>
+<area shape="rect" id="Node000005" href="$eeprom__spi_8c.html#ac2d4f02c27f025b6d2e0a128529b4154" title=" " alt="" coords="701,120,770,147"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="642,120,685,125,685,130,642,125"/>
+<area shape="rect" id="Node000006" href="$eeprom__spi_8c.html#a62c2962ba6064dcf138c759341a02695" title=" " alt="" coords="700,183,770,209"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="640,132,701,172,698,176,637,136"/>
+<area shape="poly" id="edge7_Node000007_Node000003" title=" " alt="" coords="248,117,304,117,304,123,248,123"/>
+<area shape="rect" id="Node000009" href="$eeprom__spi_8c.html#a0a03c6be0d7b62acad7d9b7ffcb9ccf1" title=" " alt="" coords="319,208,395,235"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="249,219,303,219,303,224,249,224"/>
+<area shape="rect" id="Node000010" href="$eeprom__spi_8c.html#adc3dff88fc60044a4be62ed82ab375d9" title=" " alt="" coords="453,157,532,184"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="394,205,439,187,441,192,396,210"/>
+<area shape="rect" id="Node000012" href="$eeprom__spi_8c.html#acd4748d98bf62915949e720d0122be39" title=" " alt="" coords="580,208,652,235"/>
+<area shape="poly" id="edge14_Node000009_Node000012" title=" " alt="" coords="395,219,564,219,564,224,395,224"/>
+<area shape="rect" id="Node000013" href="$eeprom__spi_8c.html#ab50c9fa8d035686482642e64312903cf" title=" " alt="" coords="466,259,519,285"/>
+<area shape="poly" id="edge16_Node000009_Node000013" title=" " alt="" coords="396,233,453,254,451,259,394,238"/>
+<area shape="rect" id="Node000011" href="$eeprom__spi_8c.html#a610697bfb4fc8f67c43c183061f55a7b" title=" " alt="" coords="581,157,651,184"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="532,168,565,168,565,173,532,173"/>
+<area shape="poly" id="edge12_Node000011_Node000005" title=" " alt="" coords="650,157,685,146,687,151,652,162"/>
+<area shape="poly" id="edge13_Node000011_Node000006" title=" " alt="" coords="651,175,685,183,684,188,650,181"/>
+<area shape="poly" id="edge15_Node000012_Node000006" title=" " alt="" coords="652,211,684,204,685,209,653,216"/>
+<area shape="poly" id="edge17_Node000013_Node000006" title=" " alt="" coords="519,268,580,262,616,255,651,244,678,232,702,216,705,221,680,236,653,249,617,260,581,267,520,274"/>
+<area shape="poly" id="edge20_Node000015_Node000003" title=" " alt="" coords="244,154,304,134,305,139,245,159"/>
+<area shape="poly" id="edge22_Node000016_Node000014" title=" " alt="" coords="261,279,293,284,292,290,260,284"/>
+</map>

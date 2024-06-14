@@ -1,0 +1,13 @@
+<map id="OWCheckDevice" name="OWCheckDevice">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,81,125,108"/>
+<area shape="rect" id="Node000002" href="$onewire_8c.html#ae04fe706ef098b9a94473e5c59de1524" title=" " alt="" coords="173,81,289,108"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,92,157,92,157,97,125,97"/>
+<area shape="rect" id="Node000003" href="$onewire_8c.html#a086baa422dfc15f69b1fd3ec1cbf451a" title=" " alt="" coords="352,5,442,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="259,78,336,42,348,36,350,41,338,46,261,83"/>
+<area shape="rect" id="Node000004" href="$onewire_8c.html#a56ad7d157204b4f2fc3706c0247d4ad8" title=" " alt="" coords="351,56,444,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="289,83,335,76,336,81,290,88"/>
+<area shape="rect" id="Node000005" href="$onewire_8c.html#aab644901aa4fc4cf65155fce2c5b3910" title=" " alt="" coords="337,107,457,133"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="290,101,322,106,321,111,289,106"/>
+<area shape="rect" id="Node000006" href="$onewire_8c.html#a1dadce14be62be3f628249f2413cfecd" title=" " alt="" coords="353,157,442,184"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="261,106,338,143,350,148,348,153,336,148,259,111"/>
+</map>

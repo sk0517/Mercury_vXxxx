@@ -1,0 +1,1226 @@
+\doxysection{C\+:/\+Work\+Space/\+Mercury/\+Mercury\+\_\+v\+Xxxx/\+Mercury/\+MAIN/protocol.c ファイル}
+\hypertarget{protocol_8c}{}\label{protocol_8c}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/protocol.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/protocol.c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$ctype.\+h$>$}\newline
+{\ttfamily \#include "{}machine.\+h"{}}\newline
+{\ttfamily \#include "{}define.\+h"{}}\newline
+{\ttfamily \#include "{}SV\+\_\+def.\+h"{}}\newline
+{\ttfamily \#include "{}def\+LOG.\+h"{}}\newline
+{\ttfamily \#include "{}def\+SAVE.\+h"{}}\newline
+{\ttfamily \#include "{}def\+MES.\+h"{}}\newline
+{\ttfamily \#include "{}def\+MAIN.\+h"{}}\newline
+{\ttfamily \#include "{}version.\+h"{}}\newline
+protocol.\+c の依存先関係図\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{protocol_8c_a74d5edb386ac95b0ada83a04cf80af6a}{read\+\_\+change}} (short com\+\_\+mode, long long read\+\_\+value, char point, short pos)
+\item 
+void \mbox{\hyperlink{protocol_8c_a7fa6ddc2c11205f4a783b5a9439d8e96}{value\+\_\+judge}} (short com\+\_\+mode, short si, short pow)
+\item 
+void \mbox{\hyperlink{protocol_8c_a8ff8bbde65587f0ccef81e42a8881ab6}{letter\+\_\+judge}} (short com\+\_\+mode, short sl, short sm)
+\item 
+void \mbox{\hyperlink{protocol_8c_ade0e0635e84a0fead8aaba39f04b2b1f}{check\+\_\+channel}} (short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{protocol_8c_a120e4c0b4e50320edcf61afe943cdaf7}{check\+\_\+command}} (short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{protocol_8c_a9d3faa1bb221fdebf7f76fa2fbf5b97d}{check\+\_\+format}} (short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{protocol_8c_a88619ae8d90401d66cbaf2afa4ef6004}{check\+\_\+cu\+\_\+length}} (short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{protocol_8c_a9dada4c26ef280a6d9b1943012f40a9e}{check\+\_\+wdt}} (short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{protocol_8c_a83a8bee1835fde73f8b1ca2782a24402}{check\+\_\+act\+\_\+disable}} (short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{protocol_8c_acc5cca2b5c14857b9ea50a73dba043a4}{check\+\_\+act\+\_\+able}} (short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{protocol_8c_ad8805261634effd80c37f3dddebe5808}{protocol}} (short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{protocol_8c_a186ddfb128716b2fdb36347acd7a0c93}{TX\+\_\+start\+\_\+host}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_ab0385052690e38505a370a92fc38046e}{TX\+\_\+start\+\_\+ment}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_aa982ae84a6a9e74865bed20357ea8454}{mky43\+\_\+\+TX\+\_\+start}} (short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{protocol_8c_ae74a7f51697fd01f4b58bc7c03c09fe4}{eep\+\_\+write\+\_\+ch}} (short, short, short)
+\item 
+void \mbox{\hyperlink{protocol_8c_a9b21014b016c469249aa88851097b011}{make\+\_\+viscos\+\_\+tbl}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_ab9c5d7a3e34a52098cefedd27e7f1099}{command\+\_\+\+OV}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_ad4d0ec51ebc92af66678cd005027f64f}{command\+\_\+ov}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_a7b1e2642dfe2b2452083ba6e29d3a815}{command\+\_\+\+OE}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_a19ce27bf7837359321e90d764fc7681a}{command\+\_\+\+OQ}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_a7daf955a394ec1ab013137716b16ed49}{command\+\_\+oq}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_aed554427fe699738d8ff1e76ed08f75d}{read\+\_\+command\+\_\+R}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_a44b2dc730fd264c1df2de5203dfdc87f}{read\+\_\+command\+\_\+W}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_ac8d20baf11945e4ec2716e2c7c8d194b}{command\+\_\+\+OS}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_a1574f6c5e15b81a162e208de5a9176dc}{command\+\_\+\+Os}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_aac5cea58aa8d6f69352678357c08fc32}{command\+\_\+\+OJ}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_a80ca12e81b637b671149242d3bb2886a}{command\+\_\+\+OL}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_a541c6e79fc072142a1d0418048fd57a9}{command\+\_\+\+OR}} (void)
+\item 
+void \mbox{\hyperlink{protocol_8c_a0a36f67b58da5a45866b2dac2753f210}{command\+\_\+\+OT}} (void)
+\item 
+void \mbox{\hyperlink{protocol_8c_a400e5d807d589d7b5d7223eccabf554b}{command\+\_\+\+OA}} (void)
+\item 
+void \mbox{\hyperlink{protocol_8c_a76f95664e31d38af3d4e5ead274e9777}{command\+\_\+\+Ot}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_adf75d5d08a937aab1a9c7554eec83f1e}{command\+\_\+\+OZ}} (short)
+\item 
+short \mbox{\hyperlink{protocol_8c_abd027fc3ea00a551c764fdcf8bca66d0}{action\+\_\+status\+\_\+check}} (short pch)
+\item 
+void \mbox{\hyperlink{protocol_8c_aa4535d21f03987da834d9ba0c7f5c64c}{download}} (short mode, short type)
+\item 
+void \mbox{\hyperlink{protocol_8c_ab3e4b6905a01407592c535723799583a}{command\+\_\+\+OF}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_a04788a12beb74ac4e5d977b6f989cc03}{command\+\_\+\+Dl}} (short)
+\item 
+void \mbox{\hyperlink{protocol_8c_a66c92498161c9533a41c6a69b4a23eaa}{value\+\_\+judge\+\_\+\+Hex}} (short, short, short)
+\item 
+void \mbox{\hyperlink{protocol_8c_a0c7f586fdccd67d521c4a7b620d125a1}{Memory\+Com}} (int)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{変数}
+\begin{DoxyCompactItemize}
+\item 
+short \mbox{\hyperlink{protocol_8c_a7a340752a686f445c3a9f456d9ccbc16}{i\+\_\+num}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_ab4799016bb58fd8f2e9a4d0f0b178e22}{ch\+\_\+no}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_a4cee886d41a5ab4c9332fe3f9938048f}{digit\+\_\+check}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_ab5ebb6028f503ec08ea7cbb8b8f1ef45}{end\+\_\+code}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_a97ba70db5f6cf4a29ff2404562e9a147}{flow\+\_\+check}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}
+\item 
+long long \mbox{\hyperlink{protocol_8c_a3082c4d944d24f6b31dd27cc5b64f893}{value}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}
+\item 
+char \mbox{\hyperlink{protocol_8c_a674b4c7ee82d22d417f0aa62ca103a07}{RX\+\_\+buf}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}\mbox{[}\mbox{\hyperlink{define_8h_a125068d98a9d9d367518ed22f5b8568e}{MSG\+\_\+\+MAX}}\mbox{]}
+\item 
+char \mbox{\hyperlink{protocol_8c_afb129eb4743a1acd7869dab156958606}{TX\+\_\+buf}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}\mbox{[}\mbox{\hyperlink{define_8h_a125068d98a9d9d367518ed22f5b8568e}{MSG\+\_\+\+MAX}}\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_ae712d4c69b0e0390b1f93e586a36b4b3}{multi\+\_\+ch\+\_\+no}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}\mbox{[}\mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\+\_\+\+NUMMAX}}\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_a16ff7e0c7f1f7919b7c7c92bfa088241}{ch\+\_\+z}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_a81598585c160b6f7394eda58bd4a9e2f}{error\+\_\+check}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_ad277c818372d8de48a124b2a832f97e7}{echo\+\_\+back}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_a3763ca988cc74ff18e692cfc5d8ee1e6}{l\+\_\+check}} \mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_a47e7ef6ad70da303c54a8cf579705ca4}{eep\+\_\+err}}
+\item 
+short \mbox{\hyperlink{protocol_8c_a05ce683cb56dcacfc72d2426a7076733}{mes\+\_\+err}} \mbox{[}7\mbox{]}
+\item 
+short \mbox{\hyperlink{protocol_8c_a1847dbc9535bed9126567a9267cb8db5}{err\+\_\+stat}}
+\item 
+short \mbox{\hyperlink{protocol_8c_a2faf572799c793b94aeed7c38bfd7c5d}{com\+\_\+type}}
+\item 
+short \mbox{\hyperlink{protocol_8c_abcd28055602271caf79f7f09609ae857}{end\+\_\+wdt}}
+\item 
+short \mbox{\hyperlink{protocol_8c_acdcf807bb667f3cbfdd183232c87c0bf}{len\+\_\+err\+\_\+host}}
+\item 
+short \mbox{\hyperlink{protocol_8c_ad02e8a7b86a8d73556296f845c044b78}{len\+\_\+err\+\_\+sub}}
+\item 
+short \mbox{\hyperlink{protocol_8c_a8777b453f491e7f65a8e9fb4e4467505}{format\+\_\+err\+\_\+host}}
+\item 
+short \mbox{\hyperlink{protocol_8c_a89beacd051b1e7923b855e827e4715b5}{format\+\_\+err\+\_\+sub}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{関数詳解}
+\Hypertarget{protocol_8c_abd027fc3ea00a551c764fdcf8bca66d0}\index{protocol.c@{protocol.c}!action\_status\_check@{action\_status\_check}}
+\index{action\_status\_check@{action\_status\_check}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{action\_status\_check()}{action\_status\_check()}}
+{\footnotesize\ttfamily \label{protocol_8c_abd027fc3ea00a551c764fdcf8bca66d0} 
+short action\+\_\+status\+\_\+check (\begin{DoxyParamCaption}\item[{short}]{pch}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00651}{651}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_abd027fc3ea00a551c764fdcf8bca66d0_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_acc5cca2b5c14857b9ea50a73dba043a4}\index{protocol.c@{protocol.c}!check\_act\_able@{check\_act\_able}}
+\index{check\_act\_able@{check\_act\_able}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{check\_act\_able()}{check\_act\_able()}}
+{\footnotesize\ttfamily \label{protocol_8c_acc5cca2b5c14857b9ea50a73dba043a4} 
+void check\+\_\+act\+\_\+able (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l01267}{1267}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_acc5cca2b5c14857b9ea50a73dba043a4_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a83a8bee1835fde73f8b1ca2782a24402}\index{protocol.c@{protocol.c}!check\_act\_disable@{check\_act\_disable}}
+\index{check\_act\_disable@{check\_act\_disable}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{check\_act\_disable()}{check\_act\_disable()}}
+{\footnotesize\ttfamily \label{protocol_8c_a83a8bee1835fde73f8b1ca2782a24402} 
+void check\+\_\+act\+\_\+disable (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l01115}{1115}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=319pt]{protocol_8c_a83a8bee1835fde73f8b1ca2782a24402_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a83a8bee1835fde73f8b1ca2782a24402_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_ade0e0635e84a0fead8aaba39f04b2b1f}\index{protocol.c@{protocol.c}!check\_channel@{check\_channel}}
+\index{check\_channel@{check\_channel}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{check\_channel()}{check\_channel()}}
+{\footnotesize\ttfamily \label{protocol_8c_ade0e0635e84a0fead8aaba39f04b2b1f} 
+void check\+\_\+channel (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00473}{473}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_ade0e0635e84a0fead8aaba39f04b2b1f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a120e4c0b4e50320edcf61afe943cdaf7}\index{protocol.c@{protocol.c}!check\_command@{check\_command}}
+\index{check\_command@{check\_command}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{check\_command()}{check\_command()}}
+{\footnotesize\ttfamily \label{protocol_8c_a120e4c0b4e50320edcf61afe943cdaf7} 
+void check\+\_\+command (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00543}{543}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a120e4c0b4e50320edcf61afe943cdaf7_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a88619ae8d90401d66cbaf2afa4ef6004}\index{protocol.c@{protocol.c}!check\_cu\_length@{check\_cu\_length}}
+\index{check\_cu\_length@{check\_cu\_length}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{check\_cu\_length()}{check\_cu\_length()}}
+{\footnotesize\ttfamily \label{protocol_8c_a88619ae8d90401d66cbaf2afa4ef6004} 
+void check\+\_\+cu\+\_\+length (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l01069}{1069}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a88619ae8d90401d66cbaf2afa4ef6004_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a9d3faa1bb221fdebf7f76fa2fbf5b97d}\index{protocol.c@{protocol.c}!check\_format@{check\_format}}
+\index{check\_format@{check\_format}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{check\_format()}{check\_format()}}
+{\footnotesize\ttfamily \label{protocol_8c_a9d3faa1bb221fdebf7f76fa2fbf5b97d} 
+void check\+\_\+format (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00784}{784}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a9d3faa1bb221fdebf7f76fa2fbf5b97d_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a9d3faa1bb221fdebf7f76fa2fbf5b97d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a9dada4c26ef280a6d9b1943012f40a9e}\index{protocol.c@{protocol.c}!check\_wdt@{check\_wdt}}
+\index{check\_wdt@{check\_wdt}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{check\_wdt()}{check\_wdt()}}
+{\footnotesize\ttfamily \label{protocol_8c_a9dada4c26ef280a6d9b1943012f40a9e} 
+void check\+\_\+wdt (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l01093}{1093}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a9dada4c26ef280a6d9b1943012f40a9e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a04788a12beb74ac4e5d977b6f989cc03}\index{protocol.c@{protocol.c}!command\_Dl@{command\_Dl}}
+\index{command\_Dl@{command\_Dl}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_Dl()}{command\_Dl()}}
+{\footnotesize\ttfamily \label{protocol_8c_a04788a12beb74ac4e5d977b6f989cc03} 
+void command\+\_\+\+Dl (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l06203}{6203}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a04788a12beb74ac4e5d977b6f989cc03_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a04788a12beb74ac4e5d977b6f989cc03_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a400e5d807d589d7b5d7223eccabf554b}\index{protocol.c@{protocol.c}!command\_OA@{command\_OA}}
+\index{command\_OA@{command\_OA}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_OA()}{command\_OA()}}
+{\footnotesize\ttfamily \label{protocol_8c_a400e5d807d589d7b5d7223eccabf554b} 
+void command\+\_\+\+OA (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l05500}{5500}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a400e5d807d589d7b5d7223eccabf554b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a7b1e2642dfe2b2452083ba6e29d3a815}\index{protocol.c@{protocol.c}!command\_OE@{command\_OE}}
+\index{command\_OE@{command\_OE}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_OE()}{command\_OE()}}
+{\footnotesize\ttfamily \label{protocol_8c_a7b1e2642dfe2b2452083ba6e29d3a815} 
+void command\+\_\+\+OE (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l00272}{272}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=278pt]{protocol_8c_a7b1e2642dfe2b2452083ba6e29d3a815_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a7b1e2642dfe2b2452083ba6e29d3a815_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_ab3e4b6905a01407592c535723799583a}\index{protocol.c@{protocol.c}!command\_OF@{command\_OF}}
+\index{command\_OF@{command\_OF}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_OF()}{command\_OF()}}
+{\footnotesize\ttfamily \label{protocol_8c_ab3e4b6905a01407592c535723799583a} 
+void command\+\_\+\+OF (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l05979}{5979}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=267pt]{protocol_8c_ab3e4b6905a01407592c535723799583a_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_ab3e4b6905a01407592c535723799583a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_aac5cea58aa8d6f69352678357c08fc32}\index{protocol.c@{protocol.c}!command\_OJ@{command\_OJ}}
+\index{command\_OJ@{command\_OJ}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_OJ()}{command\_OJ()}}
+{\footnotesize\ttfamily \label{protocol_8c_aac5cea58aa8d6f69352678357c08fc32} 
+void command\+\_\+\+OJ (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l05464}{5464}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_aac5cea58aa8d6f69352678357c08fc32_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_aac5cea58aa8d6f69352678357c08fc32_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a80ca12e81b637b671149242d3bb2886a}\index{protocol.c@{protocol.c}!command\_OL@{command\_OL}}
+\index{command\_OL@{command\_OL}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_OL()}{command\_OL()}}
+{\footnotesize\ttfamily \label{protocol_8c_a80ca12e81b637b671149242d3bb2886a} 
+void command\+\_\+\+OL (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l05477}{5477}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=283pt]{protocol_8c_a80ca12e81b637b671149242d3bb2886a_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a80ca12e81b637b671149242d3bb2886a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a19ce27bf7837359321e90d764fc7681a}\index{protocol.c@{protocol.c}!command\_OQ@{command\_OQ}}
+\index{command\_OQ@{command\_OQ}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_OQ()}{command\_OQ()}}
+{\footnotesize\ttfamily \label{protocol_8c_a19ce27bf7837359321e90d764fc7681a} 
+void command\+\_\+\+OQ (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l00352}{352}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=279pt]{protocol_8c_a19ce27bf7837359321e90d764fc7681a_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a19ce27bf7837359321e90d764fc7681a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a7daf955a394ec1ab013137716b16ed49}\index{protocol.c@{protocol.c}!command\_oq@{command\_oq}}
+\index{command\_oq@{command\_oq}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_oq()}{command\_oq()}}
+{\footnotesize\ttfamily \label{protocol_8c_a7daf955a394ec1ab013137716b16ed49} 
+void command\+\_\+oq (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l00445}{445}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=274pt]{protocol_8c_a7daf955a394ec1ab013137716b16ed49_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a7daf955a394ec1ab013137716b16ed49_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a541c6e79fc072142a1d0418048fd57a9}\index{protocol.c@{protocol.c}!command\_OR@{command\_OR}}
+\index{command\_OR@{command\_OR}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_OR()}{command\_OR()}}
+{\footnotesize\ttfamily \label{protocol_8c_a541c6e79fc072142a1d0418048fd57a9} 
+void command\+\_\+\+OR (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l05483}{5483}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a541c6e79fc072142a1d0418048fd57a9_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a541c6e79fc072142a1d0418048fd57a9_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_ac8d20baf11945e4ec2716e2c7c8d194b}\index{protocol.c@{protocol.c}!command\_OS@{command\_OS}}
+\index{command\_OS@{command\_OS}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_OS()}{command\_OS()}}
+{\footnotesize\ttfamily \label{protocol_8c_ac8d20baf11945e4ec2716e2c7c8d194b} 
+void command\+\_\+\+OS (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l05435}{5435}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=303pt]{protocol_8c_ac8d20baf11945e4ec2716e2c7c8d194b_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_ac8d20baf11945e4ec2716e2c7c8d194b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a1574f6c5e15b81a162e208de5a9176dc}\index{protocol.c@{protocol.c}!command\_Os@{command\_Os}}
+\index{command\_Os@{command\_Os}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_Os()}{command\_Os()}}
+{\footnotesize\ttfamily \label{protocol_8c_a1574f6c5e15b81a162e208de5a9176dc} 
+void command\+\_\+\+Os (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l05448}{5448}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=302pt]{protocol_8c_a1574f6c5e15b81a162e208de5a9176dc_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a1574f6c5e15b81a162e208de5a9176dc_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a0a36f67b58da5a45866b2dac2753f210}\index{protocol.c@{protocol.c}!command\_OT@{command\_OT}}
+\index{command\_OT@{command\_OT}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_OT()}{command\_OT()}}
+{\footnotesize\ttfamily \label{protocol_8c_a0a36f67b58da5a45866b2dac2753f210} 
+void command\+\_\+\+OT (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l05489}{5489}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a0a36f67b58da5a45866b2dac2753f210_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a76f95664e31d38af3d4e5ead274e9777}\index{protocol.c@{protocol.c}!command\_Ot@{command\_Ot}}
+\index{command\_Ot@{command\_Ot}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_Ot()}{command\_Ot()}}
+{\footnotesize\ttfamily \label{protocol_8c_a76f95664e31d38af3d4e5ead274e9777} 
+void command\+\_\+\+Ot (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l05519}{5519}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a76f95664e31d38af3d4e5ead274e9777_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_ab9c5d7a3e34a52098cefedd27e7f1099}\index{protocol.c@{protocol.c}!command\_OV@{command\_OV}}
+\index{command\_OV@{command\_OV}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_OV()}{command\_OV()}}
+{\footnotesize\ttfamily \label{protocol_8c_ab9c5d7a3e34a52098cefedd27e7f1099} 
+void command\+\_\+\+OV (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l00206}{206}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=278pt]{protocol_8c_ab9c5d7a3e34a52098cefedd27e7f1099_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_ab9c5d7a3e34a52098cefedd27e7f1099_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_ad4d0ec51ebc92af66678cd005027f64f}\index{protocol.c@{protocol.c}!command\_ov@{command\_ov}}
+\index{command\_ov@{command\_ov}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_ov()}{command\_ov()}}
+{\footnotesize\ttfamily \label{protocol_8c_ad4d0ec51ebc92af66678cd005027f64f} 
+void command\+\_\+ov (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l00239}{239}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{protocol_8c_ad4d0ec51ebc92af66678cd005027f64f_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_ad4d0ec51ebc92af66678cd005027f64f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_adf75d5d08a937aab1a9c7554eec83f1e}\index{protocol.c@{protocol.c}!command\_OZ@{command\_OZ}}
+\index{command\_OZ@{command\_OZ}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{command\_OZ()}{command\_OZ()}}
+{\footnotesize\ttfamily \label{protocol_8c_adf75d5d08a937aab1a9c7554eec83f1e} 
+void command\+\_\+\+OZ (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l05538}{5538}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=267pt]{protocol_8c_adf75d5d08a937aab1a9c7554eec83f1e_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_adf75d5d08a937aab1a9c7554eec83f1e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_aa4535d21f03987da834d9ba0c7f5c64c}\index{protocol.c@{protocol.c}!download@{download}}
+\index{download@{download}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{download()}{download()}}
+{\footnotesize\ttfamily \label{protocol_8c_aa4535d21f03987da834d9ba0c7f5c64c} 
+void download (\begin{DoxyParamCaption}\item[{short}]{mode}{, }\item[{short}]{type}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00095}{95}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_aa4535d21f03987da834d9ba0c7f5c64c_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_aa4535d21f03987da834d9ba0c7f5c64c_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_ae74a7f51697fd01f4b58bc7c03c09fe4}\index{protocol.c@{protocol.c}!eep\_write\_ch@{eep\_write\_ch}}
+\index{eep\_write\_ch@{eep\_write\_ch}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{eep\_write\_ch()}{eep\_write\_ch()}}
+{\footnotesize\ttfamily \label{protocol_8c_ae74a7f51697fd01f4b58bc7c03c09fe4} 
+void eep\+\_\+write\+\_\+ch (\begin{DoxyParamCaption}\item[{short}]{pch}{, }\item[{short}]{rom\+\_\+addr}{, }\item[{short}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00358}{358}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a8ff8bbde65587f0ccef81e42a8881ab6}\index{protocol.c@{protocol.c}!letter\_judge@{letter\_judge}}
+\index{letter\_judge@{letter\_judge}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{letter\_judge()}{letter\_judge()}}
+{\footnotesize\ttfamily \label{protocol_8c_a8ff8bbde65587f0ccef81e42a8881ab6} 
+void letter\+\_\+judge (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{, }\item[{short}]{sl}{, }\item[{short}]{sm}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00394}{394}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=249pt]{protocol_8c_a8ff8bbde65587f0ccef81e42a8881ab6_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a8ff8bbde65587f0ccef81e42a8881ab6_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a9b21014b016c469249aa88851097b011}\index{protocol.c@{protocol.c}!make\_viscos\_tbl@{make\_viscos\_tbl}}
+\index{make\_viscos\_tbl@{make\_viscos\_tbl}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{make\_viscos\_tbl()}{make\_viscos\_tbl()}}
+{\footnotesize\ttfamily \label{protocol_8c_a9b21014b016c469249aa88851097b011} 
+void make\+\_\+viscos\+\_\+tbl (\begin{DoxyParamCaption}\item[{short}]{pch}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{int__flow_8c_source}{int\+\_\+flow.\+c}} の \mbox{\hyperlink{int__flow_8c_source_l03592}{3592}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a9b21014b016c469249aa88851097b011_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a0c7f586fdccd67d521c4a7b620d125a1}\index{protocol.c@{protocol.c}!MemoryCom@{MemoryCom}}
+\index{MemoryCom@{MemoryCom}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{MemoryCom()}{MemoryCom()}}
+{\footnotesize\ttfamily \label{protocol_8c_a0c7f586fdccd67d521c4a7b620d125a1} 
+void Memory\+Com (\begin{DoxyParamCaption}\item[{int}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a0c7f586fdccd67d521c4a7b620d125a1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_aa982ae84a6a9e74865bed20357ea8454}\index{protocol.c@{protocol.c}!mky43\_TX\_start@{mky43\_TX\_start}}
+\index{mky43\_TX\_start@{mky43\_TX\_start}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_TX\_start()}{mky43\_TX\_start()}}
+{\footnotesize\ttfamily \label{protocol_8c_aa982ae84a6a9e74865bed20357ea8454} 
+void mky43\+\_\+\+TX\+\_\+start (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00964}{964}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_aa982ae84a6a9e74865bed20357ea8454_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_aa982ae84a6a9e74865bed20357ea8454_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_ad8805261634effd80c37f3dddebe5808}\index{protocol.c@{protocol.c}!protocol@{protocol}}
+\index{protocol@{protocol}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{protocol()}{protocol()}}
+{\footnotesize\ttfamily \label{protocol_8c_ad8805261634effd80c37f3dddebe5808} 
+void protocol (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l01302}{1302}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{protocol_8c_ad8805261634effd80c37f3dddebe5808_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_ad8805261634effd80c37f3dddebe5808_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a74d5edb386ac95b0ada83a04cf80af6a}\index{protocol.c@{protocol.c}!read\_change@{read\_change}}
+\index{read\_change@{read\_change}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{read\_change()}{read\_change()}}
+{\footnotesize\ttfamily \label{protocol_8c_a74d5edb386ac95b0ada83a04cf80af6a} 
+void read\+\_\+change (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{, }\item[{long long}]{read\+\_\+value}{, }\item[{char}]{point}{, }\item[{short}]{pos}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00110}{110}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{protocol_8c_a74d5edb386ac95b0ada83a04cf80af6a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_aed554427fe699738d8ff1e76ed08f75d}\index{protocol.c@{protocol.c}!read\_command\_R@{read\_command\_R}}
+\index{read\_command\_R@{read\_command\_R}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{read\_command\_R()}{read\_command\_R()}}
+{\footnotesize\ttfamily \label{protocol_8c_aed554427fe699738d8ff1e76ed08f75d} 
+void read\+\_\+command\+\_\+R (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l02792}{2792}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{protocol_8c_aed554427fe699738d8ff1e76ed08f75d_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_aed554427fe699738d8ff1e76ed08f75d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a44b2dc730fd264c1df2de5203dfdc87f}\index{protocol.c@{protocol.c}!read\_command\_W@{read\_command\_W}}
+\index{read\_command\_W@{read\_command\_W}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{read\_command\_W()}{read\_command\_W()}}
+{\footnotesize\ttfamily \label{protocol_8c_a44b2dc730fd264c1df2de5203dfdc87f} 
+void read\+\_\+command\+\_\+W (\begin{DoxyParamCaption}\item[{short}]{cm}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_e_s_8c_source}{MES.\+c}} の \mbox{\hyperlink{_m_e_s_8c_source_l05625}{5625}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{protocol_8c_a44b2dc730fd264c1df2de5203dfdc87f_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a44b2dc730fd264c1df2de5203dfdc87f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a186ddfb128716b2fdb36347acd7a0c93}\index{protocol.c@{protocol.c}!TX\_start\_host@{TX\_start\_host}}
+\index{TX\_start\_host@{TX\_start\_host}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{TX\_start\_host()}{TX\_start\_host()}}
+{\footnotesize\ttfamily \label{protocol_8c_a186ddfb128716b2fdb36347acd7a0c93} 
+void TX\+\_\+start\+\_\+host (\begin{DoxyParamCaption}\item[{short}]{byte\+\_\+num}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_c_o_m_8c_source}{COM.\+c}} の \mbox{\hyperlink{_c_o_m_8c_source_l00446}{446}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a186ddfb128716b2fdb36347acd7a0c93_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_ab0385052690e38505a370a92fc38046e}\index{protocol.c@{protocol.c}!TX\_start\_ment@{TX\_start\_ment}}
+\index{TX\_start\_ment@{TX\_start\_ment}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{TX\_start\_ment()}{TX\_start\_ment()}}
+{\footnotesize\ttfamily \label{protocol_8c_ab0385052690e38505a370a92fc38046e} 
+void TX\+\_\+start\+\_\+ment (\begin{DoxyParamCaption}\item[{short}]{byte\+\_\+num}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_c_o_m_8c_source}{COM.\+c}} の \mbox{\hyperlink{_c_o_m_8c_source_l00496}{496}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_ab0385052690e38505a370a92fc38046e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a7fa6ddc2c11205f4a783b5a9439d8e96}\index{protocol.c@{protocol.c}!value\_judge@{value\_judge}}
+\index{value\_judge@{value\_judge}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{value\_judge()}{value\_judge()}}
+{\footnotesize\ttfamily \label{protocol_8c_a7fa6ddc2c11205f4a783b5a9439d8e96} 
+void value\+\_\+judge (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{, }\item[{short}]{si}{, }\item[{short}]{pow}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00251}{251}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{protocol_8c_a7fa6ddc2c11205f4a783b5a9439d8e96_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{protocol_8c_a66c92498161c9533a41c6a69b4a23eaa}\index{protocol.c@{protocol.c}!value\_judge\_Hex@{value\_judge\_Hex}}
+\index{value\_judge\_Hex@{value\_judge\_Hex}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{value\_judge\_Hex()}{value\_judge\_Hex()}}
+{\footnotesize\ttfamily \label{protocol_8c_a66c92498161c9533a41c6a69b4a23eaa} 
+void value\+\_\+judge\+\_\+\+Hex (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{, }\item[{short}]{s\+Pos}{, }\item[{short}]{pow}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00353}{353}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{protocol_8c_a66c92498161c9533a41c6a69b4a23eaa_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{変数詳解}
+\Hypertarget{protocol_8c_ab4799016bb58fd8f2e9a4d0f0b178e22}\index{protocol.c@{protocol.c}!ch\_no@{ch\_no}}
+\index{ch\_no@{ch\_no}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{ch\_no}{ch\_no}}
+{\footnotesize\ttfamily \label{protocol_8c_ab4799016bb58fd8f2e9a4d0f0b178e22} 
+short ch\+\_\+no\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00075}{75}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a16ff7e0c7f1f7919b7c7c92bfa088241}\index{protocol.c@{protocol.c}!ch\_z@{ch\_z}}
+\index{ch\_z@{ch\_z}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{ch\_z}{ch\_z}}
+{\footnotesize\ttfamily \label{protocol_8c_a16ff7e0c7f1f7919b7c7c92bfa088241} 
+short ch\+\_\+z\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00084}{84}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a2faf572799c793b94aeed7c38bfd7c5d}\index{protocol.c@{protocol.c}!com\_type@{com\_type}}
+\index{com\_type@{com\_type}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{com\_type}{com\_type}}
+{\footnotesize\ttfamily \label{protocol_8c_a2faf572799c793b94aeed7c38bfd7c5d} 
+short com\+\_\+type\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_a_i_n_8c_source}{MAIN.\+c}} の \mbox{\hyperlink{_m_a_i_n_8c_source_l00131}{131}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a4cee886d41a5ab4c9332fe3f9938048f}\index{protocol.c@{protocol.c}!digit\_check@{digit\_check}}
+\index{digit\_check@{digit\_check}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{digit\_check}{digit\_check}}
+{\footnotesize\ttfamily \label{protocol_8c_a4cee886d41a5ab4c9332fe3f9938048f} 
+short digit\+\_\+check\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00077}{77}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_ad277c818372d8de48a124b2a832f97e7}\index{protocol.c@{protocol.c}!echo\_back@{echo\_back}}
+\index{echo\_back@{echo\_back}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{echo\_back}{echo\_back}}
+{\footnotesize\ttfamily \label{protocol_8c_ad277c818372d8de48a124b2a832f97e7} 
+short echo\+\_\+back\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00086}{86}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a47e7ef6ad70da303c54a8cf579705ca4}\index{protocol.c@{protocol.c}!eep\_err@{eep\_err}}
+\index{eep\_err@{eep\_err}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{eep\_err}{eep\_err}}
+{\footnotesize\ttfamily \label{protocol_8c_a47e7ef6ad70da303c54a8cf579705ca4} 
+short eep\+\_\+err}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00088}{88}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_ab5ebb6028f503ec08ea7cbb8b8f1ef45}\index{protocol.c@{protocol.c}!end\_code@{end\_code}}
+\index{end\_code@{end\_code}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{end\_code}{end\_code}}
+{\footnotesize\ttfamily \label{protocol_8c_ab5ebb6028f503ec08ea7cbb8b8f1ef45} 
+short end\+\_\+code\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00078}{78}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_abcd28055602271caf79f7f09609ae857}\index{protocol.c@{protocol.c}!end\_wdt@{end\_wdt}}
+\index{end\_wdt@{end\_wdt}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{end\_wdt}{end\_wdt}}
+{\footnotesize\ttfamily \label{protocol_8c_abcd28055602271caf79f7f09609ae857} 
+short end\+\_\+wdt\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00065}{65}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a1847dbc9535bed9126567a9267cb8db5}\index{protocol.c@{protocol.c}!err\_stat@{err\_stat}}
+\index{err\_stat@{err\_stat}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{err\_stat}{err\_stat}}
+{\footnotesize\ttfamily \label{protocol_8c_a1847dbc9535bed9126567a9267cb8db5} 
+short err\+\_\+stat\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_c_o_m_8c_source}{COM.\+c}} の \mbox{\hyperlink{_c_o_m_8c_source_l00091}{91}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a81598585c160b6f7394eda58bd4a9e2f}\index{protocol.c@{protocol.c}!error\_check@{error\_check}}
+\index{error\_check@{error\_check}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{error\_check}{error\_check}}
+{\footnotesize\ttfamily \label{protocol_8c_a81598585c160b6f7394eda58bd4a9e2f} 
+short error\+\_\+check\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00085}{85}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a97ba70db5f6cf4a29ff2404562e9a147}\index{protocol.c@{protocol.c}!flow\_check@{flow\_check}}
+\index{flow\_check@{flow\_check}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{flow\_check}{flow\_check}}
+{\footnotesize\ttfamily \label{protocol_8c_a97ba70db5f6cf4a29ff2404562e9a147} 
+short flow\+\_\+check\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00079}{79}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a8777b453f491e7f65a8e9fb4e4467505}\index{protocol.c@{protocol.c}!format\_err\_host@{format\_err\_host}}
+\index{format\_err\_host@{format\_err\_host}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{format\_err\_host}{format\_err\_host}}
+{\footnotesize\ttfamily \label{protocol_8c_a8777b453f491e7f65a8e9fb4e4467505} 
+short format\+\_\+err\+\_\+host\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00080}{80}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a89beacd051b1e7923b855e827e4715b5}\index{protocol.c@{protocol.c}!format\_err\_sub@{format\_err\_sub}}
+\index{format\_err\_sub@{format\_err\_sub}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{format\_err\_sub}{format\_err\_sub}}
+{\footnotesize\ttfamily \label{protocol_8c_a89beacd051b1e7923b855e827e4715b5} 
+short format\+\_\+err\+\_\+sub\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00081}{81}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a7a340752a686f445c3a9f456d9ccbc16}\index{protocol.c@{protocol.c}!i\_num@{i\_num}}
+\index{i\_num@{i\_num}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{i\_num}{i\_num}}
+{\footnotesize\ttfamily \label{protocol_8c_a7a340752a686f445c3a9f456d9ccbc16} 
+short i\+\_\+num\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00074}{74}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a3763ca988cc74ff18e692cfc5d8ee1e6}\index{protocol.c@{protocol.c}!l\_check@{l\_check}}
+\index{l\_check@{l\_check}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{l\_check}{l\_check}}
+{\footnotesize\ttfamily \label{protocol_8c_a3763ca988cc74ff18e692cfc5d8ee1e6} 
+short l\+\_\+check\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00087}{87}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_acdcf807bb667f3cbfdd183232c87c0bf}\index{protocol.c@{protocol.c}!len\_err\_host@{len\_err\_host}}
+\index{len\_err\_host@{len\_err\_host}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{len\_err\_host}{len\_err\_host}}
+{\footnotesize\ttfamily \label{protocol_8c_acdcf807bb667f3cbfdd183232c87c0bf} 
+short len\+\_\+err\+\_\+host\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00078}{78}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_ad02e8a7b86a8d73556296f845c044b78}\index{protocol.c@{protocol.c}!len\_err\_sub@{len\_err\_sub}}
+\index{len\_err\_sub@{len\_err\_sub}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{len\_err\_sub}{len\_err\_sub}}
+{\footnotesize\ttfamily \label{protocol_8c_ad02e8a7b86a8d73556296f845c044b78} 
+short len\+\_\+err\+\_\+sub\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00079}{79}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a05ce683cb56dcacfc72d2426a7076733}\index{protocol.c@{protocol.c}!mes\_err@{mes\_err}}
+\index{mes\_err@{mes\_err}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{mes\_err}{mes\_err}}
+{\footnotesize\ttfamily \label{protocol_8c_a05ce683cb56dcacfc72d2426a7076733} 
+short mes\+\_\+err\mbox{[}7\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00089}{89}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_ae712d4c69b0e0390b1f93e586a36b4b3}\index{protocol.c@{protocol.c}!multi\_ch\_no@{multi\_ch\_no}}
+\index{multi\_ch\_no@{multi\_ch\_no}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{multi\_ch\_no}{multi\_ch\_no}}
+{\footnotesize\ttfamily \label{protocol_8c_ae712d4c69b0e0390b1f93e586a36b4b3} 
+short multi\+\_\+ch\+\_\+no\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}\mbox{[}\mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\+\_\+\+NUMMAX}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00083}{83}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a674b4c7ee82d22d417f0aa62ca103a07}\index{protocol.c@{protocol.c}!RX\_buf@{RX\_buf}}
+\index{RX\_buf@{RX\_buf}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{RX\_buf}{RX\_buf}}
+{\footnotesize\ttfamily \label{protocol_8c_a674b4c7ee82d22d417f0aa62ca103a07} 
+char RX\+\_\+buf\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}\mbox{[}\mbox{\hyperlink{define_8h_a125068d98a9d9d367518ed22f5b8568e}{MSG\+\_\+\+MAX}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00081}{81}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}\index{protocol.c@{protocol.c}!size@{size}}
+\index{size@{size}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily \label{protocol_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad} 
+short size\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00076}{76}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_afb129eb4743a1acd7869dab156958606}\index{protocol.c@{protocol.c}!TX\_buf@{TX\_buf}}
+\index{TX\_buf@{TX\_buf}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{TX\_buf}{TX\_buf}}
+{\footnotesize\ttfamily \label{protocol_8c_afb129eb4743a1acd7869dab156958606} 
+char TX\+\_\+buf\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}\mbox{[}\mbox{\hyperlink{define_8h_a125068d98a9d9d367518ed22f5b8568e}{MSG\+\_\+\+MAX}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00082}{82}} 行目に定義があります。
+
+\Hypertarget{protocol_8c_a3082c4d944d24f6b31dd27cc5b64f893}\index{protocol.c@{protocol.c}!value@{value}}
+\index{value@{value}!protocol.c@{protocol.c}}
+\doxysubsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily \label{protocol_8c_a3082c4d944d24f6b31dd27cc5b64f893} 
+long long value\mbox{[}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{MSG\+\_\+\+NUM}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00080}{80}} 行目に定義があります。
+

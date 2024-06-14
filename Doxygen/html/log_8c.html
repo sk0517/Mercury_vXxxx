@@ -1,0 +1,707 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.11.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Mercury: C:/WorkSpace/Mercury/Mercury_vXxxx/Mercury/MAIN/log.c ファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Mercury
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.11.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','検索',false);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_188d001a6c11814c0e5bef1d09d0f49f.html">Mercury</a></li><li class="navelem"><a class="el" href="dir_0e0a91e0e8f41b25d016596073bb94ed.html">MAIN</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#func-members">関数</a> &#124;
+<a href="#var-members">変数</a>  </div>
+  <div class="headertitle"><div class="title">log.c ファイル</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;machine.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="define_8h_source.html">define.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_s_v__def_8h_source.html">SV_def.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="typedefine_8h_source.html">typedefine.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="def_m_e_s_8h_source.html">defMES.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="def_l_o_g_8h_source.html">defLOG.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="def_m_a_i_n_8h_source.html">defMAIN.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="def_s_a_v_e_8h_source.html">defSAVE.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+log.c の依存先関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c__incl.png" border="0" usemap="#a_c_1_2_work_space_2_mercury_2_mercury__v_xxxx_2_mercury_2_m_a_i_n_2log_8c" alt=""/></div>
+<map name="a_c_1_2_work_space_2_mercury_2_mercury__v_xxxx_2_mercury_2_m_a_i_n_2log_8c" id="a_c_1_2_work_space_2_mercury_2_mercury__v_xxxx_2_mercury_2_m_a_i_n_2log_8c">
+<area shape="rect" title=" " alt="" coords="312,5,476,64"/>
+<area shape="rect" title=" " alt="" coords="5,112,87,139"/>
+<area shape="poly" title=" " alt="" coords="313,59,102,112,101,107,311,54"/>
+<area shape="rect" title=" " alt="" coords="111,112,176,139"/>
+<area shape="poly" title=" " alt="" coords="313,67,191,110,189,105,312,62"/>
+<area shape="rect" href="define_8h.html" title=" " alt="" coords="521,187,587,213"/>
+<area shape="poly" title=" " alt="" coords="313,60,276,75,246,93,237,103,232,114,233,125,240,137,257,150,283,162,355,179,435,189,506,194,505,199,434,194,354,184,282,167,254,155,236,140,228,126,227,113,233,101,243,89,273,70,311,55"/>
+<area shape="rect" href="_s_v__def_8h.html" title=" " alt="" coords="250,112,325,139"/>
+<area shape="poly" title=" " alt="" coords="361,66,316,104,312,100,358,62"/>
+<area shape="rect" href="typedefine_8h.html" title=" " alt="" coords="348,112,440,139"/>
+<area shape="poly" title=" " alt="" coords="397,64,397,96,391,96,391,64"/>
+<area shape="rect" href="def_m_e_s_8h.html" title=" " alt="" coords="464,112,543,139"/>
+<area shape="poly" title=" " alt="" coords="431,62,477,100,474,104,428,66"/>
+<area shape="rect" href="def_l_o_g_8h.html" title=" " alt="" coords="567,112,643,139"/>
+<area shape="poly" title=" " alt="" coords="463,62,562,103,560,108,461,67"/>
+<area shape="rect" href="def_m_a_i_n_8h.html" title=" " alt="" coords="667,112,748,139"/>
+<area shape="poly" title=" " alt="" coords="477,57,653,106,651,111,476,62"/>
+<area shape="rect" href="def_s_a_v_e_8h.html" title=" " alt="" coords="773,112,858,139"/>
+<area shape="poly" title=" " alt="" coords="477,50,758,109,757,114,475,55"/>
+<area shape="poly" title=" " alt="" coords="326,134,506,183,505,188,324,139"/>
+<area shape="poly" title=" " alt="" coords="514,138,539,173,535,176,510,141"/>
+<area shape="poly" title=" " alt="" coords="598,141,573,176,569,173,594,138"/>
+<area shape="poly" title=" " alt="" coords="682,142,596,182,594,177,679,137"/>
+<area shape="poly" title=" " alt="" coords="773,141,603,188,601,183,771,136"/>
+</map>
+</div>
+</div>
+<p><a href="log_8c_source.html">[ソースコード]</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+関数</h2></td></tr>
+<tr class="memitem:a2508fad025e49f9746b6c178dce6917e" id="r_a2508fad025e49f9746b6c178dce6917e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2508fad025e49f9746b6c178dce6917e">log_init</a> (void)</td></tr>
+<tr class="separator:a2508fad025e49f9746b6c178dce6917e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35931fdc2c8b78eacf9ed0ac4182d569" id="r_a35931fdc2c8b78eacf9ed0ac4182d569"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35931fdc2c8b78eacf9ed0ac4182d569">log_detailinfo_init</a> (short ch)</td></tr>
+<tr class="separator:a35931fdc2c8b78eacf9ed0ac4182d569"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23729b76bf231420d9926ecbacfb5c94" id="r_a23729b76bf231420d9926ecbacfb5c94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23729b76bf231420d9926ecbacfb5c94">log_basicinfo_save</a> (short ch, short code)</td></tr>
+<tr class="separator:a23729b76bf231420d9926ecbacfb5c94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5562c5465fb0198f596b929b8901a74e" id="r_a5562c5465fb0198f596b929b8901a74e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5562c5465fb0198f596b929b8901a74e">log_detailinfo_save</a> (short ch, short code)</td></tr>
+<tr class="separator:a5562c5465fb0198f596b929b8901a74e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38c4e28274006231dfa745984a208789" id="r_a38c4e28274006231dfa745984a208789"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38c4e28274006231dfa745984a208789">log_save</a> (short ch, short code)</td></tr>
+<tr class="separator:a38c4e28274006231dfa745984a208789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc24144696198a3af65314333356cd04" id="r_abc24144696198a3af65314333356cd04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc24144696198a3af65314333356cd04">eep_write_ch_delay</a> (short, short, short)</td></tr>
+<tr class="separator:abc24144696198a3af65314333356cd04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5ddb4515f9f37c98af2e3bb268012da" id="r_ad5ddb4515f9f37c98af2e3bb268012da"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5ddb4515f9f37c98af2e3bb268012da">get_attenuator_gain</a> (short pch)</td></tr>
+<tr class="separator:ad5ddb4515f9f37c98af2e3bb268012da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48a1a4bf9b2ef22bacb79ef63bf78ff5" id="r_a48a1a4bf9b2ef22bacb79ef63bf78ff5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48a1a4bf9b2ef22bacb79ef63bf78ff5">err_priority</a> (short ch, short new_err_code)</td></tr>
+<tr class="separator:a48a1a4bf9b2ef22bacb79ef63bf78ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe4270da19df501a4ea5ad6989590443" id="r_abe4270da19df501a4ea5ad6989590443"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe4270da19df501a4ea5ad6989590443">check_queue</a> (void)</td></tr>
+<tr class="separator:abe4270da19df501a4ea5ad6989590443"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+変数</h2></td></tr>
+<tr class="memitem:aa3cac78822855b3a06467a9f070ca298" id="r_aa3cac78822855b3a06467a9f070ca298"><td class="memItemLeft" align="right" valign="top">unsigned long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3cac78822855b3a06467a9f070ca298">cmi_count</a></td></tr>
+<tr class="separator:aa3cac78822855b3a06467a9f070ca298"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">関数詳解</h2>
+<a id="abe4270da19df501a4ea5ad6989590443" name="abe4270da19df501a4ea5ad6989590443"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe4270da19df501a4ea5ad6989590443">&#9670;&#160;</a></span>check_queue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">short check_queue </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition"> <a class="el" href="eeprom__spi_8c_source.html">eeprom_spi.c</a> の <a class="el" href="eeprom__spi_8c_source.html#l00473">473</a> 行目に定義があります。</p>
+<div class="dynheader">
+被呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_abe4270da19df501a4ea5ad6989590443_icgraph.png" border="0" usemap="#alog_8c_abe4270da19df501a4ea5ad6989590443_icgraph" alt=""/></div>
+<map name="alog_8c_abe4270da19df501a4ea5ad6989590443_icgraph" id="alog_8c_abe4270da19df501a4ea5ad6989590443_icgraph">
+<area shape="rect" title=" " alt="" coords="589,31,687,57"/>
+<area shape="rect" href="log_8c.html#a23729b76bf231420d9926ecbacfb5c94" title=" " alt="" coords="411,5,541,32"/>
+<area shape="poly" title=" " alt="" coords="573,37,541,31,542,26,574,31"/>
+<area shape="rect" href="log_8c.html#a5562c5465fb0198f596b929b8901a74e" title=" " alt="" coords="411,56,541,83"/>
+<area shape="poly" title=" " alt="" coords="574,57,542,62,541,57,573,51"/>
+<area shape="rect" href="log_8c.html#a38c4e28274006231dfa745984a208789" title=" " alt="" coords="292,31,363,57"/>
+<area shape="poly" title=" " alt="" coords="396,35,364,41,363,35,395,30"/>
+<area shape="rect" href="util_8c.html#afc50edf1ee99ae7dbd2f6f28c6ccc2fa" title=" " alt="" coords="114,5,244,32"/>
+<area shape="poly" title=" " alt="" coords="276,38,244,32,245,27,277,33"/>
+<area shape="rect" href="util_8c.html#ade74606efd7985ce3735a5433cab1470" title=" " alt="" coords="120,56,238,83"/>
+<area shape="poly" title=" " alt="" coords="277,55,238,62,238,57,276,50"/>
+<area shape="rect" href="int__prg_8c.html#a36e22fdcd0c0464494d4db857135d5ec" title=" " alt="" coords="5,31,66,57"/>
+<area shape="poly" title=" " alt="" coords="99,36,67,41,66,36,98,30"/>
+<area shape="poly" title=" " alt="" coords="104,59,66,52,67,47,105,54"/>
+<area shape="poly" title=" " alt="" coords="395,58,363,53,364,47,396,53"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="abc24144696198a3af65314333356cd04" name="abc24144696198a3af65314333356cd04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc24144696198a3af65314333356cd04">&#9670;&#160;</a></span>eep_write_ch_delay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void eep_write_ch_delay </td>
+          <td>(</td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>pch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>rom_addr</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>data</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition"> <a class="el" href="eeprom__spi_8c_source.html">eeprom_spi.c</a> の <a class="el" href="eeprom__spi_8c_source.html#l00496">496</a> 行目に定義があります。</p>
+<div class="dynheader">
+被呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_abc24144696198a3af65314333356cd04_icgraph.png" border="0" usemap="#alog_8c_abc24144696198a3af65314333356cd04_icgraph" alt=""/></div>
+<map name="alog_8c_abc24144696198a3af65314333356cd04_icgraph" id="alog_8c_abc24144696198a3af65314333356cd04_icgraph">
+<area shape="rect" title=" " alt="" coords="589,31,724,57"/>
+<area shape="rect" href="log_8c.html#a23729b76bf231420d9926ecbacfb5c94" title=" " alt="" coords="411,31,541,57"/>
+<area shape="poly" title=" " alt="" coords="573,47,541,47,541,41,573,41"/>
+<area shape="rect" href="log_8c.html#a38c4e28274006231dfa745984a208789" title=" " alt="" coords="292,31,363,57"/>
+<area shape="poly" title=" " alt="" coords="396,47,364,47,364,41,396,41"/>
+<area shape="rect" href="util_8c.html#afc50edf1ee99ae7dbd2f6f28c6ccc2fa" title=" " alt="" coords="114,5,244,32"/>
+<area shape="poly" title=" " alt="" coords="276,38,244,32,245,27,277,33"/>
+<area shape="rect" href="util_8c.html#ade74606efd7985ce3735a5433cab1470" title=" " alt="" coords="120,56,238,83"/>
+<area shape="poly" title=" " alt="" coords="277,55,238,62,238,57,276,50"/>
+<area shape="rect" href="int__prg_8c.html#a36e22fdcd0c0464494d4db857135d5ec" title=" " alt="" coords="5,31,66,57"/>
+<area shape="poly" title=" " alt="" coords="99,36,67,41,66,36,98,30"/>
+<area shape="poly" title=" " alt="" coords="104,59,66,52,67,47,105,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a48a1a4bf9b2ef22bacb79ef63bf78ff5" name="a48a1a4bf9b2ef22bacb79ef63bf78ff5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48a1a4bf9b2ef22bacb79ef63bf78ff5">&#9670;&#160;</a></span>err_priority()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void err_priority </td>
+          <td>(</td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>new_err_code</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition"> <a class="el" href="util_8c_source.html">util.c</a> の <a class="el" href="util_8c_source.html#l01165">1165</a> 行目に定義があります。</p>
+<div class="dynheader">
+呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_a48a1a4bf9b2ef22bacb79ef63bf78ff5_cgraph.png" border="0" usemap="#alog_8c_a48a1a4bf9b2ef22bacb79ef63bf78ff5_cgraph" alt=""/></div>
+<map name="alog_8c_a48a1a4bf9b2ef22bacb79ef63bf78ff5_cgraph" id="alog_8c_a48a1a4bf9b2ef22bacb79ef63bf78ff5_cgraph">
+<area shape="rect" title=" " alt="" coords="5,29,88,56"/>
+<area shape="poly" title=" " alt="" coords="31,29,30,12,36,5,47,3,57,5,63,12,59,15,54,10,46,8,39,10,35,14,36,29"/>
+</map>
+</div>
+<div class="dynheader">
+被呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_a48a1a4bf9b2ef22bacb79ef63bf78ff5_icgraph.png" border="0" usemap="#alog_8c_a48a1a4bf9b2ef22bacb79ef63bf78ff5_icgraph" alt=""/></div>
+<map name="alog_8c_a48a1a4bf9b2ef22bacb79ef63bf78ff5_icgraph" id="alog_8c_a48a1a4bf9b2ef22bacb79ef63bf78ff5_icgraph">
+<area shape="rect" title=" " alt="" coords="643,119,725,145"/>
+<area shape="poly" title=" " alt="" coords="708,106,700,100,684,97,669,99,661,104,659,110,663,117,658,119,654,110,657,100,667,94,684,92,702,95,711,101"/>
+<area shape="rect" href="_m_e_s_8c.html#a71f4d07a600e750d4cd178c3dc42f0e2" title=" " alt="" coords="486,17,591,44"/>
+<area shape="poly" title=" " alt="" coords="656,110,627,83,593,58,572,47,575,42,596,54,630,79,660,106"/>
+<area shape="rect" href="_m_e_s_8c.html#a0d38c6c14b86d20a9fb14ccd38ed5a9d" title=" " alt="" coords="489,68,588,95"/>
+<area shape="poly" title=" " alt="" coords="628,116,578,98,580,93,630,110"/>
+<area shape="rect" href="util_8c.html#ade74606efd7985ce3735a5433cab1470" title=" " alt="" coords="311,169,428,196"/>
+<area shape="poly" title=" " alt="" coords="627,140,483,160,428,171,427,166,482,155,627,135"/>
+<area shape="rect" href="log_8c.html#a38c4e28274006231dfa745984a208789" title=" " alt="" coords="503,220,574,247"/>
+<area shape="poly" title=" " alt="" coords="660,158,630,185,596,210,575,222,572,217,593,206,627,181,656,154"/>
+<area shape="rect" href="util_8c.html#a40b59b63f1b56fed065cae443d301dd8" title=" " alt="" coords="482,169,595,196"/>
+<area shape="poly" title=" " alt="" coords="630,154,580,171,578,166,628,148"/>
+<area shape="rect" href="protocol_8c.html#ad8805261634effd80c37f3dddebe5808" title=" " alt="" coords="336,56,403,83"/>
+<area shape="poly" title=" " alt="" coords="471,49,404,64,403,59,470,44"/>
+<area shape="rect" href="_c_o_m_8c.html#a246af951920e13bc394f8f3cefef85b9" title=" " alt="" coords="135,5,246,32"/>
+<area shape="poly" title=" " alt="" coords="320,58,239,35,241,30,321,53"/>
+<area shape="rect" href="_c_o_m_8c.html#aee656cce6b888166f75fa856c9884a38" title=" " alt="" coords="133,56,248,83"/>
+<area shape="poly" title=" " alt="" coords="320,72,248,72,248,67,320,67"/>
+<area shape="rect" href="_c_o_m_8c.html#a8f2620d721d4ae5cab459bb0bec2e4a9" title=" " alt="" coords="125,107,256,133"/>
+<area shape="poly" title=" " alt="" coords="321,86,241,109,239,103,320,80"/>
+<area shape="rect" href="_c_o_m_8c.html#a622d5d1f6fe747f46262e1918b92b57a" title=" " alt="" coords="5,5,77,32"/>
+<area shape="poly" title=" " alt="" coords="120,21,77,21,77,16,120,16"/>
+<area shape="rect" href="_c_o_m_8c.html#a5eecf800e8059f00065cec1af1603444" title=" " alt="" coords="5,56,77,83"/>
+<area shape="poly" title=" " alt="" coords="118,72,77,72,77,67,118,67"/>
+<area shape="rect" href="_c_o_m_8c.html#a59c731ad0c4e2f6c7127ca10f4578851" title=" " alt="" coords="5,107,77,133"/>
+<area shape="poly" title=" " alt="" coords="109,123,77,123,77,117,109,117"/>
+<area shape="poly" title=" " alt="" coords="473,79,403,74,403,69,474,74"/>
+<area shape="rect" href="int__prg_8c.html#a36e22fdcd0c0464494d4db857135d5ec" title=" " alt="" coords="160,183,221,209"/>
+<area shape="poly" title=" " alt="" coords="295,191,221,196,221,191,295,186"/>
+<area shape="poly" title=" " alt="" coords="487,221,415,199,417,194,489,216"/>
+<area shape="rect" href="util_8c.html#afc50edf1ee99ae7dbd2f6f28c6ccc2fa" title=" " alt="" coords="304,220,434,247"/>
+<area shape="poly" title=" " alt="" coords="487,236,435,236,435,231,487,231"/>
+<area shape="poly" title=" " alt="" coords="288,219,220,205,222,200,289,214"/>
+<area shape="poly" title=" " alt="" coords="466,185,428,185,428,180,466,180"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ad5ddb4515f9f37c98af2e3bb268012da" name="ad5ddb4515f9f37c98af2e3bb268012da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5ddb4515f9f37c98af2e3bb268012da">&#9670;&#160;</a></span>get_attenuator_gain()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">short get_attenuator_gain </td>
+          <td>(</td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>pch</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition"> <a class="el" href="int__flow_8c_source.html">int_flow.c</a> の <a class="el" href="int__flow_8c_source.html#l04576">4576</a> 行目に定義があります。</p>
+<div class="dynheader">
+被呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_ad5ddb4515f9f37c98af2e3bb268012da_icgraph.png" border="0" usemap="#alog_8c_ad5ddb4515f9f37c98af2e3bb268012da_icgraph" alt=""/></div>
+<map name="alog_8c_ad5ddb4515f9f37c98af2e3bb268012da_icgraph" id="alog_8c_ad5ddb4515f9f37c98af2e3bb268012da_icgraph">
+<area shape="rect" title=" " alt="" coords="589,31,724,57"/>
+<area shape="rect" href="log_8c.html#a5562c5465fb0198f596b929b8901a74e" title=" " alt="" coords="411,31,541,57"/>
+<area shape="poly" title=" " alt="" coords="573,47,541,47,541,41,573,41"/>
+<area shape="rect" href="log_8c.html#a38c4e28274006231dfa745984a208789" title=" " alt="" coords="292,31,363,57"/>
+<area shape="poly" title=" " alt="" coords="396,47,364,47,364,41,396,41"/>
+<area shape="rect" href="util_8c.html#afc50edf1ee99ae7dbd2f6f28c6ccc2fa" title=" " alt="" coords="114,5,244,32"/>
+<area shape="poly" title=" " alt="" coords="276,38,244,32,245,27,277,33"/>
+<area shape="rect" href="util_8c.html#ade74606efd7985ce3735a5433cab1470" title=" " alt="" coords="120,56,238,83"/>
+<area shape="poly" title=" " alt="" coords="277,55,238,62,238,57,276,50"/>
+<area shape="rect" href="int__prg_8c.html#a36e22fdcd0c0464494d4db857135d5ec" title=" " alt="" coords="5,31,66,57"/>
+<area shape="poly" title=" " alt="" coords="99,36,67,41,66,36,98,30"/>
+<area shape="poly" title=" " alt="" coords="104,59,66,52,67,47,105,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a23729b76bf231420d9926ecbacfb5c94" name="a23729b76bf231420d9926ecbacfb5c94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23729b76bf231420d9926ecbacfb5c94">&#9670;&#160;</a></span>log_basicinfo_save()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void log_basicinfo_save </td>
+          <td>(</td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>code</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition"> <a class="el" href="log_8c_source.html">log.c</a> の <a class="el" href="log_8c_source.html#l00138">138</a> 行目に定義があります。</p>
+<div class="dynheader">
+呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_a23729b76bf231420d9926ecbacfb5c94_cgraph.png" border="0" usemap="#alog_8c_a23729b76bf231420d9926ecbacfb5c94_cgraph" alt=""/></div>
+<map name="alog_8c_a23729b76bf231420d9926ecbacfb5c94_cgraph" id="alog_8c_a23729b76bf231420d9926ecbacfb5c94_cgraph">
+<area shape="rect" title=" " alt="" coords="5,31,135,57"/>
+<area shape="rect" href="eeprom__spi_8c.html#abe4270da19df501a4ea5ad6989590443" title=" " alt="" coords="201,5,300,32"/>
+<area shape="poly" title=" " alt="" coords="135,32,186,25,186,30,135,38"/>
+<area shape="rect" href="eeprom__spi_8c.html#ac19649cfb54b660f2683469e10f6dedd" title=" " alt="" coords="183,56,318,83"/>
+<area shape="poly" title=" " alt="" coords="135,50,167,55,167,60,135,56"/>
+</map>
+</div>
+<div class="dynheader">
+被呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_a23729b76bf231420d9926ecbacfb5c94_icgraph.png" border="0" usemap="#alog_8c_a23729b76bf231420d9926ecbacfb5c94_icgraph" alt=""/></div>
+<map name="alog_8c_a23729b76bf231420d9926ecbacfb5c94_icgraph" id="alog_8c_a23729b76bf231420d9926ecbacfb5c94_icgraph">
+<area shape="rect" title=" " alt="" coords="411,31,541,57"/>
+<area shape="rect" href="log_8c.html#a38c4e28274006231dfa745984a208789" title=" " alt="" coords="292,31,363,57"/>
+<area shape="poly" title=" " alt="" coords="396,47,364,47,364,41,396,41"/>
+<area shape="rect" href="util_8c.html#afc50edf1ee99ae7dbd2f6f28c6ccc2fa" title=" " alt="" coords="114,5,244,32"/>
+<area shape="poly" title=" " alt="" coords="276,38,244,32,245,27,277,33"/>
+<area shape="rect" href="util_8c.html#ade74606efd7985ce3735a5433cab1470" title=" " alt="" coords="120,56,238,83"/>
+<area shape="poly" title=" " alt="" coords="277,55,238,62,238,57,276,50"/>
+<area shape="rect" href="int__prg_8c.html#a36e22fdcd0c0464494d4db857135d5ec" title=" " alt="" coords="5,31,66,57"/>
+<area shape="poly" title=" " alt="" coords="99,36,67,41,66,36,98,30"/>
+<area shape="poly" title=" " alt="" coords="104,59,66,52,67,47,105,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a35931fdc2c8b78eacf9ed0ac4182d569" name="a35931fdc2c8b78eacf9ed0ac4182d569"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35931fdc2c8b78eacf9ed0ac4182d569">&#9670;&#160;</a></span>log_detailinfo_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void log_detailinfo_init </td>
+          <td>(</td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>ch</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition"> <a class="el" href="log_8c_source.html">log.c</a> の <a class="el" href="log_8c_source.html#l00115">115</a> 行目に定義があります。</p>
+<div class="dynheader">
+被呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_a35931fdc2c8b78eacf9ed0ac4182d569_icgraph.png" border="0" usemap="#alog_8c_a35931fdc2c8b78eacf9ed0ac4182d569_icgraph" alt=""/></div>
+<map name="alog_8c_a35931fdc2c8b78eacf9ed0ac4182d569_icgraph" id="alog_8c_a35931fdc2c8b78eacf9ed0ac4182d569_icgraph">
+<area shape="rect" title=" " alt="" coords="570,95,690,121"/>
+<area shape="rect" href="_m_e_s_8c.html#a099ce6189349f71282b84b247eb8cf89" title=" " alt="" coords="419,63,522,89"/>
+<area shape="poly" title=" " alt="" coords="554,95,521,89,522,84,555,90"/>
+<area shape="rect" href="log_8c.html#a2508fad025e49f9746b6c178dce6917e" title=" " alt="" coords="439,120,502,147"/>
+<area shape="poly" title=" " alt="" coords="555,123,503,131,502,126,554,117"/>
+<area shape="rect" href="protocol_8c.html#ad8805261634effd80c37f3dddebe5808" title=" " alt="" coords="304,60,371,87"/>
+<area shape="poly" title=" " alt="" coords="404,77,372,77,372,71,404,72"/>
+<area shape="rect" href="_c_o_m_8c.html#a246af951920e13bc394f8f3cefef85b9" title=" " alt="" coords="135,5,246,32"/>
+<area shape="poly" title=" " alt="" coords="289,58,227,35,229,30,291,53"/>
+<area shape="rect" href="_c_o_m_8c.html#aee656cce6b888166f75fa856c9884a38" title=" " alt="" coords="133,56,248,83"/>
+<area shape="poly" title=" " alt="" coords="288,75,248,74,248,68,288,69"/>
+<area shape="rect" href="_c_o_m_8c.html#a8f2620d721d4ae5cab459bb0bec2e4a9" title=" " alt="" coords="125,107,256,133"/>
+<area shape="poly" title=" " alt="" coords="290,91,236,109,234,104,289,86"/>
+<area shape="rect" href="_c_o_m_8c.html#a622d5d1f6fe747f46262e1918b92b57a" title=" " alt="" coords="5,5,77,32"/>
+<area shape="poly" title=" " alt="" coords="120,21,77,21,77,16,120,16"/>
+<area shape="rect" href="_c_o_m_8c.html#a5eecf800e8059f00065cec1af1603444" title=" " alt="" coords="5,56,77,83"/>
+<area shape="poly" title=" " alt="" coords="118,72,77,72,77,67,118,67"/>
+<area shape="rect" href="_c_o_m_8c.html#a59c731ad0c4e2f6c7127ca10f4578851" title=" " alt="" coords="5,107,77,133"/>
+<area shape="poly" title=" " alt="" coords="109,123,77,123,77,117,109,117"/>
+<area shape="rect" href="_m_a_i_n_8c.html#a2858154e2009b0e6e616f313177762bc" title=": 初期化処理 /*" alt="" coords="318,132,357,159"/>
+<area shape="poly" title=" " alt="" coords="424,140,358,146,357,141,424,135"/>
+<area shape="rect" href="_m_a_i_n_8c.html#a6288eba0f8e8ad3ab1544ad731eb7667" title=" " alt="" coords="166,157,215,184"/>
+<area shape="poly" title=" " alt="" coords="303,154,216,169,215,164,302,149"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a5562c5465fb0198f596b929b8901a74e" name="a5562c5465fb0198f596b929b8901a74e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5562c5465fb0198f596b929b8901a74e">&#9670;&#160;</a></span>log_detailinfo_save()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void log_detailinfo_save </td>
+          <td>(</td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>code</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition"> <a class="el" href="log_8c_source.html">log.c</a> の <a class="el" href="log_8c_source.html#l00179">179</a> 行目に定義があります。</p>
+<div class="dynheader">
+呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_a5562c5465fb0198f596b929b8901a74e_cgraph.png" border="0" usemap="#alog_8c_a5562c5465fb0198f596b929b8901a74e_cgraph" alt=""/></div>
+<map name="alog_8c_a5562c5465fb0198f596b929b8901a74e_cgraph" id="alog_8c_a5562c5465fb0198f596b929b8901a74e_cgraph">
+<area shape="rect" title=" " alt="" coords="5,31,135,57"/>
+<area shape="rect" href="eeprom__spi_8c.html#abe4270da19df501a4ea5ad6989590443" title=" " alt="" coords="201,5,300,32"/>
+<area shape="poly" title=" " alt="" coords="135,32,186,25,186,30,135,38"/>
+<area shape="rect" href="int__flow_8c.html#ad5ddb4515f9f37c98af2e3bb268012da" title=" " alt="" coords="183,56,318,83"/>
+<area shape="poly" title=" " alt="" coords="135,50,167,55,167,60,135,56"/>
+</map>
+</div>
+<div class="dynheader">
+被呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_a5562c5465fb0198f596b929b8901a74e_icgraph.png" border="0" usemap="#alog_8c_a5562c5465fb0198f596b929b8901a74e_icgraph" alt=""/></div>
+<map name="alog_8c_a5562c5465fb0198f596b929b8901a74e_icgraph" id="alog_8c_a5562c5465fb0198f596b929b8901a74e_icgraph">
+<area shape="rect" title=" " alt="" coords="411,31,541,57"/>
+<area shape="rect" href="log_8c.html#a38c4e28274006231dfa745984a208789" title=" " alt="" coords="292,31,363,57"/>
+<area shape="poly" title=" " alt="" coords="396,47,364,47,364,41,396,41"/>
+<area shape="rect" href="util_8c.html#afc50edf1ee99ae7dbd2f6f28c6ccc2fa" title=" " alt="" coords="114,5,244,32"/>
+<area shape="poly" title=" " alt="" coords="276,38,244,32,245,27,277,33"/>
+<area shape="rect" href="util_8c.html#ade74606efd7985ce3735a5433cab1470" title=" " alt="" coords="120,56,238,83"/>
+<area shape="poly" title=" " alt="" coords="277,55,238,62,238,57,276,50"/>
+<area shape="rect" href="int__prg_8c.html#a36e22fdcd0c0464494d4db857135d5ec" title=" " alt="" coords="5,31,66,57"/>
+<area shape="poly" title=" " alt="" coords="99,36,67,41,66,36,98,30"/>
+<area shape="poly" title=" " alt="" coords="104,59,66,52,67,47,105,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a2508fad025e49f9746b6c178dce6917e" name="a2508fad025e49f9746b6c178dce6917e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2508fad025e49f9746b6c178dce6917e">&#9670;&#160;</a></span>log_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void log_init </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition"> <a class="el" href="log_8c_source.html">log.c</a> の <a class="el" href="log_8c_source.html#l00055">55</a> 行目に定義があります。</p>
+<div class="dynheader">
+呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_a2508fad025e49f9746b6c178dce6917e_cgraph.png" border="0" usemap="#alog_8c_a2508fad025e49f9746b6c178dce6917e_cgraph" alt=""/></div>
+<map name="alog_8c_a2508fad025e49f9746b6c178dce6917e_cgraph" id="alog_8c_a2508fad025e49f9746b6c178dce6917e_cgraph">
+<area shape="rect" title=" " alt="" coords="5,43,68,69"/>
+<area shape="rect" href="log_8c.html#a35931fdc2c8b78eacf9ed0ac4182d569" title=" " alt="" coords="116,5,236,32"/>
+<area shape="poly" title=" " alt="" coords="67,45,108,34,109,39,69,50"/>
+<area shape="rect" href="util_8c.html#ae33f6ff61845f2b8e2eac8239335958b" title=" " alt="" coords="131,80,221,107"/>
+<area shape="poly" title=" " alt="" coords="69,62,116,75,115,80,67,67"/>
+<area shape="poly" title=" " alt="" coords="151,81,147,71,150,62,160,56,176,53,193,56,202,63,199,67,191,61,176,59,162,61,154,65,152,71,156,78"/>
+<area shape="rect" href="eeprom__spi_8c.html#a8e327391853cdb0cb6fe7e325d7e2a3a" title=" " alt="" coords="284,80,381,107"/>
+<area shape="poly" title=" " alt="" coords="221,91,268,91,268,96,221,96"/>
+<area shape="rect" href="eeprom__spi_8c.html#aa1c4260f0eb9a1def3a037203c09baab" title=" " alt="" coords="429,55,529,81"/>
+<area shape="poly" title=" " alt="" coords="381,82,414,77,415,82,382,88"/>
+<area shape="rect" href="eeprom__spi_8c.html#a0a03c6be0d7b62acad7d9b7ffcb9ccf1" title=" " alt="" coords="441,105,517,132"/>
+<area shape="poly" title=" " alt="" coords="382,99,426,107,425,112,381,104"/>
+<area shape="rect" href="eeprom__spi_8c.html#adc3dff88fc60044a4be62ed82ab375d9" title=" " alt="" coords="577,55,655,81"/>
+<area shape="poly" title=" " alt="" coords="516,102,562,85,564,90,518,107"/>
+<area shape="rect" href="eeprom__spi_8c.html#acd4748d98bf62915949e720d0122be39" title=" " alt="" coords="703,105,775,132"/>
+<area shape="poly" title=" " alt="" coords="518,116,687,116,687,121,518,121"/>
+<area shape="rect" href="eeprom__spi_8c.html#ab50c9fa8d035686482642e64312903cf" title=" " alt="" coords="590,156,642,183"/>
+<area shape="poly" title=" " alt="" coords="518,130,576,152,574,157,516,135"/>
+<area shape="rect" href="eeprom__spi_8c.html#a610697bfb4fc8f67c43c183061f55a7b" title=" " alt="" coords="705,55,774,81"/>
+<area shape="poly" title=" " alt="" coords="655,65,689,65,689,71,655,71"/>
+<area shape="rect" href="eeprom__spi_8c.html#ac2d4f02c27f025b6d2e0a128529b4154" title=" " alt="" coords="824,55,893,81"/>
+<area shape="poly" title=" " alt="" coords="774,65,808,65,808,71,774,71"/>
+<area shape="rect" href="eeprom__spi_8c.html#a62c2962ba6064dcf138c759341a02695" title=" " alt="" coords="823,105,894,132"/>
+<area shape="poly" title=" " alt="" coords="773,79,813,96,811,101,771,84"/>
+<area shape="poly" title=" " alt="" coords="776,116,808,116,808,121,776,121"/>
+<area shape="poly" title=" " alt="" coords="642,164,703,155,775,141,807,132,809,138,776,147,704,160,643,169"/>
+</map>
+</div>
+<div class="dynheader">
+被呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_a2508fad025e49f9746b6c178dce6917e_icgraph.png" border="0" usemap="#alog_8c_a2508fad025e49f9746b6c178dce6917e_icgraph" alt=""/></div>
+<map name="alog_8c_a2508fad025e49f9746b6c178dce6917e_icgraph" id="alog_8c_a2508fad025e49f9746b6c178dce6917e_icgraph">
+<area shape="rect" title=" " alt="" coords="189,5,251,32"/>
+<area shape="rect" href="_m_a_i_n_8c.html#a2858154e2009b0e6e616f313177762bc" title=": 初期化処理 /*" alt="" coords="103,5,141,32"/>
+<area shape="poly" title=" " alt="" coords="173,21,141,21,141,16,173,16"/>
+<area shape="rect" href="_m_a_i_n_8c.html#a6288eba0f8e8ad3ab1544ad731eb7667" title=" " alt="" coords="5,5,55,32"/>
+<area shape="poly" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a38c4e28274006231dfa745984a208789" name="a38c4e28274006231dfa745984a208789"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38c4e28274006231dfa745984a208789">&#9670;&#160;</a></span>log_save()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void log_save </td>
+          <td>(</td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>ch</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">short</td>          <td class="paramname"><span class="paramname"><em>code</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition"> <a class="el" href="log_8c_source.html">log.c</a> の <a class="el" href="log_8c_source.html#l00251">251</a> 行目に定義があります。</p>
+<div class="dynheader">
+呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_a38c4e28274006231dfa745984a208789_cgraph.png" border="0" usemap="#alog_8c_a38c4e28274006231dfa745984a208789_cgraph" alt=""/></div>
+<map name="alog_8c_a38c4e28274006231dfa745984a208789_cgraph" id="alog_8c_a38c4e28274006231dfa745984a208789_cgraph">
+<area shape="rect" title=" " alt="" coords="5,80,77,107"/>
+<area shape="rect" href="util_8c.html#a48a1a4bf9b2ef22bacb79ef63bf78ff5" title=" " alt="" coords="148,29,231,56"/>
+<area shape="poly" title=" " alt="" coords="76,79,133,59,135,64,78,84"/>
+<area shape="rect" href="log_8c.html#a23729b76bf231420d9926ecbacfb5c94" title=" " alt="" coords="125,80,254,107"/>
+<area shape="poly" title=" " alt="" coords="77,91,109,91,109,96,77,96"/>
+<area shape="rect" href="log_8c.html#a5562c5465fb0198f596b929b8901a74e" title=" " alt="" coords="125,131,254,157"/>
+<area shape="poly" title=" " alt="" coords="78,103,135,123,133,128,76,108"/>
+<area shape="poly" title=" " alt="" coords="163,30,159,21,162,11,172,5,189,3,207,5,217,12,214,16,205,10,189,8,174,10,166,14,164,20,168,28"/>
+<area shape="rect" href="eeprom__spi_8c.html#abe4270da19df501a4ea5ad6989590443" title=" " alt="" coords="321,105,419,132"/>
+<area shape="poly" title=" " alt="" coords="255,100,306,107,305,112,254,105"/>
+<area shape="rect" href="eeprom__spi_8c.html#ac19649cfb54b660f2683469e10f6dedd" title=" " alt="" coords="302,55,437,81"/>
+<area shape="poly" title=" " alt="" coords="254,82,286,77,287,82,255,87"/>
+<area shape="poly" title=" " alt="" coords="254,132,305,125,306,130,255,138"/>
+<area shape="rect" href="int__flow_8c.html#ad5ddb4515f9f37c98af2e3bb268012da" title=" " alt="" coords="302,156,437,183"/>
+<area shape="poly" title=" " alt="" coords="255,150,287,155,286,160,254,156"/>
+</map>
+</div>
+<div class="dynheader">
+被呼び出し関係図:</div>
+<div class="dyncontent">
+<div class="center"><img src="log_8c_a38c4e28274006231dfa745984a208789_icgraph.png" border="0" usemap="#alog_8c_a38c4e28274006231dfa745984a208789_icgraph" alt=""/></div>
+<map name="alog_8c_a38c4e28274006231dfa745984a208789_icgraph" id="alog_8c_a38c4e28274006231dfa745984a208789_icgraph">
+<area shape="rect" title=" " alt="" coords="292,31,363,57"/>
+<area shape="rect" href="util_8c.html#afc50edf1ee99ae7dbd2f6f28c6ccc2fa" title=" " alt="" coords="114,5,244,32"/>
+<area shape="poly" title=" " alt="" coords="276,38,244,32,245,27,277,33"/>
+<area shape="rect" href="util_8c.html#ade74606efd7985ce3735a5433cab1470" title=" " alt="" coords="120,56,238,83"/>
+<area shape="poly" title=" " alt="" coords="277,55,238,62,238,57,276,50"/>
+<area shape="rect" href="int__prg_8c.html#a36e22fdcd0c0464494d4db857135d5ec" title=" " alt="" coords="5,31,66,57"/>
+<area shape="poly" title=" " alt="" coords="99,36,67,41,66,36,98,30"/>
+<area shape="poly" title=" " alt="" coords="104,59,66,52,67,47,105,54"/>
+</map>
+</div>
+
+</div>
+</div>
+<h2 class="groupheader">変数詳解</h2>
+<a id="aa3cac78822855b3a06467a9f070ca298" name="aa3cac78822855b3a06467a9f070ca298"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3cac78822855b3a06467a9f070ca298">&#9670;&#160;</a></span>cmi_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned long cmi_count</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition"> <a class="el" href="util_8c_source.html">util.c</a> の <a class="el" href="util_8c_source.html#l00066">66</a> 行目に定義があります。</p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+構築:&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.11.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>

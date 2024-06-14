@@ -1,0 +1,1230 @@
+\doxysection{C\+:/\+Work\+Space/\+Mercury/\+Mercury\+\_\+v\+Xxxx/\+Mercury/\+MAIN/onewire.c ファイル}
+\hypertarget{onewire_8c}{}\label{onewire_8c}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/onewire.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/onewire.c}}
+{\ttfamily \#include $<$machine.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}define.\+h"{}}\newline
+{\ttfamily \#include "{}SV\+\_\+def.\+h"{}}\newline
+{\ttfamily \#include "{}typedefine.\+h"{}}\newline
+{\ttfamily \#include "{}def\+MES.\+h"{}}\newline
+{\ttfamily \#include "{}def\+LOG.\+h"{}}\newline
+{\ttfamily \#include "{}def\+MAIN.\+h"{}}\newline
+{\ttfamily \#include "{}ctlioport.\+h"{}}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+ints.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/sysctl.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/interrupt.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/watchdog.\+h"{}}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+gpio.\+h"{}}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+memmap.\+h"{}}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/gpio.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/pin\+\_\+map.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/rom.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/rom\+\_\+map.\+h"{}}\newline
+onewire.\+c の依存先関係図\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{データ構造}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_o_w_eeprom}{OWEeprom}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{マクロ定義}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a5b2127bc06e9ef78a44f707092b81a24}{DS28\+E07\+\_\+\+FAMILYCODE}}~0x2D
+\item 
+\#define \mbox{\hyperlink{onewire_8c_abe539dea27c25bb8be45a9de8e5d6938}{DS2431\+\_\+\+FAMILYCODE}}~0x2D
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a36adf4344b7f360a20e69f9e20657adc}{DS18\+B20\+\_\+\+FAMILYCODE}}~0x28
+\item 
+\#define \mbox{\hyperlink{onewire_8c_ac38e53659d0693375cf91aa427ba8cb2}{DS28\+E80\+\_\+\+FAMILYCODE}}~0x4A
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a94cf1475a46ceef4f0e28cb202997760}{FAMILY\+\_\+\+CODE}}~\mbox{\hyperlink{onewire_8c_a5b2127bc06e9ef78a44f707092b81a24}{DS28\+E07\+\_\+\+FAMILYCODE}}
+\item 
+\#define \mbox{\hyperlink{onewire_8c_adbfa7793b55d3cc42737f6651279c2ab}{TIM\+\_\+t\+RSTL}}~500
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a75e33a3c37ba9bc8fd3e9dc6a7784d18}{TIM\+\_\+t\+PDH}}~15
+\item 
+\#define \mbox{\hyperlink{onewire_8c_acadc4e9f7a9004eff53c22d60053bcd7}{TIM\+\_\+t\+PDL}}~60
+\item 
+\#define \mbox{\hyperlink{onewire_8c_ad0e005c6e6979e6c409aa53e3ffb6d91}{TIM\+\_\+t\+MSP}}~60
+\item 
+\#define \mbox{\hyperlink{onewire_8c_abbc9aad75a2d1e81d318a86fdaed4573}{TIM\+\_\+t\+REC}}~5
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a083906e2666b4a862354babcf5e1f438}{TIM\+\_\+t\+RSTH}}~305
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a5d8d276b57dbc9dda630b815d655c508}{TIM\+\_\+t\+W1L}}~10
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a397f771f52b8da91c9382d50eafd19a2}{TIM\+\_\+t\+W0L}}~60
+\item 
+\#define \mbox{\hyperlink{onewire_8c_abd09cde63e8316e799e465d7a0c8e8ac}{TIM\+\_\+t\+SLOT}}~65
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a17de5233deb5c50a56cca59ccb0d3cba}{TIM\+\_\+t\+RL}}~10
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a5e5273ac355d6f898c85d1af16e610f3}{TIM\+\_\+t\+MSR}}~20
+\item 
+\#define \mbox{\hyperlink{onewire_8c_afe8a553dddbbd53b789eff457c176094}{TIM\+\_\+t\+PROGMAX}}~10
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a27466737f1e485403d87846b0b4fab91}{WRITE\+\_\+\+SCRATCHPAD}}~0x0F
+\item 
+\#define \mbox{\hyperlink{onewire_8c_af8162a9da284eb45c7f53f4a37c749f5}{READ\+\_\+\+SCRATCHPAD}}~0x\+AA
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a6f02502f76c88160d363cad5ea5f86c8}{COPY\+\_\+\+SCRATCHPAD}}~0x55
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a73bca8a9a4a773829639bc83422f687a}{READ\+\_\+\+MEMORY}}~0x\+F0
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a7217bf0edddda1e17d347f7c5b717f27}{WRITE\+\_\+\+BLOCK}}~0x55
+\item 
+\#define \mbox{\hyperlink{onewire_8c_ac3bd3efa60d223ffe1d498159090bf71}{WRITE\+\_\+\+PRO\+\_\+\+BLOCK}}~0x\+C3
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a055705b4659b7929842c72c34424f0f2}{READ\+\_\+\+PRO\+\_\+\+BLOCK}}~0x\+AA
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a16ad242f444508c47fe745c67669b699}{READ\+\_\+\+ROM}}~0x33
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a20a70a05486a1fa3aba1881aa90104cd}{MATCH\+\_\+\+ROM}}~0x55
+\item 
+\#define \mbox{\hyperlink{onewire_8c_ae22115770cfd724213b05d36afcb7d8e}{SEARCH\+\_\+\+ROM}}~0x\+F0
+\item 
+\#define \mbox{\hyperlink{onewire_8c_ae5773d5b673b0c12c6615958dd2efb22}{SKIP\+\_\+\+ROM}}~0x\+CC
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{MEMORY\+\_\+\+MAX}}~144
+\item 
+\#define \mbox{\hyperlink{onewire_8c_ad375560b32ab25098696b9275cfc25a2}{MSB\+\_\+\+CRC8}}~(0x31)
+\item 
+\#define \mbox{\hyperlink{onewire_8c_a308d9dd2c0028ddb184b455bbd7865de}{CHAR\+\_\+\+BIT}}~8
+\end{DoxyCompactItemize}
+\doxysubsubsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSens\+Sig}} (short sw)
+\item 
+void \mbox{\hyperlink{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}{OWSens\+Sig\+SW}} (short sw)
+\item 
+void \mbox{\hyperlink{onewire_8c_a2899889224024f6b9de34bff4da55ca4}{OWSens\+Pow\+SW}} (short sw)
+\item 
+void \mbox{\hyperlink{onewire_8c_a78d5c45f996476fc6d244630619aa7ea}{OWSens\+Enable}} (short sw)
+\item 
+short \mbox{\hyperlink{onewire_8c_a086baa422dfc15f69b1fd3ec1cbf451a}{OWSens\+RX}} (void)
+\item 
+void \mbox{\hyperlink{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}{OWSens\+Sig\+PDR}} (short sw)
+\item 
+short \mbox{\hyperlink{onewire_8c_ae04fe706ef098b9a94473e5c59de1524}{OWReset\+Device}} (void)
+\item 
+void \mbox{\hyperlink{onewire_8c_aae83913f5fba4558dfed0bd99492b98f}{OWWrite\+Bit}} (short bit)
+\item 
+short \mbox{\hyperlink{onewire_8c_a4831f1a21e0afef5e0ce9f2597aa2fea}{OWRead\+Bit}} (void)
+\item 
+void \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWrite\+Byte}} (short data)
+\item 
+short \mbox{\hyperlink{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0}{OWRead\+Byte}} (void)
+\item 
+unsigned char \mbox{\hyperlink{onewire_8c_a873d4bf71facfebefed654241b82b441}{Get\+Reflect}} (unsigned char data)
+\item 
+unsigned char \mbox{\hyperlink{onewire_8c_a11a14f43913762081016190d05ba288e}{Get\+CRC8}} (const void \texorpdfstring{$\ast$}{*}buff, short \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}})
+\item 
+short \mbox{\hyperlink{onewire_8c_a16446599f12c3b29faa7d4b702a08c03}{OWCheck\+Device}} (void)
+\item 
+short \mbox{\hyperlink{onewire_8c_a14251ebb7fac64c12097101f3ab6cc26}{OWCheck\+ROMID}} (short ch)
+\item 
+short \mbox{\hyperlink{onewire_8c_a6140bfa818aa0d1f38fa1258fc2d5972}{OWWrite\+Data}} (short address, const void \texorpdfstring{$\ast$}{*}buff)
+\item 
+short \mbox{\hyperlink{onewire_8c_acfaa80eebb10fe4c0c554c37e969cd25}{OWCompare\+Data}} (short address, const void \texorpdfstring{$\ast$}{*}buff)
+\item 
+short \mbox{\hyperlink{onewire_8c_ae8de5459b1952288dad5125ffb1bcb8f}{OWRead\+Sensinfo}} (short ch)
+\item 
+void \mbox{\hyperlink{onewire_8c_a54ce1c6683ea97bc494fd927d6777213}{OWWrite\+Sensinfo}} (void)
+\item 
+void \mbox{\hyperlink{onewire_8c_a0f6e3096e9042aa605161e9305db4629}{OWCheck\+Device\+Side}} (void)
+\item 
+void \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWait\+US}} (long us)
+\item 
+void \mbox{\hyperlink{onewire_8c_a64877c51e5db853a6b17dba2655c3cb5}{OWWait\+MS}} (long ms)
+\item 
+void \mbox{\hyperlink{onewire_8c_a6baa98f73713e126987850ddd9ee8c83}{portmesfwdW}} (unsigned char data, short pch)
+\item 
+void \mbox{\hyperlink{onewire_8c_a027fa9fc108cc94ddf9daec7c31f624f}{portmesrevW}} (unsigned char data, short pch)
+\item 
+void \mbox{\hyperlink{onewire_8c_a6881a5fc9cfe8a449cf54295ee1b25e7}{util\+\_\+eep\+\_\+allwrite}} (short pch, short opt)
+\item 
+short \mbox{\hyperlink{onewire_8c_abd027fc3ea00a551c764fdcf8bca66d0}{action\+\_\+status\+\_\+check}} (short pch)
+\item 
+void \mbox{\hyperlink{onewire_8c_ac915dc02c19f84bb9569d3a6f3b3b4df}{Select\+Reverse\+On}} (short pch)
+\item 
+void \mbox{\hyperlink{onewire_8c_a49cb3218b42d20bf66a66e2f57213140}{Select\+Reverse\+Off}} (short pch)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{変数}
+\begin{DoxyCompactItemize}
+\item 
+short \mbox{\hyperlink{onewire_8c_a7b99fd21940c0ca0568ca80de4bcf521}{ow\+\_\+pos}}
+\item 
+short \mbox{\hyperlink{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568}{ow\+\_\+cnt}}
+\item 
+short \mbox{\hyperlink{onewire_8c_a86e83a15de43408867bc1ecb1a2b368e}{ow\+\_\+retry}}
+\item 
+short \mbox{\hyperlink{onewire_8c_a8d6ec2d519e9e5770f15886f09338214}{OWwrite}} \mbox{[}6\mbox{]} = \{0, 0, 0, 0, 0, 0\}
+\item 
+short \mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwrite\+CH}} = \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}
+\item 
+char \mbox{\hyperlink{onewire_8c_aae3cac3387c569796c62bfe511afa8d1}{sens\+\_\+info}} \mbox{[}256\mbox{]}
+\item 
+char \mbox{\hyperlink{onewire_8c_a8e81c5361db4e922bc4ec1ad367900ee}{memory\+\_\+\+R\+\_\+data}} \mbox{[}\mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{MEMORY\+\_\+\+MAX}}\mbox{]}
+\item 
+char \mbox{\hyperlink{onewire_8c_a6141a7677586faa55d71fbaef3f4e485}{memory\+\_\+\+W\+\_\+data}} \mbox{[}\mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{MEMORY\+\_\+\+MAX}}\mbox{]}
+\item 
+char \mbox{\hyperlink{onewire_8c_a2becc89dff9d2825f715a4c971b4dbac}{memory\+\_\+\+C\+\_\+data}} \mbox{[}\mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{MEMORY\+\_\+\+MAX}}\mbox{]}
+\item 
+const struct \mbox{\hyperlink{struct_o_w_eeprom}{OWEeprom}} \mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEeprom\+Data}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{マクロ定義詳解}
+\Hypertarget{onewire_8c_a308d9dd2c0028ddb184b455bbd7865de}\index{onewire.c@{onewire.c}!CHAR\_BIT@{CHAR\_BIT}}
+\index{CHAR\_BIT@{CHAR\_BIT}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{CHAR\_BIT}{CHAR\_BIT}}
+{\footnotesize\ttfamily \label{onewire_8c_a308d9dd2c0028ddb184b455bbd7865de} 
+\#define CHAR\+\_\+\+BIT~8}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00078}{78}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a6f02502f76c88160d363cad5ea5f86c8}\index{onewire.c@{onewire.c}!COPY\_SCRATCHPAD@{COPY\_SCRATCHPAD}}
+\index{COPY\_SCRATCHPAD@{COPY\_SCRATCHPAD}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{COPY\_SCRATCHPAD}{COPY\_SCRATCHPAD}}
+{\footnotesize\ttfamily \label{onewire_8c_a6f02502f76c88160d363cad5ea5f86c8} 
+\#define COPY\+\_\+\+SCRATCHPAD~0x55}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00063}{63}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a36adf4344b7f360a20e69f9e20657adc}\index{onewire.c@{onewire.c}!DS18B20\_FAMILYCODE@{DS18B20\_FAMILYCODE}}
+\index{DS18B20\_FAMILYCODE@{DS18B20\_FAMILYCODE}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{DS18B20\_FAMILYCODE}{DS18B20\_FAMILYCODE}}
+{\footnotesize\ttfamily \label{onewire_8c_a36adf4344b7f360a20e69f9e20657adc} 
+\#define DS18\+B20\+\_\+\+FAMILYCODE~0x28}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00040}{40}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_abe539dea27c25bb8be45a9de8e5d6938}\index{onewire.c@{onewire.c}!DS2431\_FAMILYCODE@{DS2431\_FAMILYCODE}}
+\index{DS2431\_FAMILYCODE@{DS2431\_FAMILYCODE}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{DS2431\_FAMILYCODE}{DS2431\_FAMILYCODE}}
+{\footnotesize\ttfamily \label{onewire_8c_abe539dea27c25bb8be45a9de8e5d6938} 
+\#define DS2431\+\_\+\+FAMILYCODE~0x2D}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00039}{39}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a5b2127bc06e9ef78a44f707092b81a24}\index{onewire.c@{onewire.c}!DS28E07\_FAMILYCODE@{DS28E07\_FAMILYCODE}}
+\index{DS28E07\_FAMILYCODE@{DS28E07\_FAMILYCODE}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{DS28E07\_FAMILYCODE}{DS28E07\_FAMILYCODE}}
+{\footnotesize\ttfamily \label{onewire_8c_a5b2127bc06e9ef78a44f707092b81a24} 
+\#define DS28\+E07\+\_\+\+FAMILYCODE~0x2D}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00038}{38}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_ac38e53659d0693375cf91aa427ba8cb2}\index{onewire.c@{onewire.c}!DS28E80\_FAMILYCODE@{DS28E80\_FAMILYCODE}}
+\index{DS28E80\_FAMILYCODE@{DS28E80\_FAMILYCODE}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{DS28E80\_FAMILYCODE}{DS28E80\_FAMILYCODE}}
+{\footnotesize\ttfamily \label{onewire_8c_ac38e53659d0693375cf91aa427ba8cb2} 
+\#define DS28\+E80\+\_\+\+FAMILYCODE~0x4A}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00041}{41}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a94cf1475a46ceef4f0e28cb202997760}\index{onewire.c@{onewire.c}!FAMILY\_CODE@{FAMILY\_CODE}}
+\index{FAMILY\_CODE@{FAMILY\_CODE}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{FAMILY\_CODE}{FAMILY\_CODE}}
+{\footnotesize\ttfamily \label{onewire_8c_a94cf1475a46ceef4f0e28cb202997760} 
+\#define FAMILY\+\_\+\+CODE~\mbox{\hyperlink{onewire_8c_a5b2127bc06e9ef78a44f707092b81a24}{DS28\+E07\+\_\+\+FAMILYCODE}}}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00043}{43}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a20a70a05486a1fa3aba1881aa90104cd}\index{onewire.c@{onewire.c}!MATCH\_ROM@{MATCH\_ROM}}
+\index{MATCH\_ROM@{MATCH\_ROM}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{MATCH\_ROM}{MATCH\_ROM}}
+{\footnotesize\ttfamily \label{onewire_8c_a20a70a05486a1fa3aba1881aa90104cd} 
+\#define MATCH\+\_\+\+ROM~0x55}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00071}{71}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}\index{onewire.c@{onewire.c}!MEMORY\_MAX@{MEMORY\_MAX}}
+\index{MEMORY\_MAX@{MEMORY\_MAX}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{MEMORY\_MAX}{MEMORY\_MAX}}
+{\footnotesize\ttfamily \label{onewire_8c_a6e67afdf54514977b8dd746e995c2c86} 
+\#define MEMORY\+\_\+\+MAX~144}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00075}{75}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_ad375560b32ab25098696b9275cfc25a2}\index{onewire.c@{onewire.c}!MSB\_CRC8@{MSB\_CRC8}}
+\index{MSB\_CRC8@{MSB\_CRC8}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{MSB\_CRC8}{MSB\_CRC8}}
+{\footnotesize\ttfamily \label{onewire_8c_ad375560b32ab25098696b9275cfc25a2} 
+\#define MSB\+\_\+\+CRC8~(0x31)}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00077}{77}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a73bca8a9a4a773829639bc83422f687a}\index{onewire.c@{onewire.c}!READ\_MEMORY@{READ\_MEMORY}}
+\index{READ\_MEMORY@{READ\_MEMORY}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{READ\_MEMORY}{READ\_MEMORY}}
+{\footnotesize\ttfamily \label{onewire_8c_a73bca8a9a4a773829639bc83422f687a} 
+\#define READ\+\_\+\+MEMORY~0x\+F0}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00064}{64}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a055705b4659b7929842c72c34424f0f2}\index{onewire.c@{onewire.c}!READ\_PRO\_BLOCK@{READ\_PRO\_BLOCK}}
+\index{READ\_PRO\_BLOCK@{READ\_PRO\_BLOCK}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{READ\_PRO\_BLOCK}{READ\_PRO\_BLOCK}}
+{\footnotesize\ttfamily \label{onewire_8c_a055705b4659b7929842c72c34424f0f2} 
+\#define READ\+\_\+\+PRO\+\_\+\+BLOCK~0x\+AA}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00068}{68}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a16ad242f444508c47fe745c67669b699}\index{onewire.c@{onewire.c}!READ\_ROM@{READ\_ROM}}
+\index{READ\_ROM@{READ\_ROM}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{READ\_ROM}{READ\_ROM}}
+{\footnotesize\ttfamily \label{onewire_8c_a16ad242f444508c47fe745c67669b699} 
+\#define READ\+\_\+\+ROM~0x33}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00070}{70}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_af8162a9da284eb45c7f53f4a37c749f5}\index{onewire.c@{onewire.c}!READ\_SCRATCHPAD@{READ\_SCRATCHPAD}}
+\index{READ\_SCRATCHPAD@{READ\_SCRATCHPAD}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{READ\_SCRATCHPAD}{READ\_SCRATCHPAD}}
+{\footnotesize\ttfamily \label{onewire_8c_af8162a9da284eb45c7f53f4a37c749f5} 
+\#define READ\+\_\+\+SCRATCHPAD~0x\+AA}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00062}{62}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_ae22115770cfd724213b05d36afcb7d8e}\index{onewire.c@{onewire.c}!SEARCH\_ROM@{SEARCH\_ROM}}
+\index{SEARCH\_ROM@{SEARCH\_ROM}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{SEARCH\_ROM}{SEARCH\_ROM}}
+{\footnotesize\ttfamily \label{onewire_8c_ae22115770cfd724213b05d36afcb7d8e} 
+\#define SEARCH\+\_\+\+ROM~0x\+F0}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00072}{72}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_ae5773d5b673b0c12c6615958dd2efb22}\index{onewire.c@{onewire.c}!SKIP\_ROM@{SKIP\_ROM}}
+\index{SKIP\_ROM@{SKIP\_ROM}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{SKIP\_ROM}{SKIP\_ROM}}
+{\footnotesize\ttfamily \label{onewire_8c_ae5773d5b673b0c12c6615958dd2efb22} 
+\#define SKIP\+\_\+\+ROM~0x\+CC}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00073}{73}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_ad0e005c6e6979e6c409aa53e3ffb6d91}\index{onewire.c@{onewire.c}!TIM\_tMSP@{TIM\_tMSP}}
+\index{TIM\_tMSP@{TIM\_tMSP}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tMSP}{TIM\_tMSP}}
+{\footnotesize\ttfamily \label{onewire_8c_ad0e005c6e6979e6c409aa53e3ffb6d91} 
+\#define TIM\+\_\+t\+MSP~60}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00048}{48}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a5e5273ac355d6f898c85d1af16e610f3}\index{onewire.c@{onewire.c}!TIM\_tMSR@{TIM\_tMSR}}
+\index{TIM\_tMSR@{TIM\_tMSR}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tMSR}{TIM\_tMSR}}
+{\footnotesize\ttfamily \label{onewire_8c_a5e5273ac355d6f898c85d1af16e610f3} 
+\#define TIM\+\_\+t\+MSR~20}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00057}{57}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a75e33a3c37ba9bc8fd3e9dc6a7784d18}\index{onewire.c@{onewire.c}!TIM\_tPDH@{TIM\_tPDH}}
+\index{TIM\_tPDH@{TIM\_tPDH}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tPDH}{TIM\_tPDH}}
+{\footnotesize\ttfamily \label{onewire_8c_a75e33a3c37ba9bc8fd3e9dc6a7784d18} 
+\#define TIM\+\_\+t\+PDH~15}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00046}{46}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_acadc4e9f7a9004eff53c22d60053bcd7}\index{onewire.c@{onewire.c}!TIM\_tPDL@{TIM\_tPDL}}
+\index{TIM\_tPDL@{TIM\_tPDL}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tPDL}{TIM\_tPDL}}
+{\footnotesize\ttfamily \label{onewire_8c_acadc4e9f7a9004eff53c22d60053bcd7} 
+\#define TIM\+\_\+t\+PDL~60}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00047}{47}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_afe8a553dddbbd53b789eff457c176094}\index{onewire.c@{onewire.c}!TIM\_tPROGMAX@{TIM\_tPROGMAX}}
+\index{TIM\_tPROGMAX@{TIM\_tPROGMAX}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tPROGMAX}{TIM\_tPROGMAX}}
+{\footnotesize\ttfamily \label{onewire_8c_afe8a553dddbbd53b789eff457c176094} 
+\#define TIM\+\_\+t\+PROGMAX~10}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00059}{59}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_abbc9aad75a2d1e81d318a86fdaed4573}\index{onewire.c@{onewire.c}!TIM\_tREC@{TIM\_tREC}}
+\index{TIM\_tREC@{TIM\_tREC}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tREC}{TIM\_tREC}}
+{\footnotesize\ttfamily \label{onewire_8c_abbc9aad75a2d1e81d318a86fdaed4573} 
+\#define TIM\+\_\+t\+REC~5}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00049}{49}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a17de5233deb5c50a56cca59ccb0d3cba}\index{onewire.c@{onewire.c}!TIM\_tRL@{TIM\_tRL}}
+\index{TIM\_tRL@{TIM\_tRL}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tRL}{TIM\_tRL}}
+{\footnotesize\ttfamily \label{onewire_8c_a17de5233deb5c50a56cca59ccb0d3cba} 
+\#define TIM\+\_\+t\+RL~10}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00056}{56}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a083906e2666b4a862354babcf5e1f438}\index{onewire.c@{onewire.c}!TIM\_tRSTH@{TIM\_tRSTH}}
+\index{TIM\_tRSTH@{TIM\_tRSTH}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tRSTH}{TIM\_tRSTH}}
+{\footnotesize\ttfamily \label{onewire_8c_a083906e2666b4a862354babcf5e1f438} 
+\#define TIM\+\_\+t\+RSTH~305}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00050}{50}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_adbfa7793b55d3cc42737f6651279c2ab}\index{onewire.c@{onewire.c}!TIM\_tRSTL@{TIM\_tRSTL}}
+\index{TIM\_tRSTL@{TIM\_tRSTL}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tRSTL}{TIM\_tRSTL}}
+{\footnotesize\ttfamily \label{onewire_8c_adbfa7793b55d3cc42737f6651279c2ab} 
+\#define TIM\+\_\+t\+RSTL~500}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00045}{45}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_abd09cde63e8316e799e465d7a0c8e8ac}\index{onewire.c@{onewire.c}!TIM\_tSLOT@{TIM\_tSLOT}}
+\index{TIM\_tSLOT@{TIM\_tSLOT}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tSLOT}{TIM\_tSLOT}}
+{\footnotesize\ttfamily \label{onewire_8c_abd09cde63e8316e799e465d7a0c8e8ac} 
+\#define TIM\+\_\+t\+SLOT~65}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00054}{54}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a397f771f52b8da91c9382d50eafd19a2}\index{onewire.c@{onewire.c}!TIM\_tW0L@{TIM\_tW0L}}
+\index{TIM\_tW0L@{TIM\_tW0L}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tW0L}{TIM\_tW0L}}
+{\footnotesize\ttfamily \label{onewire_8c_a397f771f52b8da91c9382d50eafd19a2} 
+\#define TIM\+\_\+t\+W0L~60}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00053}{53}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a5d8d276b57dbc9dda630b815d655c508}\index{onewire.c@{onewire.c}!TIM\_tW1L@{TIM\_tW1L}}
+\index{TIM\_tW1L@{TIM\_tW1L}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{TIM\_tW1L}{TIM\_tW1L}}
+{\footnotesize\ttfamily \label{onewire_8c_a5d8d276b57dbc9dda630b815d655c508} 
+\#define TIM\+\_\+t\+W1L~10}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00052}{52}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a7217bf0edddda1e17d347f7c5b717f27}\index{onewire.c@{onewire.c}!WRITE\_BLOCK@{WRITE\_BLOCK}}
+\index{WRITE\_BLOCK@{WRITE\_BLOCK}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{WRITE\_BLOCK}{WRITE\_BLOCK}}
+{\footnotesize\ttfamily \label{onewire_8c_a7217bf0edddda1e17d347f7c5b717f27} 
+\#define WRITE\+\_\+\+BLOCK~0x55}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00066}{66}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_ac3bd3efa60d223ffe1d498159090bf71}\index{onewire.c@{onewire.c}!WRITE\_PRO\_BLOCK@{WRITE\_PRO\_BLOCK}}
+\index{WRITE\_PRO\_BLOCK@{WRITE\_PRO\_BLOCK}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{WRITE\_PRO\_BLOCK}{WRITE\_PRO\_BLOCK}}
+{\footnotesize\ttfamily \label{onewire_8c_ac3bd3efa60d223ffe1d498159090bf71} 
+\#define WRITE\+\_\+\+PRO\+\_\+\+BLOCK~0x\+C3}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00067}{67}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a27466737f1e485403d87846b0b4fab91}\index{onewire.c@{onewire.c}!WRITE\_SCRATCHPAD@{WRITE\_SCRATCHPAD}}
+\index{WRITE\_SCRATCHPAD@{WRITE\_SCRATCHPAD}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{WRITE\_SCRATCHPAD}{WRITE\_SCRATCHPAD}}
+{\footnotesize\ttfamily \label{onewire_8c_a27466737f1e485403d87846b0b4fab91} 
+\#define WRITE\+\_\+\+SCRATCHPAD~0x0F}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00061}{61}} 行目に定義があります。
+
+
+
+\doxysubsection{関数詳解}
+\Hypertarget{onewire_8c_abd027fc3ea00a551c764fdcf8bca66d0}\index{onewire.c@{onewire.c}!action\_status\_check@{action\_status\_check}}
+\index{action\_status\_check@{action\_status\_check}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{action\_status\_check()}{action\_status\_check()}}
+{\footnotesize\ttfamily \label{onewire_8c_abd027fc3ea00a551c764fdcf8bca66d0} 
+short action\+\_\+status\+\_\+check (\begin{DoxyParamCaption}\item[{short}]{pch}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00651}{651}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_abd027fc3ea00a551c764fdcf8bca66d0_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a11a14f43913762081016190d05ba288e}\index{onewire.c@{onewire.c}!GetCRC8@{GetCRC8}}
+\index{GetCRC8@{GetCRC8}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{GetCRC8()}{GetCRC8()}}
+{\footnotesize\ttfamily \label{onewire_8c_a11a14f43913762081016190d05ba288e} 
+unsigned char Get\+CRC8 (\begin{DoxyParamCaption}\item[{const void \texorpdfstring{$\ast$}{*}}]{buff}{, }\item[{short}]{size}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00517}{517}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=235pt]{onewire_8c_a11a14f43913762081016190d05ba288e_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a11a14f43913762081016190d05ba288e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a873d4bf71facfebefed654241b82b441}\index{onewire.c@{onewire.c}!GetReflect@{GetReflect}}
+\index{GetReflect@{GetReflect}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{GetReflect()}{GetReflect()}}
+{\footnotesize\ttfamily \label{onewire_8c_a873d4bf71facfebefed654241b82b441} 
+unsigned char Get\+Reflect (\begin{DoxyParamCaption}\item[{unsigned char}]{data}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00486}{486}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a873d4bf71facfebefed654241b82b441_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a16446599f12c3b29faa7d4b702a08c03}\index{onewire.c@{onewire.c}!OWCheckDevice@{OWCheckDevice}}
+\index{OWCheckDevice@{OWCheckDevice}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWCheckDevice()}{OWCheckDevice()}}
+{\footnotesize\ttfamily \label{onewire_8c_a16446599f12c3b29faa7d4b702a08c03} 
+short OWCheck\+Device (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00550}{550}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a16446599f12c3b29faa7d4b702a08c03_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a16446599f12c3b29faa7d4b702a08c03_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a0f6e3096e9042aa605161e9305db4629}\index{onewire.c@{onewire.c}!OWCheckDeviceSide@{OWCheckDeviceSide}}
+\index{OWCheckDeviceSide@{OWCheckDeviceSide}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWCheckDeviceSide()}{OWCheckDeviceSide()}}
+{\footnotesize\ttfamily \label{onewire_8c_a0f6e3096e9042aa605161e9305db4629} 
+void OWCheck\+Device\+Side (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00916}{916}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a0f6e3096e9042aa605161e9305db4629_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a0f6e3096e9042aa605161e9305db4629_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a14251ebb7fac64c12097101f3ab6cc26}\index{onewire.c@{onewire.c}!OWCheckROMID@{OWCheckROMID}}
+\index{OWCheckROMID@{OWCheckROMID}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWCheckROMID()}{OWCheckROMID()}}
+{\footnotesize\ttfamily \label{onewire_8c_a14251ebb7fac64c12097101f3ab6cc26} 
+short OWCheck\+ROMID (\begin{DoxyParamCaption}\item[{short}]{ch}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00576}{576}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a14251ebb7fac64c12097101f3ab6cc26_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a14251ebb7fac64c12097101f3ab6cc26_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_acfaa80eebb10fe4c0c554c37e969cd25}\index{onewire.c@{onewire.c}!OWCompareData@{OWCompareData}}
+\index{OWCompareData@{OWCompareData}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWCompareData()}{OWCompareData()}}
+{\footnotesize\ttfamily \label{onewire_8c_acfaa80eebb10fe4c0c554c37e969cd25} 
+short OWCompare\+Data (\begin{DoxyParamCaption}\item[{short}]{address}{, }\item[{const void \texorpdfstring{$\ast$}{*}}]{buff}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00673}{673}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_acfaa80eebb10fe4c0c554c37e969cd25_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_acfaa80eebb10fe4c0c554c37e969cd25_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a4831f1a21e0afef5e0ce9f2597aa2fea}\index{onewire.c@{onewire.c}!OWReadBit@{OWReadBit}}
+\index{OWReadBit@{OWReadBit}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWReadBit()}{OWReadBit()}}
+{\footnotesize\ttfamily \label{onewire_8c_a4831f1a21e0afef5e0ce9f2597aa2fea} 
+short OWRead\+Bit (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00415}{415}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=274pt]{onewire_8c_a4831f1a21e0afef5e0ce9f2597aa2fea_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a4831f1a21e0afef5e0ce9f2597aa2fea_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0}\index{onewire.c@{onewire.c}!OWReadByte@{OWReadByte}}
+\index{OWReadByte@{OWReadByte}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWReadByte()}{OWReadByte()}}
+{\footnotesize\ttfamily \label{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0} 
+short OWRead\+Byte (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00462}{462}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_ae8de5459b1952288dad5125ffb1bcb8f}\index{onewire.c@{onewire.c}!OWReadSensinfo@{OWReadSensinfo}}
+\index{OWReadSensinfo@{OWReadSensinfo}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWReadSensinfo()}{OWReadSensinfo()}}
+{\footnotesize\ttfamily \label{onewire_8c_ae8de5459b1952288dad5125ffb1bcb8f} 
+short OWRead\+Sensinfo (\begin{DoxyParamCaption}\item[{short}]{ch}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00712}{712}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_ae8de5459b1952288dad5125ffb1bcb8f_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_ae8de5459b1952288dad5125ffb1bcb8f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_ae04fe706ef098b9a94473e5c59de1524}\index{onewire.c@{onewire.c}!OWResetDevice@{OWResetDevice}}
+\index{OWResetDevice@{OWResetDevice}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWResetDevice()}{OWResetDevice()}}
+{\footnotesize\ttfamily \label{onewire_8c_ae04fe706ef098b9a94473e5c59de1524} 
+short OWReset\+Device (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00332}{332}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{onewire_8c_ae04fe706ef098b9a94473e5c59de1524_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_ae04fe706ef098b9a94473e5c59de1524_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a78d5c45f996476fc6d244630619aa7ea}\index{onewire.c@{onewire.c}!OWSensEnable@{OWSensEnable}}
+\index{OWSensEnable@{OWSensEnable}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWSensEnable()}{OWSensEnable()}}
+{\footnotesize\ttfamily \label{onewire_8c_a78d5c45f996476fc6d244630619aa7ea} 
+void OWSens\+Enable (\begin{DoxyParamCaption}\item[{short}]{sw}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00274}{274}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a2899889224024f6b9de34bff4da55ca4}\index{onewire.c@{onewire.c}!OWSensPowSW@{OWSensPowSW}}
+\index{OWSensPowSW@{OWSensPowSW}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWSensPowSW()}{OWSensPowSW()}}
+{\footnotesize\ttfamily \label{onewire_8c_a2899889224024f6b9de34bff4da55ca4} 
+void OWSens\+Pow\+SW (\begin{DoxyParamCaption}\item[{short}]{sw}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00256}{256}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a2899889224024f6b9de34bff4da55ca4_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a086baa422dfc15f69b1fd3ec1cbf451a}\index{onewire.c@{onewire.c}!OWSensRX@{OWSensRX}}
+\index{OWSensRX@{OWSensRX}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWSensRX()}{OWSensRX()}}
+{\footnotesize\ttfamily \label{onewire_8c_a086baa422dfc15f69b1fd3ec1cbf451a} 
+short OWSens\+RX (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00291}{291}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a086baa422dfc15f69b1fd3ec1cbf451a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}\index{onewire.c@{onewire.c}!OWSensSig@{OWSensSig}}
+\index{OWSensSig@{OWSensSig}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWSensSig()}{OWSensSig()}}
+{\footnotesize\ttfamily \label{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8} 
+void OWSens\+Sig (\begin{DoxyParamCaption}\item[{short}]{sw}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00222}{222}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}\index{onewire.c@{onewire.c}!OWSensSigPDR@{OWSensSigPDR}}
+\index{OWSensSigPDR@{OWSensSigPDR}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWSensSigPDR()}{OWSensSigPDR()}}
+{\footnotesize\ttfamily \label{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910} 
+void OWSens\+Sig\+PDR (\begin{DoxyParamCaption}\item[{short}]{sw}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00312}{312}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}\index{onewire.c@{onewire.c}!OWSensSigSW@{OWSensSigSW}}
+\index{OWSensSigSW@{OWSensSigSW}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWSensSigSW()}{OWSensSigSW()}}
+{\footnotesize\ttfamily \label{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc} 
+void OWSens\+Sig\+SW (\begin{DoxyParamCaption}\item[{short}]{sw}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00239}{239}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a64877c51e5db853a6b17dba2655c3cb5}\index{onewire.c@{onewire.c}!OWWaitMS@{OWWaitMS}}
+\index{OWWaitMS@{OWWaitMS}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWWaitMS()}{OWWaitMS()}}
+{\footnotesize\ttfamily \label{onewire_8c_a64877c51e5db853a6b17dba2655c3cb5} 
+void OWWait\+MS (\begin{DoxyParamCaption}\item[{long}]{ms}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00978}{978}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=252pt]{onewire_8c_a64877c51e5db853a6b17dba2655c3cb5_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a64877c51e5db853a6b17dba2655c3cb5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a1dadce14be62be3f628249f2413cfecd}\index{onewire.c@{onewire.c}!OWWaitUS@{OWWaitUS}}
+\index{OWWaitUS@{OWWaitUS}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWWaitUS()}{OWWaitUS()}}
+{\footnotesize\ttfamily \label{onewire_8c_a1dadce14be62be3f628249f2413cfecd} 
+void OWWait\+US (\begin{DoxyParamCaption}\item[{long}]{us}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00959}{959}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a1dadce14be62be3f628249f2413cfecd_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_aae83913f5fba4558dfed0bd99492b98f}\index{onewire.c@{onewire.c}!OWWriteBit@{OWWriteBit}}
+\index{OWWriteBit@{OWWriteBit}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWWriteBit()}{OWWriteBit()}}
+{\footnotesize\ttfamily \label{onewire_8c_aae83913f5fba4558dfed0bd99492b98f} 
+void OWWrite\+Bit (\begin{DoxyParamCaption}\item[{short}]{bit}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00379}{379}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=275pt]{onewire_8c_aae83913f5fba4558dfed0bd99492b98f_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_aae83913f5fba4558dfed0bd99492b98f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}\index{onewire.c@{onewire.c}!OWWriteByte@{OWWriteByte}}
+\index{OWWriteByte@{OWWriteByte}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWWriteByte()}{OWWriteByte()}}
+{\footnotesize\ttfamily \label{onewire_8c_a74246f775da9e6095a1eca9713a8f21f} 
+void OWWrite\+Byte (\begin{DoxyParamCaption}\item[{short}]{data}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00443}{443}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a74246f775da9e6095a1eca9713a8f21f_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a74246f775da9e6095a1eca9713a8f21f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a6140bfa818aa0d1f38fa1258fc2d5972}\index{onewire.c@{onewire.c}!OWWriteData@{OWWriteData}}
+\index{OWWriteData@{OWWriteData}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWWriteData()}{OWWriteData()}}
+{\footnotesize\ttfamily \label{onewire_8c_a6140bfa818aa0d1f38fa1258fc2d5972} 
+short OWWrite\+Data (\begin{DoxyParamCaption}\item[{short}]{address}{, }\item[{const void \texorpdfstring{$\ast$}{*}}]{buff}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00623}{623}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a6140bfa818aa0d1f38fa1258fc2d5972_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a6140bfa818aa0d1f38fa1258fc2d5972_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a54ce1c6683ea97bc494fd927d6777213}\index{onewire.c@{onewire.c}!OWWriteSensinfo@{OWWriteSensinfo}}
+\index{OWWriteSensinfo@{OWWriteSensinfo}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWWriteSensinfo()}{OWWriteSensinfo()}}
+{\footnotesize\ttfamily \label{onewire_8c_a54ce1c6683ea97bc494fd927d6777213} 
+void OWWrite\+Sensinfo (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+メモリデバイス書込み要求確認
+
+メモリデバイス書込み待機
+
+書込みデータをsens\+\_\+infoに作成する
+
+CRC8の計算
+
+メモリデバイスに書込む
+
+メモリデバイスに書込んだデータの照合処理
+
+処理終了
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00805}{805}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a54ce1c6683ea97bc494fd927d6777213_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=247pt]{onewire_8c_a54ce1c6683ea97bc494fd927d6777213_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a6baa98f73713e126987850ddd9ee8c83}\index{onewire.c@{onewire.c}!portmesfwdW@{portmesfwdW}}
+\index{portmesfwdW@{portmesfwdW}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{portmesfwdW()}{portmesfwdW()}}
+{\footnotesize\ttfamily \label{onewire_8c_a6baa98f73713e126987850ddd9ee8c83} 
+void portmesfwdW (\begin{DoxyParamCaption}\item[{unsigned char}]{data}{, }\item[{short}]{pch}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{ctlioport_8c_source}{ctlioport.\+c}} の \mbox{\hyperlink{ctlioport_8c_source_l00044}{44}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a6baa98f73713e126987850ddd9ee8c83_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a027fa9fc108cc94ddf9daec7c31f624f}\index{onewire.c@{onewire.c}!portmesrevW@{portmesrevW}}
+\index{portmesrevW@{portmesrevW}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{portmesrevW()}{portmesrevW()}}
+{\footnotesize\ttfamily \label{onewire_8c_a027fa9fc108cc94ddf9daec7c31f624f} 
+void portmesrevW (\begin{DoxyParamCaption}\item[{unsigned char}]{data}{, }\item[{short}]{pch}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{ctlioport_8c_source}{ctlioport.\+c}} の \mbox{\hyperlink{ctlioport_8c_source_l00089}{89}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a027fa9fc108cc94ddf9daec7c31f624f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a49cb3218b42d20bf66a66e2f57213140}\index{onewire.c@{onewire.c}!SelectReverseOff@{SelectReverseOff}}
+\index{SelectReverseOff@{SelectReverseOff}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{SelectReverseOff()}{SelectReverseOff()}}
+{\footnotesize\ttfamily \label{onewire_8c_a49cb3218b42d20bf66a66e2f57213140} 
+void Select\+Reverse\+Off (\begin{DoxyParamCaption}\item[{short}]{pch}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{int__flow_8c_source}{int\+\_\+flow.\+c}} の \mbox{\hyperlink{int__flow_8c_source_l05911}{5911}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{onewire_8c_a49cb3218b42d20bf66a66e2f57213140_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_a49cb3218b42d20bf66a66e2f57213140_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_ac915dc02c19f84bb9569d3a6f3b3b4df}\index{onewire.c@{onewire.c}!SelectReverseOn@{SelectReverseOn}}
+\index{SelectReverseOn@{SelectReverseOn}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{SelectReverseOn()}{SelectReverseOn()}}
+{\footnotesize\ttfamily \label{onewire_8c_ac915dc02c19f84bb9569d3a6f3b3b4df} 
+void Select\+Reverse\+On (\begin{DoxyParamCaption}\item[{short}]{pch}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{int__flow_8c_source}{int\+\_\+flow.\+c}} の \mbox{\hyperlink{int__flow_8c_source_l05877}{5877}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=282pt]{onewire_8c_ac915dc02c19f84bb9569d3a6f3b3b4df_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{onewire_8c_ac915dc02c19f84bb9569d3a6f3b3b4df_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{onewire_8c_a6881a5fc9cfe8a449cf54295ee1b25e7}\index{onewire.c@{onewire.c}!util\_eep\_allwrite@{util\_eep\_allwrite}}
+\index{util\_eep\_allwrite@{util\_eep\_allwrite}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{util\_eep\_allwrite()}{util\_eep\_allwrite()}}
+{\footnotesize\ttfamily \label{onewire_8c_a6881a5fc9cfe8a449cf54295ee1b25e7} 
+void util\+\_\+eep\+\_\+allwrite (\begin{DoxyParamCaption}\item[{short}]{pch}{, }\item[{short}]{opt}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00827}{827}} 行目に定義があります。
+
+
+
+\doxysubsection{変数詳解}
+\Hypertarget{onewire_8c_a2becc89dff9d2825f715a4c971b4dbac}\index{onewire.c@{onewire.c}!memory\_C\_data@{memory\_C\_data}}
+\index{memory\_C\_data@{memory\_C\_data}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{memory\_C\_data}{memory\_C\_data}}
+{\footnotesize\ttfamily \label{onewire_8c_a2becc89dff9d2825f715a4c971b4dbac} 
+char memory\+\_\+\+C\+\_\+data\mbox{[}\mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{MEMORY\+\_\+\+MAX}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00126}{126}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a8e81c5361db4e922bc4ec1ad367900ee}\index{onewire.c@{onewire.c}!memory\_R\_data@{memory\_R\_data}}
+\index{memory\_R\_data@{memory\_R\_data}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{memory\_R\_data}{memory\_R\_data}}
+{\footnotesize\ttfamily \label{onewire_8c_a8e81c5361db4e922bc4ec1ad367900ee} 
+char memory\+\_\+\+R\+\_\+data\mbox{[}\mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{MEMORY\+\_\+\+MAX}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00124}{124}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a6141a7677586faa55d71fbaef3f4e485}\index{onewire.c@{onewire.c}!memory\_W\_data@{memory\_W\_data}}
+\index{memory\_W\_data@{memory\_W\_data}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{memory\_W\_data}{memory\_W\_data}}
+{\footnotesize\ttfamily \label{onewire_8c_a6141a7677586faa55d71fbaef3f4e485} 
+char memory\+\_\+\+W\+\_\+data\mbox{[}\mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{MEMORY\+\_\+\+MAX}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00125}{125}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568}\index{onewire.c@{onewire.c}!ow\_cnt@{ow\_cnt}}
+\index{ow\_cnt@{ow\_cnt}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{ow\_cnt}{ow\_cnt}}
+{\footnotesize\ttfamily \label{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568} 
+short ow\+\_\+cnt}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00120}{120}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a7b99fd21940c0ca0568ca80de4bcf521}\index{onewire.c@{onewire.c}!ow\_pos@{ow\_pos}}
+\index{ow\_pos@{ow\_pos}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{ow\_pos}{ow\_pos}}
+{\footnotesize\ttfamily \label{onewire_8c_a7b99fd21940c0ca0568ca80de4bcf521} 
+short ow\+\_\+pos}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00120}{120}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a86e83a15de43408867bc1ecb1a2b368e}\index{onewire.c@{onewire.c}!ow\_retry@{ow\_retry}}
+\index{ow\_retry@{ow\_retry}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{ow\_retry}{ow\_retry}}
+{\footnotesize\ttfamily \label{onewire_8c_a86e83a15de43408867bc1ecb1a2b368e} 
+short ow\+\_\+retry}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00120}{120}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}\index{onewire.c@{onewire.c}!OWEepromData@{OWEepromData}}
+\index{OWEepromData@{OWEepromData}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWEepromData}{OWEepromData}}
+{\footnotesize\ttfamily \label{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302} 
+const struct \mbox{\hyperlink{struct_o_w_eeprom}{OWEeprom}} OWEeprom\+Data\mbox{[}$\,$\mbox{]}}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00143}{143}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a8d6ec2d519e9e5770f15886f09338214}\index{onewire.c@{onewire.c}!OWwrite@{OWwrite}}
+\index{OWwrite@{OWwrite}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWwrite}{OWwrite}}
+{\footnotesize\ttfamily \label{onewire_8c_a8d6ec2d519e9e5770f15886f09338214} 
+short OWwrite\mbox{[}6\mbox{]} = \{0, 0, 0, 0, 0, 0\}}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00121}{121}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}\index{onewire.c@{onewire.c}!OWwriteCH@{OWwriteCH}}
+\index{OWwriteCH@{OWwriteCH}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{OWwriteCH}{OWwriteCH}}
+{\footnotesize\ttfamily \label{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b} 
+short OWwrite\+CH = \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00122}{122}} 行目に定義があります。
+
+\Hypertarget{onewire_8c_aae3cac3387c569796c62bfe511afa8d1}\index{onewire.c@{onewire.c}!sens\_info@{sens\_info}}
+\index{sens\_info@{sens\_info}!onewire.c@{onewire.c}}
+\doxysubsubsection{\texorpdfstring{sens\_info}{sens\_info}}
+{\footnotesize\ttfamily \label{onewire_8c_aae3cac3387c569796c62bfe511afa8d1} 
+char sens\+\_\+info\mbox{[}256\mbox{]}}
+
+
+
+ \mbox{\hyperlink{onewire_8c_source}{onewire.\+c}} の \mbox{\hyperlink{onewire_8c_source_l00123}{123}} 行目に定義があります。
+

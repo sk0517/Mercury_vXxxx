@@ -1,0 +1,13 @@
+<map id="OWReadByte" name="OWReadByte">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,81,107,108"/>
+<area shape="rect" id="Node000002" href="$onewire_8c.html#a4831f1a21e0afef5e0ce9f2597aa2fea" title=" " alt="" coords="155,81,245,108"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,92,139,92,139,97,107,97"/>
+<area shape="rect" id="Node000003" href="$onewire_8c.html#a086baa422dfc15f69b1fd3ec1cbf451a" title=" " alt="" coords="308,5,398,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="224,78,292,42,303,36,305,41,294,46,226,83"/>
+<area shape="rect" id="Node000004" href="$onewire_8c.html#a56ad7d157204b4f2fc3706c0247d4ad8" title=" " alt="" coords="307,56,400,83"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="245,85,291,77,292,82,246,90"/>
+<area shape="rect" id="Node000005" href="$onewire_8c.html#aab644901aa4fc4cf65155fce2c5b3910" title=" " alt="" coords="293,107,413,133"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="246,100,278,105,277,110,245,105"/>
+<area shape="rect" id="Node000006" href="$onewire_8c.html#a1dadce14be62be3f628249f2413cfecd" title=" " alt="" coords="309,157,398,184"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="226,106,294,143,305,148,303,153,292,148,224,111"/>
+</map>

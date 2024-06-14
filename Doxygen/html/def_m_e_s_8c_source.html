@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.11.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Mercury: C:/WorkSpace/Mercury/Mercury_vXxxx/Mercury/MAIN/defMES.c ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Mercury
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.11.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','検索',false);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_188d001a6c11814c0e5bef1d09d0f49f.html">Mercury</a></li><li class="navelem"><a class="el" href="dir_0e0a91e0e8f41b25d016596073bb94ed.html">MAIN</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle"><div class="title">defMES.c</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="def_m_e_s_8c.html">[詳解]</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/***********************************************/</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/* File Name : defMES.c                                                    */</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/*  Summary   : メッセージ通信定義                   */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">/*  Date      : 2023/03/16                                                  */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*                                                                                                 */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/*  Copyright(c) 2023 Tokyo Keiso Co.Ltd.                  */</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">/*          All rights reserved                                                                 */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/***********************************************/</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="def_m_e_s_8h.html">defMES.h</a>&quot;</span> <span class="comment">//流量計測定義</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">//----------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">//グローバル変数</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">//----------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="def_m_e_s_8c.html#a202c65e1ca3a5712692cc529f040634b">   15</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structst_m_e_s.html">stMES</a> <a class="code hl_variable" href="def_m_e_s_8c.html#a202c65e1ca3a5712692cc529f040634b">MES</a>[<a class="code hl_define" href="define_8h.html#ae0e0a5815cfa2e7d50ba4732f1593f6a">CH_NUMMAX</a>];    <span class="comment">//流量計測</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="def_m_e_s_8c.html#a7ba6c85a073d6dc7e54b96fe11c07772">   16</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structst_m_e_s___s_u_b.html">stMES_SUB</a> <a class="code hl_variable" href="def_m_e_s_8c.html#a7ba6c85a073d6dc7e54b96fe11c07772">MES_SUB</a>[<a class="code hl_define" href="define_8h.html#ae0e0a5815cfa2e7d50ba4732f1593f6a">CH_NUMMAX</a>];    <span class="comment">//流量計測</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#ifdef FRQSCH</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="def_m_e_s_8c.html#a49d0ff401a083033ed74978008f9c65d">   19</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structst_frq_sch.html">stFrqSch</a> <a class="code hl_variable" href="def_m_e_s_8c.html#a49d0ff401a083033ed74978008f9c65d">FrqSch</a>[<a class="code hl_define" href="define_8h.html#ae0e0a5815cfa2e7d50ba4732f1593f6a">CH_NUMMAX</a>];</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="adef_m_e_s_8c_html_a202c65e1ca3a5712692cc529f040634b"><div class="ttname"><a href="def_m_e_s_8c.html#a202c65e1ca3a5712692cc529f040634b">MES</a></div><div class="ttdeci">struct stMES MES[CH_NUMMAX]</div><div class="ttdef"><b>Definition</b> <a href="#l00015">defMES.c:15</a></div></div>
+<div class="ttc" id="adef_m_e_s_8c_html_a49d0ff401a083033ed74978008f9c65d"><div class="ttname"><a href="def_m_e_s_8c.html#a49d0ff401a083033ed74978008f9c65d">FrqSch</a></div><div class="ttdeci">struct stFrqSch FrqSch[CH_NUMMAX]</div><div class="ttdef"><b>Definition</b> <a href="#l00019">defMES.c:19</a></div></div>
+<div class="ttc" id="adef_m_e_s_8c_html_a7ba6c85a073d6dc7e54b96fe11c07772"><div class="ttname"><a href="def_m_e_s_8c.html#a7ba6c85a073d6dc7e54b96fe11c07772">MES_SUB</a></div><div class="ttdeci">struct stMES_SUB MES_SUB[CH_NUMMAX]</div><div class="ttdef"><b>Definition</b> <a href="#l00016">defMES.c:16</a></div></div>
+<div class="ttc" id="adef_m_e_s_8h_html"><div class="ttname"><a href="def_m_e_s_8h.html">defMES.h</a></div></div>
+<div class="ttc" id="adefine_8h_html_ae0e0a5815cfa2e7d50ba4732f1593f6a"><div class="ttname"><a href="define_8h.html#ae0e0a5815cfa2e7d50ba4732f1593f6a">CH_NUMMAX</a></div><div class="ttdeci">#define CH_NUMMAX</div><div class="ttdef"><b>Definition</b> <a href="define_8h_source.html#l00276">define.h:276</a></div></div>
+<div class="ttc" id="astructst_frq_sch_html"><div class="ttname"><a href="structst_frq_sch.html">stFrqSch</a></div><div class="ttdef"><b>Definition</b> <a href="def_m_e_s_8h_source.html#l00320">defMES.h:320</a></div></div>
+<div class="ttc" id="astructst_m_e_s___s_u_b_html"><div class="ttname"><a href="structst_m_e_s___s_u_b.html">stMES_SUB</a></div><div class="ttdef"><b>Definition</b> <a href="def_m_e_s_8h_source.html#l00297">defMES.h:297</a></div></div>
+<div class="ttc" id="astructst_m_e_s_html"><div class="ttname"><a href="structst_m_e_s.html">stMES</a></div><div class="ttdef"><b>Definition</b> <a href="def_m_e_s_8h_source.html#l00045">defMES.h:45</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+構築:&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.11.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>

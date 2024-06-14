@@ -1,6 +1,6 @@
 /***********************************************/
 /* File Name : MAIN.c	   	         									   */
-/*	Summary   : メイン処理 					                   */
+/*	@brief   : メイン処理 					                   */
 /*	Date      : 2023/03/16										            */
 /*																	                        	   */
 /*	Copyright(c) 2023 Tokyo Keiso Co.Ltd.				   */
@@ -159,10 +159,10 @@ void main(void);
 
 // #define WAVE_RECOGNITION //ゼロ点調整時に波形認識を実行する
 
-/****************************************************/
+/***************************************************//*/
 /* Function : fpga_config_send_SSI                  */
-/* Summary  : SPI Passive Mode - fpga_config_send   */
-/* Argument : なし                                  */
+/* @brief  : SPI Passive Mode - fpga_config_send   */
+/* @param : なし                                  */
 /* Return   : 1=正常, 0=異常(タイムアウト)          */
 /* Caution  : なし                                  */
 /* notes    : 起動時                                */
@@ -301,13 +301,13 @@ short fpga_config_send(void)
 }
 #endif
 
-/****************************************************/
-/* Function : init                           */
-/* Summary  : 初期化処理    				*/
-/* Argument : なし                                  */
+/**************************************************//**
+/* Function : init
+/* @brief  : 初期化処理
+/* @param : なし
 /* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : 起動時                                 */
+/* Caution  : なし
+/* notes    : 起動時
 /****************************************************/
 void init(void){
 
@@ -422,13 +422,13 @@ void init(void){
 	
 }
 
-/****************************************************/
-/* Function : cpu_init                        */
-/* Summary  : CPU初期化    				*/
-/* Argument : なし                           */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : 各レジスタ設定                            */
+/****************************************************
+/* Function : cpu_init
+/* @brief  : CPU初期化
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : 各レジスタ設定
 /****************************************************/
 void	cpu_init(void){
 
@@ -588,13 +588,13 @@ void	cpu_init(void){
 
 }
 
-/****************************************************/
-/* Function : cpu_init_rs485                         */
-/* Summary  : CPU初期化(RS485)   				*/
-/* Argument : なし                            */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : 各レジスタ設定                            */
+/****************************************************
+/* Function : cpu_init_rs485
+/* @brief  : CPU初期化(RS485)
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : 各レジスタ設定
 /****************************************************/
 void	cpu_init_rs485(void){
 
@@ -610,13 +610,13 @@ void	cpu_init_rs485(void){
 
 }
 
-/****************************************************/
-/* Function : eeprom_init                           */
-/* Summary  : EEPROM初期化    				*/
-/* Argument : なし                                   */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : eeprom_init
+/* @brief  : EEPROM初期化
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void	eeprom_init(void){
 
@@ -644,13 +644,13 @@ void	eeprom_init(void){
 	}
 }
 
-/****************************************************/
-/* Function : version_set                           */
-/* Summary  : バージョンセット    				*/
-/* Argument : なし                                  */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : version_set
+/* @brief  : バージョンセット
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void	version_set(void){
 
@@ -668,13 +668,13 @@ void	version_set(void){
 	FpgaVersion = FPGA_VERSION;
 }
 
-/****************************************************/
-/* Function : viscos_tbl_init                       */
-/* Summary  : 動粘度テーブル初期化    				*/
-/* Argument : なし                                  */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : viscos_tbl_init
+/* @brief  : 動粘度テーブル初期化
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void	viscos_tbl_init(void){
 
@@ -686,13 +686,13 @@ void	viscos_tbl_init(void){
 	}
 }
 
-/****************************************************/
-/* Function : recv_wave_init                       */
-/* Summary  : 受波格納領域の初期化    				*/
-/* Argument : なし                                  */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : recv_wave_init
+/* @brief  : 受波格納領域の初期化
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void	recv_wave_init(void){
 
@@ -735,13 +735,13 @@ void	recv_wave_init(void){
 	}
 }
 	
-/****************************************************/
-/* Function : counter_control                       */
-/* Summary  : カウンタ処理    				*/
-/* Argument : なし                                  */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : counter_control
+/* @brief  : カウンタ処理
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void	counter_control(void){
 
@@ -768,12 +768,12 @@ void	counter_control(void){
 	}
 }
 
-/****************************************************/
-/* Function : zero_alm_check                       */
-/* Summary  : ゼロ点調整/アラームリセット確認          				*/
-/* Argument : なし                                  */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
+/****************************************************
+/* Function : zero_alm_check
+/* @brief  : ゼロ点調整/アラームリセット確認
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
 /* notes    : 100msに1度実行される
  ****************************************************/
 void	zero_alm_check(void){
@@ -787,13 +787,13 @@ void	zero_alm_check(void){
 	sw_now_zeroadj = B_OFF;				//ゼロ点調整要求解除
 }
 
-/****************************************************/
-/* Function : zero_check_sub                       */
-/* Summary  : ゼロ点調整値候補３点のばらつきが、規定値以下であることを確認する	*/
-/* Argument : d[]                                  */
-/* Return   : 1=正常, 0=異常                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : zero_check_sub
+/* @brief  : ゼロ点調整値候補３点のばらつきが、規定値以下であることを確認する
+/* @param : d[]
+/* Return   : 1=正常, 0=異常
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 //#define DIFF_LIMIT	(1)
 //#define DIFF_LIMIT	(5)
@@ -825,8 +825,8 @@ short	zero_check_sub_f(float d[]) {
 
 /****************************************************************************
  * Function : JdgZadErr (Judge Zero adjust Error)
- * Summary  : ゼロ点調整中のエラーを判定する
- * Argument : pch : チャンネル番号
+ * @brief  : ゼロ点調整中のエラーを判定する
+ * @param : pch : チャンネル番号
  *            Phs : ゼロ点調整のフェーズ
  * Return   : void
  * Caution  : なし
@@ -849,8 +849,8 @@ void JdgZadErr(short pch, short Phs)
 
 /****************************************************************************
  * Function : LedCtlZaj (LED Control for Zeroadjust)
- * Summary  : ゼロ点調整時のLED処理
- * Argument : pch : チャンネル番号
+ * @brief  : ゼロ点調整時のLED処理
+ * @param : pch : チャンネル番号
  * Return   : void
  * Caution  : なし
  * Note     : 100msに一度実行される
@@ -881,8 +881,8 @@ void LedCtlZaj(short pch)
 
 /****************************************************************************
  * Function : EndAdjVth (End Adjust Vth)
- * Summary  : Vth調整終了処理
- * Argument : pch : チャンネル番号
+ * @brief  : Vth調整終了処理
+ * @param : pch : チャンネル番号
  * Return   : Flg : 0x00  -> 正常
  *                  0x01  -> フェーズ更新
  *                  0x100 -> エラー
@@ -924,8 +924,8 @@ short EndAdjVth(short pch)
 
 /****************************************************************************
  * Function : NowZerAdj (Now Zero Adjust)
- * Summary  : ゼロ点調整中処理
- * Argument : pch : チャンネル番号
+ * @brief  : ゼロ点調整中処理
+ * @param : pch : チャンネル番号
  * Return   : Flg : 0x00  -> 正常
  *                  0x01  -> フェーズ更新
  *                  0x100 -> エラー
@@ -955,8 +955,8 @@ short NowZerAdj(short pch)
 
 /*******************************************
  * Function : GetIntegSize
- * Summary  : 整数部の桁数を取得する
- * Argument : Integ : input
+ * @brief  : 整数部の桁数を取得する
+ * @param : Integ : input
  * Return   : 桁数
  * Caution  : None
  * Note     : 
@@ -974,8 +974,8 @@ short GetIntegSize(short Integ){
 
 /*******************************************
  * Function : CopyIntegToBuff
- * Summary  : 整数部をバッファに格納する
- * Argument : Integ : input
+ * @brief  : 整数部をバッファに格納する
+ * @param : Integ : input
  *            IntegSize : 整数部桁数
  *            *Buf : output
  * Return   : void
@@ -995,8 +995,8 @@ void CopyIntegToBuff(char* Buf, short Integ, short IntegSize)
 
 /*******************************************
  * Function : CopyDecmlToBuff
- * Summary  : 小数部をバッファに格納する
- * Argument : Decml : input
+ * @brief  : 小数部をバッファに格納する
+ * @param : Decml : input
  *            DecmlSize : 小数点以下桁数
  *            *Buf : output
  * Return   : void
@@ -1018,8 +1018,8 @@ void CopyDecmlToBuff(char* Buf, float Decml, short DecmlSize)
 
 /*******************************************
  * Function : CopyFloatToChar
- * Summary  : float変数をchar[]にasciiとして格納する
- * Argument : fVal : input
+ * @brief  : float変数をchar[]にasciiとして格納する
+ * @param : fVal : input
  *            *Buf : output
  * Return   : void
  * Caution  : None
@@ -1062,8 +1062,8 @@ void CopyFloatToChar(float fVal, char* Buf)
 
 /****************************************************************************
  * Function : SavZajPrm (Save Zero adjust Parameter)
- * Summary  : ゼロ点調整成功時のパラメータ保存
- * Argument : pch : チャンネル番号
+ * @brief  : ゼロ点調整成功時のパラメータ保存
+ * @param : pch : チャンネル番号
  * Return   : 
  * Caution  : なし
  * Note     : MES[pch].zc_zero_offset : ゼロクロス用ゼロオフセット点
@@ -1112,8 +1112,8 @@ void SavZajPrm(short pch)
 
 /****************************************************************************
  * Function : EndZerAdj (End Zero Adjust)
- * Summary  : ゼロ点終了時処理
- * Argument : pch : チャンネル番号
+ * @brief  : ゼロ点終了時処理
+ * @param : pch : チャンネル番号
  * Return   : Flg : 0x00  -> 正常
  *                  0x01  -> フェーズ更新
  *                  0x100 -> エラー
@@ -1243,8 +1243,8 @@ short EndZerAdj(short pch)
 
 /****************************************************************************
  * Function : IniZajPrm (Init Zeroadjust Parameter)
- * Summary  : ゼロ点調整各フェーズごとのパラメータ初期化
- * Argument : pch : チャンネル番号
+ * @brief  : ゼロ点調整各フェーズごとのパラメータ初期化
+ * @param : pch : チャンネル番号
  *            Phs : フェーズ番号
  * Return   : void
  * Caution  : なし
@@ -1321,8 +1321,8 @@ void IniZajPrm(short pch, short Phs)
 
 /****************************************************************************
  * Function : JdgZerAdjPhs (Judge Zero Adjust Phase)
- * Summary  : ゼロ点調整フェーズ判定
- * Argument : pch : チャンネル番号
+ * @brief  : ゼロ点調整フェーズ判定
+ * @param : pch : チャンネル番号
  * Return   : void
  * Caution  : なし
  * Note     : Flg : 0x00  -> 正常、フェーズ更新なし
@@ -1430,13 +1430,13 @@ void JdgZerAdjPhs(short pch)
 	}
 }
 
-/****************************************************/
-/* Function : zero_adj_control                     */
-/* Summary  : ゼロ点調整処理         				*/
-/* Argument : pch                                 */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : Vth調整後にゼロ点調整を実施する             */
+/****************************************************
+/* Function : zero_adj_control
+/* @brief  : ゼロ点調整処理
+/* @param : pch
+/* Return   : なし
+/* Caution  : なし
+/* notes    : Vth調整後にゼロ点調整を実施する
 /****************************************************/
 void	zero_adj_control(short pch){
 #if 1
@@ -1609,13 +1609,13 @@ void	zero_adj_control(short pch){
 #endif
 }
 
-/****************************************************/
-/* Function : zero_adj_error                       */
-/* Summary  : ゼロ点調整エラー処理               				*/
-/* Argument : pch                                  */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : zero_adj_error
+/* @brief  : ゼロ点調整エラー処理
+/* @param : pch
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void	zero_adj_error(short pch){
 
@@ -1634,13 +1634,13 @@ void	zero_adj_error(short pch){
 	MES[pch].ThresholdReq = 0; //zero_active=0になるので99ではなく0
 }
 
-/****************************************************/
-/* Function : alm_reset_control                       */
-/* Summary  : アラームリセット               				*/
-/* Argument : pch                                  */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : alm_reset_control
+/* @brief  : アラームリセット
+/* @param : pch
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void	alm_reset_control(short pch){
 
@@ -1674,13 +1674,13 @@ void	alm_reset_control(short pch){
 	}
 }
 
-/****************************************************/
-/* Function : zero_adj_status                       */
-/* Summary  : ゼロ点調整時の波形データを保持する        				*/
-/* Argument : pch                                  */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : zero_adj_status
+/* @brief  : ゼロ点調整時の波形データを保持する
+/* @param : pch
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void zero_adj_status(short pch){
 
@@ -1722,13 +1722,13 @@ void zero_adj_status(short pch){
 	
 }
 
-/****************************************************/
-/* Function : com_req_check                       */
-/* Summary  : 通信指令確認        				*/
-/* Argument : なし                                 */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : com_req_check
+/* @brief  : 通信指令確認
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void	com_req_check(void){
 
@@ -1741,8 +1741,8 @@ void	com_req_check(void){
 
 /*******************************************
  * Function : SetZerAdjPrm
- * Summary  : ゼロ調整のパラメータを設定する
- * Argument : Mod : Mode
+ * @brief  : ゼロ調整のパラメータを設定する
+ * @param : Mod : Mode
  *                : 0 -> ゼロ調整用⊿Tsの初期化
  *                : 1 -> 波形認識処理開始
  * Return   : void
@@ -1789,8 +1789,8 @@ void SetZerAdjPrm(short pch, short Mod)
 
 /*******************************************
  * Function : CheckSearchWindow
- * Summary  : ウィンドウサーチの判定をする
- * Argument : 
+ * @brief  : ウィンドウサーチの判定をする
+ * @param : 
  * Return   : B_NG -> 失敗
  *            B_OK -> 成功
  * Caution  : None
@@ -1812,13 +1812,13 @@ short CheckSearchWindow(short pch)
 	return B_OK;
 }
 
-/****************************************************/
-/* Function : com_req_control                       */
-/* Summary  : 指令制御        				*/
-/* Argument : pch                                 */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : com_req_control
+/* @brief  : 指令制御
+/* @param : pch
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void	com_req_control(short pch){
 	
@@ -1920,13 +1920,13 @@ void	com_req_control(short pch){
 	SAVE[pch].control_old = SAVE[pch].control;		/*状態保存*/	
 }
 
-/****************************************************/
-/* Function : ram_clear_check                        */
-/* Summary  : RAMクリア    				*/
-/* Argument : なし                                   */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : CHスイッチ=9、ゼロ調整スイッチON起動でRAMクリア */
+/****************************************************
+/* Function : ram_clear_check
+/* @brief  : RAMクリア
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : CHスイッチ=9、ゼロ調整スイッチON起動でRAMクリア
 /****************************************************/
 void	ram_clear_check(void){
 
@@ -1945,13 +1945,13 @@ void	ram_clear_check(void){
 	}
 }
 
-/****************************************************/
-/* Function : ram_clear_debug                       */
-/* Summary  : RAMクリア    				*/
-/* Argument : なし                                   */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : 通信(ORコマンド)によるRAMクリア               */
+/****************************************************
+/* Function : ram_clear_debug
+/* @brief  : RAMクリア
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : 通信(ORコマンド)によるRAMクリア
 /****************************************************/
 void	ram_clear_debug(void){
 
@@ -1967,13 +1967,13 @@ void	ram_clear_debug(void){
 	version_set();
 }
 
-/****************************************************/
-/* Function : ReadSensDevice                      */
-/* Summary  : メモリデバイスからセンサ情報を読込む    				*/
-/* Argument : なし                                   */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : ReadSensDevice
+/* @brief  : メモリデバイスからセンサ情報を読込む
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void	ReadSensDevice(void){
 
@@ -1986,14 +1986,14 @@ void	ReadSensDevice(void){
 	}
 }
 
-/****************************************************/
-/* Function : CheckDeviceDetect						*/
-/* Summary  : メモリデバイス検知の確認						*/
-/* Argument : なし									*/
-/* Return   : なし									*/
-/* Caution  : なし									*/
-/* notes    : メモリデバイスがIN側とOUT側共に検知できない場合	*/
-/*          : にエラーとする								*/
+/****************************************************
+/* Function : CheckDeviceDetect
+/* @brief  : メモリデバイス検知の確認
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : メモリデバイスがIN側とOUT側共に検知できない場合
+/*          : にエラーとする
 /****************************************************/
 void	CheckDeviceDetect(void){
 
@@ -2008,13 +2008,13 @@ void	CheckDeviceDetect(void){
 	}
 }
 
-/****************************************************/
-/* Function : watchdog_refresh                      */
-/* Summary  : ウォッチドッグリフレッシュ    				*/
-/* Argument : なし                                  */
+/****************************************************
+/* Function : watchdog_refresh
+/* @brief  : ウォッチドッグリフレッシュ
+/* @param : なし
 /* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void	watchdog_refresh(void)
 {
@@ -2022,13 +2022,13 @@ void	watchdog_refresh(void)
 	WatchdogReloadSet(WATCHDOG0_BASE, g_ui32SysClock* 4);
 }
 
-/****************************************************/
-/* Function : CheckBOOTCFG                           */
-/* Summary  : BOOTCFG レジスタが設定済みかどうかのチェックと設定	*/
-/* Argument : なし                                   */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : CheckBOOTCFG
+/* @brief  : BOOTCFG レジスタが設定済みかどうかのチェックと設定
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void CheckBOOTCFG(void){
 
@@ -2074,13 +2074,13 @@ void CheckBOOTCFG(void){
 	}
 }
 
-/****************************************************/
-/* Function : main                                  */
-/* Summary  : メイン処理                          				 */
-/* Argument : なし                                   */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
+/****************************************************
+/* Function : main
+/* @brief  : メイン処理
+/* @param : なし
+/* Return   : なし
+/* Caution  : なし
+/* notes    : なし
 /****************************************************/
 void main(void){
 

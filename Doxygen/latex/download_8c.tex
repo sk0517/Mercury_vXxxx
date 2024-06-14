@@ -1,0 +1,1160 @@
+\doxysection{C\+:/\+Work\+Space/\+Mercury/\+Mercury\+\_\+v\+Xxxx/\+Mercury/\+MAIN/download.c ファイル}
+\hypertarget{download_8c}{}\label{download_8c}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/download.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/download.c}}
+{\ttfamily \#include $<$machine.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include "{}cunet.\+h"{}}\newline
+{\ttfamily \#include "{}define.\+h"{}}\newline
+{\ttfamily \#include "{}version.\+h"{}}\newline
+{\ttfamily \#include "{}SV\+\_\+def.\+h"{}}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+ints.\+h"{}}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+memmap.\+h"{}}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+sysctl.\+h"{}}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+uart.\+h"{}}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+flash.\+h"{}}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+gpio.\+h"{}}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+watchdog.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/debug.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/gpio.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/interrupt.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/pin\+\_\+map.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/sysctl.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/uart.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/flash.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/watchdog.\+h"{}}\newline
+download.\+c の依存先関係図\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{データ構造}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_s___f_o_r_m_a_t}{S\+\_\+\+FORMAT}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{マクロ定義}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{download_8c_ac2c3c164305d09ab3a5a9af2b890b2d9}{DL\+\_\+\+DEBUG}}~0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{download_8c_ad7db52bdcf9b91f1ef9e2d95491208bf}{com\+\_\+init\+\_\+dl\+\_\+ment}} (void)
+\item 
+void \mbox{\hyperlink{download_8c_ad58ee03d85cb05b2b403c712b56c5a04}{com\+\_\+init\+\_\+dl\+\_\+host}} (void)
+\item 
+void \mbox{\hyperlink{download_8c_aee589115a6569b733d2542cfd7aa0c79}{com\+\_\+init\+\_\+dl\+\_\+cunet}} (void)
+\item 
+void \mbox{\hyperlink{download_8c_aacbe9000bc46bdd38b39f8fa321dcab0}{delay\+\_\+dl}} (unsigned short delay\+\_\+count)
+\item 
+void \mbox{\hyperlink{download_8c_a0e516071a06d9a32086582ed8a21c89c}{RX\+\_\+enable\+\_\+dl\+\_\+ment}} (void)
+\item 
+void \mbox{\hyperlink{download_8c_a865b5866029679abeb812a46b90a3faa}{RX\+\_\+enable\+\_\+dl\+\_\+host}} (void)
+\item 
+void \mbox{\hyperlink{download_8c_a241e7cf9a1dca2a023d6e8e8be56eecb}{enter\+\_\+\+RAM\+\_\+\+PRG}} (short mode, short type)
+\item 
+void \mbox{\hyperlink{download_8c_aa4535d21f03987da834d9ba0c7f5c64c}{download}} (short mode, short type)
+\item 
+void \mbox{\hyperlink{download_8c_a0c8e6c18b6c11b7a3d18beb44d7065b5}{memset\+\_\+dl}} (void \texorpdfstring{$\ast$}{*}buf, short ch, size\+\_\+t n)
+\item 
+void \mbox{\hyperlink{download_8c_abc11acdad1024460d59d88e9b9cc8145}{memcpy\+\_\+dl}} (void \texorpdfstring{$\ast$}{*}buf1, const void \texorpdfstring{$\ast$}{*}buf2, size\+\_\+t n)
+\item 
+signed long \mbox{\hyperlink{download_8c_a8bbc52cbafd8e14c7c2c054d7d686633}{min\+\_\+dl}} (signed long data1, signed long data2)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{download_8c_a11e01160ddb9d3ff60bdee94b0330eb3}{UARTInt\+Status\+\_\+dl}} (uint32\+\_\+t ui32\+Base, bool b\+Masked)
+\item 
+void \mbox{\hyperlink{download_8c_afe5e913ee9e320c4204a201f7cf4d5c9}{UARTInt\+Clear\+\_\+dl}} (uint32\+\_\+t ui32\+Base, uint32\+\_\+t ui32\+Int\+Flags)
+\item 
+bool \mbox{\hyperlink{download_8c_aa63bebb0e2933355fc7c81179da8c4ff}{UARTChars\+Avail\+\_\+dl}} (uint32\+\_\+t ui32\+Base)
+\item 
+int32\+\_\+t \mbox{\hyperlink{download_8c_a69613d990aa092d30d5c447ae3d9e98a}{UARTChar\+Get\+Non\+Blocking\+\_\+dl}} (uint32\+\_\+t ui32\+Base)
+\item 
+void \mbox{\hyperlink{download_8c_a6a303b645f2ae750dc9c84600eca993d}{UARTChar\+Put\+\_\+dl}} (uint32\+\_\+t ui32\+Base, unsigned char uc\+Data)
+\item 
+bool \mbox{\hyperlink{download_8c_a8c15b3bf417b3cb5a09d99d033f9d138}{UARTBusy\+\_\+dl}} (uint32\+\_\+t ui32\+Base)
+\item 
+int32\+\_\+t \mbox{\hyperlink{download_8c_a700c5fc45e64a5428e4ac653c75ab525}{Flash\+Erase\+\_\+dl}} (uint32\+\_\+t ui32\+Address)
+\item 
+int32\+\_\+t \mbox{\hyperlink{download_8c_a12d41b1adc1919998b7c446663af663a}{Flash\+Program}} (uint32\+\_\+t \texorpdfstring{$\ast$}{*}pui32\+Data, uint32\+\_\+t ui32\+Address, uint32\+\_\+t ui32\+Count)
+\item 
+void \mbox{\hyperlink{download_8c_a7a87f58bb24808abc6dd0d5d956eec17}{GPIOPin\+Write\+\_\+dl}} (uint32\+\_\+t ui32\+Port, uint8\+\_\+t ui8\+Pins, uint8\+\_\+t ui8\+Val)
+\item 
+void \mbox{\hyperlink{download_8c_a7f54765ae13a24d7789a70355ffff210}{Watchdog\+Reload\+Set\+\_\+dl}} (uint32\+\_\+t ui32\+Base, uint32\+\_\+t ui32\+Load\+Val)
+\item 
+void \mbox{\hyperlink{download_8c_a10da464d63058f16a7612689f3a69119}{Watchdog\+Reset\+Enable\+\_\+dl}} (uint32\+\_\+t ui32\+Base)
+\item 
+void \mbox{\hyperlink{download_8c_a73c8626945ae3ce78297d5c87f0e8dc5}{\+\_\+\+\_\+bit\+\_\+output\+\_\+dl}} (unsigned long port, unsigned char pin, unsigned char bit\+\_\+data)
+\item 
+void \mbox{\hyperlink{download_8c_afc69c8474a564dd9650cf53f7b39e60a}{RX\+\_\+data\+\_\+dl\+\_\+ment}} (void)
+\item 
+void \mbox{\hyperlink{download_8c_a630dce1784268636426ee9f37eb446c0}{RX\+\_\+data\+\_\+dl\+\_\+host}} (void)
+\item 
+void \mbox{\hyperlink{download_8c_a1cc97b89be8364e2a69c944a331e1655}{TX\+\_\+data\+\_\+dl\+\_\+ment}} (short byte\+\_\+su)
+\item 
+void \mbox{\hyperlink{download_8c_a30c47d40379c2621dfb78bd3b02c6fe8}{TX\+\_\+data\+\_\+dl\+\_\+host}} (short byte\+\_\+su)
+\item 
+void \mbox{\hyperlink{download_8c_a896271b9a869f1aaffd85f4d4a917a86}{memsetW}} (unsigned short \texorpdfstring{$\ast$}{*}dst, unsigned short sdata, unsigned long \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}})
+\item 
+void \mbox{\hyperlink{download_8c_a780b36c0c3f77d5089c3c422b3524904}{block\+\_\+erase}} (void \texorpdfstring{$\ast$}{*}ptr)
+\item 
+short \mbox{\hyperlink{download_8c_a671683ce6c967447816abf9e14ba7d72}{FROM\+\_\+\+WRITE}} (void \texorpdfstring{$\ast$}{*}ptr, unsigned short data\mbox{[}$\,$\mbox{]})
+\item 
+short \mbox{\hyperlink{download_8c_aa7205961cfecd53fb634efe7188c7307}{FPGA\+\_\+\+WRITE}} (void \texorpdfstring{$\ast$}{*}ptr, unsigned short data\mbox{[}$\,$\mbox{]})
+\item 
+unsigned char \mbox{\hyperlink{download_8c_aacd5e7d67269f3fe4cc650267d351ce7}{ascii2char}} (unsigned char data)
+\item 
+short \mbox{\hyperlink{download_8c_a552fbbb6b1a21f675f3ac7b0996d79f6}{s\+\_\+read}} (char \texorpdfstring{$\ast$}{*}ptr)
+\item 
+short \mbox{\hyperlink{download_8c_a7529459c4a6a2ac64eb0d627c6ff3a8b}{get\+\_\+block\+\_\+id}} (unsigned long addr)
+\item 
+short \mbox{\hyperlink{download_8c_ab849bacce0954c007a2f3968bc810ac8}{write\+\_\+data}} (void)
+\item 
+void \mbox{\hyperlink{download_8c_a967439574829e80a488be1810da837eb}{drive\+\_\+led\+\_\+dl}} (unsigned short led\+\_\+num)
+\item 
+void \mbox{\hyperlink{download_8c_aa341f71d3c732fd3f27d02ac61cb18a2}{led\+\_\+dl}} (short count)
+\item 
+void \mbox{\hyperlink{download_8c_a7fa2f17a72f696735eb4cb60e16008ac}{mky43\+\_\+wait\+\_\+mail\+\_\+recv\+\_\+dl}} (void)
+\item 
+void \mbox{\hyperlink{download_8c_ae7e677a9d8ad01cea9277636076d255d}{mky43\+\_\+\+TX\+\_\+start\+\_\+dl}} (short byte\+\_\+num)
+\item 
+void \mbox{\hyperlink{download_8c_a784bbcb39fe2d7a31c47443d6dafc227}{mky43\+\_\+mail\+\_\+recv\+\_\+dl}} (void)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{変数}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{download_8c_a85ea8ca26e195a17da88e70e7e4ddf82}{g\+\_\+ui32\+Sys\+Clock}}
+\item 
+char \mbox{\hyperlink{download_8c_a9a92d835084be6f08ffb68acc1a8f27f}{RAM\+\_\+\+PRG\+\_\+start}} \mbox{[}$\,$\mbox{]}
+\item 
+size\+\_\+t \mbox{\hyperlink{download_8c_a6149b765ebc7519c22248a37362f4688}{RAM\+\_\+\+PRG\+\_\+size}} \mbox{[}$\,$\mbox{]}
+\item 
+char \mbox{\hyperlink{download_8c_aef656fe1448b4ed64a53febbb246fa35}{RX\+\_\+buf\+\_\+dl}} \mbox{[}\mbox{\hyperlink{define_8h_a8a6c6757f9ac8d6e2ac6c3a6863eff2b}{MSG\+\_\+\+MAX\+\_\+\+DL}}\mbox{]}
+\item 
+char \mbox{\hyperlink{download_8c_a81b0f475488f1c18ee6c02700794468c}{TX\+\_\+buf\+\_\+dl}} \mbox{[}\mbox{\hyperlink{define_8h_a8a6c6757f9ac8d6e2ac6c3a6863eff2b}{MSG\+\_\+\+MAX\+\_\+\+DL}}\mbox{]}
+\item 
+short \mbox{\hyperlink{download_8c_a319137d4cc0c9a9b1726fdcc44f2399e}{byte\+\_\+count\+\_\+dl}}
+\item 
+short \mbox{\hyperlink{download_8c_a18c3693e4a2e9b3e1b88b70c4500d393}{err\+\_\+stat\+\_\+dl}}
+\item 
+short \mbox{\hyperlink{download_8c_a7e51ec81ad12935e9f15c56200e40e2c}{rx\+\_\+end\+\_\+dl}}
+\item 
+short \mbox{\hyperlink{download_8c_a5e44b17be05fd8a3e4b71bec0329b4c3}{buf\+\_\+count\+\_\+dl}}
+\item 
+unsigned short \mbox{\hyperlink{download_8c_a26da7d395979f35036f39c6442c9b18e}{recv\+\_\+sa\+\_\+dl}}
+\item 
+char \mbox{\hyperlink{download_8c_a833e22135496c98ce2a0a470253b5c93}{code\+\_\+buffer}} \mbox{[}0x2000\mbox{]}
+\item 
+\mbox{\hyperlink{struct_s___f_o_r_m_a_t}{S\+\_\+\+FORMAT}} \mbox{\hyperlink{download_8c_a466b3372cbf018387e48fe47411a62c6}{s\+\_\+data}}
+\item 
+unsigned short \mbox{\hyperlink{download_8c_a3be826c2baca78adfaebb2a943bd93a4}{ROM\+\_\+\+WR\+\_\+\+BUFF}} \mbox{[}128\mbox{]}
+\item 
+short \mbox{\hyperlink{download_8c_ae12b218c60e1eaa42cccb550338d1f6c}{prev\+\_\+block\+\_\+id}}
+\item 
+short \mbox{\hyperlink{download_8c_a5146e5ced7950ccce86c67756fd4a3af}{curr\+\_\+block\+\_\+id}}
+\item 
+unsigned long \mbox{\hyperlink{download_8c_a4f39b1517d45ffc40bf1bb933e37b193}{prev\+\_\+addr\+\_\+256}}
+\item 
+unsigned long \mbox{\hyperlink{download_8c_a04fae6e408968419cdb36341908ec5b7}{curr\+\_\+head\+\_\+addr\+\_\+256}}
+\item 
+unsigned long \mbox{\hyperlink{download_8c_a7a205b71bc8e588295bd116e8b3bc6a1}{curr\+\_\+tail\+\_\+addr\+\_\+256}}
+\item 
+short \mbox{\hyperlink{download_8c_af8b1736df11c57f764bd9f3257ffb1e6}{pending\+\_\+size}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{マクロ定義詳解}
+\Hypertarget{download_8c_ac2c3c164305d09ab3a5a9af2b890b2d9}\index{download.c@{download.c}!DL\_DEBUG@{DL\_DEBUG}}
+\index{DL\_DEBUG@{DL\_DEBUG}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{DL\_DEBUG}{DL\_DEBUG}}
+{\footnotesize\ttfamily \label{download_8c_ac2c3c164305d09ab3a5a9af2b890b2d9} 
+\#define DL\+\_\+\+DEBUG~0}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00037}{37}} 行目に定義があります。
+
+
+
+\doxysubsection{関数詳解}
+\Hypertarget{download_8c_a73c8626945ae3ce78297d5c87f0e8dc5}\index{download.c@{download.c}!\_\_bit\_output\_dl@{\_\_bit\_output\_dl}}
+\index{\_\_bit\_output\_dl@{\_\_bit\_output\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{\_\_bit\_output\_dl()}{\_\_bit\_output\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a73c8626945ae3ce78297d5c87f0e8dc5} 
+void \+\_\+\+\_\+bit\+\_\+output\+\_\+dl (\begin{DoxyParamCaption}\item[{unsigned long}]{port}{, }\item[{unsigned char}]{pin}{, }\item[{unsigned char}]{bit\+\_\+data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00508}{508}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=288pt]{download_8c_a73c8626945ae3ce78297d5c87f0e8dc5_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a73c8626945ae3ce78297d5c87f0e8dc5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_aacd5e7d67269f3fe4cc650267d351ce7}\index{download.c@{download.c}!ascii2char@{ascii2char}}
+\index{ascii2char@{ascii2char}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{ascii2char()}{ascii2char()}}
+{\footnotesize\ttfamily \label{download_8c_aacd5e7d67269f3fe4cc650267d351ce7} 
+unsigned char ascii2char (\begin{DoxyParamCaption}\item[{unsigned char}]{data}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00902}{902}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{download_8c_aacd5e7d67269f3fe4cc650267d351ce7_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a780b36c0c3f77d5089c3c422b3524904}\index{download.c@{download.c}!block\_erase@{block\_erase}}
+\index{block\_erase@{block\_erase}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{block\_erase()}{block\_erase()}}
+{\footnotesize\ttfamily \label{download_8c_a780b36c0c3f77d5089c3c422b3524904} 
+void block\+\_\+erase (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{ptr}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00835}{835}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=263pt]{download_8c_a780b36c0c3f77d5089c3c422b3524904_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a780b36c0c3f77d5089c3c422b3524904_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_aee589115a6569b733d2542cfd7aa0c79}\index{download.c@{download.c}!com\_init\_dl\_cunet@{com\_init\_dl\_cunet}}
+\index{com\_init\_dl\_cunet@{com\_init\_dl\_cunet}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{com\_init\_dl\_cunet()}{com\_init\_dl\_cunet()}}
+{\footnotesize\ttfamily \label{download_8c_aee589115a6569b733d2542cfd7aa0c79} 
+void com\+\_\+init\+\_\+dl\+\_\+cunet (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00178}{178}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_aee589115a6569b733d2542cfd7aa0c79_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_ad58ee03d85cb05b2b403c712b56c5a04}\index{download.c@{download.c}!com\_init\_dl\_host@{com\_init\_dl\_host}}
+\index{com\_init\_dl\_host@{com\_init\_dl\_host}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{com\_init\_dl\_host()}{com\_init\_dl\_host()}}
+{\footnotesize\ttfamily \label{download_8c_ad58ee03d85cb05b2b403c712b56c5a04} 
+void com\+\_\+init\+\_\+dl\+\_\+host (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00158}{158}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_ad58ee03d85cb05b2b403c712b56c5a04_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_ad58ee03d85cb05b2b403c712b56c5a04_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_ad7db52bdcf9b91f1ef9e2d95491208bf}\index{download.c@{download.c}!com\_init\_dl\_ment@{com\_init\_dl\_ment}}
+\index{com\_init\_dl\_ment@{com\_init\_dl\_ment}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{com\_init\_dl\_ment()}{com\_init\_dl\_ment()}}
+{\footnotesize\ttfamily \label{download_8c_ad7db52bdcf9b91f1ef9e2d95491208bf} 
+void com\+\_\+init\+\_\+dl\+\_\+ment (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00137}{137}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_ad7db52bdcf9b91f1ef9e2d95491208bf_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_ad7db52bdcf9b91f1ef9e2d95491208bf_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_aacbe9000bc46bdd38b39f8fa321dcab0}\index{download.c@{download.c}!delay\_dl@{delay\_dl}}
+\index{delay\_dl@{delay\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{delay\_dl()}{delay\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_aacbe9000bc46bdd38b39f8fa321dcab0} 
+void delay\+\_\+dl (\begin{DoxyParamCaption}\item[{unsigned short}]{delay\+\_\+count}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00517}{517}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_aacbe9000bc46bdd38b39f8fa321dcab0_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_aa4535d21f03987da834d9ba0c7f5c64c}\index{download.c@{download.c}!download@{download}}
+\index{download@{download}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{download()}{download()}}
+{\footnotesize\ttfamily \label{download_8c_aa4535d21f03987da834d9ba0c7f5c64c} 
+void download (\begin{DoxyParamCaption}\item[{short}]{mode}{, }\item[{short}]{type}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00095}{95}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_aa4535d21f03987da834d9ba0c7f5c64c_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_aa4535d21f03987da834d9ba0c7f5c64c_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a967439574829e80a488be1810da837eb}\index{download.c@{download.c}!drive\_led\_dl@{drive\_led\_dl}}
+\index{drive\_led\_dl@{drive\_led\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{drive\_led\_dl()}{drive\_led\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a967439574829e80a488be1810da837eb} 
+void drive\+\_\+led\+\_\+dl (\begin{DoxyParamCaption}\item[{unsigned short}]{led\+\_\+num}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01163}{1163}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{download_8c_a967439574829e80a488be1810da837eb_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a241e7cf9a1dca2a023d6e8e8be56eecb}\index{download.c@{download.c}!enter\_RAM\_PRG@{enter\_RAM\_PRG}}
+\index{enter\_RAM\_PRG@{enter\_RAM\_PRG}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{enter\_RAM\_PRG()}{enter\_RAM\_PRG()}}
+{\footnotesize\ttfamily \label{download_8c_a241e7cf9a1dca2a023d6e8e8be56eecb} 
+void enter\+\_\+\+RAM\+\_\+\+PRG (\begin{DoxyParamCaption}\item[{short}]{mode}{, }\item[{short}]{type}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00193}{193}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a241e7cf9a1dca2a023d6e8e8be56eecb_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a700c5fc45e64a5428e4ac653c75ab525}\index{download.c@{download.c}!FlashErase\_dl@{FlashErase\_dl}}
+\index{FlashErase\_dl@{FlashErase\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{FlashErase\_dl()}{FlashErase\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a700c5fc45e64a5428e4ac653c75ab525} 
+int32\+\_\+t Flash\+Erase\+\_\+dl (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ui32\+Address}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00354}{354}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a700c5fc45e64a5428e4ac653c75ab525_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a12d41b1adc1919998b7c446663af663a}\index{download.c@{download.c}!FlashProgram@{FlashProgram}}
+\index{FlashProgram@{FlashProgram}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{FlashProgram()}{FlashProgram()}}
+{\footnotesize\ttfamily \label{download_8c_a12d41b1adc1919998b7c446663af663a} 
+int32\+\_\+t Flash\+Program (\begin{DoxyParamCaption}\item[{uint32\+\_\+t \texorpdfstring{$\ast$}{*}}]{pui32\+Data}{, }\item[{uint32\+\_\+t}]{ui32\+Address}{, }\item[{uint32\+\_\+t}]{ui32\+Count}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00397}{397}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a12d41b1adc1919998b7c446663af663a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_aa7205961cfecd53fb634efe7188c7307}\index{download.c@{download.c}!FPGA\_WRITE@{FPGA\_WRITE}}
+\index{FPGA\_WRITE@{FPGA\_WRITE}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{FPGA\_WRITE()}{FPGA\_WRITE()}}
+{\footnotesize\ttfamily \label{download_8c_aa7205961cfecd53fb634efe7188c7307} 
+short FPGA\+\_\+\+WRITE (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{ptr}{, }\item[{unsigned short}]{data}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00866}{866}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=272pt]{download_8c_aa7205961cfecd53fb634efe7188c7307_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_aa7205961cfecd53fb634efe7188c7307_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a671683ce6c967447816abf9e14ba7d72}\index{download.c@{download.c}!FROM\_WRITE@{FROM\_WRITE}}
+\index{FROM\_WRITE@{FROM\_WRITE}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{FROM\_WRITE()}{FROM\_WRITE()}}
+{\footnotesize\ttfamily \label{download_8c_a671683ce6c967447816abf9e14ba7d72} 
+short FROM\+\_\+\+WRITE (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{ptr}{, }\item[{unsigned short}]{data}{\mbox{[}$\,$\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00845}{845}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{download_8c_a671683ce6c967447816abf9e14ba7d72_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a671683ce6c967447816abf9e14ba7d72_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a7529459c4a6a2ac64eb0d627c6ff3a8b}\index{download.c@{download.c}!get\_block\_id@{get\_block\_id}}
+\index{get\_block\_id@{get\_block\_id}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{get\_block\_id()}{get\_block\_id()}}
+{\footnotesize\ttfamily \label{download_8c_a7529459c4a6a2ac64eb0d627c6ff3a8b} 
+short get\+\_\+block\+\_\+id (\begin{DoxyParamCaption}\item[{unsigned long}]{addr}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01024}{1024}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a7529459c4a6a2ac64eb0d627c6ff3a8b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a7a87f58bb24808abc6dd0d5d956eec17}\index{download.c@{download.c}!GPIOPinWrite\_dl@{GPIOPinWrite\_dl}}
+\index{GPIOPinWrite\_dl@{GPIOPinWrite\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{GPIOPinWrite\_dl()}{GPIOPinWrite\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a7a87f58bb24808abc6dd0d5d956eec17} 
+void GPIOPin\+Write\+\_\+dl (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ui32\+Port}{, }\item[{uint8\+\_\+t}]{ui8\+Pins}{, }\item[{uint8\+\_\+t}]{ui8\+Val}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00465}{465}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a7a87f58bb24808abc6dd0d5d956eec17_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_aa341f71d3c732fd3f27d02ac61cb18a2}\index{download.c@{download.c}!led\_dl@{led\_dl}}
+\index{led\_dl@{led\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{led\_dl()}{led\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_aa341f71d3c732fd3f27d02ac61cb18a2} 
+void led\+\_\+dl (\begin{DoxyParamCaption}\item[{short}]{count}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01172}{1172}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=224pt]{download_8c_aa341f71d3c732fd3f27d02ac61cb18a2_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_abc11acdad1024460d59d88e9b9cc8145}\index{download.c@{download.c}!memcpy\_dl@{memcpy\_dl}}
+\index{memcpy\_dl@{memcpy\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{memcpy\_dl()}{memcpy\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_abc11acdad1024460d59d88e9b9cc8145} 
+void memcpy\+\_\+dl (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{buf1}{, }\item[{const void \texorpdfstring{$\ast$}{*}}]{buf2}{, }\item[{size\+\_\+t}]{n}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00209}{209}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_abc11acdad1024460d59d88e9b9cc8145_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a0c8e6c18b6c11b7a3d18beb44d7065b5}\index{download.c@{download.c}!memset\_dl@{memset\_dl}}
+\index{memset\_dl@{memset\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{memset\_dl()}{memset\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a0c8e6c18b6c11b7a3d18beb44d7065b5} 
+void memset\+\_\+dl (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{buf}{, }\item[{short}]{ch}{, }\item[{size\+\_\+t}]{n}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00198}{198}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a0c8e6c18b6c11b7a3d18beb44d7065b5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a896271b9a869f1aaffd85f4d4a917a86}\index{download.c@{download.c}!memsetW@{memsetW}}
+\index{memsetW@{memsetW}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{memsetW()}{memsetW()}}
+{\footnotesize\ttfamily \label{download_8c_a896271b9a869f1aaffd85f4d4a917a86} 
+void memsetW (\begin{DoxyParamCaption}\item[{unsigned short \texorpdfstring{$\ast$}{*}}]{dst}{, }\item[{unsigned short}]{sdata}{, }\item[{unsigned long}]{size}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00810}{810}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a896271b9a869f1aaffd85f4d4a917a86_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a8bbc52cbafd8e14c7c2c054d7d686633}\index{download.c@{download.c}!min\_dl@{min\_dl}}
+\index{min\_dl@{min\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{min\_dl()}{min\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a8bbc52cbafd8e14c7c2c054d7d686633} 
+signed long min\+\_\+dl (\begin{DoxyParamCaption}\item[{signed long}]{data1}{, }\item[{signed long}]{data2}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00222}{222}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a8bbc52cbafd8e14c7c2c054d7d686633_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a784bbcb39fe2d7a31c47443d6dafc227}\index{download.c@{download.c}!mky43\_mail\_recv\_dl@{mky43\_mail\_recv\_dl}}
+\index{mky43\_mail\_recv\_dl@{mky43\_mail\_recv\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_mail\_recv\_dl()}{mky43\_mail\_recv\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a784bbcb39fe2d7a31c47443d6dafc227} 
+void mky43\+\_\+mail\+\_\+recv\+\_\+dl (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01262}{1262}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{download_8c_a784bbcb39fe2d7a31c47443d6dafc227_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_ae7e677a9d8ad01cea9277636076d255d}\index{download.c@{download.c}!mky43\_TX\_start\_dl@{mky43\_TX\_start\_dl}}
+\index{mky43\_TX\_start\_dl@{mky43\_TX\_start\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_TX\_start\_dl()}{mky43\_TX\_start\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_ae7e677a9d8ad01cea9277636076d255d} 
+void mky43\+\_\+\+TX\+\_\+start\+\_\+dl (\begin{DoxyParamCaption}\item[{short}]{byte\+\_\+num}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01200}{1200}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=279pt]{download_8c_ae7e677a9d8ad01cea9277636076d255d_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a7fa2f17a72f696735eb4cb60e16008ac}\index{download.c@{download.c}!mky43\_wait\_mail\_recv\_dl@{mky43\_wait\_mail\_recv\_dl}}
+\index{mky43\_wait\_mail\_recv\_dl@{mky43\_wait\_mail\_recv\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_wait\_mail\_recv\_dl()}{mky43\_wait\_mail\_recv\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a7fa2f17a72f696735eb4cb60e16008ac} 
+void mky43\+\_\+wait\+\_\+mail\+\_\+recv\+\_\+dl (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01191}{1191}} 行目に定義があります。
+
+\Hypertarget{download_8c_a630dce1784268636426ee9f37eb446c0}\index{download.c@{download.c}!RX\_data\_dl\_host@{RX\_data\_dl\_host}}
+\index{RX\_data\_dl\_host@{RX\_data\_dl\_host}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{RX\_data\_dl\_host()}{RX\_data\_dl\_host()}}
+{\footnotesize\ttfamily \label{download_8c_a630dce1784268636426ee9f37eb446c0} 
+void RX\+\_\+data\+\_\+dl\+\_\+host (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00658}{658}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a630dce1784268636426ee9f37eb446c0_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_afc69c8474a564dd9650cf53f7b39e60a}\index{download.c@{download.c}!RX\_data\_dl\_ment@{RX\_data\_dl\_ment}}
+\index{RX\_data\_dl\_ment@{RX\_data\_dl\_ment}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{RX\_data\_dl\_ment()}{RX\_data\_dl\_ment()}}
+{\footnotesize\ttfamily \label{download_8c_afc69c8474a564dd9650cf53f7b39e60a} 
+void RX\+\_\+data\+\_\+dl\+\_\+ment (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00579}{579}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_afc69c8474a564dd9650cf53f7b39e60a_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a865b5866029679abeb812a46b90a3faa}\index{download.c@{download.c}!RX\_enable\_dl\_host@{RX\_enable\_dl\_host}}
+\index{RX\_enable\_dl\_host@{RX\_enable\_dl\_host}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{RX\_enable\_dl\_host()}{RX\_enable\_dl\_host()}}
+{\footnotesize\ttfamily \label{download_8c_a865b5866029679abeb812a46b90a3faa} 
+void RX\+\_\+enable\+\_\+dl\+\_\+host (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00556}{556}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a865b5866029679abeb812a46b90a3faa_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a865b5866029679abeb812a46b90a3faa_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a0e516071a06d9a32086582ed8a21c89c}\index{download.c@{download.c}!RX\_enable\_dl\_ment@{RX\_enable\_dl\_ment}}
+\index{RX\_enable\_dl\_ment@{RX\_enable\_dl\_ment}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{RX\_enable\_dl\_ment()}{RX\_enable\_dl\_ment()}}
+{\footnotesize\ttfamily \label{download_8c_a0e516071a06d9a32086582ed8a21c89c} 
+void RX\+\_\+enable\+\_\+dl\+\_\+ment (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00534}{534}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a0e516071a06d9a32086582ed8a21c89c_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a0e516071a06d9a32086582ed8a21c89c_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a552fbbb6b1a21f675f3ac7b0996d79f6}\index{download.c@{download.c}!s\_read@{s\_read}}
+\index{s\_read@{s\_read}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{s\_read()}{s\_read()}}
+{\footnotesize\ttfamily \label{download_8c_a552fbbb6b1a21f675f3ac7b0996d79f6} 
+short s\+\_\+read (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{ptr}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00918}{918}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{download_8c_a552fbbb6b1a21f675f3ac7b0996d79f6_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a30c47d40379c2621dfb78bd3b02c6fe8}\index{download.c@{download.c}!TX\_data\_dl\_host@{TX\_data\_dl\_host}}
+\index{TX\_data\_dl\_host@{TX\_data\_dl\_host}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{TX\_data\_dl\_host()}{TX\_data\_dl\_host()}}
+{\footnotesize\ttfamily \label{download_8c_a30c47d40379c2621dfb78bd3b02c6fe8} 
+void TX\+\_\+data\+\_\+dl\+\_\+host (\begin{DoxyParamCaption}\item[{short}]{byte\+\_\+su}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00773}{773}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a30c47d40379c2621dfb78bd3b02c6fe8_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a1cc97b89be8364e2a69c944a331e1655}\index{download.c@{download.c}!TX\_data\_dl\_ment@{TX\_data\_dl\_ment}}
+\index{TX\_data\_dl\_ment@{TX\_data\_dl\_ment}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{TX\_data\_dl\_ment()}{TX\_data\_dl\_ment()}}
+{\footnotesize\ttfamily \label{download_8c_a1cc97b89be8364e2a69c944a331e1655} 
+void TX\+\_\+data\+\_\+dl\+\_\+ment (\begin{DoxyParamCaption}\item[{short}]{byte\+\_\+su}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00735}{735}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a1cc97b89be8364e2a69c944a331e1655_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a8c15b3bf417b3cb5a09d99d033f9d138}\index{download.c@{download.c}!UARTBusy\_dl@{UARTBusy\_dl}}
+\index{UARTBusy\_dl@{UARTBusy\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{UARTBusy\_dl()}{UARTBusy\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a8c15b3bf417b3cb5a09d99d033f9d138} 
+bool UARTBusy\+\_\+dl (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ui32\+Base}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00339}{339}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=283pt]{download_8c_a8c15b3bf417b3cb5a09d99d033f9d138_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a69613d990aa092d30d5c447ae3d9e98a}\index{download.c@{download.c}!UARTCharGetNonBlocking\_dl@{UARTCharGetNonBlocking\_dl}}
+\index{UARTCharGetNonBlocking\_dl@{UARTCharGetNonBlocking\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{UARTCharGetNonBlocking\_dl()}{UARTCharGetNonBlocking\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a69613d990aa092d30d5c447ae3d9e98a} 
+int32\+\_\+t UARTChar\+Get\+Non\+Blocking\+\_\+dl (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ui32\+Base}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00289}{289}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a69613d990aa092d30d5c447ae3d9e98a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a6a303b645f2ae750dc9c84600eca993d}\index{download.c@{download.c}!UARTCharPut\_dl@{UARTCharPut\_dl}}
+\index{UARTCharPut\_dl@{UARTCharPut\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{UARTCharPut\_dl()}{UARTCharPut\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a6a303b645f2ae750dc9c84600eca993d} 
+void UARTChar\+Put\+\_\+dl (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ui32\+Base}{, }\item[{unsigned char}]{uc\+Data}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00317}{317}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{download_8c_a6a303b645f2ae750dc9c84600eca993d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_aa63bebb0e2933355fc7c81179da8c4ff}\index{download.c@{download.c}!UARTCharsAvail\_dl@{UARTCharsAvail\_dl}}
+\index{UARTCharsAvail\_dl@{UARTCharsAvail\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{UARTCharsAvail\_dl()}{UARTCharsAvail\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_aa63bebb0e2933355fc7c81179da8c4ff} 
+bool UARTChars\+Avail\+\_\+dl (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ui32\+Base}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00274}{274}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=308pt]{download_8c_aa63bebb0e2933355fc7c81179da8c4ff_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_afe5e913ee9e320c4204a201f7cf4d5c9}\index{download.c@{download.c}!UARTIntClear\_dl@{UARTIntClear\_dl}}
+\index{UARTIntClear\_dl@{UARTIntClear\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{UARTIntClear\_dl()}{UARTIntClear\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_afe5e913ee9e320c4204a201f7cf4d5c9} 
+void UARTInt\+Clear\+\_\+dl (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ui32\+Base}{, }\item[{uint32\+\_\+t}]{ui32\+Int\+Flags}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00259}{259}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=295pt]{download_8c_afe5e913ee9e320c4204a201f7cf4d5c9_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a11e01160ddb9d3ff60bdee94b0330eb3}\index{download.c@{download.c}!UARTIntStatus\_dl@{UARTIntStatus\_dl}}
+\index{UARTIntStatus\_dl@{UARTIntStatus\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{UARTIntStatus\_dl()}{UARTIntStatus\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a11e01160ddb9d3ff60bdee94b0330eb3} 
+uint32\+\_\+t UARTInt\+Status\+\_\+dl (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ui32\+Base}{, }\item[{bool}]{b\+Masked}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00236}{236}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=301pt]{download_8c_a11e01160ddb9d3ff60bdee94b0330eb3_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a7f54765ae13a24d7789a70355ffff210}\index{download.c@{download.c}!WatchdogReloadSet\_dl@{WatchdogReloadSet\_dl}}
+\index{WatchdogReloadSet\_dl@{WatchdogReloadSet\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{WatchdogReloadSet\_dl()}{WatchdogReloadSet\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a7f54765ae13a24d7789a70355ffff210} 
+void Watchdog\+Reload\+Set\+\_\+dl (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ui32\+Base}{, }\item[{uint32\+\_\+t}]{ui32\+Load\+Val}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00480}{480}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a7f54765ae13a24d7789a70355ffff210_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_a10da464d63058f16a7612689f3a69119}\index{download.c@{download.c}!WatchdogResetEnable\_dl@{WatchdogResetEnable\_dl}}
+\index{WatchdogResetEnable\_dl@{WatchdogResetEnable\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{WatchdogResetEnable\_dl()}{WatchdogResetEnable\_dl()}}
+{\footnotesize\ttfamily \label{download_8c_a10da464d63058f16a7612689f3a69119} 
+void Watchdog\+Reset\+Enable\+\_\+dl (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{ui32\+Base}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00495}{495}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_a10da464d63058f16a7612689f3a69119_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{download_8c_ab849bacce0954c007a2f3968bc810ac8}\index{download.c@{download.c}!write\_data@{write\_data}}
+\index{write\_data@{write\_data}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{write\_data()}{write\_data()}}
+{\footnotesize\ttfamily \label{download_8c_ab849bacce0954c007a2f3968bc810ac8} 
+short write\+\_\+data (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01058}{1058}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_ab849bacce0954c007a2f3968bc810ac8_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{download_8c_ab849bacce0954c007a2f3968bc810ac8_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{変数詳解}
+\Hypertarget{download_8c_a5e44b17be05fd8a3e4b71bec0329b4c3}\index{download.c@{download.c}!buf\_count\_dl@{buf\_count\_dl}}
+\index{buf\_count\_dl@{buf\_count\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{buf\_count\_dl}{buf\_count\_dl}}
+{\footnotesize\ttfamily \label{download_8c_a5e44b17be05fd8a3e4b71bec0329b4c3} 
+short buf\+\_\+count\+\_\+dl}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00055}{55}} 行目に定義があります。
+
+\Hypertarget{download_8c_a319137d4cc0c9a9b1726fdcc44f2399e}\index{download.c@{download.c}!byte\_count\_dl@{byte\_count\_dl}}
+\index{byte\_count\_dl@{byte\_count\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{byte\_count\_dl}{byte\_count\_dl}}
+{\footnotesize\ttfamily \label{download_8c_a319137d4cc0c9a9b1726fdcc44f2399e} 
+short byte\+\_\+count\+\_\+dl}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00052}{52}} 行目に定義があります。
+
+\Hypertarget{download_8c_a833e22135496c98ce2a0a470253b5c93}\index{download.c@{download.c}!code\_buffer@{code\_buffer}}
+\index{code\_buffer@{code\_buffer}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{code\_buffer}{code\_buffer}}
+{\footnotesize\ttfamily \label{download_8c_a833e22135496c98ce2a0a470253b5c93} 
+char code\+\_\+buffer\mbox{[}0x2000\mbox{]}}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00063}{63}} 行目に定義があります。
+
+\Hypertarget{download_8c_a5146e5ced7950ccce86c67756fd4a3af}\index{download.c@{download.c}!curr\_block\_id@{curr\_block\_id}}
+\index{curr\_block\_id@{curr\_block\_id}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{curr\_block\_id}{curr\_block\_id}}
+{\footnotesize\ttfamily \label{download_8c_a5146e5ced7950ccce86c67756fd4a3af} 
+short curr\+\_\+block\+\_\+id}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01051}{1051}} 行目に定義があります。
+
+\Hypertarget{download_8c_a04fae6e408968419cdb36341908ec5b7}\index{download.c@{download.c}!curr\_head\_addr\_256@{curr\_head\_addr\_256}}
+\index{curr\_head\_addr\_256@{curr\_head\_addr\_256}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{curr\_head\_addr\_256}{curr\_head\_addr\_256}}
+{\footnotesize\ttfamily \label{download_8c_a04fae6e408968419cdb36341908ec5b7} 
+unsigned long curr\+\_\+head\+\_\+addr\+\_\+256}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01054}{1054}} 行目に定義があります。
+
+\Hypertarget{download_8c_a7a205b71bc8e588295bd116e8b3bc6a1}\index{download.c@{download.c}!curr\_tail\_addr\_256@{curr\_tail\_addr\_256}}
+\index{curr\_tail\_addr\_256@{curr\_tail\_addr\_256}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{curr\_tail\_addr\_256}{curr\_tail\_addr\_256}}
+{\footnotesize\ttfamily \label{download_8c_a7a205b71bc8e588295bd116e8b3bc6a1} 
+unsigned long curr\+\_\+tail\+\_\+addr\+\_\+256}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01055}{1055}} 行目に定義があります。
+
+\Hypertarget{download_8c_a18c3693e4a2e9b3e1b88b70c4500d393}\index{download.c@{download.c}!err\_stat\_dl@{err\_stat\_dl}}
+\index{err\_stat\_dl@{err\_stat\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{err\_stat\_dl}{err\_stat\_dl}}
+{\footnotesize\ttfamily \label{download_8c_a18c3693e4a2e9b3e1b88b70c4500d393} 
+short err\+\_\+stat\+\_\+dl}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00053}{53}} 行目に定義があります。
+
+\Hypertarget{download_8c_a85ea8ca26e195a17da88e70e7e4ddf82}\index{download.c@{download.c}!g\_ui32SysClock@{g\_ui32SysClock}}
+\index{g\_ui32SysClock@{g\_ui32SysClock}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{g\_ui32SysClock}{g\_ui32SysClock}}
+{\footnotesize\ttfamily \label{download_8c_a85ea8ca26e195a17da88e70e7e4ddf82} 
+uint32\+\_\+t g\+\_\+ui32\+Sys\+Clock\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_a_i_n_8c_source}{MAIN.\+c}} の \mbox{\hyperlink{_m_a_i_n_8c_source_l00133}{133}} 行目に定義があります。
+
+\Hypertarget{download_8c_af8b1736df11c57f764bd9f3257ffb1e6}\index{download.c@{download.c}!pending\_size@{pending\_size}}
+\index{pending\_size@{pending\_size}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{pending\_size}{pending\_size}}
+{\footnotesize\ttfamily \label{download_8c_af8b1736df11c57f764bd9f3257ffb1e6} 
+short pending\+\_\+size}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01056}{1056}} 行目に定義があります。
+
+\Hypertarget{download_8c_a4f39b1517d45ffc40bf1bb933e37b193}\index{download.c@{download.c}!prev\_addr\_256@{prev\_addr\_256}}
+\index{prev\_addr\_256@{prev\_addr\_256}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{prev\_addr\_256}{prev\_addr\_256}}
+{\footnotesize\ttfamily \label{download_8c_a4f39b1517d45ffc40bf1bb933e37b193} 
+unsigned long prev\+\_\+addr\+\_\+256}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01053}{1053}} 行目に定義があります。
+
+\Hypertarget{download_8c_ae12b218c60e1eaa42cccb550338d1f6c}\index{download.c@{download.c}!prev\_block\_id@{prev\_block\_id}}
+\index{prev\_block\_id@{prev\_block\_id}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{prev\_block\_id}{prev\_block\_id}}
+{\footnotesize\ttfamily \label{download_8c_ae12b218c60e1eaa42cccb550338d1f6c} 
+short prev\+\_\+block\+\_\+id}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01050}{1050}} 行目に定義があります。
+
+\Hypertarget{download_8c_a6149b765ebc7519c22248a37362f4688}\index{download.c@{download.c}!RAM\_PRG\_size@{RAM\_PRG\_size}}
+\index{RAM\_PRG\_size@{RAM\_PRG\_size}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{RAM\_PRG\_size}{RAM\_PRG\_size}}
+{\footnotesize\ttfamily \label{download_8c_a6149b765ebc7519c22248a37362f4688} 
+size\+\_\+t RAM\+\_\+\+PRG\+\_\+size\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{download_8c_a9a92d835084be6f08ffb68acc1a8f27f}\index{download.c@{download.c}!RAM\_PRG\_start@{RAM\_PRG\_start}}
+\index{RAM\_PRG\_start@{RAM\_PRG\_start}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{RAM\_PRG\_start}{RAM\_PRG\_start}}
+{\footnotesize\ttfamily \label{download_8c_a9a92d835084be6f08ffb68acc1a8f27f} 
+char RAM\+\_\+\+PRG\+\_\+start\mbox{[}$\,$\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{download_8c_a26da7d395979f35036f39c6442c9b18e}\index{download.c@{download.c}!recv\_sa\_dl@{recv\_sa\_dl}}
+\index{recv\_sa\_dl@{recv\_sa\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{recv\_sa\_dl}{recv\_sa\_dl}}
+{\footnotesize\ttfamily \label{download_8c_a26da7d395979f35036f39c6442c9b18e} 
+unsigned short recv\+\_\+sa\+\_\+dl}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00056}{56}} 行目に定義があります。
+
+\Hypertarget{download_8c_a3be826c2baca78adfaebb2a943bd93a4}\index{download.c@{download.c}!ROM\_WR\_BUFF@{ROM\_WR\_BUFF}}
+\index{ROM\_WR\_BUFF@{ROM\_WR\_BUFF}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{ROM\_WR\_BUFF}{ROM\_WR\_BUFF}}
+{\footnotesize\ttfamily \label{download_8c_a3be826c2baca78adfaebb2a943bd93a4} 
+unsigned short ROM\+\_\+\+WR\+\_\+\+BUFF\mbox{[}128\mbox{]}}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l01049}{1049}} 行目に定義があります。
+
+\Hypertarget{download_8c_aef656fe1448b4ed64a53febbb246fa35}\index{download.c@{download.c}!RX\_buf\_dl@{RX\_buf\_dl}}
+\index{RX\_buf\_dl@{RX\_buf\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{RX\_buf\_dl}{RX\_buf\_dl}}
+{\footnotesize\ttfamily \label{download_8c_aef656fe1448b4ed64a53febbb246fa35} 
+char RX\+\_\+buf\+\_\+dl\mbox{[}\mbox{\hyperlink{define_8h_a8a6c6757f9ac8d6e2ac6c3a6863eff2b}{MSG\+\_\+\+MAX\+\_\+\+DL}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00049}{49}} 行目に定義があります。
+
+\Hypertarget{download_8c_a7e51ec81ad12935e9f15c56200e40e2c}\index{download.c@{download.c}!rx\_end\_dl@{rx\_end\_dl}}
+\index{rx\_end\_dl@{rx\_end\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{rx\_end\_dl}{rx\_end\_dl}}
+{\footnotesize\ttfamily \label{download_8c_a7e51ec81ad12935e9f15c56200e40e2c} 
+short rx\+\_\+end\+\_\+dl}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00054}{54}} 行目に定義があります。
+
+\Hypertarget{download_8c_a466b3372cbf018387e48fe47411a62c6}\index{download.c@{download.c}!s\_data@{s\_data}}
+\index{s\_data@{s\_data}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{s\_data}{s\_data}}
+{\footnotesize\ttfamily \label{download_8c_a466b3372cbf018387e48fe47411a62c6} 
+\mbox{\hyperlink{struct_s___f_o_r_m_a_t}{S\+\_\+\+FORMAT}} s\+\_\+data}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00894}{894}} 行目に定義があります。
+
+\Hypertarget{download_8c_a81b0f475488f1c18ee6c02700794468c}\index{download.c@{download.c}!TX\_buf\_dl@{TX\_buf\_dl}}
+\index{TX\_buf\_dl@{TX\_buf\_dl}!download.c@{download.c}}
+\doxysubsubsection{\texorpdfstring{TX\_buf\_dl}{TX\_buf\_dl}}
+{\footnotesize\ttfamily \label{download_8c_a81b0f475488f1c18ee6c02700794468c} 
+char TX\+\_\+buf\+\_\+dl\mbox{[}\mbox{\hyperlink{define_8h_a8a6c6757f9ac8d6e2ac6c3a6863eff2b}{MSG\+\_\+\+MAX\+\_\+\+DL}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{download_8c_source}{download.\+c}} の \mbox{\hyperlink{download_8c_source_l00050}{50}} 行目に定義があります。
+

@@ -1,0 +1,7 @@
+<map id="ReadSR" name="ReadSR">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,75,57"/>
+<area shape="rect" id="Node000002" href="$eeprom__spi_8c.html#ac2d4f02c27f025b6d2e0a128529b4154" title=" " alt="" coords="123,5,193,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,34,108,27,109,32,76,39"/>
+<area shape="rect" id="Node000003" href="$eeprom__spi_8c.html#a62c2962ba6064dcf138c759341a02695" title=" " alt="" coords="123,56,193,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="76,49,108,56,107,61,75,54"/>
+</map>

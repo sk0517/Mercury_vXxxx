@@ -1,0 +1,14 @@
+<map id="delay" name="delay">
+<area shape="rect" id="Node000001" title=" " alt="" coords="462,31,514,57"/>
+<area shape="rect" id="Node000002" href="$_c_o_m_8c.html#aa7bbf204233cd574186a9bc838c3f599" title=" " alt="" coords="309,5,412,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="446,38,412,32,413,26,447,33"/>
+<area shape="rect" id="Node000006" href="$_c_o_m_8c.html#a28257c7bcfd4a705736d0c161a5dc3c5" title=" " alt="" coords="307,56,414,83"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="447,55,415,61,414,56,446,49"/>
+<area shape="rect" id="Node000003" href="$_c_o_m_8c.html#a33af8205625755cb2e778146550ffbd3" title=" " alt="" coords="189,31,259,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="295,34,260,40,259,35,294,28"/>
+<area shape="rect" id="Node000004" href="$_m_a_i_n_8c.html#a2858154e2009b0e6e616f313177762bc" title=": 初期化処理 /*" alt="" coords="103,31,141,57"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="173,47,142,47,142,41,173,41"/>
+<area shape="rect" id="Node000005" href="$_m_a_i_n_8c.html#a6288eba0f8e8ad3ab1544ad731eb7667" title=" " alt="" coords="5,31,55,57"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="87,47,55,47,55,41,87,41"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="291,59,259,53,260,48,292,54"/>
+</map>

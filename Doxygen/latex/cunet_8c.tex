@@ -1,0 +1,1010 @@
+\doxysection{C\+:/\+Work\+Space/\+Mercury/\+Mercury\+\_\+v\+Xxxx/\+Mercury/\+MAIN/cunet.c ファイル}
+\hypertarget{cunet_8c}{}\label{cunet_8c}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/cunet.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/cunet.c}}
+{\ttfamily \#include $<$machine.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include "{}cunet.\+h"{}}\newline
+{\ttfamily \#include "{}version.\+h"{}}\newline
+{\ttfamily \#include "{}define.\+h"{}}\newline
+{\ttfamily \#include "{}def\+MES.\+h"{}}\newline
+{\ttfamily \#include "{}def\+MAIN.\+h"{}}\newline
+{\ttfamily \#include "{}SV\+\_\+def.\+h"{}}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include "{}inc/hw\+\_\+ints.\+h"{}}\newline
+{\ttfamily \#include "{}driverlib/interrupt.\+h"{}}\newline
+cunet.\+c の依存先関係図\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{cunet_8c_aafe1db9a3a3f3c0971b383913c78c584}{mky43\+\_\+init}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_aefef01e4c280b7b51b62f2d80794fae1}{mky43\+\_\+start}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_a3e5e56868cd7a738e4927731adacb006}{mky43\+\_\+restart}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_a2cb4e20093a2b2fbf23f50d68962b5b6}{mky43\+\_\+set\+\_\+register}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_acd8b27a92b55e7dc9e46867a5bcfbec4}{mky43\+\_\+ping\+\_\+active}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_a7f78573b2c4b54af9b8846560f083732}{mky43\+\_\+mail\+\_\+recv}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_a8adc1aff987c73db2173b959ddf6f614}{mky43\+\_\+ready\+\_\+recv0}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_abbb2115efcd321f434f9e9c0a85b8612}{mky43\+\_\+ready\+\_\+recv1}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_a4283785e23322423076c65b865e0cff3}{mky43\+\_\+mail\+\_\+send}} (unsigned short \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}}, short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{cunet_8c_a6b29f0ddd2e65b36680ad8f662468e9d}{mky43\+\_\+mail\+\_\+status}} (void)
+\item 
+unsigned long \mbox{\hyperlink{cunet_8c_a7a8c8bcd71c6ab9778c5517715edc9d6}{mky43\+\_\+read\+\_\+data}} (short flow\+\_\+no)
+\item 
+unsigned long \mbox{\hyperlink{cunet_8c_a0224fcb130b0a49eee6d0c21b3fd8958}{mky43\+\_\+read\+\_\+data2}} (short flow\+\_\+no)
+\item 
+void \mbox{\hyperlink{cunet_8c_a0bd20d65ca192e6d49918ae69382b1e1}{mky43\+\_\+write\+\_\+alarm}} (short ch)
+\item 
+void \mbox{\hyperlink{cunet_8c_a49e18dd4a2910546342c1c5e476f4960}{mky43\+\_\+write\+\_\+flow}} (short ch)
+\item 
+long \mbox{\hyperlink{cunet_8c_a52667bb0bf9afc9ba410300bfa5a0f55}{flow\+\_\+fs\+\_\+cal}} (short ch)
+\item 
+void \mbox{\hyperlink{cunet_8c_ab6e5f0547fae8385cb8cbb35556c224f}{mky43\+\_\+check\+\_\+datarenewal}} (void)
+\item 
+short \mbox{\hyperlink{cunet_8c_a03568f1221adf65de9777c241fa576a3}{mky43\+\_\+get\+\_\+flow\+\_\+num}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_afa6eec4e29303e776f6e4584ca06d7ed}{mky43\+\_\+check\+\_\+recv0}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_a91c402a048deaa183a137bd23d0e7d9b}{mky43\+\_\+check\+\_\+recv1}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_aa982ae84a6a9e74865bed20357ea8454}{mky43\+\_\+\+TX\+\_\+start}} (short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{cunet_8c_a221387807a9a48fa32e3819a9e8cfd43}{mky43\+\_\+rxbuf\+\_\+save}} (short buf\+\_\+side, unsigned short recv\+\_\+size, unsigned short recv\+\_\+sa)
+\item 
+void \mbox{\hyperlink{cunet_8c_a2f7dce1b96bdeae7da561e440b2fd9b8}{mky43\+\_\+host\+\_\+link\+\_\+check}} (void)
+\item 
+short \mbox{\hyperlink{cunet_8c_aecda147e26b06bf414b2940cf13ec1d1}{mky43\+\_\+ccr\+\_\+check}} (void)
+\item 
+short \mbox{\hyperlink{cunet_8c_ad28ecd96de883e77e815e378edf695c2}{mky43\+\_\+add\+\_\+message}} (unsigned short len, short com\+\_\+mode)
+\item 
+void \mbox{\hyperlink{cunet_8c_ad58edab55c584ace94b3e3629e85ccbb}{mky43\+\_\+del\+\_\+message}} (unsigned short len, unsigned short offset, short com\+\_\+mode)
+\item 
+short \mbox{\hyperlink{cunet_8c_a1a5950df6b8e9d403b7e74b76fe9a09a}{disp\+\_\+cunet\+\_\+read}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_a584234d9a909a3c1e9fcba18a89ad743}{protocol\+\_\+host}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_aa9d5bdea995dfccaa7d35a3638a65adb}{protocol\+\_\+timer\+\_\+host}} (unsigned short \mbox{\hyperlink{_m_e_s_8c_a3082c4d944d24f6b31dd27cc5b64f893}{value}})
+\item 
+void \mbox{\hyperlink{cunet_8c_a1aca22a8e82c3d363d4f549fa492f7c5}{protocol\+\_\+timer\+\_\+subhost}} (void)
+\item 
+void \mbox{\hyperlink{cunet_8c_a6b015c4f30f8155a91a017eb23853c81}{delay}} (unsigned short delay\+\_\+count)
+\item 
+void \mbox{\hyperlink{cunet_8c_a3b8d42d4ef9d78a288e989b9b3e89a01}{cpu\+\_\+reinit\+\_\+cunet}} (void)
+\item 
+short \mbox{\hyperlink{cunet_8c_aaf493ee5fc4acdd9a325b6aa4eb1e04c}{util\+\_\+passed\+\_\+time}} (unsigned long basic\+\_\+time, unsigned long target\+\_\+time)
+\item 
+void \mbox{\hyperlink{cunet_8c_af83d157e4434f310d21ac4db2bae139e}{util\+\_\+delay}} (short target\+\_\+time)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{変数}
+\begin{DoxyCompactItemize}
+\item 
+short \mbox{\hyperlink{cunet_8c_acc00f261e5c05917e73225f12f55fc80}{sa\+\_\+flow}}
+\item 
+unsigned short \mbox{\hyperlink{cunet_8c_a8380e9d4348c9c3e9b362ad99d43128d}{recv\+\_\+sa\+\_\+host}}
+\item 
+unsigned short \mbox{\hyperlink{cunet_8c_a983222deeb777d8b9a30a62fae6a516d}{recv\+\_\+sa\+\_\+sub}}
+\item 
+unsigned short \mbox{\hyperlink{cunet_8c_ab6b0c3ea745174dc38b6eff88794bc42}{cr\+\_\+check}}
+\item 
+short \mbox{\hyperlink{cunet_8c_a37ab87c041ecb93a894c3a20c5cdc438}{buf\+\_\+count}}
+\item 
+short \mbox{\hyperlink{cunet_8c_a59aa3773bcc757b95990f6106c3c54c9}{buf\+\_\+count\+\_\+sub}}
+\item 
+short \mbox{\hyperlink{cunet_8c_a49b247cf1deb9e74bed36e3dd74b1d8c}{com\+\_\+start}}
+\item 
+short \mbox{\hyperlink{cunet_8c_aa1e96f08a2f95e8ba257aa3f2b0936f7}{com\+\_\+link}}
+\item 
+short \mbox{\hyperlink{cunet_8c_acdcf807bb667f3cbfdd183232c87c0bf}{len\+\_\+err\+\_\+host}}
+\item 
+short \mbox{\hyperlink{cunet_8c_ad02e8a7b86a8d73556296f845c044b78}{len\+\_\+err\+\_\+sub}}
+\item 
+short \mbox{\hyperlink{cunet_8c_a8777b453f491e7f65a8e9fb4e4467505}{format\+\_\+err\+\_\+host}}
+\item 
+short \mbox{\hyperlink{cunet_8c_a89beacd051b1e7923b855e827e4715b5}{format\+\_\+err\+\_\+sub}}
+\item 
+unsigned short \mbox{\hyperlink{cunet_8c_a89d0c5b161f2fa93c7c2b1f1fe6a891c}{recv\+\_\+data0}} \mbox{[}32\mbox{]}\mbox{[}4\mbox{]} = \{ 0 \}
+\item 
+unsigned short \mbox{\hyperlink{cunet_8c_a76fb80b1a0eb4382ab43c17fc414105c}{recv\+\_\+data1}} \mbox{[}32\mbox{]}\mbox{[}4\mbox{]} = \{ 0 \}
+\item 
+unsigned short \mbox{\hyperlink{cunet_8c_acb7659e5a7841ccd925f20ac598861fa}{send\+\_\+data}} \mbox{[}32\mbox{]}\mbox{[}4\mbox{]} = \{ 0 \}
+\item 
+unsigned short \mbox{\hyperlink{cunet_8c_a5df17f0640d0054d9605d3f2e5f30567}{send\+\_\+data\+\_\+sub}} \mbox{[}32\mbox{]}\mbox{[}4\mbox{]} = \{ 0 \}
+\item 
+short \mbox{\hyperlink{cunet_8c_a3e50301680f9ae3c539c743802900863}{sw\+\_\+cunet\+\_\+num}}
+\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{cunet_8c_a8a60bf7cfbcef02367fddfc6c7645e28}{RX\+\_\+buf\+\_\+host}}
+\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{cunet_8c_aec5189def7ec8be975f3df54fd7e45fa}{TX\+\_\+buf\+\_\+host}}
+\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{cunet_8c_a32a1a305cba835075cacef1ffe85383e}{RX\+\_\+buf\+\_\+subhost}}
+\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{cunet_8c_af82db36812b4c25429ccdd7ce9e6e076}{TX\+\_\+buf\+\_\+subhost}}
+\item 
+short \mbox{\hyperlink{cunet_8c_a2faf572799c793b94aeed7c38bfd7c5d}{com\+\_\+type}}
+\item 
+unsigned long \mbox{\hyperlink{cunet_8c_aa3cac78822855b3a06467a9f070ca298}{cmi\+\_\+count}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{関数詳解}
+\Hypertarget{cunet_8c_a3b8d42d4ef9d78a288e989b9b3e89a01}\index{cunet.c@{cunet.c}!cpu\_reinit\_cunet@{cpu\_reinit\_cunet}}
+\index{cpu\_reinit\_cunet@{cpu\_reinit\_cunet}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{cpu\_reinit\_cunet()}{cpu\_reinit\_cunet()}}
+{\footnotesize\ttfamily \label{cunet_8c_a3b8d42d4ef9d78a288e989b9b3e89a01} 
+void cpu\+\_\+reinit\+\_\+cunet (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{cunet_8c_a6b015c4f30f8155a91a017eb23853c81}\index{cunet.c@{cunet.c}!delay@{delay}}
+\index{delay@{delay}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{delay()}{delay()}}
+{\footnotesize\ttfamily \label{cunet_8c_a6b015c4f30f8155a91a017eb23853c81} 
+void delay (\begin{DoxyParamCaption}\item[{unsigned short}]{delay\+\_\+count}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00710}{710}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a1a5950df6b8e9d403b7e74b76fe9a09a}\index{cunet.c@{cunet.c}!disp\_cunet\_read@{disp\_cunet\_read}}
+\index{disp\_cunet\_read@{disp\_cunet\_read}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{disp\_cunet\_read()}{disp\_cunet\_read()}}
+{\footnotesize\ttfamily \label{cunet_8c_a1a5950df6b8e9d403b7e74b76fe9a09a} 
+short disp\+\_\+cunet\+\_\+read (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00231}{231}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a1a5950df6b8e9d403b7e74b76fe9a09a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a52667bb0bf9afc9ba410300bfa5a0f55}\index{cunet.c@{cunet.c}!flow\_fs\_cal@{flow\_fs\_cal}}
+\index{flow\_fs\_cal@{flow\_fs\_cal}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{flow\_fs\_cal()}{flow\_fs\_cal()}}
+{\footnotesize\ttfamily \label{cunet_8c_a52667bb0bf9afc9ba410300bfa5a0f55} 
+long flow\+\_\+fs\+\_\+cal (\begin{DoxyParamCaption}\item[{short}]{ch}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00786}{786}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a52667bb0bf9afc9ba410300bfa5a0f55_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_ad28ecd96de883e77e815e378edf695c2}\index{cunet.c@{cunet.c}!mky43\_add\_message@{mky43\_add\_message}}
+\index{mky43\_add\_message@{mky43\_add\_message}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_add\_message()}{mky43\_add\_message()}}
+{\footnotesize\ttfamily \label{cunet_8c_ad28ecd96de883e77e815e378edf695c2} 
+short mky43\+\_\+add\+\_\+message (\begin{DoxyParamCaption}\item[{unsigned short}]{len}{, }\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l01300}{1300}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_ad28ecd96de883e77e815e378edf695c2_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_aecda147e26b06bf414b2940cf13ec1d1}\index{cunet.c@{cunet.c}!mky43\_ccr\_check@{mky43\_ccr\_check}}
+\index{mky43\_ccr\_check@{mky43\_ccr\_check}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_ccr\_check()}{mky43\_ccr\_check()}}
+{\footnotesize\ttfamily \label{cunet_8c_aecda147e26b06bf414b2940cf13ec1d1} 
+short mky43\+\_\+ccr\+\_\+check (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l01266}{1266}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_aecda147e26b06bf414b2940cf13ec1d1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_ab6e5f0547fae8385cb8cbb35556c224f}\index{cunet.c@{cunet.c}!mky43\_check\_datarenewal@{mky43\_check\_datarenewal}}
+\index{mky43\_check\_datarenewal@{mky43\_check\_datarenewal}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_check\_datarenewal()}{mky43\_check\_datarenewal()}}
+{\footnotesize\ttfamily \label{cunet_8c_ab6e5f0547fae8385cb8cbb35556c224f} 
+void mky43\+\_\+check\+\_\+datarenewal (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00824}{824}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{cunet_8c_ab6e5f0547fae8385cb8cbb35556c224f_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_ab6e5f0547fae8385cb8cbb35556c224f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_afa6eec4e29303e776f6e4584ca06d7ed}\index{cunet.c@{cunet.c}!mky43\_check\_recv0@{mky43\_check\_recv0}}
+\index{mky43\_check\_recv0@{mky43\_check\_recv0}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_check\_recv0()}{mky43\_check\_recv0()}}
+{\footnotesize\ttfamily \label{cunet_8c_afa6eec4e29303e776f6e4584ca06d7ed} 
+void mky43\+\_\+check\+\_\+recv0 (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00934}{934}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_afa6eec4e29303e776f6e4584ca06d7ed_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=299pt]{cunet_8c_afa6eec4e29303e776f6e4584ca06d7ed_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a91c402a048deaa183a137bd23d0e7d9b}\index{cunet.c@{cunet.c}!mky43\_check\_recv1@{mky43\_check\_recv1}}
+\index{mky43\_check\_recv1@{mky43\_check\_recv1}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_check\_recv1()}{mky43\_check\_recv1()}}
+{\footnotesize\ttfamily \label{cunet_8c_a91c402a048deaa183a137bd23d0e7d9b} 
+void mky43\+\_\+check\+\_\+recv1 (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00949}{949}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a91c402a048deaa183a137bd23d0e7d9b_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=299pt]{cunet_8c_a91c402a048deaa183a137bd23d0e7d9b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_ad58edab55c584ace94b3e3629e85ccbb}\index{cunet.c@{cunet.c}!mky43\_del\_message@{mky43\_del\_message}}
+\index{mky43\_del\_message@{mky43\_del\_message}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_del\_message()}{mky43\_del\_message()}}
+{\footnotesize\ttfamily \label{cunet_8c_ad58edab55c584ace94b3e3629e85ccbb} 
+void mky43\+\_\+del\+\_\+message (\begin{DoxyParamCaption}\item[{unsigned short}]{len}{, }\item[{unsigned short}]{offset}{, }\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l01425}{1425}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_ad58edab55c584ace94b3e3629e85ccbb_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a03568f1221adf65de9777c241fa576a3}\index{cunet.c@{cunet.c}!mky43\_get\_flow\_num@{mky43\_get\_flow\_num}}
+\index{mky43\_get\_flow\_num@{mky43\_get\_flow\_num}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_get\_flow\_num()}{mky43\_get\_flow\_num()}}
+{\footnotesize\ttfamily \label{cunet_8c_a03568f1221adf65de9777c241fa576a3} 
+short mky43\+\_\+get\+\_\+flow\+\_\+num (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00861}{861}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=313pt]{cunet_8c_a03568f1221adf65de9777c241fa576a3_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a03568f1221adf65de9777c241fa576a3_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a2f7dce1b96bdeae7da561e440b2fd9b8}\index{cunet.c@{cunet.c}!mky43\_host\_link\_check@{mky43\_host\_link\_check}}
+\index{mky43\_host\_link\_check@{mky43\_host\_link\_check}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_host\_link\_check()}{mky43\_host\_link\_check()}}
+{\footnotesize\ttfamily \label{cunet_8c_a2f7dce1b96bdeae7da561e440b2fd9b8} 
+void mky43\+\_\+host\+\_\+link\+\_\+check (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l01233}{1233}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{cunet_8c_a2f7dce1b96bdeae7da561e440b2fd9b8_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=274pt]{cunet_8c_a2f7dce1b96bdeae7da561e440b2fd9b8_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_aafe1db9a3a3f3c0971b383913c78c584}\index{cunet.c@{cunet.c}!mky43\_init@{mky43\_init}}
+\index{mky43\_init@{mky43\_init}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_init()}{mky43\_init()}}
+{\footnotesize\ttfamily \label{cunet_8c_aafe1db9a3a3f3c0971b383913c78c584} 
+void mky43\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00107}{107}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_aafe1db9a3a3f3c0971b383913c78c584_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=281pt]{cunet_8c_aafe1db9a3a3f3c0971b383913c78c584_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a7f78573b2c4b54af9b8846560f083732}\index{cunet.c@{cunet.c}!mky43\_mail\_recv@{mky43\_mail\_recv}}
+\index{mky43\_mail\_recv@{mky43\_mail\_recv}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_mail\_recv()}{mky43\_mail\_recv()}}
+{\footnotesize\ttfamily \label{cunet_8c_a7f78573b2c4b54af9b8846560f083732} 
+void mky43\+\_\+mail\+\_\+recv (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00314}{314}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a7f78573b2c4b54af9b8846560f083732_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a7f78573b2c4b54af9b8846560f083732_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a4283785e23322423076c65b865e0cff3}\index{cunet.c@{cunet.c}!mky43\_mail\_send@{mky43\_mail\_send}}
+\index{mky43\_mail\_send@{mky43\_mail\_send}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_mail\_send()}{mky43\_mail\_send()}}
+{\footnotesize\ttfamily \label{cunet_8c_a4283785e23322423076c65b865e0cff3} 
+void mky43\+\_\+mail\+\_\+send (\begin{DoxyParamCaption}\item[{unsigned short}]{size}{, }\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00409}{409}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=312pt]{cunet_8c_a4283785e23322423076c65b865e0cff3_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a4283785e23322423076c65b865e0cff3_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a6b29f0ddd2e65b36680ad8f662468e9d}\index{cunet.c@{cunet.c}!mky43\_mail\_status@{mky43\_mail\_status}}
+\index{mky43\_mail\_status@{mky43\_mail\_status}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_mail\_status()}{mky43\_mail\_status()}}
+{\footnotesize\ttfamily \label{cunet_8c_a6b29f0ddd2e65b36680ad8f662468e9d} 
+void mky43\+\_\+mail\+\_\+status (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00498}{498}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a6b29f0ddd2e65b36680ad8f662468e9d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_acd8b27a92b55e7dc9e46867a5bcfbec4}\index{cunet.c@{cunet.c}!mky43\_ping\_active@{mky43\_ping\_active}}
+\index{mky43\_ping\_active@{mky43\_ping\_active}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_ping\_active()}{mky43\_ping\_active()}}
+{\footnotesize\ttfamily \label{cunet_8c_acd8b27a92b55e7dc9e46867a5bcfbec4} 
+void mky43\+\_\+ping\+\_\+active (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00297}{297}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_acd8b27a92b55e7dc9e46867a5bcfbec4_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a7a8c8bcd71c6ab9778c5517715edc9d6}\index{cunet.c@{cunet.c}!mky43\_read\_data@{mky43\_read\_data}}
+\index{mky43\_read\_data@{mky43\_read\_data}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_read\_data()}{mky43\_read\_data()}}
+{\footnotesize\ttfamily \label{cunet_8c_a7a8c8bcd71c6ab9778c5517715edc9d6} 
+unsigned long mky43\+\_\+read\+\_\+data (\begin{DoxyParamCaption}\item[{short}]{flow\+\_\+no}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00547}{547}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a7a8c8bcd71c6ab9778c5517715edc9d6_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a0224fcb130b0a49eee6d0c21b3fd8958}\index{cunet.c@{cunet.c}!mky43\_read\_data2@{mky43\_read\_data2}}
+\index{mky43\_read\_data2@{mky43\_read\_data2}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_read\_data2()}{mky43\_read\_data2()}}
+{\footnotesize\ttfamily \label{cunet_8c_a0224fcb130b0a49eee6d0c21b3fd8958} 
+unsigned long mky43\+\_\+read\+\_\+data2 (\begin{DoxyParamCaption}\item[{short}]{flow\+\_\+no}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00618}{618}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a0224fcb130b0a49eee6d0c21b3fd8958_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a8adc1aff987c73db2173b959ddf6f614}\index{cunet.c@{cunet.c}!mky43\_ready\_recv0@{mky43\_ready\_recv0}}
+\index{mky43\_ready\_recv0@{mky43\_ready\_recv0}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_ready\_recv0()}{mky43\_ready\_recv0()}}
+{\footnotesize\ttfamily \label{cunet_8c_a8adc1aff987c73db2173b959ddf6f614} 
+void mky43\+\_\+ready\+\_\+recv0 (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00372}{372}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_abbb2115efcd321f434f9e9c0a85b8612}\index{cunet.c@{cunet.c}!mky43\_ready\_recv1@{mky43\_ready\_recv1}}
+\index{mky43\_ready\_recv1@{mky43\_ready\_recv1}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_ready\_recv1()}{mky43\_ready\_recv1()}}
+{\footnotesize\ttfamily \label{cunet_8c_abbb2115efcd321f434f9e9c0a85b8612} 
+void mky43\+\_\+ready\+\_\+recv1 (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00391}{391}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a3e5e56868cd7a738e4927731adacb006}\index{cunet.c@{cunet.c}!mky43\_restart@{mky43\_restart}}
+\index{mky43\_restart@{mky43\_restart}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_restart()}{mky43\_restart()}}
+{\footnotesize\ttfamily \label{cunet_8c_a3e5e56868cd7a738e4927731adacb006} 
+void mky43\+\_\+restart (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00212}{212}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a3e5e56868cd7a738e4927731adacb006_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a221387807a9a48fa32e3819a9e8cfd43}\index{cunet.c@{cunet.c}!mky43\_rxbuf\_save@{mky43\_rxbuf\_save}}
+\index{mky43\_rxbuf\_save@{mky43\_rxbuf\_save}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_rxbuf\_save()}{mky43\_rxbuf\_save()}}
+{\footnotesize\ttfamily \label{cunet_8c_a221387807a9a48fa32e3819a9e8cfd43} 
+void mky43\+\_\+rxbuf\+\_\+save (\begin{DoxyParamCaption}\item[{short}]{buf\+\_\+side}{, }\item[{unsigned short}]{recv\+\_\+size}{, }\item[{unsigned short}]{recv\+\_\+sa}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l01079}{1079}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=330pt]{cunet_8c_a221387807a9a48fa32e3819a9e8cfd43_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a221387807a9a48fa32e3819a9e8cfd43_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a2cb4e20093a2b2fbf23f50d68962b5b6}\index{cunet.c@{cunet.c}!mky43\_set\_register@{mky43\_set\_register}}
+\index{mky43\_set\_register@{mky43\_set\_register}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_set\_register()}{mky43\_set\_register()}}
+{\footnotesize\ttfamily \label{cunet_8c_a2cb4e20093a2b2fbf23f50d68962b5b6} 
+void mky43\+\_\+set\+\_\+register (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00243}{243}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a2cb4e20093a2b2fbf23f50d68962b5b6_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_aefef01e4c280b7b51b62f2d80794fae1}\index{cunet.c@{cunet.c}!mky43\_start@{mky43\_start}}
+\index{mky43\_start@{mky43\_start}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_start()}{mky43\_start()}}
+{\footnotesize\ttfamily \label{cunet_8c_aefef01e4c280b7b51b62f2d80794fae1} 
+void mky43\+\_\+start (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00128}{128}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_aefef01e4c280b7b51b62f2d80794fae1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_aa982ae84a6a9e74865bed20357ea8454}\index{cunet.c@{cunet.c}!mky43\_TX\_start@{mky43\_TX\_start}}
+\index{mky43\_TX\_start@{mky43\_TX\_start}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_TX\_start()}{mky43\_TX\_start()}}
+{\footnotesize\ttfamily \label{cunet_8c_aa982ae84a6a9e74865bed20357ea8454} 
+void mky43\+\_\+\+TX\+\_\+start (\begin{DoxyParamCaption}\item[{short}]{com\+\_\+mode}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00964}{964}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_aa982ae84a6a9e74865bed20357ea8454_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_aa982ae84a6a9e74865bed20357ea8454_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a0bd20d65ca192e6d49918ae69382b1e1}\index{cunet.c@{cunet.c}!mky43\_write\_alarm@{mky43\_write\_alarm}}
+\index{mky43\_write\_alarm@{mky43\_write\_alarm}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_write\_alarm()}{mky43\_write\_alarm()}}
+{\footnotesize\ttfamily \label{cunet_8c_a0bd20d65ca192e6d49918ae69382b1e1} 
+void mky43\+\_\+write\+\_\+alarm (\begin{DoxyParamCaption}\item[{short}]{ch}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00690}{690}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=261pt]{cunet_8c_a0bd20d65ca192e6d49918ae69382b1e1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a49e18dd4a2910546342c1c5e476f4960}\index{cunet.c@{cunet.c}!mky43\_write\_flow@{mky43\_write\_flow}}
+\index{mky43\_write\_flow@{mky43\_write\_flow}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_write\_flow()}{mky43\_write\_flow()}}
+{\footnotesize\ttfamily \label{cunet_8c_a49e18dd4a2910546342c1c5e476f4960} 
+void mky43\+\_\+write\+\_\+flow (\begin{DoxyParamCaption}\item[{short}]{ch}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00731}{731}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=272pt]{cunet_8c_a49e18dd4a2910546342c1c5e476f4960_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=254pt]{cunet_8c_a49e18dd4a2910546342c1c5e476f4960_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a584234d9a909a3c1e9fcba18a89ad743}\index{cunet.c@{cunet.c}!protocol\_host@{protocol\_host}}
+\index{protocol\_host@{protocol\_host}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{protocol\_host()}{protocol\_host()}}
+{\footnotesize\ttfamily \label{cunet_8c_a584234d9a909a3c1e9fcba18a89ad743} 
+void protocol\+\_\+host (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+\Hypertarget{cunet_8c_aa9d5bdea995dfccaa7d35a3638a65adb}\index{cunet.c@{cunet.c}!protocol\_timer\_host@{protocol\_timer\_host}}
+\index{protocol\_timer\_host@{protocol\_timer\_host}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{protocol\_timer\_host()}{protocol\_timer\_host()}}
+{\footnotesize\ttfamily \label{cunet_8c_aa9d5bdea995dfccaa7d35a3638a65adb} 
+void protocol\+\_\+timer\+\_\+host (\begin{DoxyParamCaption}\item[{unsigned short}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_c_o_m_8c_source}{COM.\+c}} の \mbox{\hyperlink{_c_o_m_8c_source_l00707}{707}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_aa9d5bdea995dfccaa7d35a3638a65adb_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_a1aca22a8e82c3d363d4f549fa492f7c5}\index{cunet.c@{cunet.c}!protocol\_timer\_subhost@{protocol\_timer\_subhost}}
+\index{protocol\_timer\_subhost@{protocol\_timer\_subhost}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{protocol\_timer\_subhost()}{protocol\_timer\_subhost()}}
+{\footnotesize\ttfamily \label{cunet_8c_a1aca22a8e82c3d363d4f549fa492f7c5} 
+void protocol\+\_\+timer\+\_\+subhost (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_c_o_m_8c_source}{COM.\+c}} の \mbox{\hyperlink{_c_o_m_8c_source_l00722}{722}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_a1aca22a8e82c3d363d4f549fa492f7c5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_af83d157e4434f310d21ac4db2bae139e}\index{cunet.c@{cunet.c}!util\_delay@{util\_delay}}
+\index{util\_delay@{util\_delay}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{util\_delay()}{util\_delay()}}
+{\footnotesize\ttfamily \label{cunet_8c_af83d157e4434f310d21ac4db2bae139e} 
+void util\+\_\+delay (\begin{DoxyParamCaption}\item[{short}]{target\+\_\+time}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00082}{82}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_af83d157e4434f310d21ac4db2bae139e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{cunet_8c_aaf493ee5fc4acdd9a325b6aa4eb1e04c}\index{cunet.c@{cunet.c}!util\_passed\_time@{util\_passed\_time}}
+\index{util\_passed\_time@{util\_passed\_time}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{util\_passed\_time()}{util\_passed\_time()}}
+{\footnotesize\ttfamily \label{cunet_8c_aaf493ee5fc4acdd9a325b6aa4eb1e04c} 
+short util\+\_\+passed\+\_\+time (\begin{DoxyParamCaption}\item[{unsigned long}]{basic\+\_\+time}{, }\item[{unsigned long}]{target\+\_\+time}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00118}{118}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{cunet_8c_aaf493ee5fc4acdd9a325b6aa4eb1e04c_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{変数詳解}
+\Hypertarget{cunet_8c_a37ab87c041ecb93a894c3a20c5cdc438}\index{cunet.c@{cunet.c}!buf\_count@{buf\_count}}
+\index{buf\_count@{buf\_count}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{buf\_count}{buf\_count}}
+{\footnotesize\ttfamily \label{cunet_8c_a37ab87c041ecb93a894c3a20c5cdc438} 
+short buf\+\_\+count}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00074}{74}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a59aa3773bcc757b95990f6106c3c54c9}\index{cunet.c@{cunet.c}!buf\_count\_sub@{buf\_count\_sub}}
+\index{buf\_count\_sub@{buf\_count\_sub}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{buf\_count\_sub}{buf\_count\_sub}}
+{\footnotesize\ttfamily \label{cunet_8c_a59aa3773bcc757b95990f6106c3c54c9} 
+short buf\+\_\+count\+\_\+sub}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00075}{75}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_aa3cac78822855b3a06467a9f070ca298}\index{cunet.c@{cunet.c}!cmi\_count@{cmi\_count}}
+\index{cmi\_count@{cmi\_count}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{cmi\_count}{cmi\_count}}
+{\footnotesize\ttfamily \label{cunet_8c_aa3cac78822855b3a06467a9f070ca298} 
+unsigned long cmi\+\_\+count\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00066}{66}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_aa1e96f08a2f95e8ba257aa3f2b0936f7}\index{cunet.c@{cunet.c}!com\_link@{com\_link}}
+\index{com\_link@{com\_link}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{com\_link}{com\_link}}
+{\footnotesize\ttfamily \label{cunet_8c_aa1e96f08a2f95e8ba257aa3f2b0936f7} 
+short com\+\_\+link}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00077}{77}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a49b247cf1deb9e74bed36e3dd74b1d8c}\index{cunet.c@{cunet.c}!com\_start@{com\_start}}
+\index{com\_start@{com\_start}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{com\_start}{com\_start}}
+{\footnotesize\ttfamily \label{cunet_8c_a49b247cf1deb9e74bed36e3dd74b1d8c} 
+short com\+\_\+start}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00076}{76}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a2faf572799c793b94aeed7c38bfd7c5d}\index{cunet.c@{cunet.c}!com\_type@{com\_type}}
+\index{com\_type@{com\_type}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{com\_type}{com\_type}}
+{\footnotesize\ttfamily \label{cunet_8c_a2faf572799c793b94aeed7c38bfd7c5d} 
+short com\+\_\+type\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_a_i_n_8c_source}{MAIN.\+c}} の \mbox{\hyperlink{_m_a_i_n_8c_source_l00131}{131}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_ab6b0c3ea745174dc38b6eff88794bc42}\index{cunet.c@{cunet.c}!cr\_check@{cr\_check}}
+\index{cr\_check@{cr\_check}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{cr\_check}{cr\_check}}
+{\footnotesize\ttfamily \label{cunet_8c_ab6b0c3ea745174dc38b6eff88794bc42} 
+unsigned short cr\+\_\+check}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00073}{73}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a8777b453f491e7f65a8e9fb4e4467505}\index{cunet.c@{cunet.c}!format\_err\_host@{format\_err\_host}}
+\index{format\_err\_host@{format\_err\_host}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{format\_err\_host}{format\_err\_host}}
+{\footnotesize\ttfamily \label{cunet_8c_a8777b453f491e7f65a8e9fb4e4467505} 
+short format\+\_\+err\+\_\+host}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00080}{80}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a89beacd051b1e7923b855e827e4715b5}\index{cunet.c@{cunet.c}!format\_err\_sub@{format\_err\_sub}}
+\index{format\_err\_sub@{format\_err\_sub}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{format\_err\_sub}{format\_err\_sub}}
+{\footnotesize\ttfamily \label{cunet_8c_a89beacd051b1e7923b855e827e4715b5} 
+short format\+\_\+err\+\_\+sub}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00081}{81}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_acdcf807bb667f3cbfdd183232c87c0bf}\index{cunet.c@{cunet.c}!len\_err\_host@{len\_err\_host}}
+\index{len\_err\_host@{len\_err\_host}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{len\_err\_host}{len\_err\_host}}
+{\footnotesize\ttfamily \label{cunet_8c_acdcf807bb667f3cbfdd183232c87c0bf} 
+short len\+\_\+err\+\_\+host}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00078}{78}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_ad02e8a7b86a8d73556296f845c044b78}\index{cunet.c@{cunet.c}!len\_err\_sub@{len\_err\_sub}}
+\index{len\_err\_sub@{len\_err\_sub}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{len\_err\_sub}{len\_err\_sub}}
+{\footnotesize\ttfamily \label{cunet_8c_ad02e8a7b86a8d73556296f845c044b78} 
+short len\+\_\+err\+\_\+sub}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00079}{79}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a89d0c5b161f2fa93c7c2b1f1fe6a891c}\index{cunet.c@{cunet.c}!recv\_data0@{recv\_data0}}
+\index{recv\_data0@{recv\_data0}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{recv\_data0}{recv\_data0}}
+{\footnotesize\ttfamily \label{cunet_8c_a89d0c5b161f2fa93c7c2b1f1fe6a891c} 
+unsigned short recv\+\_\+data0\mbox{[}32\mbox{]}\mbox{[}4\mbox{]} = \{ 0 \}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00083}{83}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a76fb80b1a0eb4382ab43c17fc414105c}\index{cunet.c@{cunet.c}!recv\_data1@{recv\_data1}}
+\index{recv\_data1@{recv\_data1}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{recv\_data1}{recv\_data1}}
+{\footnotesize\ttfamily \label{cunet_8c_a76fb80b1a0eb4382ab43c17fc414105c} 
+unsigned short recv\+\_\+data1\mbox{[}32\mbox{]}\mbox{[}4\mbox{]} = \{ 0 \}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00084}{84}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a8380e9d4348c9c3e9b362ad99d43128d}\index{cunet.c@{cunet.c}!recv\_sa\_host@{recv\_sa\_host}}
+\index{recv\_sa\_host@{recv\_sa\_host}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{recv\_sa\_host}{recv\_sa\_host}}
+{\footnotesize\ttfamily \label{cunet_8c_a8380e9d4348c9c3e9b362ad99d43128d} 
+unsigned short recv\+\_\+sa\+\_\+host}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00071}{71}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a983222deeb777d8b9a30a62fae6a516d}\index{cunet.c@{cunet.c}!recv\_sa\_sub@{recv\_sa\_sub}}
+\index{recv\_sa\_sub@{recv\_sa\_sub}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{recv\_sa\_sub}{recv\_sa\_sub}}
+{\footnotesize\ttfamily \label{cunet_8c_a983222deeb777d8b9a30a62fae6a516d} 
+unsigned short recv\+\_\+sa\+\_\+sub}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00072}{72}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a8a60bf7cfbcef02367fddfc6c7645e28}\index{cunet.c@{cunet.c}!RX\_buf\_host@{RX\_buf\_host}}
+\index{RX\_buf\_host@{RX\_buf\_host}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{RX\_buf\_host}{RX\_buf\_host}}
+{\footnotesize\ttfamily \label{cunet_8c_a8a60bf7cfbcef02367fddfc6c7645e28} 
+char\texorpdfstring{$\ast$}{*} RX\+\_\+buf\+\_\+host\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_c_o_m_8c_source}{COM.\+c}} の \mbox{\hyperlink{_c_o_m_8c_source_l00081}{81}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a32a1a305cba835075cacef1ffe85383e}\index{cunet.c@{cunet.c}!RX\_buf\_subhost@{RX\_buf\_subhost}}
+\index{RX\_buf\_subhost@{RX\_buf\_subhost}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{RX\_buf\_subhost}{RX\_buf\_subhost}}
+{\footnotesize\ttfamily \label{cunet_8c_a32a1a305cba835075cacef1ffe85383e} 
+char\texorpdfstring{$\ast$}{*} RX\+\_\+buf\+\_\+subhost\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_c_o_m_8c_source}{COM.\+c}} の \mbox{\hyperlink{_c_o_m_8c_source_l00085}{85}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_acc00f261e5c05917e73225f12f55fc80}\index{cunet.c@{cunet.c}!sa\_flow@{sa\_flow}}
+\index{sa\_flow@{sa\_flow}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{sa\_flow}{sa\_flow}}
+{\footnotesize\ttfamily \label{cunet_8c_acc00f261e5c05917e73225f12f55fc80} 
+short sa\+\_\+flow}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00070}{70}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_acb7659e5a7841ccd925f20ac598861fa}\index{cunet.c@{cunet.c}!send\_data@{send\_data}}
+\index{send\_data@{send\_data}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{send\_data}{send\_data}}
+{\footnotesize\ttfamily \label{cunet_8c_acb7659e5a7841ccd925f20ac598861fa} 
+unsigned short send\+\_\+data\mbox{[}32\mbox{]}\mbox{[}4\mbox{]} = \{ 0 \}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00085}{85}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a5df17f0640d0054d9605d3f2e5f30567}\index{cunet.c@{cunet.c}!send\_data\_sub@{send\_data\_sub}}
+\index{send\_data\_sub@{send\_data\_sub}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{send\_data\_sub}{send\_data\_sub}}
+{\footnotesize\ttfamily \label{cunet_8c_a5df17f0640d0054d9605d3f2e5f30567} 
+unsigned short send\+\_\+data\+\_\+sub\mbox{[}32\mbox{]}\mbox{[}4\mbox{]} = \{ 0 \}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00086}{86}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_a3e50301680f9ae3c539c743802900863}\index{cunet.c@{cunet.c}!sw\_cunet\_num@{sw\_cunet\_num}}
+\index{sw\_cunet\_num@{sw\_cunet\_num}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{sw\_cunet\_num}{sw\_cunet\_num}}
+{\footnotesize\ttfamily \label{cunet_8c_a3e50301680f9ae3c539c743802900863} 
+short sw\+\_\+cunet\+\_\+num\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00050}{50}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_aec5189def7ec8be975f3df54fd7e45fa}\index{cunet.c@{cunet.c}!TX\_buf\_host@{TX\_buf\_host}}
+\index{TX\_buf\_host@{TX\_buf\_host}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{TX\_buf\_host}{TX\_buf\_host}}
+{\footnotesize\ttfamily \label{cunet_8c_aec5189def7ec8be975f3df54fd7e45fa} 
+char\texorpdfstring{$\ast$}{*} TX\+\_\+buf\+\_\+host\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_c_o_m_8c_source}{COM.\+c}} の \mbox{\hyperlink{_c_o_m_8c_source_l00082}{82}} 行目に定義があります。
+
+\Hypertarget{cunet_8c_af82db36812b4c25429ccdd7ce9e6e076}\index{cunet.c@{cunet.c}!TX\_buf\_subhost@{TX\_buf\_subhost}}
+\index{TX\_buf\_subhost@{TX\_buf\_subhost}!cunet.c@{cunet.c}}
+\doxysubsubsection{\texorpdfstring{TX\_buf\_subhost}{TX\_buf\_subhost}}
+{\footnotesize\ttfamily \label{cunet_8c_af82db36812b4c25429ccdd7ce9e6e076} 
+char\texorpdfstring{$\ast$}{*} TX\+\_\+buf\+\_\+subhost\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_c_o_m_8c_source}{COM.\+c}} の \mbox{\hyperlink{_c_o_m_8c_source_l00086}{86}} 行目に定義があります。
+

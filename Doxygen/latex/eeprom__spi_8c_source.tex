@@ -1,0 +1,551 @@
+\doxysection{eeprom\+\_\+spi.\+c}
+\hypertarget{eeprom__spi_8c_source}{}\label{eeprom__spi_8c_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/eeprom\_spi.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/eeprom\_spi.c}}
+\mbox{\hyperlink{eeprom__spi_8c}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00001}00001\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00002}00002\ \textcolor{comment}{/*\ File\ Name\ :\ eeprom\_spi.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ EEPROM処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ reserved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}machine.h"{}}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{define_8h}{define.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_s_v__def_8h}{SV\_def.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_m_e_s_8h}{defMES.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_m_a_i_n_8h}{defMAIN.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00016}\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{00016}}\ \textcolor{preprocessor}{\#define\ BYTE\ unsigned\ char}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00017}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{00017}}\ \textcolor{preprocessor}{\#define\ WORD\ unsigned\ short}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00018}\mbox{\hyperlink{eeprom__spi_8c_ae4cc35dcc70810fa972cc8a5185a28fa}{00018}}\ \textcolor{preprocessor}{\#define\ BOOL\ int}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00019}\mbox{\hyperlink{eeprom__spi_8c_aa8cecfc5c5c054d2875c03e77b7be15d}{00019}}\ \textcolor{preprocessor}{\#define\ TRUE\ 1}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00020}\mbox{\hyperlink{eeprom__spi_8c_aa93f0eb578d23995850d61f7d61c55c1}{00020}}\ \textcolor{preprocessor}{\#define\ FALSE\ 0}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00022}00022\ \textcolor{comment}{//\ GPIO\_PB4}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00023}00023\ \textcolor{comment}{//\ 「IO\_CS=」を「IO\_CS\_」に置換\ }}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00024}\mbox{\hyperlink{eeprom__spi_8c_a72caf90d5f14093b9dc1102a1f84d6c9}{00024}}\ \textcolor{preprocessor}{\#define\ IO\_CS\_0\ (\_\_bit\_output(GPIO\_PORTB\_BASE,\ 4,\ 0))}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00025}\mbox{\hyperlink{eeprom__spi_8c_a8f8838e4e50f304139ec8ee10231ee7a}{00025}}\ \textcolor{preprocessor}{\#define\ IO\_CS\_1\ (\_\_bit\_output(GPIO\_PORTB\_BASE,\ 4,\ 1))}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00026}00026\ \textcolor{comment}{//\ GPIO\_PB5}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00027}00027\ \textcolor{comment}{//\ 「IO\_SCK=」を「IO\_SCK\_」に置換\ }}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00028}\mbox{\hyperlink{eeprom__spi_8c_ad1cf473e852027022765272a32ff9c48}{00028}}\ \textcolor{preprocessor}{\#define\ IO\_SCK\_0\ (\_\_bit\_output(GPIO\_PORTB\_BASE,\ 5,\ 0))}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00029}\mbox{\hyperlink{eeprom__spi_8c_a04a78b6a943f3c549df9b2b070daefea}{00029}}\ \textcolor{preprocessor}{\#define\ IO\_SCK\_1\ (\_\_bit\_output(GPIO\_PORTB\_BASE,\ 5,\ 1))}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00030}00030\ \textcolor{comment}{//\ GPIO\_PE4}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00031}00031\ \textcolor{comment}{//\ 「IO\_SI=」を「IO\_SCK\_」に置換\ }}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00032}\mbox{\hyperlink{eeprom__spi_8c_a7dc7f009aab5f63fdaedb24833a7e119}{00032}}\ \textcolor{preprocessor}{\#define\ IO\_SI\_0\ (\_\_bit\_output(GPIO\_PORTE\_BASE,\ 4,\ 0))}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00033}\mbox{\hyperlink{eeprom__spi_8c_a45cce7d695390de8e091cff3b3965a51}{00033}}\ \textcolor{preprocessor}{\#define\ IO\_SI\_1\ (\_\_bit\_output(GPIO\_PORTE\_BASE,\ 4,\ 1))}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00034}00034\ \textcolor{comment}{//\ GPIO\_PE5}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00035}\mbox{\hyperlink{eeprom__spi_8c_a63643b86fa02d221acaad7887915ea3e}{00035}}\ \textcolor{preprocessor}{\#define\ IO\_SO\ (\_\_bit\_input(GPIO\_PORTE\_BASE,\ 5))}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00037}\mbox{\hyperlink{eeprom__spi_8c_af2a1d2daedddd45fc63328e37cfa04dc}{00037}}\ \textcolor{preprocessor}{\#define\ IO\_HOLD\ }}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00038}\mbox{\hyperlink{eeprom__spi_8c_a6f82639444a93f3582445f9747f27497}{00038}}\ \textcolor{preprocessor}{\#define\ IO\_WP\ }}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00040}00040\ \textcolor{comment}{//Define\ op-\/code}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00041}\mbox{\hyperlink{eeprom__spi_8c_a233ab2b77759d1d35814743f08c96347}{00041}}\ \textcolor{preprocessor}{\#define\ CMD\_WREN\ 0x06}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00042}\mbox{\hyperlink{eeprom__spi_8c_aa98eb90657f02a0b7a4634174081799e}{00042}}\ \textcolor{preprocessor}{\#define\ CMD\_WRDI\ 0x04}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00043}\mbox{\hyperlink{eeprom__spi_8c_af36d3b85d64c03760c6b76e916b443c1}{00043}}\ \textcolor{preprocessor}{\#define\ CMD\_RDSR\ 0x05}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00044}\mbox{\hyperlink{eeprom__spi_8c_acf9ec38b37caa1223e957bba6058f626}{00044}}\ \textcolor{preprocessor}{\#define\ CMD\_WRSR\ 0x01}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00045}\mbox{\hyperlink{eeprom__spi_8c_a9c953a6c538020e644127ee080608021}{00045}}\ \textcolor{preprocessor}{\#define\ CMD\_READ\ 0x03}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00046}\mbox{\hyperlink{eeprom__spi_8c_a7391deb9c3a262ded3e186e94eb884e2}{00046}}\ \textcolor{preprocessor}{\#define\ CMD\_WRITE\ 0x02}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00047}00047\ \textcolor{comment}{//Define\ maximum\ Write\ Cycle\ polling\ times}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00048}\mbox{\hyperlink{eeprom__spi_8c_ad80d9a40ff581436f8cf44ea7ccb3a39}{00048}}\ \textcolor{preprocessor}{\#define\ POLLING\_NUM\ 500}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00050}00050\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00051}00051\ \textcolor{comment}{/*\ \ モジュール内定義関数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00052}00052\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00053}00053\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Data);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00054}00054\ \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ \mbox{\hyperlink{eeprom__spi_8c_ac2d4f02c27f025b6d2e0a128529b4154}{ReadEE}}();}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00055}00055\ \mbox{\hyperlink{eeprom__spi_8c_ae4cc35dcc70810fa972cc8a5185a28fa}{BOOL}}\ \mbox{\hyperlink{eeprom__spi_8c_adc3dff88fc60044a4be62ed82ab375d9}{PollingEE}}();}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00056}00056\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_acd4748d98bf62915949e720d0122be39}{SetWEN}}();}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00057}00057\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a10fe18e7bd16806bff749da3acf45de6}{ClrWEN}}();}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00058}00058\ \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ \mbox{\hyperlink{eeprom__spi_8c_a610697bfb4fc8f67c43c183061f55a7b}{ReadSR}}();}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00059}00059\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a4a9f022e17d68925901f05b2ac1722bb}{WriteSR}}(\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Data);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00060}00060\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_ab50c9fa8d035686482642e64312903cf}{Write}}(\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}}\ Address,\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ *Pdata,\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Length);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00061}00061\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a135104f5cba8d8add4f48d38fa10d991}{Read}}(\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}}\ Address,\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ *Pdata,\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Length);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00062}00062\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{eeprom__spi_8c_a0633d5554b624df958bd6833407218c2}{eep\_read}}(\textcolor{keywordtype}{short}\ rom\_addr);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00063}00063\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a0a03c6be0d7b62acad7d9b7ffcb9ccf1}{eep\_write}}(\textcolor{keywordtype}{short}\ rom\_addr,\textcolor{keywordtype}{short}\ data);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00064}00064\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_abec4963a7f5cb405784810bc86c09027}{eep\_sv\_read}}(\textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00065}00065\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_add8fe67b28109b71dd00af2a6266c20a}{eep\_sv\_write}}(\textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00066}00066\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a8e327391853cdb0cb6fe7e325d7e2a3a}{eep\_write\_ch}}(\textcolor{keywordtype}{short}\ pch,\ \textcolor{keywordtype}{short}\ rom\_addr,\textcolor{keywordtype}{short}\ data);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00067}00067\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{eeprom__spi_8c_aa1c4260f0eb9a1def3a037203c09baab}{eep\_spi\_error}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00068}00068\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_ad192952f7a9b56edc9c019378e4c9d03}{put\_queue}}(\textcolor{keywordtype}{short}\ addr,\ \textcolor{keywordtype}{short}\ data);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00069}00069\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a7a31732e9f1d42cda3d9e951754c62e4}{get\_queue}}(\textcolor{keywordtype}{short}\ *addr,\ \textcolor{keywordtype}{short}\ *data);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00070}00070\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{eeprom__spi_8c_abe4270da19df501a4ea5ad6989590443}{check\_queue}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00071}00071\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_ac19649cfb54b660f2683469e10f6dedd}{eep\_write\_ch\_delay}}\ (\textcolor{keywordtype}{short}\ pch,\ \textcolor{keywordtype}{short}\ rom\_addr,\ \textcolor{keywordtype}{short}\ data);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00072}00072\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a781f4882d510f7a1b025490dba3ea133}{eep\_write\_pending\_data}}();}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00074}00074\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00075}00075\ \textcolor{comment}{/*\ \ モジュール外定義関数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00076}00076\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00077}00077\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a0d3e474dd65491bd74450ca952e8152d}{action\_status\_control}}(\textcolor{keywordtype}{short}\ pch,\ \textcolor{keywordtype}{short}\ act);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00079}00079\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00080}00080\ \textcolor{comment}{/*\ \ モジュール内定義変数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00081}00081\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00083}00083\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00084}00084\ \textcolor{comment}{/*\ \ モジュール外定義変数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00085}00085\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00086}00086\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{eeprom__spi_8c_a47e7ef6ad70da303c54a8cf579705ca4}{eep\_err}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00087}00087\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structst_s_v_d}{stSVD}}\ \mbox{\hyperlink{eeprom__spi_8c_aa4049d8f58dfab577b7c6d03b579717d}{SVD\_default}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00089}00089\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00090}00090\ \textcolor{comment}{/*\ Function\ :\ WriteEE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00091}00091\ \textcolor{comment}{/*\ Summary\ \ :\ Bitデータ書込み\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00092}00092\ \textcolor{comment}{/*\ Argument\ :\ Data\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00093}00093\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00094}00094\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00095}00095\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00096}00096\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00097}\mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{00097}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Data)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00098}00098\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00099}00099\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ i;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00100}00100\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_ad1cf473e852027022765272a32ff9c48}{IO\_SCK\_0}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00102}00102\ \ \ \ \ \textcolor{comment}{//Shift\ bit\ of\ Data\ from\ MSb\ to\ LSb}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00103}00103\ \ \ \ \ \textcolor{keywordflow}{for}(i=0;i<8;i++)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00104}00104\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(Data\&0x80)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a45cce7d695390de8e091cff3b3965a51}{IO\_SI\_1}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a7dc7f009aab5f63fdaedb24833a7e119}{IO\_SI\_0}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00109}00109\ \ \ \ \ \ \ \ \ Data<<=1;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00110}00110\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a04a78b6a943f3c549df9b2b070daefea}{IO\_SCK\_1}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00111}00111\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_ad1cf473e852027022765272a32ff9c48}{IO\_SCK\_0}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00112}00112\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00113}00113\ \ \ \ \ \textcolor{comment}{//Release\ SI}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00114}00114\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a45cce7d695390de8e091cff3b3965a51}{IO\_SI\_1}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00115}00115\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00117}00117\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00118}00118\ \textcolor{comment}{/*\ Function\ :\ ReadEE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00119}00119\ \textcolor{comment}{/*\ Summary\ \ :\ Bitデータ読込み\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00120}00120\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00121}00121\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00122}00122\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00123}00123\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00124}00124\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00125}\mbox{\hyperlink{eeprom__spi_8c_ac2d4f02c27f025b6d2e0a128529b4154}{00125}}\ \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ \mbox{\hyperlink{eeprom__spi_8c_ac2d4f02c27f025b6d2e0a128529b4154}{ReadEE}}()}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00126}00126\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00127}00127\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ i;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00128}00128\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ SO\_Temp;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00129}00129\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Data\_In=0;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00130}00130\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_ad1cf473e852027022765272a32ff9c48}{IO\_SCK\_0}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00131}00131\ \ \ \ \ \textcolor{comment}{//Receive\ data\ bit\ by\ bit}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00132}00132\ \ \ \ \ \textcolor{keywordflow}{for}(i=0;i<8;i++)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00133}00133\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00134}00134\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a04a78b6a943f3c549df9b2b070daefea}{IO\_SCK\_1}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{eeprom__spi_8c_a63643b86fa02d221acaad7887915ea3e}{IO\_SO}}==1)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ SO\_Temp=1;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ SO\_Temp=0;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00139}00139\ \ \ \ \ \ \ \ \ Data\_In=(Data\_In<<1)|SO\_Temp;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00140}00140\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_ad1cf473e852027022765272a32ff9c48}{IO\_SCK\_0}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00141}00141\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00142}00142\ \ \ \ \ \textcolor{keywordflow}{return}\ Data\_In;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00143}00143\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00145}00145\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00146}00146\ \textcolor{comment}{/*\ Function\ :\ PollingEE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00147}00147\ \textcolor{comment}{/*\ Summary\ \ :\ データ書込み時のポーリング\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00148}00148\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00149}00149\ \textcolor{comment}{/*\ Return\ \ \ :\ 1=正常　　0=異常\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00150}00150\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00151}00151\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00152}00152\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00153}\mbox{\hyperlink{eeprom__spi_8c_adc3dff88fc60044a4be62ed82ab375d9}{00153}}\ \mbox{\hyperlink{eeprom__spi_8c_ae4cc35dcc70810fa972cc8a5185a28fa}{BOOL}}\ \mbox{\hyperlink{eeprom__spi_8c_adc3dff88fc60044a4be62ed82ab375d9}{PollingEE}}()}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00154}00154\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00155}00155\ \ \ \ \ \textcolor{keywordtype}{short}\ i=\mbox{\hyperlink{eeprom__spi_8c_ad80d9a40ff581436f8cf44ea7ccb3a39}{POLLING\_NUM}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00156}00156\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Status\_Reg;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00157}00157\ \ \ \ \ \textcolor{keywordflow}{while}(i-\/-\/)\ \textcolor{comment}{//\ Check\ the\ maximum\ Write\ Cycle\ polling\ times}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00158}00158\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00159}00159\ \ \ \ \ \ \ \ \ Status\_Reg=\mbox{\hyperlink{eeprom__spi_8c_a610697bfb4fc8f67c43c183061f55a7b}{ReadSR}}();\ \textcolor{comment}{//Read\ EEPROM\ status\ register}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00160}00160\ \ \ \ \ \ \ \ \ Status\_Reg\&=0x01;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00161}00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(!Status\_Reg)\ \{\textcolor{comment}{//Polling\ RDY\ bit\ in\ status\ register}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{eeprom__spi_8c_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00163}00163\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00164}00164\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00165}00165\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a47e7ef6ad70da303c54a8cf579705ca4}{eep\_err}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00166}00166\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{eeprom__spi_8c_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00167}00167\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00169}00169\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00170}00170\ \textcolor{comment}{/*\ Function\ :\ SetWEN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00171}00171\ \textcolor{comment}{/*\ Summary\ \ :\ CMD\_WREN書込み\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00172}00172\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00173}00173\ \textcolor{comment}{/*\ Return\ \ \ :\ なし　　\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00174}00174\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00175}00175\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00176}00176\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00177}\mbox{\hyperlink{eeprom__spi_8c_acd4748d98bf62915949e720d0122be39}{00177}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_acd4748d98bf62915949e720d0122be39}{SetWEN}}()}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00178}00178\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00179}00179\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a72caf90d5f14093b9dc1102a1f84d6c9}{IO\_CS\_0}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00180}00180\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(\mbox{\hyperlink{eeprom__spi_8c_a233ab2b77759d1d35814743f08c96347}{CMD\_WREN}});}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00181}00181\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a8f8838e4e50f304139ec8ee10231ee7a}{IO\_CS\_1}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00182}00182\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00184}00184\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00185}00185\ \textcolor{comment}{/*\ Function\ :\ ClrWEN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00186}00186\ \textcolor{comment}{/*\ Summary\ \ :\ CMD\_WRDI書込み\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00187}00187\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00188}00188\ \textcolor{comment}{/*\ Return\ \ \ :\ なし　　\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00189}00189\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00190}00190\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00191}00191\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00192}\mbox{\hyperlink{eeprom__spi_8c_a10fe18e7bd16806bff749da3acf45de6}{00192}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a10fe18e7bd16806bff749da3acf45de6}{ClrWEN}}()}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00193}00193\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00194}00194\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a72caf90d5f14093b9dc1102a1f84d6c9}{IO\_CS\_0}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00195}00195\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(\mbox{\hyperlink{eeprom__spi_8c_aa98eb90657f02a0b7a4634174081799e}{CMD\_WRDI}});}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00196}00196\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a8f8838e4e50f304139ec8ee10231ee7a}{IO\_CS\_1}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00197}00197\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00199}00199\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00200}00200\ \textcolor{comment}{/*\ Function\ :\ ReadSR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00201}00201\ \textcolor{comment}{/*\ Summary\ \ :\ ステータスレジスタ読込み\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00202}00202\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00203}00203\ \textcolor{comment}{/*\ Return\ \ \ :\ なし　　\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00204}00204\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00205}00205\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00206}00206\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00207}\mbox{\hyperlink{eeprom__spi_8c_a610697bfb4fc8f67c43c183061f55a7b}{00207}}\ \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ \mbox{\hyperlink{eeprom__spi_8c_a610697bfb4fc8f67c43c183061f55a7b}{ReadSR}}()}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00208}00208\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00209}00209\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Status\_Reg;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00210}00210\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a72caf90d5f14093b9dc1102a1f84d6c9}{IO\_CS\_0}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00211}00211\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(\mbox{\hyperlink{eeprom__spi_8c_af36d3b85d64c03760c6b76e916b443c1}{CMD\_RDSR}});}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00212}00212\ \ \ \ \ Status\_Reg=\mbox{\hyperlink{eeprom__spi_8c_ac2d4f02c27f025b6d2e0a128529b4154}{ReadEE}}();}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00213}00213\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a8f8838e4e50f304139ec8ee10231ee7a}{IO\_CS\_1}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00214}00214\ \ \ \ \ \textcolor{keywordflow}{return}\ Status\_Reg;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00215}00215\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00217}00217\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00218}00218\ \textcolor{comment}{/*\ Function\ :\ WriteSR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00219}00219\ \textcolor{comment}{/*\ Summary\ \ :\ ステータスレジスタ書込み\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00220}00220\ \textcolor{comment}{/*\ Argument\ :\ Data\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00221}00221\ \textcolor{comment}{/*\ Return\ \ \ :\ なし　　\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00222}00222\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00223}00223\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00224}00224\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00225}\mbox{\hyperlink{eeprom__spi_8c_a4a9f022e17d68925901f05b2ac1722bb}{00225}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a4a9f022e17d68925901f05b2ac1722bb}{WriteSR}}(\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Data)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00226}00226\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00227}00227\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a72caf90d5f14093b9dc1102a1f84d6c9}{IO\_CS\_0}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00228}00228\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(\mbox{\hyperlink{eeprom__spi_8c_acf9ec38b37caa1223e957bba6058f626}{CMD\_WRSR}});}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00229}00229\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(Data);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00230}00230\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a8f8838e4e50f304139ec8ee10231ee7a}{IO\_CS\_1}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00231}00231\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00233}00233\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00234}00234\ \textcolor{comment}{/*\ Function\ :\ Write\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00235}00235\ \textcolor{comment}{/*\ Summary\ \ :\ 書込み処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00236}00236\ \textcolor{comment}{/*\ Argument\ :\ Address,\ \ *Pdata,\ Length\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00237}00237\ \textcolor{comment}{/*\ Return\ \ \ :\ なし　　\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00238}00238\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00239}00239\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00240}00240\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00241}\mbox{\hyperlink{eeprom__spi_8c_ab50c9fa8d035686482642e64312903cf}{00241}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_ab50c9fa8d035686482642e64312903cf}{Write}}(\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}}\ Address,\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ *Pdata,\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Length)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00242}00242\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00243}00243\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a72caf90d5f14093b9dc1102a1f84d6c9}{IO\_CS\_0}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00244}00244\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(\mbox{\hyperlink{eeprom__spi_8c_a7391deb9c3a262ded3e186e94eb884e2}{CMD\_WRITE}});\ \textcolor{comment}{//Send\ write\ instruction}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00245}00245\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(Address\ >>\ 8);\ \textcolor{comment}{//Send\ MSB\ of\ address}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00246}00246\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(Address\ \&\ 0xff);\ \textcolor{comment}{//Send\ LSB\ of\ address}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00247}00247\ \ \ \ \ \textcolor{keywordflow}{while}(Length-\/-\/)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00248}00248\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00249}00249\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(*Pdata);\ \textcolor{comment}{//Send\ data}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00250}00250\ \ \ \ \ \ \ \ \ Pdata++;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00251}00251\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00252}00252\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a8f8838e4e50f304139ec8ee10231ee7a}{IO\_CS\_1}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00253}00253\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00255}00255\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00256}00256\ \textcolor{comment}{/*\ Function\ :\ Read\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00257}00257\ \textcolor{comment}{/*\ Summary\ \ :\ 読込み処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00258}00258\ \textcolor{comment}{/*\ Argument\ :\ Address,\ \ *Pdata,\ Length\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00259}00259\ \textcolor{comment}{/*\ Return\ \ \ :\ なし　　\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00260}00260\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00261}00261\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00262}00262\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00263}\mbox{\hyperlink{eeprom__spi_8c_a135104f5cba8d8add4f48d38fa10d991}{00263}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a135104f5cba8d8add4f48d38fa10d991}{Read}}(\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}}\ Address,\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ *Pdata,\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Length)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00264}00264\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00265}00265\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a72caf90d5f14093b9dc1102a1f84d6c9}{IO\_CS\_0}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00266}00266\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(\mbox{\hyperlink{eeprom__spi_8c_a9c953a6c538020e644127ee080608021}{CMD\_READ}});\ \textcolor{comment}{//Send\ read\ instruction}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00267}00267\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(Address\ >>\ 8);\ \textcolor{comment}{//Send\ MSB\ of\ address}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00268}00268\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{WriteEE}}(Address\ \&\ 0xff);\ \textcolor{comment}{//Send\ LSB\ of\ address}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00269}00269\ \ \ \ \ \textcolor{keywordflow}{while}(Length-\/-\/)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00270}00270\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00271}00271\ \ \ \ \ \ \ \ \ *Pdata=\mbox{\hyperlink{eeprom__spi_8c_ac2d4f02c27f025b6d2e0a128529b4154}{ReadEE}}();\ \textcolor{comment}{//Read\ data}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00272}00272\ \ \ \ \ \ \ \ \ Pdata++;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00273}00273\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00274}00274\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a8f8838e4e50f304139ec8ee10231ee7a}{IO\_CS\_1}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00275}00275\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00277}00277\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00278}00278\ \textcolor{comment}{/*\ Function\ :\ eep\_read\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00279}00279\ \textcolor{comment}{/*\ Summary\ \ :\ 読込み処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00280}00280\ \textcolor{comment}{/*\ Argument\ :\ rom\_addr\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00281}00281\ \textcolor{comment}{/*\ Return\ \ \ :\ EEPROMアドレス読込みデータ　\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00282}00282\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00283}00283\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00284}00284\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00285}\mbox{\hyperlink{eeprom__spi_8c_a0633d5554b624df958bd6833407218c2}{00285}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{eeprom__spi_8c_a0633d5554b624df958bd6833407218c2}{eep\_read}}(\textcolor{keywordtype}{short}\ rom\_addr)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00286}00286\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00287}00287\ \ \ \ \ \textcolor{keywordtype}{short}\ data=0xffff;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00288}00288\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a135104f5cba8d8add4f48d38fa10d991}{Read}}(rom\_addr*2,(\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}*)\&data,2);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00289}00289\ \ \ \ \ \textcolor{keywordflow}{return}\ data;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00290}00290\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00292}00292\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00293}00293\ \textcolor{comment}{/*\ Function\ :\ eep\_write\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00294}00294\ \textcolor{comment}{/*\ Summary\ \ :\ 書込み処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00295}00295\ \textcolor{comment}{/*\ Argument\ :\ rom\_addr,\ \ data\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00296}00296\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00297}00297\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00298}00298\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00299}00299\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00300}\mbox{\hyperlink{eeprom__spi_8c_a0a03c6be0d7b62acad7d9b7ffcb9ccf1}{00300}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a0a03c6be0d7b62acad7d9b7ffcb9ccf1}{eep\_write}}(\textcolor{keywordtype}{short}\ rom\_addr,\textcolor{keywordtype}{short}\ data)}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00301}00301\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00302}00302\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_acd4748d98bf62915949e720d0122be39}{SetWEN}}();}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00303}00303\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_ab50c9fa8d035686482642e64312903cf}{Write}}(rom\_addr*2,(\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}*)\&data,2);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00304}00304\ \textcolor{comment}{//\ \ ClrWEN();}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00305}00305\ \ \ \ \ \textcolor{keywordflow}{while}(!\mbox{\hyperlink{eeprom__spi_8c_adc3dff88fc60044a4be62ed82ab375d9}{PollingEE}}());}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00306}00306\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00307}00307\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00308}00308\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00309}00309\ \textcolor{comment}{/*\ Function\ :\ eep\_sv\_read\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00310}00310\ \textcolor{comment}{/*\ Summary\ \ :\ CH読込み処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00311}00311\ \textcolor{comment}{/*\ Argument\ :\ pch\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00312}00312\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00313}00313\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00314}00314\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00315}00315\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00316}\mbox{\hyperlink{eeprom__spi_8c_abec4963a7f5cb405784810bc86c09027}{00316}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_abec4963a7f5cb405784810bc86c09027}{eep\_sv\_read}}(\textcolor{keywordtype}{short}\ pch)\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00318}00318\ \ \ \ \ \textcolor{keywordtype}{short}\ i;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00319}00319\ \ \ \ \ \textcolor{keywordtype}{short}\ *sv\_add;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00320}00320\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00321}00321\ \ \ \ \ \textcolor{keywordflow}{if}(pch\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00322}00322\ \ \ \ \ sv\_add\ =\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[pch].\mbox{\hyperlink{structst_s_v_d_a9d2401fcddc6eee14f1ea1e3c01d619e}{max\_flow}};\ \textcolor{comment}{/*設定値、先頭アドレス*/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00323}00323\ \ \ \ \ \textcolor{keywordflow}{for}\ (\ i=0;\ i<\mbox{\hyperlink{define_8h_adcd58470216ac93459f24f6de3c99cce}{SV\_NUM}}\ ;i++)\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00324}00324\ \ \ \ \ \ \ \ \ *sv\_add\ =\ \mbox{\hyperlink{eeprom__spi_8c_a0633d5554b624df958bd6833407218c2}{eep\_read}}(i+\mbox{\hyperlink{define_8h_aea8e3c961780303763257c72e00d7af8}{SIZEOFMODBUSADDR}}*pch);\ \textcolor{comment}{/*read\ data*/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00325}00325\ \ \ \ \ \ \ \ \ sv\_add++;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00326}00326\ \ \ \ \ \}\ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00327}00327\ \}\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00328}00328\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00329}00329\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00330}00330\ \textcolor{comment}{/*\ Function\ :\ eep\_sv\_write\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00331}00331\ \textcolor{comment}{/*\ Summary\ \ :\ CH書込み処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00332}00332\ \textcolor{comment}{/*\ Argument\ :\ pch\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00333}00333\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00334}00334\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00335}00335\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00336}00336\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00337}\mbox{\hyperlink{eeprom__spi_8c_add8fe67b28109b71dd00af2a6266c20a}{00337}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_add8fe67b28109b71dd00af2a6266c20a}{eep\_sv\_write}}(\textcolor{keywordtype}{short}\ pch)\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00338}00338\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00339}00339\ \ \ \ \ \textcolor{keywordtype}{short}\ i;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00340}00340\ \ \ \ \ \textcolor{keywordtype}{short}\ *sv\_add;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00341}00341\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00342}00342\ \ \ \ \ \textcolor{keywordflow}{if}(pch\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00343}00343\ \ \ \ \ sv\_add\ =\ \&\mbox{\hyperlink{eeprom__spi_8c_aa4049d8f58dfab577b7c6d03b579717d}{SVD\_default}}.\mbox{\hyperlink{structst_s_v_d_a9d2401fcddc6eee14f1ea1e3c01d619e}{max\_flow}};\ \ \textcolor{comment}{/*デフォルト値、先頭アドレス*/}\ \ \ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00344}00344\ \ \ \ \ \textcolor{keywordflow}{for}\ (\ i=0;\ i<\mbox{\hyperlink{define_8h_adcd58470216ac93459f24f6de3c99cce}{SV\_NUM}}\ ;i++)\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00345}00345\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a0a03c6be0d7b62acad7d9b7ffcb9ccf1}{eep\_write}}(i+\mbox{\hyperlink{define_8h_aea8e3c961780303763257c72e00d7af8}{SIZEOFMODBUSADDR}}*pch,(\textcolor{keywordtype}{short})(*sv\_add));\ \ \ \ \textcolor{comment}{/*write\ data*/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00346}00346\ \ \ \ \ \ \ \ \ sv\_add++;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00347}00347\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00348}00348\ \}\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00349}00349\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00350}00350\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00351}00351\ \textcolor{comment}{/*\ Function\ :\ eep\_write\_ch\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00352}00352\ \textcolor{comment}{/*\ Summary\ \ :\ CH書込み処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00353}00353\ \textcolor{comment}{/*\ Argument\ :\ pch,\ rom\_addr,\ data\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00354}00354\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00355}00355\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00356}00356\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00357}00357\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00358}\mbox{\hyperlink{eeprom__spi_8c_a8e327391853cdb0cb6fe7e325d7e2a3a}{00358}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a8e327391853cdb0cb6fe7e325d7e2a3a}{eep\_write\_ch}}(\textcolor{keywordtype}{short}\ pch,\ \textcolor{keywordtype}{short}\ rom\_addr,\textcolor{keywordtype}{short}\ data)\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00359}00359\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00360}00360\ \ \ \ \ \textcolor{comment}{//ch分のオフセットをつける}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00361}00361\ \ \ \ \ \textcolor{keywordflow}{if}(pch\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00362}00362\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00363}00363\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a0a03c6be0d7b62acad7d9b7ffcb9ccf1}{eep\_write}}(rom\_addr\ +\ \mbox{\hyperlink{define_8h_aea8e3c961780303763257c72e00d7af8}{SIZEOFMODBUSADDR}}\ *\ pch,\ data);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00364}00364\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00365}00365\ \ \ \ \ \textcolor{comment}{/*SPI通信エラーチェック*/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00366}00366\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{eeprom__spi_8c_aa1c4260f0eb9a1def3a037203c09baab}{eep\_spi\_error}}()\ !=\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00367}00367\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[pch].\mbox{\hyperlink{structst_m_e_s_a71ac9b4009b8ae5bc8d12a7d8edd57d2}{err\_status}}\ |=\ \mbox{\hyperlink{define_8h_a1c7d3239a90f8424dfe11576b127375b}{ERR\_JUDGE\_EEPROM}};\ \ \ \ \ \ \ \textcolor{comment}{/*EEPROMエラーセット*/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00368}00368\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00369}00369\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[pch].\mbox{\hyperlink{structst_m_e_s_a71ac9b4009b8ae5bc8d12a7d8edd57d2}{err\_status}}\ \&=\ \string~ERR\_JUDGE\_EEPROM;\ \ \ \ \ \ \textcolor{comment}{/*EEPROMエラーリセット*/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00370}00370\ \ \ \ \ \}\ \ \ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00371}00371\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00372}00372\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00373}00373\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00374}00374\ \textcolor{comment}{/*\ Function\ :\ eep\_spi\_error\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00375}00375\ \textcolor{comment}{/*\ Summary\ \ :\ SPI通信エラー検出\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00376}00376\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00377}00377\ \textcolor{comment}{/*\ Return\ \ \ :\ エラーステータス\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00378}00378\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00379}00379\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00380}00380\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00381}\mbox{\hyperlink{eeprom__spi_8c_aa1c4260f0eb9a1def3a037203c09baab}{00381}}\ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_aa1c4260f0eb9a1def3a037203c09baab}{eep\_spi\_error}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00382}00382\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00383}00383\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ sts;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00384}00384\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00385}00385\ \ \ \ \ sts\ =\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00386}00386\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00387}00387\ \ \ \ \ \textcolor{keywordflow}{return}\ (sts);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00388}00388\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00389}00389\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00390}\mbox{\hyperlink{eeprom__spi_8c_ac34f125fd3cbc51cec41262541c515fd}{00390}}\ \textcolor{preprocessor}{\#define\ EEP\_DEBUG\ \ \ (1)}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00391}00391\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00392}00392\ \textcolor{comment}{//\ EEPROM書き込みデータ用Queue}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00393}00393\ \textcolor{comment}{//\ EEPROMの書き込みに時間がかかるため、一旦Queueに情報を貯めておき}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00394}00394\ \textcolor{comment}{//\ 空き時間に書き込み処理を行う}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00395}00395\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00396}\mbox{\hyperlink{eeprom__spi_8c_a142810068f1b99cd93d3fc9f0e160e02}{00396}}\ \textcolor{preprocessor}{\#define\ QUEUE\_SIZE\ \ \ \ \ \ \ \ \ \ (1536)}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00397}\mbox{\hyperlink{eeprom__spi_8c_ae0e1d96743c06ea6d109541eacff9d66}{00397}}\ \textcolor{preprocessor}{\#define\ EEP\_WRITE\_TIMEOUT\ \ \ (500)}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00398}\mbox{\hyperlink{eeprom__spi_8c_a643bc7179b11873f2ad5ad2c8175bc78}{00398}}\ \textcolor{preprocessor}{\#define\ ENABLE\_QUEUE\_SIZE\ \ \ (300)}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00399}00399\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00400}\mbox{\hyperlink{struct_e_e_p___q_u_e_u_e}{00400}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00401}\mbox{\hyperlink{struct_e_e_p___q_u_e_u_e_a150997dc6faa379d446d99b08f6ae277}{00401}}\ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{struct_e_e_p___q_u_e_u_e_a150997dc6faa379d446d99b08f6ae277}{adr}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00402}\mbox{\hyperlink{struct_e_e_p___q_u_e_u_e_a465f94875c0e64d3e7207b27ec1e1502}{00402}}\ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{struct_e_e_p___q_u_e_u_e_a465f94875c0e64d3e7207b27ec1e1502}{dat}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00403}00403\ \}\ \mbox{\hyperlink{struct_e_e_p___q_u_e_u_e}{EEP\_QUEUE}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00404}00404\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00405}\mbox{\hyperlink{eeprom__spi_8c_afd1248a09bebb72231539d056eedda92}{00405}}\ \mbox{\hyperlink{struct_e_e_p___q_u_e_u_e}{EEP\_QUEUE}}\ \mbox{\hyperlink{eeprom__spi_8c_afd1248a09bebb72231539d056eedda92}{eep\_queue}}[\mbox{\hyperlink{eeprom__spi_8c_a142810068f1b99cd93d3fc9f0e160e02}{QUEUE\_SIZE}}];}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00406}\mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{00406}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\_rptr}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00407}\mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{00407}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\_wptr}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00408}\mbox{\hyperlink{eeprom__spi_8c_afee8e42a9cadd8d32d289ffa3287dfaf}{00408}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{eeprom__spi_8c_afee8e42a9cadd8d32d289ffa3287dfaf}{eep\_empty}}\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00409}00409\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00410}00410\ \textcolor{preprocessor}{\#if\ EEP\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00411}\mbox{\hyperlink{eeprom__spi_8c_a3db0bf8d88a005a7e05950b0df60f296}{00411}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{eeprom__spi_8c_a3db0bf8d88a005a7e05950b0df60f296}{eep\_size}}\ =\ 0;\ \ \ \ \ \textcolor{comment}{//\ デバッグ（モニタ）用}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00412}\mbox{\hyperlink{eeprom__spi_8c_ae589485b2fa5f8526c4a448732c4c279}{00412}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{eeprom__spi_8c_ae589485b2fa5f8526c4a448732c4c279}{eep\_size\_max}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00413}00413\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00414}00414\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00415}00415\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00416}00416\ \textcolor{comment}{/*\ Function\ :\ put\_queue\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00417}00417\ \textcolor{comment}{/*\ Summary\ \ :\ EEPROに書込むデータをQueueに追加する\ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00418}00418\ \textcolor{comment}{/*\ Argument\ :\ addr,\ \ data\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00419}00419\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00420}00420\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00421}00421\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00422}00422\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00423}\mbox{\hyperlink{eeprom__spi_8c_ad192952f7a9b56edc9c019378e4c9d03}{00423}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_ad192952f7a9b56edc9c019378e4c9d03}{put\_queue}}(\textcolor{keywordtype}{short}\ addr,\ \textcolor{keywordtype}{short}\ data)\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00424}00424\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00425}00425\ \textcolor{preprocessor}{\#if\ EEP\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00426}00426\ \textcolor{keywordflow}{if}((\mbox{\hyperlink{eeprom__spi_8c_afee8e42a9cadd8d32d289ffa3287dfaf}{eep\_empty}}\ ==\ 0)\ \&\&\ (\mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\_wptr}}\ ==\ \mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\_rptr}}))\ \textcolor{keywordflow}{for}(;;);\ \ \ \ \ \ \ \ \textcolor{comment}{//\ fullの時には追加できない}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00427}00427\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00428}00428\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00429}00429\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_afd1248a09bebb72231539d056eedda92}{eep\_queue}}[\mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\_wptr}}].\mbox{\hyperlink{struct_e_e_p___q_u_e_u_e_a150997dc6faa379d446d99b08f6ae277}{adr}}\ =\ addr;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00430}00430\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_afd1248a09bebb72231539d056eedda92}{eep\_queue}}[\mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\_wptr}}].\mbox{\hyperlink{struct_e_e_p___q_u_e_u_e_a465f94875c0e64d3e7207b27ec1e1502}{dat}}\ =\ data;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00431}00431\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\_wptr}}++;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00432}00432\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\_wptr}}\ ==\ \mbox{\hyperlink{eeprom__spi_8c_a142810068f1b99cd93d3fc9f0e160e02}{QUEUE\_SIZE}})\ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\_wptr}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00433}00433\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_afee8e42a9cadd8d32d289ffa3287dfaf}{eep\_empty}}\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 追加したら、emptyではない}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00434}00434\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00435}00435\ \textcolor{preprocessor}{\#if\ EEP\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00436}00436\ \mbox{\hyperlink{eeprom__spi_8c_a3db0bf8d88a005a7e05950b0df60f296}{eep\_size}}++;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00437}00437\ \textcolor{keywordflow}{if}(\mbox{\hyperlink{eeprom__spi_8c_a3db0bf8d88a005a7e05950b0df60f296}{eep\_size}}\ >\ \mbox{\hyperlink{eeprom__spi_8c_ae589485b2fa5f8526c4a448732c4c279}{eep\_size\_max}})\ \mbox{\hyperlink{eeprom__spi_8c_ae589485b2fa5f8526c4a448732c4c279}{eep\_size\_max}}\ =\ \mbox{\hyperlink{eeprom__spi_8c_a3db0bf8d88a005a7e05950b0df60f296}{eep\_size}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00438}00438\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00439}00439\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00440}00440\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00441}00441\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00442}00442\ \textcolor{comment}{/*\ Function\ :\ get\_queue\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00443}00443\ \textcolor{comment}{/*\ Summary\ \ :\ QueueからEEPROに書込むデータを取得する\ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00444}00444\ \textcolor{comment}{/*\ Argument\ :\ addr,\ \ data\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00445}00445\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00446}00446\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00447}00447\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00448}00448\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00449}\mbox{\hyperlink{eeprom__spi_8c_a7a31732e9f1d42cda3d9e951754c62e4}{00449}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a7a31732e9f1d42cda3d9e951754c62e4}{get\_queue}}(\textcolor{keywordtype}{short}\ *addr,\ \textcolor{keywordtype}{short}\ *data)\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00450}00450\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00451}00451\ \textcolor{preprocessor}{\#if\ EEP\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00452}00452\ \textcolor{keywordflow}{if}(\mbox{\hyperlink{eeprom__spi_8c_afee8e42a9cadd8d32d289ffa3287dfaf}{eep\_empty}})\ \textcolor{keywordflow}{for}(;;);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ eep\_emptyの時には読み出せない}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00453}00453\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00454}00454\ \ \ \ \ *addr\ =\ \mbox{\hyperlink{eeprom__spi_8c_afd1248a09bebb72231539d056eedda92}{eep\_queue}}[\mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\_rptr}}].\mbox{\hyperlink{struct_e_e_p___q_u_e_u_e_a150997dc6faa379d446d99b08f6ae277}{adr}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00455}00455\ \ \ \ \ *data\ =\ \mbox{\hyperlink{eeprom__spi_8c_afd1248a09bebb72231539d056eedda92}{eep\_queue}}[\mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\_rptr}}].\mbox{\hyperlink{struct_e_e_p___q_u_e_u_e_a465f94875c0e64d3e7207b27ec1e1502}{dat}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00456}00456\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\_rptr}}++;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00457}00457\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\_rptr}}\ ==\ \mbox{\hyperlink{eeprom__spi_8c_a142810068f1b99cd93d3fc9f0e160e02}{QUEUE\_SIZE}})\ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\_rptr}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00458}00458\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\_rptr}}\ ==\ \mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\_wptr}})\ \mbox{\hyperlink{eeprom__spi_8c_afee8e42a9cadd8d32d289ffa3287dfaf}{eep\_empty}}\ =\ 1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 読み出した時、ptrが同じになればempty}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00459}00459\ \ \ \ \ \textcolor{keywordflow}{else}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_afee8e42a9cadd8d32d289ffa3287dfaf}{eep\_empty}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00460}00460\ \textcolor{preprocessor}{\#if\ EEP\_DEBUG}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00461}00461\ \mbox{\hyperlink{eeprom__spi_8c_a3db0bf8d88a005a7e05950b0df60f296}{eep\_size}}-\/-\/;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00462}00462\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00463}00463\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00464}00464\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00465}00465\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00466}00466\ \textcolor{comment}{/*\ Function\ :\ check\_queue\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00467}00467\ \textcolor{comment}{/*\ Summary\ \ :\ Queue取得可能か確認する\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00468}00468\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00469}00469\ \textcolor{comment}{/*\ Return\ \ \ :\ 0=可能,\ \ -\/1=不可能\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00470}00470\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00471}00471\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00472}00472\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00473}\mbox{\hyperlink{eeprom__spi_8c_abe4270da19df501a4ea5ad6989590443}{00473}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{eeprom__spi_8c_abe4270da19df501a4ea5ad6989590443}{check\_queue}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00474}00474\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00475}00475\ \ \textcolor{keywordtype}{short}\ ret;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00476}00476\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00477}00477\ \ ret\ =\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00478}00478\ \ \ \ \ \textcolor{keywordflow}{if}(((\mbox{\hyperlink{eeprom__spi_8c_a142810068f1b99cd93d3fc9f0e160e02}{QUEUE\_SIZE}}\ -\/\ \mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\_wptr}})\ +\ \mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\_rptr}})\ <=\ \mbox{\hyperlink{eeprom__spi_8c_a643bc7179b11873f2ad5ad2c8175bc78}{ENABLE\_QUEUE\_SIZE}})\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00479}00479\ \ \ \ \ \ \ \ \ ret\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00480}00480\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00481}00481\ \ \ \ \ \textcolor{keywordflow}{if}((\mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\_rptr}}\ >\ \mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\_wptr}})\ \&\&\ ((\mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\_rptr}}\ -\/\ \mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\_wptr}})\ <=\ \mbox{\hyperlink{eeprom__spi_8c_a643bc7179b11873f2ad5ad2c8175bc78}{ENABLE\_QUEUE\_SIZE}}))\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00482}00482\ \ \ \ \ \ \ \ \ ret\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00483}00483\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00484}00484\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00485}00485\ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00486}00486\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00487}00487\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00488}00488\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00489}00489\ \textcolor{comment}{/*\ Function\ :\ eep\_write\_ch\_delay\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00490}00490\ \textcolor{comment}{/*\ Summary\ \ :\ EEPROMに空き時間に書き込む\ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00491}00491\ \textcolor{comment}{/*\ Argument\ :\ pch,\ \ rom\_addr,\ \ data\ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00492}00492\ \textcolor{comment}{/*\ Return\ \ \ :\ なし　\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00493}00493\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00494}00494\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00495}00495\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00496}\mbox{\hyperlink{eeprom__spi_8c_ac19649cfb54b660f2683469e10f6dedd}{00496}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_ac19649cfb54b660f2683469e10f6dedd}{eep\_write\_ch\_delay}}\ (\textcolor{keywordtype}{short}\ pch,\ \textcolor{keywordtype}{short}\ rom\_addr,\ \textcolor{keywordtype}{short}\ data)\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00497}00497\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00498}00498\ \ \ \ \ \textcolor{keywordflow}{if}(pch\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00499}00499\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{eeprom__spi_8c_abe4270da19df501a4ea5ad6989590443}{check\_queue}}()\ !=\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//EEPROM書込み用Queueが取得可能か確認する}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00500}00500\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//登録不可}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00501}00501\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00502}00502\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00503}00503\ \ \ \ \ \textcolor{comment}{//ch分のオフセットをつける}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00504}00504\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_ad192952f7a9b56edc9c019378e4c9d03}{put\_queue}}(rom\_addr\ +\ \mbox{\hyperlink{define_8h_aea8e3c961780303763257c72e00d7af8}{SIZEOFMODBUSADDR}}\ *\ pch,\ data);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00505}00505\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00506}00506\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00507}\mbox{\hyperlink{eeprom__spi_8c_a869b7244a69f168b1ac48433fba04331}{00507}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{eeprom__spi_8c_a869b7244a69f168b1ac48433fba04331}{eep\_write\_retry}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00508}00508\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00509}00509\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00510}00510\ \textcolor{comment}{/*\ Function\ :\ eep\_write\_pending\_data\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00511}00511\ \textcolor{comment}{/*\ Summary\ \ :\ queueが空で無くて、EEPROMが書き込み中でなければ、\ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00512}00512\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ :\ EEPROMにデータを書き込む\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00513}00513\ \textcolor{comment}{/*\ Argument\ :\ pch,\ \ rom\_addr,\ \ data\ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00514}00514\ \textcolor{comment}{/*\ Return\ \ \ :\ なし　\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00515}00515\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00516}00516\ \textcolor{comment}{/*\ notes\ \ \ \ :\ main()の空き時間に呼ばれる\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00517}00517\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00518}\mbox{\hyperlink{eeprom__spi_8c_a781f4882d510f7a1b025490dba3ea133}{00518}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{eeprom__spi_8c_a781f4882d510f7a1b025490dba3ea133}{eep\_write\_pending\_data}}()\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00519}00519\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}\ Status\_Reg;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00520}00520\ \ \ \ \ \textcolor{keywordtype}{short}\ rom\_addr,\ data,\ ch;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00521}00521\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00522}00522\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{eeprom__spi_8c_afee8e42a9cadd8d32d289ffa3287dfaf}{eep\_empty}})\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Queueが空の場合}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00523}00523\ \ \ \textcolor{keywordflow}{for}(ch\ =\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};\ ch\ <\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}};\ ch++)\{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00524}00524\ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{def_m_a_i_n_8c_a6fbaabd4a83fe206713aaa04b6b0fa0c}{MAIN}}[ch].com\_act\_status\ ==\ \mbox{\hyperlink{define_8h_afb112a6c1982fa8add895fb54afb07d1}{ACT\_STS\_WRITE}})\{\ \ \textcolor{comment}{//動作ステータスが設定書込み中の場合}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00525}00525\ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a0d3e474dd65491bd74450ca952e8152d}{action\_status\_control}}(ch,\mbox{\hyperlink{define_8h_af86cba5d004db01ada13e7c866563096}{ACT\_STS\_NORMAL}});\ \ \ \ \ \textcolor{comment}{//動作ステータスを通常にする}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00526}00526\ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00527}00527\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00528}00528\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00529}00529\ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00530}00530\ }
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00531}00531\ \ \ \ \ Status\_Reg\ =\ \mbox{\hyperlink{eeprom__spi_8c_a610697bfb4fc8f67c43c183061f55a7b}{ReadSR}}();}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00532}00532\ \ \ \ \ \textcolor{keywordflow}{if}(Status\_Reg\ \&\ 0x01)\ \{\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Write\ In\ Progress}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00533}00533\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{eeprom__spi_8c_a869b7244a69f168b1ac48433fba04331}{eep\_write\_retry}}\ >\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a869b7244a69f168b1ac48433fba04331}{eep\_write\_retry}}-\/-\/;}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{eeprom__spi_8c_a869b7244a69f168b1ac48433fba04331}{eep\_write\_retry}}\ ==\ 0)\ \mbox{\hyperlink{eeprom__spi_8c_a47e7ef6ad70da303c54a8cf579705ca4}{eep\_err}}\ =\ 1;\ \ \ \ \ \textcolor{comment}{//\ EEP\_WRITE\_TIMEOUT回\ WIPが続けばタイムアウト}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00536}00536\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00537}00537\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00538}00538\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ not\ Write\ In\ Progress}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00539}00539\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a7a31732e9f1d42cda3d9e951754c62e4}{get\_queue}}(\&rom\_addr,\ \&data);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00540}00540\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_acd4748d98bf62915949e720d0122be39}{SetWEN}}();}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00541}00541\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_ab50c9fa8d035686482642e64312903cf}{Write}}(rom\_addr*2,(\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}*)\&data,2);}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00542}00542\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{eeprom__spi_8c_a869b7244a69f168b1ac48433fba04331}{eep\_write\_retry}}\ =\ \mbox{\hyperlink{eeprom__spi_8c_ae0e1d96743c06ea6d109541eacff9d66}{EEP\_WRITE\_TIMEOUT}};}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00543}00543\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00544}00544\ \}}
+\DoxyCodeLine{\Hypertarget{eeprom__spi_8c_source_l00545}00545\ }
+
+\end{DoxyCode}

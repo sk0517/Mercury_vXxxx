@@ -1,0 +1,707 @@
+\doxysection{SV\+\_\+def.\+h}
+\hypertarget{_s_v__def_8h_source}{}\label{_s_v__def_8h_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/SV\_def.h@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/SV\_def.h}}
+\mbox{\hyperlink{_s_v__def_8h}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00001}00001\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00002}00002\ \textcolor{comment}{/*\ File\ Name\ :\ SV\_def.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00003}00003\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ パラメータの定義\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00004}00004\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00006}00006\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ reserved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{define_8h}{define.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00012}00012\ \textcolor{comment}{/************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00013}00013\ \textcolor{comment}{/*\ \ パラメータの定義\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00014}00014\ \textcolor{comment}{/*\ \ ※パラメータ初期値(SV\_def.c)と合わせること\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00015}00015\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00016}00016\ \textcolor{comment}{/*\ \ ※パラメータ追加時は\ util.c内のutil\_eep\_allwrite()\ に追記する*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00017}00017\ \textcolor{comment}{/************************************************************/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00018}\mbox{\hyperlink{structst_s_v_d}{00018}}\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00019}00019\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00020}00020\ \textcolor{comment}{\ \ \ \ /***\ \ \ ユーザパラメータ\ \ \ ***/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00021}00021\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00022}\mbox{\hyperlink{structst_s_v_d_a9d2401fcddc6eee14f1ea1e3c01d619e}{00022}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a9d2401fcddc6eee14f1ea1e3c01d619e}{max\_flow}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*フルスケール*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00023}\mbox{\hyperlink{structst_s_v_d_a58253a3ea76d8d71306b5cc994b99a6e}{00023}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a58253a3ea76d8d71306b5cc994b99a6e}{unit}};\ \ \ \ \textcolor{comment}{/*フルスケール小数点位置、単位*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}\ \ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00024}\mbox{\hyperlink{structst_s_v_d_a36b8656d9c42df57011de522ac8ddd04}{00024}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a36b8656d9c42df57011de522ac8ddd04}{sensor\_size}};\ \ \ \ \ \ \ \textcolor{comment}{/*センサ種別*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00025}\mbox{\hyperlink{structst_s_v_d_a0f34c1111a0f8227a8905582fd05202c}{00025}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a0f34c1111a0f8227a8905582fd05202c}{k\_factor}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Kファクタ*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00026}\mbox{\hyperlink{structst_s_v_d_ab86089923355db26304d215d8aeb9461}{00026}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ab86089923355db26304d215d8aeb9461}{damp}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*ダンピング*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00027}\mbox{\hyperlink{structst_s_v_d_aa6d8541f12b60e9e2594e4fe360f6753}{00027}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aa6d8541f12b60e9e2594e4fe360f6753}{low\_cut}};\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*ローカットOFF*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00028}\mbox{\hyperlink{structst_s_v_d_aae1525894c7260d6ac26f3de72e55be5}{00028}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aae1525894c7260d6ac26f3de72e55be5}{burnout}};\ \ \textcolor{comment}{/*バーンアウト*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00029}\mbox{\hyperlink{structst_s_v_d_a1bed26de2229c6254e346f40cd21a988}{00029}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a1bed26de2229c6254e346f40cd21a988}{burnout\_value}};\ \ \ \ \ \textcolor{comment}{/*バーンアウト入力値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00030}\mbox{\hyperlink{structst_s_v_d_acb8ebbc8b81a306c5c4d010c92d6027d}{00030}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{structst_s_v_d_acb8ebbc8b81a306c5c4d010c92d6027d}{viscos}};\ \ \ \ \ \ \ \ \textcolor{comment}{/*動粘度*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00031}\mbox{\hyperlink{structst_s_v_d_a17f9b244f6d50082032adbf0479869a9}{00031}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a17f9b244f6d50082032adbf0479869a9}{viscos\_auto}};\ \ \ \textcolor{comment}{/*動粘度固定/測定*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00032}\mbox{\hyperlink{structst_s_v_d_a698992a70da8324c4611c9594102268e}{00032}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a698992a70da8324c4611c9594102268e}{err\_hold\_time}};\ \ \ \ \ \ \textcolor{comment}{/*エラーホールドタイム*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00033}\mbox{\hyperlink{structst_s_v_d_acf7a5e6618e6b87b2c2c659eb3379e56}{00033}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_acf7a5e6618e6b87b2c2c659eb3379e56}{reverse\_time}};\ \ \ \ \ \ \textcolor{comment}{/*逆流判定時間*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00034}\mbox{\hyperlink{structst_s_v_d_a68a75d1f8de3bedd73425320c590d82a}{00034}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{structst_s_v_d_a68a75d1f8de3bedd73425320c590d82a}{reverse\_level}};\ \textcolor{comment}{/*逆流判定閾値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00035}\mbox{\hyperlink{structst_s_v_d_a5342a5872dd0bb330a2e231ee134de74}{00035}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ reserve\_01[64];\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*予約[64]*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00037}00037\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00038}00038\ \textcolor{comment}{\ \ \ \ /***\ \ \ メーカパラメータ\ \ \ \ ***/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00039}00039\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00040}\mbox{\hyperlink{structst_s_v_d_a8a4b380d350966a15a64163612e5b623}{00040}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a8a4b380d350966a15a64163612e5b623}{drive\_freq}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*駆動周波数*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00041}\mbox{\hyperlink{structst_s_v_d_a092f4df09c6bc2035fc224b1cb9f9fd1}{00041}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a092f4df09c6bc2035fc224b1cb9f9fd1}{drive\_pls}};\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*ドライブパルス数*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00042}\mbox{\hyperlink{structst_s_v_d_af4509e81845019b29d075294dddf6f37}{00042}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{structst_s_v_d_af4509e81845019b29d075294dddf6f37}{search\_sw}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*相関値サーチ機能*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00043}\mbox{\hyperlink{structst_s_v_d_a7201cf0672267158febc4a5912c8bf6c}{00043}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a7201cf0672267158febc4a5912c8bf6c}{gain\_step}};\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*ゲイン制御ステップ幅*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00044}\mbox{\hyperlink{structst_s_v_d_ac1e0741893331f064d6639392987cfcb}{00044}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ac1e0741893331f064d6639392987cfcb}{sound\_vel\_filter}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*音速フィルタ時定数*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00045}\mbox{\hyperlink{structst_s_v_d_a2b9218ce3edc7ca1c521f780c0aeda2f}{00045}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a2b9218ce3edc7ca1c521f780c0aeda2f}{fifo\_ch\_init}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*FIFO\ CH\ 初期値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00046}\mbox{\hyperlink{structst_s_v_d_ae9e516ffb5e3bca5ff7fa891c8d821f1}{00046}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ae9e516ffb5e3bca5ff7fa891c8d821f1}{sound\_vel\_sel}};\ \ \ \ \ \ \ \textcolor{comment}{/*音速固定・測定切替*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00047}\mbox{\hyperlink{structst_s_v_d_af88b032ecfa3465a3ce69786c975d3fe}{00047}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_af88b032ecfa3465a3ce69786c975d3fe}{sound\_vel\_fix}};\ \ \ \ \ \ \ \textcolor{comment}{/*音速固定値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00048}\mbox{\hyperlink{structst_s_v_d_a2a1b9fb3b58a46dd0952fc9d06ef8dc7}{00048}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a2a1b9fb3b58a46dd0952fc9d06ef8dc7}{hldt}};\ \ \ \ \ \ \ \ \textcolor{comment}{/*異常ホールド時間選択*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00049}\mbox{\hyperlink{structst_s_v_d_aa404ca0bf36ef91235d7e935a5101474}{00049}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aa404ca0bf36ef91235d7e935a5101474}{cunet\_delay}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*CUnet\ 再送信待機時間*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00050}\mbox{\hyperlink{structst_s_v_d_a408ce53b83ee8184b00441f6feb301ef}{00050}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a408ce53b83ee8184b00441f6feb301ef}{wave\_vth}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*受波検出閾値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00051}\mbox{\hyperlink{structst_s_v_d_a4181511c5212172d04c8afd8c3411765}{00051}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a4181511c5212172d04c8afd8c3411765}{balance\_level}};\ \ \ \ \ \ \ \textcolor{comment}{/*波形アンバランス検出閾値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00052}\mbox{\hyperlink{structst_s_v_d_afe8d7d929dbd22628b2803e646c37e03}{00052}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_afe8d7d929dbd22628b2803e646c37e03}{saturation\_level}};\ \textcolor{comment}{/*波形飽和検出閾値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00053}\mbox{\hyperlink{structst_s_v_d_af10231747e0414b62c010e1bac2571bf}{00053}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_af10231747e0414b62c010e1bac2571bf}{correlate\_level}};\ \ \ \textcolor{comment}{/*差分相関比閾値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00054}\mbox{\hyperlink{structst_s_v_d_a463a80fa405635a70e046390cc7548a2}{00054}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a463a80fa405635a70e046390cc7548a2}{correlate\_time}};\ \ \ \ \ \textcolor{comment}{/*演算異常判定回数*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00055}\mbox{\hyperlink{structst_s_v_d_a4a49509707a18efd1645bd20475b8032}{00055}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{structst_s_v_d_a4a49509707a18efd1645bd20475b8032}{attenuate\_level}};\ \textcolor{comment}{/*波形減衰閾値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00056}\mbox{\hyperlink{structst_s_v_d_aa97b583bebc184763253ab238267bc1f}{00056}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aa97b583bebc184763253ab238267bc1f}{alm\_wave\_vth}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*受波検出警告閾値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00057}\mbox{\hyperlink{structst_s_v_d_a484ac0c2d71674b3ee48778322fb8329}{00057}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a484ac0c2d71674b3ee48778322fb8329}{alm\_gain\_level}};\ \ \ \ \ \textcolor{comment}{/*アンプゲイン警告閾値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00058}\mbox{\hyperlink{structst_s_v_d_a9954edd218a648871d0bc33be9f99521}{00058}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{structst_s_v_d_a9954edd218a648871d0bc33be9f99521}{alm\_gain\_count}};\ \ \ \ \ \ \ \textcolor{comment}{/*アンプゲイン警告ｶｳﾝﾄ*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00059}\mbox{\hyperlink{structst_s_v_d_aa92d7f3241dae984eadce5fa322918b4}{00059}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aa92d7f3241dae984eadce5fa322918b4}{alm\_hold\_time}};\ \ \ \ \ \ \textcolor{comment}{/*警告出力時間*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00060}\mbox{\hyperlink{structst_s_v_d_abf06301f97ba89bc3f9de5ba11b21589}{00060}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_abf06301f97ba89bc3f9de5ba11b21589}{zero\_offset}};\ \ \ \ \ \ \ \textcolor{comment}{/*ゼロ点オフセット*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00061}\mbox{\hyperlink{structst_s_v_d_a1e00fbe8ce4d11b03ca64a1682b4c004}{00061}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a1e00fbe8ce4d11b03ca64a1682b4c004}{filter\_mode}};\ \ \textcolor{comment}{/*フィルタモード*/}\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00062}\mbox{\hyperlink{structst_s_v_d_a3c2138f6d08f0b642ac2583482442ba6}{00062}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a3c2138f6d08f0b642ac2583482442ba6}{filter\_avg}};\ \ \ \ \ \ \ \ \textcolor{comment}{/*移動平均数*/}\ \ \ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00063}\mbox{\hyperlink{structst_s_v_d_a2296e5ee85253ddf066b51f23cb6075d}{00063}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a2296e5ee85253ddf066b51f23cb6075d}{LL\_enable}};\ \ \ \ \ \ \textcolor{comment}{/*薬液リニアライズモード選択*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00064}\mbox{\hyperlink{structst_s_v_d_adcc84696876d96c5f8c7f549108f8da7}{00064}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_adcc84696876d96c5f8c7f549108f8da7}{LL\_kind}};\ \ \ \ \ \ \ \ \textcolor{comment}{/*薬液リニアライズモード・薬液種別*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00065}\mbox{\hyperlink{structst_s_v_d_ad1c7c76d47d1bd6fab2e9fe5523c5029}{00065}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ad1c7c76d47d1bd6fab2e9fe5523c5029}{total\_offset\_enable}};\ \ \ \textcolor{comment}{/*積算オフセット値(ON/OFF)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00066}\mbox{\hyperlink{structst_s_v_d_a02b75a7fbd272d41acebd2f3e1a53b8b}{00066}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a02b75a7fbd272d41acebd2f3e1a53b8b}{total\_offset\_value}};\ \ \ \ \ \textcolor{comment}{/*積算オフセット値(設定値)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00067}\mbox{\hyperlink{structst_s_v_d_a49a24964501598460a76f91108b3278d}{00067}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a49a24964501598460a76f91108b3278d}{drive\_search}};\ \ \ \ \ \textcolor{comment}{/*調整モード*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00068}\mbox{\hyperlink{structst_s_v_d_ab0abcc4482ac51147f4a810c57c2cdd6}{00068}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ab0abcc4482ac51147f4a810c57c2cdd6}{start\_freq}};\ \ \ \ \ \ \ \textcolor{comment}{/*サーチ開始周波数*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00069}\mbox{\hyperlink{structst_s_v_d_af0462a3f9e69a22f8942b82bea6eb39c}{00069}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_af0462a3f9e69a22f8942b82bea6eb39c}{stop\_freq}};\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*サーチ停止周波数*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00070}00070\ \textcolor{preprocessor}{\#if\ defined(FRQSCH)}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00071}\mbox{\hyperlink{structst_s_v_d_a03a1a8dfbf96f41c2ea21878a890d340}{00071}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a03a1a8dfbf96f41c2ea21878a890d340}{SchFrq}};\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ サーチして得た周波数\ */}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00072}00072\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00074}\mbox{\hyperlink{structst_s_v_d_a3305c7cf307fd0ad4c1f3bc1238f56a6}{00074}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{structst_s_v_d_a3305c7cf307fd0ad4c1f3bc1238f56a6}{INT32}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00076}\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{00076}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00077}\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{00077}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00078}\mbox{\hyperlink{structst_s_v_d_a5a612f5e9ec72eddcefb52232e782619}{00078}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}DT\_2BYTE;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00079}\mbox{\hyperlink{structst_s_v_d_a0e9ab3de1ee2f9e9b0191cbc21c58c99}{00079}}\ \ \ \ \ \ \ \ \ \}target\_total;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*積算目標値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00080}\mbox{\hyperlink{structst_s_v_d_ac6a383042838decaba16d0131aa9e68a}{00080}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ac6a383042838decaba16d0131aa9e68a}{damp\_mode}};\ \ \textcolor{comment}{/*気泡対策モード*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00081}\mbox{\hyperlink{structst_s_v_d_ab8d8df6c54f2ec77c8bb7473f2d3b0d8}{00081}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ab8d8df6c54f2ec77c8bb7473f2d3b0d8}{rl2d}};\ \ \ \ \ \ \ \ \textcolor{comment}{/*D\ Rate\ Limit\ ダンピング倍率*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00082}\mbox{\hyperlink{structst_s_v_d_a45a63338d6da0d0568fd5ced355bef1e}{00082}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a45a63338d6da0d0568fd5ced355bef1e}{rl2hc}};\ \ \ \ \ \ \textcolor{comment}{/*D\ Rate\ Limit\ ホールドクリア*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00083}\mbox{\hyperlink{structst_s_v_d_abd20598baad26f6ae2b887bb6ed65175}{00083}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_abd20598baad26f6ae2b887bb6ed65175}{odpd}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*レイトリミット1st*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00084}\mbox{\hyperlink{structst_s_v_d_a99a0217d5ed6ce65362a44ebaff04351}{00084}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a99a0217d5ed6ce65362a44ebaff04351}{rl1tg}};\ \ \ \ \ \ \textcolor{comment}{/*D\ Rate\ limit\ 1st\ 目標*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00085}\mbox{\hyperlink{structst_s_v_d_a9efb610a0953e0b0b338557650737414}{00085}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a9efb610a0953e0b0b338557650737414}{rl1av}};\ \ \ \ \ \ \textcolor{comment}{/*D\ Rate\ limit\ 1st\ 平均*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00086}\mbox{\hyperlink{structst_s_v_d_a417cc2bf00a5714dc726f6c4eb7ab644}{00086}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a417cc2bf00a5714dc726f6c4eb7ab644}{odpl}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*レイトリミット2nd*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00087}\mbox{\hyperlink{structst_s_v_d_a82ba4cfc7ecf19a4dd59685dc325aeae}{00087}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a82ba4cfc7ecf19a4dd59685dc325aeae}{rl2tg}};\ \ \ \ \ \ \textcolor{comment}{/*D\ Rate\ limit\ 2nd\ 目標*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00088}\mbox{\hyperlink{structst_s_v_d_abe119bc83ce88a987cbd96a72e3446d2}{00088}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_abe119bc83ce88a987cbd96a72e3446d2}{rl2av}};\ \ \ \ \ \ \textcolor{comment}{/*D\ Rate\ limit\ 2nd\ 平均*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00089}\mbox{\hyperlink{structst_s_v_d_aebd18568ddb60b05dc9d0b59ae8773c6}{00089}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aebd18568ddb60b05dc9d0b59ae8773c6}{rlt}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*レイトリミット*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00090}\mbox{\hyperlink{structst_s_v_d_a5987c82650abf2988391b41a8d8a7b76}{00090}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a5987c82650abf2988391b41a8d8a7b76}{dump\_var}};\ \ \ \ \textcolor{comment}{/*可変ダンピング偏差値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00091}\mbox{\hyperlink{structst_s_v_d_a4dc738385054e997b3fd0fb47f18751f}{00091}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a4dc738385054e997b3fd0fb47f18751f}{dump\_mul}};\ \ \ \ \textcolor{comment}{/*可変ダンピング倍率*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00092}\mbox{\hyperlink{structst_s_v_d_a2394e15a6394915897eebf5e5adba4c0}{00092}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a2394e15a6394915897eebf5e5adba4c0}{inc}};\ \ \ \ \ \ \textcolor{comment}{/*異常ホールド時間*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00094}\mbox{\hyperlink{structst_s_v_d_a90bbc5face42efebdee05ba342db7f22}{00094}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{structst_s_v_d_a90bbc5face42efebdee05ba342db7f22}{DWORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00098}\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{00098}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00099}\mbox{\hyperlink{structst_s_v_d_a0ae948a0782e17f1060052806b46460e}{00099}}\ \ \ \ \ \ \ \ \ \}corr\_up;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*相関値幅上限値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00105}\mbox{\hyperlink{structst_s_v_d_ae49246b7464e723727514eb080029043}{00105}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00106}\mbox{\hyperlink{structst_s_v_d_afaa7ec70448c74ba06a81c6d26a27ecf}{00106}}\ \ \ \ \ \ \ \ \ \}corr\_low;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*相関値幅下限値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00107}00107\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00108}00108\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00109}00109\ \textcolor{comment}{//評価用}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00110}\mbox{\hyperlink{structst_s_v_d_a33efdf019fc22354f7afc14bb42b5853}{00110}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a33efdf019fc22354f7afc14bb42b5853}{adc\_clock}};\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ADCクロック}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00111}\mbox{\hyperlink{structst_s_v_d_a283c9567a826a93e2fc4fc6a9488d5bd}{00111}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a283c9567a826a93e2fc4fc6a9488d5bd}{sns\_option}};\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//センサオプション}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00112}\mbox{\hyperlink{structst_s_v_d_a898da21b7eca726c7f994cb93f01da9b}{00112}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a898da21b7eca726c7f994cb93f01da9b}{sns\_disL}};\ \textcolor{comment}{//センサ間距離(L)}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00113}\mbox{\hyperlink{structst_s_v_d_ae5ab47c34ab8b7ba1518f1715afa4237}{00113}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ae5ab47c34ab8b7ba1518f1715afa4237}{sns\_disL\_l}};\ \textcolor{comment}{//センサ間距離(L-\/l)}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00114}\mbox{\hyperlink{structst_s_v_d_ac1bf907b822de8bc83d9a4c64acbda83}{00114}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ac1bf907b822de8bc83d9a4c64acbda83}{sns\_tau}};\ \textcolor{comment}{//無駄時間}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00115}\mbox{\hyperlink{structst_s_v_d_a9e8031f46df5202cbf729f104c90ceed}{00115}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a9e8031f46df5202cbf729f104c90ceed}{sns\_coef}};\ \textcolor{comment}{//互換係数}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00116}\mbox{\hyperlink{structst_s_v_d_a7190ee603aba2771749b7f9201447ff3}{00116}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a7190ee603aba2771749b7f9201447ff3}{wind\_offset}};\ \textcolor{comment}{//WINDOWオフセット}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00117}\mbox{\hyperlink{structst_s_v_d_ad77a7750e3e29459af73a80efa51f927}{00117}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ad77a7750e3e29459af73a80efa51f927}{sum\_start}};\ \textcolor{comment}{//差分相関開始位置}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00118}\mbox{\hyperlink{structst_s_v_d_a88424a2e76cf83865555576bf03fc2d1}{00118}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a88424a2e76cf83865555576bf03fc2d1}{sum\_end}};\ \ \ \textcolor{comment}{//差分相関終了位置}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00119}\mbox{\hyperlink{structst_s_v_d_a7e90b0de50f2cef54b0144a80168dad7}{00119}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a7e90b0de50f2cef54b0144a80168dad7}{sum\_step}};\ \ \textcolor{comment}{//差分相関間隔}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00121}\mbox{\hyperlink{structst_s_v_d_a8e66f6142913432add0c5086b104ffb5}{00121}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a8e66f6142913432add0c5086b104ffb5}{fix\_data}};\ \ \textcolor{comment}{//固定値設定\ bit0\ :ディザリングスイッチ}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ 1\ :\ ゲイン固定値スイッチ}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ 2\ :\ fifo開始、終了位置固定スイッチ}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ 3\ :\ fifo\_no\ 固定スイッチ}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ 4\ :\ 波形先頭位置固定スイッチ}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00126}\mbox{\hyperlink{structst_s_v_d_a6133356c6c26c0ab326587ad58a8cf12}{00126}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a6133356c6c26c0ab326587ad58a8cf12}{fix\_amp\_gain\_rev}};\ \ \textcolor{comment}{//Wiper\ Position(固定値)}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00127}\mbox{\hyperlink{structst_s_v_d_a70191bc27f6188274a732124f63ce356}{00127}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a70191bc27f6188274a732124f63ce356}{fix\_fifo\_ch\_read}};\ \ \textcolor{comment}{//FIFO\ CH(固定値)}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00128}\mbox{\hyperlink{structst_s_v_d_a93b96b08d03b465838b87a4e4b1ca7b9}{00128}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a93b96b08d03b465838b87a4e4b1ca7b9}{fix\_fifo\_no\_read}};\ \ \textcolor{comment}{//Leading\ Position(固定値)}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00130}\mbox{\hyperlink{structst_s_v_d_aea3fc99498e30002702f091da1547859}{00130}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aea3fc99498e30002702f091da1547859}{ZerCrsSttPnt}};\ \textcolor{comment}{//Zero\ Cross\ Shift\ point}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00131}\mbox{\hyperlink{structst_s_v_d_aecc0714c4fbe9f34ec82b00d7d4b0a5d}{00131}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aecc0714c4fbe9f34ec82b00d7d4b0a5d}{ZerCrsUseNum}};\ \textcolor{comment}{//Zero\ Cross\ Use\ Number}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00132}\mbox{\hyperlink{structst_s_v_d_a3d76760f10486403dbbb8ceb78c5e48d}{00132}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ ZerCrsOffset[7];\ \textcolor{comment}{//ゼロクロスゼロ点オフセット}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00133}\mbox{\hyperlink{structst_s_v_d_a961efd3fb6ec815f21554efb91595c75}{00133}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a961efd3fb6ec815f21554efb91595c75}{ThresholdPeakPos}};\ \ \ \ \textcolor{comment}{//波形認識ピーク位置}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00134}\mbox{\hyperlink{structst_s_v_d_afce764713ea2e8216cda9cdb34bc7668}{00134}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_afce764713ea2e8216cda9cdb34bc7668}{ZerPeakPos}};\ \ \ \ \textcolor{comment}{//波形認識ピーク位置(ゼロクロス計算開始位置用)}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00136}\mbox{\hyperlink{structst_s_v_d_af734ea8e72bc5c854368d135bc80649f}{00136}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_af734ea8e72bc5c854368d135bc80649f}{DgtFltSwc}};\ \textcolor{comment}{//Digital\ Filter\ Switch}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00137}\mbox{\hyperlink{structst_s_v_d_ab452fa7991eea0609b4cb2cbc1a47d78}{00137}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ab452fa7991eea0609b4cb2cbc1a47d78}{DgtFltCefA00}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ A00}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00138}\mbox{\hyperlink{structst_s_v_d_a1c1f02047bdf1564705fcc55621f98b8}{00138}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a1c1f02047bdf1564705fcc55621f98b8}{DgtFltCefA01}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ A01}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00139}\mbox{\hyperlink{structst_s_v_d_a1f5619212bdcbd8d9026704e8e978331}{00139}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a1f5619212bdcbd8d9026704e8e978331}{DgtFltCefA10}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ A10}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00140}\mbox{\hyperlink{structst_s_v_d_a03680e9c52fd9a5ffef866c895da01e3}{00140}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a03680e9c52fd9a5ffef866c895da01e3}{DgtFltCefA11}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ A11}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00141}\mbox{\hyperlink{structst_s_v_d_a78e8d71a0b946570b8c8980638e59d9b}{00141}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a78e8d71a0b946570b8c8980638e59d9b}{DgtFltCefA20}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ A20}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00142}\mbox{\hyperlink{structst_s_v_d_a4efcc9bdf9bedb31aa4b2b02041b0fe5}{00142}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a4efcc9bdf9bedb31aa4b2b02041b0fe5}{DgtFltCefA21}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ A21}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00143}\mbox{\hyperlink{structst_s_v_d_aa0a2eadb5e5237a299a1ba43138b4fbd}{00143}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aa0a2eadb5e5237a299a1ba43138b4fbd}{DgtFltCefA30}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ A30}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00144}\mbox{\hyperlink{structst_s_v_d_a7dec70bd3cd7ac6a0ca411c9dceca0b7}{00144}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a7dec70bd3cd7ac6a0ca411c9dceca0b7}{DgtFltCefA31}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ A31}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00145}\mbox{\hyperlink{structst_s_v_d_afe07fe4621b221e557d133890bb9f987}{00145}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_afe07fe4621b221e557d133890bb9f987}{DgtFltCefA40}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ A40}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00146}\mbox{\hyperlink{structst_s_v_d_a4a1cf54b5568bfb3891a3937708548f0}{00146}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a4a1cf54b5568bfb3891a3937708548f0}{DgtFltCefA41}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ A41}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00147}\mbox{\hyperlink{structst_s_v_d_a81a5362ddacaf4bac7f1f4e2d0cd81b8}{00147}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a81a5362ddacaf4bac7f1f4e2d0cd81b8}{DgtFltCefB00}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ B00}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00148}\mbox{\hyperlink{structst_s_v_d_ab2ef8aefc16973980fc45acdc0fe8396}{00148}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ab2ef8aefc16973980fc45acdc0fe8396}{DgtFltCefB01}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ B01}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00149}\mbox{\hyperlink{structst_s_v_d_a90068f5312727ccf0a0e0206f2eee404}{00149}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a90068f5312727ccf0a0e0206f2eee404}{DgtFltCefB10}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ B00}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00150}\mbox{\hyperlink{structst_s_v_d_a443c0f8e79ff706a9adbd4f7246dcc52}{00150}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a443c0f8e79ff706a9adbd4f7246dcc52}{DgtFltCefB11}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ B01}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00151}\mbox{\hyperlink{structst_s_v_d_a0d308c73bbc23878b737b49f0057c185}{00151}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a0d308c73bbc23878b737b49f0057c185}{DgtFltCefB20}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ B00}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00152}\mbox{\hyperlink{structst_s_v_d_a3d167b8922ad097f43502e52088edc7c}{00152}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a3d167b8922ad097f43502e52088edc7c}{DgtFltCefB21}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ B01}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00153}\mbox{\hyperlink{structst_s_v_d_aed4dccefac65f04d359bb11133e857d1}{00153}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aed4dccefac65f04d359bb11133e857d1}{DgtFltCefB30}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ B00}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00154}\mbox{\hyperlink{structst_s_v_d_af7f2e7a8d4c496cd6065563aa06d9116}{00154}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_af7f2e7a8d4c496cd6065563aa06d9116}{DgtFltCefB31}};\ \textcolor{comment}{//Digital\ Filter\ Coefficient\ B01}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00155}00155\ \textcolor{comment}{//評価用\ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00157}00157\ \textcolor{preprocessor}{\#if\ defined(FRQSCH)}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00158}\mbox{\hyperlink{structst_s_v_d_ab4861668eb631681b53d559c9ddc27e5}{00158}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ reserve\_02[28];\ \ \ \ \ \ \ \textcolor{comment}{/*予約[28]*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00159}00159\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00160}00160\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ reserve\_02[29];\ \ \ \ \ \ \ \textcolor{comment}{/*予約[29]*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00161}00161\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00163}00163\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00164}00164\ \textcolor{comment}{\ \ \ \ /***\ \ \ メーカリニアライズ\ \ \ ***/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00165}00165\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00166}\mbox{\hyperlink{structst_s_v_d_a2315965bee651dbb34e865719a309496}{00166}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a2315965bee651dbb34e865719a309496}{mklnr\_num}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正点数*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00167}00167\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00172}\mbox{\hyperlink{structst_s_v_d_a186f4189123a6685d23c7129b197a0c4}{00172}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00173}\mbox{\hyperlink{structst_s_v_d_a341e06dca3844e9e5853e9dc29286bb5}{00173}}\ \ \ \ \ \ \ \ \ \}mklnr\_out1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力1(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00179}\mbox{\hyperlink{structst_s_v_d_a55291681815afbddcf5ffec893bed860}{00179}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00180}\mbox{\hyperlink{structst_s_v_d_aa10270a62d612b860ec127aa3c58207a}{00180}}\ \ \ \ \ \ \ \ \ \}mklnr\_out2;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力2(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00186}\mbox{\hyperlink{structst_s_v_d_a72c2d93eed822d75d8b2752db181df5a}{00186}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00187}\mbox{\hyperlink{structst_s_v_d_a3928ea97848371d6c68c709ec28cd2b6}{00187}}\ \ \ \ \ \ \ \ \ \}mklnr\_out3;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力3(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00188}00188\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00193}\mbox{\hyperlink{structst_s_v_d_aaa25ed0e89e6ed774e0ebd3611030af3}{00193}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00194}\mbox{\hyperlink{structst_s_v_d_a051d789006c42674958505e8a96d13d4}{00194}}\ \ \ \ \ \ \ \ \ \}mklnr\_out4;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力4(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00200}\mbox{\hyperlink{structst_s_v_d_a449222faf29525a8b0e47198ba16b59c}{00200}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00201}\mbox{\hyperlink{structst_s_v_d_a0cadddfe555785b61e8ab461c4df7c34}{00201}}\ \ \ \ \ \ \ \ \ \}mklnr\_out5;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力5(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00207}\mbox{\hyperlink{structst_s_v_d_a1b84340bcefd995ae8599d4973a21682}{00207}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00208}\mbox{\hyperlink{structst_s_v_d_a03e53a495a5ad37600b131797f12e051}{00208}}\ \ \ \ \ \ \ \ \ \}mklnr\_out6;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力6(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00209}00209\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00214}\mbox{\hyperlink{structst_s_v_d_a165bbf58942ed8cbf10f500c13e1b60c}{00214}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00215}\mbox{\hyperlink{structst_s_v_d_acd743f8ed73abdb46752d564bebce16b}{00215}}\ \ \ \ \ \ \ \ \ \}mklnr\_out7;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力7(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00216}00216\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00221}\mbox{\hyperlink{structst_s_v_d_a6c652218e18ec0b817ca09e579dfef7e}{00221}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00222}\mbox{\hyperlink{structst_s_v_d_aaa4ce582fe9e324025bbd17a96807c4e}{00222}}\ \ \ \ \ \ \ \ \ \}mklnr\_out8;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力8(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00223}00223\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00228}\mbox{\hyperlink{structst_s_v_d_a73786c95ff6f6d38e7a34e78760e7650}{00228}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00229}\mbox{\hyperlink{structst_s_v_d_a604ab56a4a69d17666d8ed9b83b01d92}{00229}}\ \ \ \ \ \ \ \ \ \}mklnr\_out9;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力9(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00235}\mbox{\hyperlink{structst_s_v_d_a2333b0b26c8ffcb109230bbd385e5f33}{00235}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00236}\mbox{\hyperlink{structst_s_v_d_a7735a1ec8fa52745c74b57827503002c}{00236}}\ \ \ \ \ \ \ \ \ \}mklnr\_out10;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力10(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00237}00237\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00242}\mbox{\hyperlink{structst_s_v_d_a636a83a3c69ad8d50c6f263fa537f7fe}{00242}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00243}\mbox{\hyperlink{structst_s_v_d_a668bc9dd65d27043b1f94bf831ecb2c1}{00243}}\ \ \ \ \ \ \ \ \ \}mklnr\_out11;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力11(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00244}00244\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00249}\mbox{\hyperlink{structst_s_v_d_af454ef9e23dde7ec42d51daecb53f03f}{00249}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00250}\mbox{\hyperlink{structst_s_v_d_a737223bc15dc97bf8901a9cb50fb74d1}{00250}}\ \ \ \ \ \ \ \ \ \}mklnr\_out12;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力12(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00256}\mbox{\hyperlink{structst_s_v_d_affa28bea36ff78f2004ef0962ab93990}{00256}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00257}\mbox{\hyperlink{structst_s_v_d_aa2b7a01adf1717e3b70715acd81a6979}{00257}}\ \ \ \ \ \ \ \ \ \}mklnr\_out13;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力13(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00258}00258\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00263}\mbox{\hyperlink{structst_s_v_d_ac336ec6781854912af8000c16b877fca}{00263}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00264}\mbox{\hyperlink{structst_s_v_d_af6b8c0b8c9e3b8828b2c34d224aee1c8}{00264}}\ \ \ \ \ \ \ \ \ \}mklnr\_out14;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力14(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00265}00265\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00270}\mbox{\hyperlink{structst_s_v_d_a6b249566cfcc65ecb1c295bcd6567b8d}{00270}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00271}\mbox{\hyperlink{structst_s_v_d_a150d558b3dd75d56cee8b830bc6a5b90}{00271}}\ \ \ \ \ \ \ \ \ \}mklnr\_out15;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力15(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00277}\mbox{\hyperlink{structst_s_v_d_ae41f1a59f5433ca3f5fa12c765e9aa6b}{00277}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00278}\mbox{\hyperlink{structst_s_v_d_aa3fd1e4e81e0191abc966e52d7b22e33}{00278}}\ \ \ \ \ \ \ \ \ \}mklnr\_in1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力1(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00284}\mbox{\hyperlink{structst_s_v_d_af08028181a297d7162506f81bdf7715b}{00284}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00285}\mbox{\hyperlink{structst_s_v_d_a355d7ffc5746f63112802c6d51dd0f9d}{00285}}\ \ \ \ \ \ \ \ \ \}mklnr\_in2;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力2(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00291}\mbox{\hyperlink{structst_s_v_d_a008af726f195c08893cfd95314daa2c5}{00291}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00292}\mbox{\hyperlink{structst_s_v_d_a62ef460fc844b9f56ae968886d120f7a}{00292}}\ \ \ \ \ \ \ \ \ \}mklnr\_in3;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力3(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00293}00293\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00298}\mbox{\hyperlink{structst_s_v_d_a4bcab4e03670854a6eaa9c0806c05e41}{00298}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00299}\mbox{\hyperlink{structst_s_v_d_ae041cc3685fcdaa05318bcf29f150a9d}{00299}}\ \ \ \ \ \ \ \ \ \}mklnr\_in4;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力4(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00300}00300\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00305}\mbox{\hyperlink{structst_s_v_d_a276da8e92554bd2349fc30350dc2bd52}{00305}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00306}\mbox{\hyperlink{structst_s_v_d_a6821279caa8d29ceb8a90d528ba1dbc4}{00306}}\ \ \ \ \ \ \ \ \ \}mklnr\_in5;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力5(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00307}00307\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00312}\mbox{\hyperlink{structst_s_v_d_aec8b429fffa388bd501b0e7514f169f2}{00312}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00313}\mbox{\hyperlink{structst_s_v_d_a4689b2926264c2f52bfa2978a4682992}{00313}}\ \ \ \ \ \ \ \ \ \}mklnr\_in6;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力6(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00314}00314\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00319}\mbox{\hyperlink{structst_s_v_d_ae090523545a7f45e84f567efed423caf}{00319}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00320}\mbox{\hyperlink{structst_s_v_d_a1e1a1665abe16d3238b73f4a73cf8741}{00320}}\ \ \ \ \ \ \ \ \ \}mklnr\_in7;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力7(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00321}00321\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00326}\mbox{\hyperlink{structst_s_v_d_a785a35fa1f7132c1626f4a47868c299e}{00326}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00327}\mbox{\hyperlink{structst_s_v_d_ac66d94d3ba7fadc140b4d0aaeb45f663}{00327}}\ \ \ \ \ \ \ \ \ \}mklnr\_in8;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力8(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00328}00328\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00333}\mbox{\hyperlink{structst_s_v_d_adb660dfc284d6019628281a65b730ed1}{00333}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00334}\mbox{\hyperlink{structst_s_v_d_a5e472cd68150b57a0ddf3f131f94088c}{00334}}\ \ \ \ \ \ \ \ \ \}mklnr\_in9;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力9(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00340}\mbox{\hyperlink{structst_s_v_d_a6403248d6af5296ec2ba4bd27e11238c}{00340}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00341}\mbox{\hyperlink{structst_s_v_d_aca1dd4efaa3c5b9232985051acbbe2cd}{00341}}\ \ \ \ \ \ \ \ \ \}mklnr\_in10;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力10(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00342}00342\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00347}\mbox{\hyperlink{structst_s_v_d_a4a84b9598d17378b68cae0065b639559}{00347}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00348}\mbox{\hyperlink{structst_s_v_d_a3252f67eb7cd6db5300ec812e481cb86}{00348}}\ \ \ \ \ \ \ \ \ \}mklnr\_in11;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力11(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00354}\mbox{\hyperlink{structst_s_v_d_a75dc19d0e379acae03695a7542fb8d08}{00354}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00355}\mbox{\hyperlink{structst_s_v_d_aff02142ae416b7c3f61a632b0d7a40dd}{00355}}\ \ \ \ \ \ \ \ \ \}mklnr\_in12;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力12(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00356}00356\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00361}\mbox{\hyperlink{structst_s_v_d_a4d8c6a21f61d4d14c0f0a7f28df27ff6}{00361}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00362}\mbox{\hyperlink{structst_s_v_d_aacd0097772436e5f723e7597bd68020d}{00362}}\ \ \ \ \ \ \ \ \ \}mklnr\_in13;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力13(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00363}00363\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00368}\mbox{\hyperlink{structst_s_v_d_a604f569f99f0a3ed7440867c41c8db82}{00368}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00369}\mbox{\hyperlink{structst_s_v_d_a81b96ebcd950cd1e0e7d9ef84ff14c57}{00369}}\ \ \ \ \ \ \ \ \ \}mklnr\_in14;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力14(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00370}00370\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00375}\mbox{\hyperlink{structst_s_v_d_abeeab86439943773d438ffb912f777c9}{00375}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00376}\mbox{\hyperlink{structst_s_v_d_a7f285c405ae033e9bcd87497863615b6}{00376}}\ \ \ \ \ \ \ \ \ \}mklnr\_in15;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力15(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00377}00377\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00378}00378\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00379}00379\ \textcolor{comment}{\ \ \ \ /***\ \ ユーザリニアライズ\ \ \ ***/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00380}00380\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00381}\mbox{\hyperlink{structst_s_v_d_ae15a3479aa8a8fbd84294a904701a84e}{00381}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ae15a3479aa8a8fbd84294a904701a84e}{uslnr\_num}};\ \ \ \ \ \ \textcolor{comment}{/*補正点数、小数点位置*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00382}00382\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00387}\mbox{\hyperlink{structst_s_v_d_ae5c17a9b46d13610bcac730a464d3e59}{00387}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00388}\mbox{\hyperlink{structst_s_v_d_a4efc846480dd8eb63be33035847dcb30}{00388}}\ \ \ \ \ \ \ \ \ \}uslnr\_out1;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力1(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00389}00389\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00394}\mbox{\hyperlink{structst_s_v_d_a2b34610b0c2de8194f0998c256e7cdcb}{00394}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00395}\mbox{\hyperlink{structst_s_v_d_a5922ce136faf1ab66df59e3ec412dc47}{00395}}\ \ \ \ \ \ \ \ \ \}uslnr\_out2;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力2(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00396}00396\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00401}\mbox{\hyperlink{structst_s_v_d_a788f126637596aa7f15906653f229538}{00401}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00402}\mbox{\hyperlink{structst_s_v_d_adab185dcebdd97544d15da95315d24bb}{00402}}\ \ \ \ \ \ \ \ \ \}uslnr\_out3;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力3(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00403}00403\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00408}\mbox{\hyperlink{structst_s_v_d_a48c5e41cf49941952c3a4d3278f54e48}{00408}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00409}\mbox{\hyperlink{structst_s_v_d_a3404abdc52f4fe998bd2ad62b46e9e8c}{00409}}\ \ \ \ \ \ \ \ \ \}uslnr\_out4;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力4(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00410}00410\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00415}\mbox{\hyperlink{structst_s_v_d_a2aafc707a3cad55fd7daf9db65d36d89}{00415}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00416}\mbox{\hyperlink{structst_s_v_d_a78d721f6810de061a3ca031cdaa2d98d}{00416}}\ \ \ \ \ \ \ \ \ \}uslnr\_out5;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力5(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00417}00417\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00422}\mbox{\hyperlink{structst_s_v_d_a56189ef51a284424b57a117df6af6ff3}{00422}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00423}\mbox{\hyperlink{structst_s_v_d_ac1922d5a607a057c5991999c13c160df}{00423}}\ \ \ \ \ \ \ \ \ \}uslnr\_out6;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力6(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00424}00424\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00429}\mbox{\hyperlink{structst_s_v_d_ac4bab2c060b235592794850358464ce4}{00429}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00430}\mbox{\hyperlink{structst_s_v_d_a0b529e7a0f3e5cb5badb90ab6e29721c}{00430}}\ \ \ \ \ \ \ \ \ \}uslnr\_out7;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力7(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00431}00431\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00436}\mbox{\hyperlink{structst_s_v_d_ad7b84404a1d1051a756447e801e41856}{00436}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00437}\mbox{\hyperlink{structst_s_v_d_a3063b0efd2462709a5f78431c42da27c}{00437}}\ \ \ \ \ \ \ \ \ \}uslnr\_out8;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力8(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00438}00438\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00439}00439\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00442}00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00443}\mbox{\hyperlink{structst_s_v_d_aa870e1a0440dc72db06a3be9ca43fde6}{00443}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00444}\mbox{\hyperlink{structst_s_v_d_a2ac60cd4489ddf90f0840266802d8336}{00444}}\ \ \ \ \ \ \ \ \ \}uslnr\_out9;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力9(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00445}00445\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00450}\mbox{\hyperlink{structst_s_v_d_abcc2858c61cb62847e91d0bd7bca234f}{00450}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00451}\mbox{\hyperlink{structst_s_v_d_a9711b6f81ae36c06bee8f0f5ade2f634}{00451}}\ \ \ \ \ \ \ \ \ \}uslnr\_out10;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力10(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00452}00452\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00453}00453\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00454}00454\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00455}00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00456}00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00457}\mbox{\hyperlink{structst_s_v_d_a79f7b68e5c6bad3dabeb11ac711f6198}{00457}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00458}\mbox{\hyperlink{structst_s_v_d_a8d6d6cf03a23e156798e7210ad8a10ce}{00458}}\ \ \ \ \ \ \ \ \ \}uslnr\_out11;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力11(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00459}00459\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00464}\mbox{\hyperlink{structst_s_v_d_ab790e79872fabdad040ebb182967e0e4}{00464}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00465}\mbox{\hyperlink{structst_s_v_d_ad9f1aad50b828ccc5688e947564d524e}{00465}}\ \ \ \ \ \ \ \ \ \}uslnr\_out12;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力12(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00466}00466\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00468}00468\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00471}\mbox{\hyperlink{structst_s_v_d_a222f2daadf5bbb7d4afc4db94f7f6f9a}{00471}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00472}\mbox{\hyperlink{structst_s_v_d_a1933db33126f6d7f0aa89ddf5e0231c0}{00472}}\ \ \ \ \ \ \ \ \ \}uslnr\_out13;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力13(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00473}00473\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00475}00475\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00477}00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00478}\mbox{\hyperlink{structst_s_v_d_af57464c89b280d420f6903282fa67b51}{00478}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00479}\mbox{\hyperlink{structst_s_v_d_a05f108b457312878ad2c23ef6bd304a7}{00479}}\ \ \ \ \ \ \ \ \ \}uslnr\_out14;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力14(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00480}00480\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00481}00481\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00482}00482\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00485}\mbox{\hyperlink{structst_s_v_d_ae45c8a2579a915bf9e728cc10e0c6cb4}{00485}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00486}\mbox{\hyperlink{structst_s_v_d_ad7f9ac16bd30650e233564d52c334002}{00486}}\ \ \ \ \ \ \ \ \ \}uslnr\_out15;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正出力15(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00487}00487\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00488}00488\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00489}00489\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00490}00490\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00492}\mbox{\hyperlink{structst_s_v_d_ad55ca48438288d8c6637e7036e62c538}{00492}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00493}\mbox{\hyperlink{structst_s_v_d_ae3aacae824e8595f263e43fb7065b23a}{00493}}\ \ \ \ \ \ \ \ \ \}uslnr\_in1;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力1(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00494}00494\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00499}\mbox{\hyperlink{structst_s_v_d_a5842055416f05bc4cba2ff4006940be9}{00499}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00500}\mbox{\hyperlink{structst_s_v_d_a2f3dc1517253954d3ec9e04942d02c7b}{00500}}\ \ \ \ \ \ \ \ \ \}uslnr\_in2;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力2(L/m)*/}\ \ \ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00501}00501\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00506}\mbox{\hyperlink{structst_s_v_d_aa7049b4bda831d519c4865660bed0801}{00506}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00507}\mbox{\hyperlink{structst_s_v_d_acb1388ac8c3d3e2034051d2e5ee9e0d7}{00507}}\ \ \ \ \ \ \ \ \ \}uslnr\_in3;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力3(L/m)*/}\ \ \ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00508}00508\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00513}\mbox{\hyperlink{structst_s_v_d_a2c9798b29502358d14f0df243923de68}{00513}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00514}\mbox{\hyperlink{structst_s_v_d_a10165a8c63e7cf183d23bec53aaad742}{00514}}\ \ \ \ \ \ \ \ \ \}uslnr\_in4;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力4(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00515}00515\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00517}00517\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00520}\mbox{\hyperlink{structst_s_v_d_a9095fa7cf6e4346786f2e643b17a5943}{00520}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00521}\mbox{\hyperlink{structst_s_v_d_a59277be2fabfb4764dcd41e2592c44e7}{00521}}\ \ \ \ \ \ \ \ \ \}uslnr\_in5;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力5(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00522}00522\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00527}\mbox{\hyperlink{structst_s_v_d_a8ccb9c6f38a067f5a489d96c0b08f0b2}{00527}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00528}\mbox{\hyperlink{structst_s_v_d_a408f1679f42c47e4d290730f778aff89}{00528}}\ \ \ \ \ \ \ \ \ \}uslnr\_in6;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力6(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00529}00529\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00534}\mbox{\hyperlink{structst_s_v_d_a7df72610166ec2f1e773fa4bce58c14b}{00534}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00535}\mbox{\hyperlink{structst_s_v_d_a0c82270b1f77590605ae14d88cb306a7}{00535}}\ \ \ \ \ \ \ \ \ \}uslnr\_in7;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力7(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00536}00536\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00541}\mbox{\hyperlink{structst_s_v_d_a19e3864f3995d3ae148968131747023e}{00541}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00542}\mbox{\hyperlink{structst_s_v_d_aea55f4b437f77e7e3a8e278974c75710}{00542}}\ \ \ \ \ \ \ \ \ \}uslnr\_in8;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力8(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00543}00543\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00544}00544\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00548}\mbox{\hyperlink{structst_s_v_d_afffdec5f9eec523d1f9168dc6dd028de}{00548}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00549}\mbox{\hyperlink{structst_s_v_d_a5018d14a8153db33cd2bfd795d08a571}{00549}}\ \ \ \ \ \ \ \ \ \}uslnr\_in9;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力9(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00550}00550\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00551}00551\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00554}00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00555}\mbox{\hyperlink{structst_s_v_d_aeff25b3f73ce80044c67a173d9d53794}{00555}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00556}\mbox{\hyperlink{structst_s_v_d_a18f7696ab188c6d4b6c4e4957c93d4c5}{00556}}\ \ \ \ \ \ \ \ \ \}uslnr\_in10;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力10(L/m)*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00557}00557\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00558}00558\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00559}00559\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00560}00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00561}00561\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00562}\mbox{\hyperlink{structst_s_v_d_acc77963629c609fb079439acac4d98eb}{00562}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00563}\mbox{\hyperlink{structst_s_v_d_af4e9f852e6d60c7b0dc237c333e44d92}{00563}}\ \ \ \ \ \ \ \ \ \}uslnr\_in11;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力11(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00564}00564\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00565}00565\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00566}00566\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00567}00567\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00568}00568\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00569}\mbox{\hyperlink{structst_s_v_d_a8b65ba6b2d35840ca5988872f4718ace}{00569}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00570}\mbox{\hyperlink{structst_s_v_d_a2cdbc082884f69d50da85f5c01f4d819}{00570}}\ \ \ \ \ \ \ \ \ \}uslnr\_in12;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力12(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00571}00571\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00572}00572\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00575}00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00576}\mbox{\hyperlink{structst_s_v_d_acc9db352c227200b8cd559e4cfc8ea94}{00576}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00577}\mbox{\hyperlink{structst_s_v_d_ab17fafb60926e9fba410cbbf1699bfe0}{00577}}\ \ \ \ \ \ \ \ \ \}uslnr\_in13;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力13(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00578}00578\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00579}00579\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00580}00580\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00581}00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00582}00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00583}\mbox{\hyperlink{structst_s_v_d_ac66e52e691b9f434ae049610d707d190}{00583}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00584}\mbox{\hyperlink{structst_s_v_d_adbf21dad187e0c1a2ee547bec6bf0bdc}{00584}}\ \ \ \ \ \ \ \ \ \}uslnr\_in14;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力14(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00585}00585\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00587}00587\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00588}00588\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00589}00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00590}\mbox{\hyperlink{structst_s_v_d_ac0f946bdb78906e4e10a18bec4fbdeb3}{00590}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00591}\mbox{\hyperlink{structst_s_v_d_ae31f7d26191249e913f6fb67de41f4f8}{00591}}\ \ \ \ \ \ \ \ \ \}uslnr\_in15;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*補正入力15(L/m)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00592}00592\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00593}00593\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00594}00594\ \textcolor{comment}{\ \ \ \ /***\ \ \ ゼロ点調整時ステータス\ \ \ ***/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00595}00595\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00596}00596\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00597}00597\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00598}00598\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00599}\mbox{\hyperlink{structst_s_v_d_ab96e590e5abf231262c52048edcdbdae}{00599}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ab96e590e5abf231262c52048edcdbdae}{low}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00600}\mbox{\hyperlink{structst_s_v_d_a023d2c31542f7bcfa59cc067f3b2171e}{00600}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a023d2c31542f7bcfa59cc067f3b2171e}{high}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00601}\mbox{\hyperlink{structst_s_v_d_a745b7b18c49fd9b9b58b4604b52f5569}{00601}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00602}\mbox{\hyperlink{structst_s_v_d_a89ce89a2efbafa9229e4cb5e925ae5c0}{00602}}\ \ \ \ \ \ \ \ \ \}zero\_flow\_qat;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*ゼロ点調整時：流量*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00603}00603\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00604}00604\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00605}00605\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00606}00606\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00607}00607\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00608}\mbox{\hyperlink{structst_s_v_d_a24a5afbd42f69dbbe96984227465d81b}{00608}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00609}\mbox{\hyperlink{structst_s_v_d_a54dd52cc53fca74f82551fffdf8e113f}{00609}}\ \ \ \ \ \ \ \ \ \}zero\_flow\_vel;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*ゼロ点調整時：流速*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00610}\mbox{\hyperlink{structst_s_v_d_a8b77ea21ea21c3584665ddf0e06bc0b9}{00610}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a8b77ea21ea21c3584665ddf0e06bc0b9}{zero\_sound\_spd}};\ \ \ \ \textcolor{comment}{/*ゼロ点調整時：音速*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00611}00611\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00612}\mbox{\hyperlink{structst_s_v_d_a220371f4dfde763594470a837e4e7526}{00612}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{structst_s_v_d_a220371f4dfde763594470a837e4e7526}{DWORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00613}00613\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00614}\mbox{\hyperlink{structst_s_v_d_ad5e0213fa0c24f37c53116ae8c646316}{00614}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ad5e0213fa0c24f37c53116ae8c646316}{low1}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00615}\mbox{\hyperlink{structst_s_v_d_a887ce9452106dc01d892d4a48e04b465}{00615}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a887ce9452106dc01d892d4a48e04b465}{low2}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00616}\mbox{\hyperlink{structst_s_v_d_ab318c0e528cba7b8a80d95706202bd57}{00616}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ab318c0e528cba7b8a80d95706202bd57}{high1}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00617}\mbox{\hyperlink{structst_s_v_d_a74f258c0331d62f03cc8aac96111d270}{00617}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a74f258c0331d62f03cc8aac96111d270}{high2}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00618}\mbox{\hyperlink{structst_s_v_d_a50ee02cfe1fbff5f3ea0e875b854430d}{00618}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00619}\mbox{\hyperlink{structst_s_v_d_ae9a633d6d6d481b18fc64fa7427949f9}{00619}}\ \ \ \ \ \ \ \ \ \}zero\_addit;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*ゼロ点調整時：積算値*/}\ \ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00620}\mbox{\hyperlink{structst_s_v_d_ab982a1f87d281f6f1848de6e58555112}{00620}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ab982a1f87d281f6f1848de6e58555112}{zero\_wave\_max}};\ \ \ \ \ \ \textcolor{comment}{/*ゼロ点調整時：受波波形最大値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00621}\mbox{\hyperlink{structst_s_v_d_a816986107193cacad550ebd396112351}{00621}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a816986107193cacad550ebd396112351}{zero\_wave\_min}};\ \ \ \ \ \ \textcolor{comment}{/*ゼロ点調整時：受波波形最小値*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00622}00622\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00623}00623\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00624}00624\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00625}00625\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00626}00626\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00627}\mbox{\hyperlink{structst_s_v_d_a70f2612b0d4941f52983934fb57a65da}{00627}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00628}\mbox{\hyperlink{structst_s_v_d_af820168804ed8995e3ffebb34a068e2d}{00628}}\ \ \ \ \ \ \ \ \ \}zero\_delta\_ts;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*ゼロ点調整時：伝搬時間差*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00629}\mbox{\hyperlink{structst_s_v_d_a48f35d601eabe65c4eb66217ba33ee2d}{00629}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a48f35d601eabe65c4eb66217ba33ee2d}{zero\_correlate}};\ \ \ \ \textcolor{comment}{/*ゼロ点調整時：相関値幅*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00630}\mbox{\hyperlink{structst_s_v_d_a5b88958cdf3a49f8ba8eec4f8e8d0fa8}{00630}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a5b88958cdf3a49f8ba8eec4f8e8d0fa8}{zero\_zero\_offset}};\ \ \ \ \textcolor{comment}{/*ゼロ点調整時：ゼロ点オフセット*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00631}\mbox{\hyperlink{structst_s_v_d_a43725fe254a3869c7e1e4663e9f0997f}{00631}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a43725fe254a3869c7e1e4663e9f0997f}{zero\_condition}};\ \ \ \ \textcolor{comment}{/*ゼロ点調整時：コンディション*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00632}\mbox{\hyperlink{structst_s_v_d_a38763a7ba025e03be4d3127bb0d9d795}{00632}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a38763a7ba025e03be4d3127bb0d9d795}{zero\_fifo\_pos}};\ \ \ \ \ \ \textcolor{comment}{/*ゼロ点調整時：FIFO受波波形検出位置*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00633}\mbox{\hyperlink{structst_s_v_d_a0ba740ab369822134a382a47b4f28227}{00633}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a0ba740ab369822134a382a47b4f28227}{zero\_gain\_1st}};\ \ \ \ \ \ \textcolor{comment}{/*ゼロ点調整時：アンプゲイン値(1st)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00634}\mbox{\hyperlink{structst_s_v_d_a11943492b23d573779fb30514ddf35ea}{00634}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a11943492b23d573779fb30514ddf35ea}{zero\_gain\_2nd}};\ \ \ \ \ \ \textcolor{comment}{/*ゼロ点調整時：アンプゲイン値(2nd)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00635}\mbox{\hyperlink{structst_s_v_d_a65c5f57af208a4facba8e02cfaac8f10}{00635}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a65c5f57af208a4facba8e02cfaac8f10}{zero\_fifo\_ch}};\ \ \ \ \ \ \ \ \textcolor{comment}{/*ゼロ点調整時：FIFO\ CH*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00636}\mbox{\hyperlink{structst_s_v_d_a2f6369645f61601bbce12f6098243a7b}{00636}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a2f6369645f61601bbce12f6098243a7b}{zero\_p1p2}};\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*ゼロ点調整時：受波の差(P1-\/P2)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00637}00637\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00638}\mbox{\hyperlink{structst_s_v_d_aa50f921d0b13c4c23d4645189b79cd9e}{00638}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aa50f921d0b13c4c23d4645189b79cd9e}{zero\_FwdSurplsTim}};\ \textcolor{comment}{//上流波形無駄時間}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00639}\mbox{\hyperlink{structst_s_v_d_a2e40e27d49aa78bc2029510efca05ec9}{00639}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a2e40e27d49aa78bc2029510efca05ec9}{zero\_RevSurplsTim}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00640}00640\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00641}00641\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00642}00642\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00643}00643\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00644}00644\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00645}\mbox{\hyperlink{structst_s_v_d_a3f936e45a0c81583498eadaaa7b11357}{00645}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00646}\mbox{\hyperlink{structst_s_v_d_a849974d0e720a3211409d7bdfde9b62f}{00646}}\ \ \ \ \ \ \ \ \ \}zero\_FwdTimDif;\ \textcolor{comment}{//上流波形時間差}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00647}00647\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00648}00648\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00649}00649\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00650}00650\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00651}00651\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00652}\mbox{\hyperlink{structst_s_v_d_ac299d5d70eb91bfb7ac21efac28163ff}{00652}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00653}\mbox{\hyperlink{structst_s_v_d_a0876dc977a63d133d2f57090b30931b5}{00653}}\ \ \ \ \ \ \ \ \ \}zero\_RevTimDif;\ \textcolor{comment}{//下流波形時間差}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00654}\mbox{\hyperlink{structst_s_v_d_ab60dc9e24164be89ff1b0a61f47c79b8}{00654}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_ab60dc9e24164be89ff1b0a61f47c79b8}{zero\_drive\_freq}};\ \textcolor{comment}{//打ち込み周波数}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00655}\mbox{\hyperlink{structst_s_v_d_a6862c383c595e720c35706bf73fd0262}{00655}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ zero\_FwdWavPekPosLst[\mbox{\hyperlink{define_8h_a926120416d288e301bf3b28046206628}{WAV\_PEK\_NUM}}];\ \textcolor{comment}{//上流波形ピーク位置}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00656}\mbox{\hyperlink{structst_s_v_d_ae09a2c533c6150c05fb06f2482a09036}{00656}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ zero\_FwdWavPekValLst[\mbox{\hyperlink{define_8h_a926120416d288e301bf3b28046206628}{WAV\_PEK\_NUM}}];\ \textcolor{comment}{//上流波形ピーク値}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00657}\mbox{\hyperlink{structst_s_v_d_a8d29d978cc35353ff14487f47266f364}{00657}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ zero\_RevWavPekPosLst[\mbox{\hyperlink{define_8h_a926120416d288e301bf3b28046206628}{WAV\_PEK\_NUM}}];\ \textcolor{comment}{//下流波形ピーク位置}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00658}\mbox{\hyperlink{structst_s_v_d_a75e5c5933b4b699da51d17b679d8a123}{00658}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ zero\_RevWavPekValLst[\mbox{\hyperlink{define_8h_a926120416d288e301bf3b28046206628}{WAV\_PEK\_NUM}}];\ \textcolor{comment}{//下流波形ピーク値}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00659}00659\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00660}00660\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00661}00661\ \textcolor{comment}{\ \ \ \ /***\ \ \ エラーログ関連\ \ \ ***/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00662}00662\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00663}\mbox{\hyperlink{structst_s_v_d_adfcbfb706f9e3766a3e3b08418786834}{00663}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_adfcbfb706f9e3766a3e3b08418786834}{pwon\_count}};\textcolor{comment}{/*起動回数*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00664}\mbox{\hyperlink{structst_s_v_d_ac835a42a1268ce059efec80712ffe32f}{00664}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ err\_code[\mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}}];\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*エラーコード（最新10点）*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00665}\mbox{\hyperlink{structst_s_v_d_af2f85293a0219441f7e1bc6dd1c3ccef}{00665}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ err\_pwon\_count[\mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}}];\ \ \ \ \ \ \ \textcolor{comment}{/*エラー発生時の電源オンカウンタ（最新10点）*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00666}00666\ \ \ \ \ \ \ \ \ \textcolor{keyword}{union}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00667}00667\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{long}\ DWORD;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00668}00668\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00669}00669\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ low;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00670}00670\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ high;}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00671}\mbox{\hyperlink{structst_s_v_d_a37a7442c0f2c2982a240c5d8d4522455}{00671}}\ \ \ \ \ \ \ \ \ \ \ \ \ \}\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00672}\mbox{\hyperlink{structst_s_v_d_a617f4f35d1c77ef98f7318eb6968e0b7}{00672}}\ \ \ \ \ \ \ \ \ \}err\_time[\mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}}];\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*エラー発生時の時間（最新10点）*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00673}00673\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00674}00674\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00675}00675\ \textcolor{comment}{\ \ \ \ /***\ \ \ 通信関連\ \ \ ***/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00676}00676\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00677}\mbox{\hyperlink{structst_s_v_d_a1fdda846185c001b4d226985a928fd85}{00677}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a1fdda846185c001b4d226985a928fd85}{com\_interval}};\ \textcolor{comment}{/*サイレントインターバル*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00678}\mbox{\hyperlink{structst_s_v_d_aabe0c4fcb7cade14f006535ff14f9d65}{00678}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_aabe0c4fcb7cade14f006535ff14f9d65}{com\_speed}};\ \ \ \ \textcolor{comment}{/*通信スピード*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00679}\mbox{\hyperlink{structst_s_v_d_afc74f976dbb4c5f2a049a60d5c8e9488}{00679}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_afc74f976dbb4c5f2a049a60d5c8e9488}{com\_mode}};\ \ \ \ \ \textcolor{comment}{/*通信モード*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00680}\mbox{\hyperlink{structst_s_v_d_a30fa9dbb07dbe57f6ecf72215be44d13}{00680}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a30fa9dbb07dbe57f6ecf72215be44d13}{com\_parity}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*パリティ*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00681}\mbox{\hyperlink{structst_s_v_d_a754003eadbf59ba2fb60425714abd733}{00681}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a754003eadbf59ba2fb60425714abd733}{sti}};\ \ \ \ \ \ \textcolor{comment}{/*サイレントインターバル(2byte)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00682}\mbox{\hyperlink{structst_s_v_d_a4fa508676726962ac3e3f7fcb4f68a28}{00682}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a4fa508676726962ac3e3f7fcb4f68a28}{cmod}};\ \ \ \ \ \ \ \ \textcolor{comment}{/*通信モード、パリティ(2byte)*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00683}00683\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00684}00684\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00685}00685\ \textcolor{comment}{\ \ \ \ /***\ \ \ バージョン、シリアルナンバー\ \ ***/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00686}00686\ \textcolor{comment}{\ \ \ \ /*****\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *****/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00687}\mbox{\hyperlink{structst_s_v_d_a65473a88600d60c7c2214e123f5f091d}{00687}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a65473a88600d60c7c2214e123f5f091d}{soft\_ver}};\ \ \ \ \textcolor{comment}{/*ソフトウェアバージョン*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00688}\mbox{\hyperlink{structst_s_v_d_a365784ccfe90840e7355e12926d21016}{00688}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{structst_s_v_d_a365784ccfe90840e7355e12926d21016}{hard\_ver}};\ \ \ \ \textcolor{comment}{/*ハードウェアバージョン*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00689}\mbox{\hyperlink{structst_s_v_d_a9ca14ac4410633e04a3168c37ef00a86}{00689}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ c\_serial[8];\ \ \ \ \ \textcolor{comment}{/*変換器シリアルナンバー*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00690}\mbox{\hyperlink{structst_s_v_d_a53d62c04424997f30b0311bfc6f53cc4}{00690}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ s\_serial[8];\ \ \ \ \ \textcolor{comment}{/*センサシリアルナンバー*/}\ \ \ \ \textcolor{comment}{/*<<メモリデバイス保存>>\ ※変更禁止※*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00691}\mbox{\hyperlink{structst_s_v_d_ae7626614ee923698f507702913b535f9}{00691}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ m\_serial[3];\ \ \ \ \ \textcolor{comment}{/*メモリデバイスシリアルナンバー*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00692}00692\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00693}\mbox{\hyperlink{structst_s_v_d_aaf6684594146ee0ac35409a07bb431ab}{00693}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ reserve\_03[22];\ \ \ \ \ \ \ \textcolor{comment}{/*予約[22]*/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00694}00694\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00695}00695\ \}\ \mbox{\hyperlink{structst_s_v_d}{stSVD}};}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00696}00696\ }
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00697}00697\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00698}00698\ \textcolor{comment}{//外部宣言}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00699}00699\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00700}00700\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structst_s_v_d}{stSVD}}\ \mbox{\hyperlink{_s_v__def_8h_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}}];}
+\DoxyCodeLine{\Hypertarget{_s_v__def_8h_source_l00701}00701\ }
+
+\end{DoxyCode}

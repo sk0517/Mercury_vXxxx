@@ -1,0 +1,112 @@
+\doxysection{resetprg.\+c}
+\hypertarget{resetprg_8c_source}{}\label{resetprg_8c_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/resetprg.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/resetprg.c}}
+\mbox{\hyperlink{resetprg_8c}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00001}00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00003}00003\ \textcolor{comment}{//\ TI版ファームウェアではこのファイル中の処理は\ main.c\ などで行う\ }}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00004}00004\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00005}00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00006}00006\ \textcolor{preprocessor}{\#if\ 0}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00009}00009\ \textcolor{comment}{/*\ File\ Name\ :\ resetprg.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00010}00010\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ リセット処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00011}00011\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00012}00012\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00013}00013\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00014}00014\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ reserved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00015}00015\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ \ \ \ <machine.h>}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00018}00018\ \textcolor{preprocessor}{\#include\ \ \ \ <\_h\_c\_lib.h>}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00019}00019\ \textcolor{comment}{//\#include\ \ <stddef.h>\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Remove\ the\ comment\ when\ you\ use\ errno}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00020}00020\ \textcolor{comment}{//\#include\ \ <stdlib.h>\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Remove\ the\ comment\ when\ you\ use\ rand()}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00021}00021\ \textcolor{preprocessor}{\#include\ \ \ \ "{}\mbox{\hyperlink{typedefine_8h}{typedefine.h}}"{}}\ \ \ \ \ \ \textcolor{comment}{//\ Define\ Types}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00022}00022\ \textcolor{preprocessor}{\#include\ \ \ \ "{}\mbox{\hyperlink{stacksct_8h}{stacksct.h}}"{}}\ \ \ \ \ \ \textcolor{comment}{//\ Stack\ Sizes\ (Interrupt\ and\ User)}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00024}00024\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00025}00025\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00026}00026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00027}00027\ \textcolor{keywordtype}{void}\ PowerON\_Reset\_PC(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00028}00028\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_m_a_i_n_8c_a6288eba0f8e8ad3ab1544ad731eb7667}{main}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00029}00029\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00030}00030\ \}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00031}00031\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00033}00033\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus\ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ Use\ SIM\ I/O}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00034}00034\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00035}00035\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00036}00036\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \_INIT\_IOLIB(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00037}00037\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \_CLOSEALL(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00038}00038\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00039}00039\ \}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00040}00040\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00042}00042\ \textcolor{preprocessor}{\#define\ PSW\_init\ \ 0x00010000\ \ \ \ }\textcolor{comment}{//\ PSW\ bit\ pattern}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00043}00043\ \textcolor{preprocessor}{\#define\ FPSW\_init\ 0x00000000\ \ \ \ }\textcolor{comment}{//\ FPSW\ bit\ base\ pattern}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00046}00046\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{_m_a_i_n_8c_a2858154e2009b0e6e616f313177762bc}{init}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00048}00048\ \textcolor{comment}{//extern\ void\ srand(\_UINT);\ \ \ \ \ //\ Remove\ the\ comment\ when\ you\ use\ rand()}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00049}00049\ \textcolor{comment}{//extern\ \_SBYTE\ *\_s1ptr;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Remove\ the\ comment\ when\ you\ use\ strtok()}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00050}00050\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00051}00051\ \textcolor{comment}{//\#ifdef\ \_\_cplusplus\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Use\ Hardware\ Setup}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00052}00052\ \textcolor{comment}{//extern\ "{}C"{}\ \{}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00053}00053\ \textcolor{comment}{//\#endif}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00054}00054\ \textcolor{comment}{//extern\ void\ HardwareSetup(void);}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00055}00055\ \textcolor{comment}{//\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00056}00056\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00057}00057\ \textcolor{comment}{//\#endif}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00058}00058\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00059}00059\ \textcolor{comment}{//\#ifdef\ \_\_cplusplus\ \ \ \ \ \ \ \ \ \ \ \ //\ Remove\ the\ comment\ when\ you\ use\ global\ class\ object}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00060}00060\ \textcolor{comment}{//extern\ "{}C"{}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Sections\ C\$INIT\ and\ C\$END\ will\ be\ generated}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00061}00061\ \textcolor{comment}{//\#endif}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00062}00062\ \textcolor{comment}{//extern\ void\ \_CALL\_INIT(void);}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00063}00063\ \textcolor{comment}{//extern\ void\ \_CALL\_END(void);}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00064}00064\ \textcolor{comment}{//\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00065}00065\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00066}00066\ \textcolor{comment}{//\#endif}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00068}00068\ \textcolor{preprocessor}{\#pragma\ section\ ResetPRG\ \ \ \ \ \ \ \ }\textcolor{comment}{//\ output\ PowerON\_Reset\ to\ PResetPRG\ section}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00070}00070\ \textcolor{preprocessor}{\#pragma\ entry\ PowerON\_Reset\_PC}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00072}00072\ \textcolor{keywordtype}{void}\ PowerON\_Reset\_PC(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00073}00073\ \{\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00074}00074\ \ \ \ \ set\_intb(\_\_sectop(\textcolor{stringliteral}{"{}C\$VECT"{}}));}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00076}00076\ \textcolor{preprocessor}{\#ifdef\ \_\_ROZ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ Initialize\ FPSW}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00077}00077\ \textcolor{preprocessor}{\#define\ \_ROUND\ 0x00000001\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ Let\ FPSW\ RMbits=01\ (round\ to\ zero)}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00078}00078\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00079}00079\ \textcolor{preprocessor}{\#define\ \_ROUND\ 0x00000000\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ Let\ FPSW\ RMbits=00\ (round\ to\ nearest)}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00080}00080\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00081}00081\ \textcolor{preprocessor}{\#ifdef\ \_\_DOFF}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00082}00082\ \textcolor{preprocessor}{\#define\ \_DENOM\ 0x00000100\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ Let\ FPSW\ DNbit=1\ (denormal\ as\ zero)}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00083}00083\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00084}00084\ \textcolor{preprocessor}{\#define\ \_DENOM\ 0x00000000\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ Let\ FPSW\ DNbit=0\ (denormal\ as\ is)}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00085}00085\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00087}00087\ \ \ \ \ set\_fpsw(FPSW\_init\ |\ \_ROUND\ |\ \_DENOM);}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00089}00089\ \ \ \ \ \_INITSCT();}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00091}00091\ \ \ \ \ \_INIT\_IOLIB();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ SIM\ I/O}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00093}00093\ \ \ \ \ \mbox{\hyperlink{_m_a_i_n_8c_a2858154e2009b0e6e616f313177762bc}{init}}();}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00095}00095\ \ \ \ \ nop();}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00096}00096\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00097}00097\ \ \ \ \ set\_psw(PSW\_init);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ Ubit\ \&\ Ibit\ for\ PSW}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00098}00098\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00099}00099\ \ \ \ \ \mbox{\hyperlink{_m_a_i_n_8c_a6288eba0f8e8ad3ab1544ad731eb7667}{main}}();}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00101}00101\ \ \ \ \ \_CLOSEALL();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ SIM\ I/O}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00102}00102\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00103}00103\ \ \ \ \ brk();}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00104}00104\ \}}
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{resetprg_8c_source_l00106}00106\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

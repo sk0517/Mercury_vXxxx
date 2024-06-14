@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.11.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Mercury: C:/WorkSpace/Mercury/Mercury_vXxxx/Mercury/MAIN/ctlioport.h ソースファイル</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Mercury
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 構築: Doxygen 1.11.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','検索',false);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">読み取り中…</div>
+<div class="SRStatus" id="Searching">検索中…</div>
+<div class="SRStatus" id="NoMatches">一致する文字列を見つけられません</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_188d001a6c11814c0e5bef1d09d0f49f.html">Mercury</a></li><li class="navelem"><a class="el" href="dir_0e0a91e0e8f41b25d016596073bb94ed.html">MAIN</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle"><div class="title">ctlioport.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ctlioport_8h.html">[詳解]</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/***********************************************/</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/* File Name : ctlioport.h                                             */</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/*  Summary   : I/Oポート処理                               */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">/*  Date      : 2023/03/16                                                  */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*                                                                                                 */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/*  Copyright(c) 2023 Tokyo Keiso Co.Ltd.                  */</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">/*          All rights reserved                                                                 */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/***********************************************/</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">//----------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">//インクルードガード</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">//----------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#ifndef CTLIOPORT_H</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#define CTLIOPORT_H</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">//----------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">//外部宣言</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">//----------------------------------------------------------------------</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code hl_function" href="ctlioport_8h.html#a6baa98f73713e126987850ddd9ee8c83">portmesfwdW</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> data, <span class="keywordtype">short</span> pch);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code hl_function" href="ctlioport_8h.html#a027fa9fc108cc94ddf9daec7c31f624f">portmesrevW</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> data, <span class="keywordtype">short</span> pch);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code hl_function" href="ctlioport_8h.html#af53b5679bdbcd5f71fbc65afe4ef1887">OutputRestartPulse</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code hl_function" href="ctlioport_8h.html#a0edbfa38d6c430a3e2d28329792d0cee">OutputStartPulse</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code hl_function" href="ctlioport_8h.html#ab732ad2423f242c3c6373af9a7b157d4">CheckEndPulse</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="actlioport_8h_html_a027fa9fc108cc94ddf9daec7c31f624f"><div class="ttname"><a href="ctlioport_8h.html#a027fa9fc108cc94ddf9daec7c31f624f">portmesrevW</a></div><div class="ttdeci">void portmesrevW(unsigned char data, short pch)</div><div class="ttdef"><b>Definition</b> <a href="ctlioport_8c_source.html#l00089">ctlioport.c:89</a></div></div>
+<div class="ttc" id="actlioport_8h_html_a0edbfa38d6c430a3e2d28329792d0cee"><div class="ttname"><a href="ctlioport_8h.html#a0edbfa38d6c430a3e2d28329792d0cee">OutputStartPulse</a></div><div class="ttdeci">void OutputStartPulse(void)</div><div class="ttdef"><b>Definition</b> <a href="ctlioport_8c_source.html#l00150">ctlioport.c:150</a></div></div>
+<div class="ttc" id="actlioport_8h_html_a6baa98f73713e126987850ddd9ee8c83"><div class="ttname"><a href="ctlioport_8h.html#a6baa98f73713e126987850ddd9ee8c83">portmesfwdW</a></div><div class="ttdeci">void portmesfwdW(unsigned char data, short pch)</div><div class="ttdef"><b>Definition</b> <a href="ctlioport_8c_source.html#l00044">ctlioport.c:44</a></div></div>
+<div class="ttc" id="actlioport_8h_html_ab732ad2423f242c3c6373af9a7b157d4"><div class="ttname"><a href="ctlioport_8h.html#ab732ad2423f242c3c6373af9a7b157d4">CheckEndPulse</a></div><div class="ttdeci">void CheckEndPulse(void)</div><div class="ttdef"><b>Definition</b> <a href="ctlioport_8c_source.html#l00166">ctlioport.c:166</a></div></div>
+<div class="ttc" id="actlioport_8h_html_af53b5679bdbcd5f71fbc65afe4ef1887"><div class="ttname"><a href="ctlioport_8h.html#af53b5679bdbcd5f71fbc65afe4ef1887">OutputRestartPulse</a></div><div class="ttdeci">void OutputRestartPulse(void)</div><div class="ttdef"><b>Definition</b> <a href="ctlioport_8c_source.html#l00134">ctlioport.c:134</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+構築:&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.11.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>

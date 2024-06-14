@@ -1,0 +1,12 @@
+<map id="log_basicinfo_save" name="log_basicinfo_save">
+<area shape="rect" id="Node000001" title=" " alt="" coords="411,31,541,57"/>
+<area shape="rect" id="Node000002" href="$log_8c.html#a38c4e28274006231dfa745984a208789" title=" " alt="" coords="292,31,363,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="396,47,364,47,364,41,396,41"/>
+<area shape="rect" id="Node000003" href="$util_8c.html#afc50edf1ee99ae7dbd2f6f28c6ccc2fa" title=" " alt="" coords="114,5,244,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="276,38,244,32,245,27,277,33"/>
+<area shape="rect" id="Node000005" href="$util_8c.html#ade74606efd7985ce3735a5433cab1470" title=" " alt="" coords="120,56,238,83"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="277,55,238,62,238,57,276,50"/>
+<area shape="rect" id="Node000004" href="$int__prg_8c.html#a36e22fdcd0c0464494d4db857135d5ec" title=" " alt="" coords="5,31,66,57"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="99,36,67,41,66,36,98,30"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="104,59,66,52,67,47,105,54"/>
+</map>

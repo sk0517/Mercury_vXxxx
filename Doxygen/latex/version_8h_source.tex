@@ -1,0 +1,38 @@
+\doxysection{version.\+h}
+\hypertarget{version_8h_source}{}\label{version_8h_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/version.h@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/version.h}}
+\mbox{\hyperlink{version_8h}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00001}00001\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00002}00002\ \textcolor{comment}{/*\ File\ Name\ :\ version.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00003}00003\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ バージョン情報定義\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00004}00004\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00006}00006\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ rederved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00010}00010\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00011}00011\ \textcolor{comment}{/*\ \ バージョン定義\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00012}00012\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00013}00013\ \textcolor{preprocessor}{\#if\ defined(FPGADOWNLOAD)}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00014}00014\ \textcolor{comment}{//\ \#define\ \ \ \ \ \ SOFT\_VERSION\ \ \ \ 0xB200\ \ \ \ \ \ //ファームウェアバージョン(FPGAダウンロードあり)}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00015}00015\ \textcolor{preprocessor}{\#define\ \ \ \ \ SOFT\_VERSION\ \ \ \ 0xD212\ \ \ \ \ \ }\textcolor{comment}{//ファームウェアバージョン(流量突出改善)}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00016}00016\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00017}\mbox{\hyperlink{version_8h_a2bc8e5ffccad660400ee0f5744365c9f}{00017}}\ \textcolor{preprocessor}{\#define\ \ \ \ \ SOFT\_VERSION\ \ \ \ 0xA212\ \ \ \ \ \ }\textcolor{comment}{//ファームウェアバージョン(FPGAダウンロードなし)}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00018}00018\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00019}\mbox{\hyperlink{version_8h_ad02e462cab5b8f6eae040d4486d0b954}{00019}}\ \textcolor{preprocessor}{\#define\ \ \ \ \ HARD\_VERSION\ \ \ \ 0x9100\ \ \ \ \ \ }\textcolor{comment}{//ハードウェアバージョン}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00021}00021\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00022}00022\ \textcolor{comment}{/*\ \ 書込みフラグ定義\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00023}00023\ \textcolor{comment}{/*\ \ ※書込みフラグの値がEEPROM上の値と異なる場合は\ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00024}00024\ \textcolor{comment}{/*\ \ 　EEPROMに対して、RAMクリアと初期値を読み込む\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00025}00025\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00026}\mbox{\hyperlink{version_8h_a1a1e719611fbbb986bcb6396b0ffd636}{00026}}\ \textcolor{preprocessor}{\#define\ \ \ \ \ EEPROM\_WRITE\_FLAG\ \ \ 0x6000\ \ \ \ \ \ }\textcolor{comment}{//書込みフラグ}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00028}00028\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00029}00029\ \textcolor{comment}{/*\ \ 通信タイプ定義\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00030}00030\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00031}\mbox{\hyperlink{version_8h_a44b7a33d51e48a87fbc6f6c11f65fecf}{00031}}\ \textcolor{preprocessor}{\#define\ \ \ \ \ COM\_RS485\ \ \ \ \ \ \ \ \ \ \ 0x1000\ \ \ \ \ \ }\textcolor{comment}{//RS485通信}}
+\DoxyCodeLine{\Hypertarget{version_8h_source_l00032}\mbox{\hyperlink{version_8h_a10d22da97bc46be4473e6fc392a989cc}{00032}}\ \textcolor{preprocessor}{\#define\ \ \ \ \ COM\_CUNET\ \ \ \ \ \ \ \ \ \ \ 0x2000\ \ \ \ \ \ }\textcolor{comment}{//CUnet通信}}
+
+\end{DoxyCode}

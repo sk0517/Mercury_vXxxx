@@ -1,0 +1,434 @@
+\doxysection{disp.\+c}
+\hypertarget{disp_8c_source}{}\label{disp_8c_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/disp.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/disp.c}}
+\mbox{\hyperlink{disp_8c}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00001}00001\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00002}00002\ \textcolor{comment}{/*\ File\ Name\ :\ disp.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ 表示関連処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ reserved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <machine.h>}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{define_8h}{define.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{version_8h}{version.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_m_e_s_8h}{defMES.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_l_e_d_8h}{defLED.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_m_a_i_n_8h}{defMAIN.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_s_v__def_8h}{SV\_def.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00019}00019\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00020}00020\ \textcolor{comment}{/*\ \ モジュール内定義関数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00021}00021\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00022}00022\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a0604262ce4442df57cea2ede1ad95f4b}{drive\_led}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ led\_num);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00023}00023\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a88642912145c128d3e6109c40d3904a3}{disp\_led\_ch}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00024}00024\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_afcaffb5ef99b44db9b93b8fd6e19d15e}{disp\_led\_alm}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00025}00025\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_ac2bff3cdc84df7de0365c6ddfa40dca5}{disp\_init}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00026}00026\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_aeeb0bd518f2f9847f08680d59e1966ce}{disp\_zerosw\_check}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00027}00027\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{disp_8c_afe2dc49c8ff9679d25460e377ec281a7}{disp\_zero\_read}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00028}00028\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{disp_8c_a1237cd3d05883fe06952f56cfe9543b4}{disp\_ch\_read}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00029}00029\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{disp_8c_a1a5950df6b8e9d403b7e74b76fe9a09a}{disp\_cunet\_read}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00030}00030\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a9b2016acd16b760c6606a5ce6ab7c72e}{disp\_cunet\_set}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00031}00031\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a1e9fdcbecb8e2ee3b0bc447f3a807bd7}{disp\_led\_control}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00032}00032\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{disp_8c_a8becf97f95a0ac7e34e0cd6651f2e569}{disp\_led\_judge}}(\textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00033}00033\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a00824ca7f4cc215d38987c4dca2b1979}{disp\_led\_cpu}}(\textcolor{keywordtype}{short}\ on\_off);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00034}00034\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a55c72fd77bbd05cde58371c8f547cde5}{disp\_cpu\_status}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00036}00036\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00037}00037\ \textcolor{comment}{/*\ \ モジュール外定義関数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00038}00038\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00039}00039\ \textcolor{keyword}{extern}\ \ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a3e5e56868cd7a738e4927731adacb006}{mky43\_restart}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00040}00040\ \textcolor{keyword}{extern}\ \ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{disp_8c_a03568f1221adf65de9777c241fa576a3}{mky43\_get\_flow\_num}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00041}00041\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{disp_8c_aac6297df81323e9e329b0b1f65f25d17}{invert\_data}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ data);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00042}00042\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{disp_8c_a6b015c4f30f8155a91a017eb23853c81}{delay}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ delay\_count);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00044}00044\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00045}00045\ \textcolor{comment}{/*\ \ モジュール内定義変数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00046}00046\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00047}\mbox{\hyperlink{disp_8c_a6781f51b3df2500b2bd353126d3e434d}{00047}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{disp_8c_a6781f51b3df2500b2bd353126d3e434d}{sw\_now}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{//SW状態保存}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00048}\mbox{\hyperlink{disp_8c_a4ab597ec7a8f9e82c9576a7c58ca0809}{00048}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{disp_8c_a4ab597ec7a8f9e82c9576a7c58ca0809}{sw\_old}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{//SW状態保存}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00049}\mbox{\hyperlink{disp_8c_a226d9116943e741700a160b2ab9b76c4}{00049}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{disp_8c_a226d9116943e741700a160b2ab9b76c4}{sw\_cont}};\ \ \ \ \ \ \ \textcolor{comment}{//SW状態保存}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00050}\mbox{\hyperlink{cunet_8c_a3e50301680f9ae3c539c743802900863}{00050}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{disp_8c_a3e50301680f9ae3c539c743802900863}{sw\_cunet\_num}};\ \ \ \ \ \textcolor{comment}{//CUnetSW状態保存}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00051}\mbox{\hyperlink{disp_8c_a429964114b28a8c57723514dff874a81}{00051}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{disp_8c_a429964114b28a8c57723514dff874a81}{led\_flash}}\ =\ 0;\ \ \ \ \ \textcolor{comment}{//全灯検査用}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00052}\mbox{\hyperlink{disp_8c_a65423f121698249df87d76485391738f}{00052}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{disp_8c_a65423f121698249df87d76485391738f}{led\_channel}};\ \ \ \ \ \textcolor{comment}{//Channel\ LED表示状態}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00053}\mbox{\hyperlink{disp_8c_a3edd205bf6fe60b237392da440d8803d}{00053}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{disp_8c_a3edd205bf6fe60b237392da440d8803d}{led\_alarm}};\ \ \ \ \ \textcolor{comment}{//Alarm\ LED表示状態}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00054}\mbox{\hyperlink{disp_8c_a91ce766e4cbee833d7f5d69d994f34be}{00054}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{disp_8c_a91ce766e4cbee833d7f5d69d994f34be}{sw\_now\_zeroadj}};\ \textcolor{comment}{//ゼロ点調整SW状態}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00055}\mbox{\hyperlink{disp_8c_a5dd4ba8eca70c05fa1fdc371951a013c}{00055}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{disp_8c_a5dd4ba8eca70c05fa1fdc371951a013c}{sw\_now\_almreset}}[6];\ \ \ \ \textcolor{comment}{//ゼロ点調整SW状態}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00056}\mbox{\hyperlink{disp_8c_a43c6486a78441d276ba697512d5dc289}{00056}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{disp_8c_a43c6486a78441d276ba697512d5dc289}{CH\_LED}}[6]\ =\ \{\mbox{\hyperlink{define_8h_a6605204d669b2aeffd5b2dd1337cfd5d}{DSP\_LED1}},\ \mbox{\hyperlink{define_8h_a5efc96619b7d5a333c2cbbe9948bb016}{DSP\_LED2}},\ \mbox{\hyperlink{define_8h_ad23021737a19ffe02ca8589825d4201b}{DSP\_LED3}},\ \mbox{\hyperlink{define_8h_a144363dac2dcdf6270de70397e247a69}{DSP\_LED4}},\ \mbox{\hyperlink{define_8h_a46f9bac97394bbaaddec2c3aa0e4cbfa}{DSP\_LED5}},\ \mbox{\hyperlink{define_8h_adb505426e098bea4fe1b8590bac8e290}{DSP\_LED6}}\};\ \textcolor{comment}{/*CH-\/LED情報*/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00058}00058\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00059}00059\ \textcolor{comment}{/*\ \ モジュール外定義変数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00060}00060\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00061}00061\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{short}\ \ \ \ \mbox{\hyperlink{disp_8c_acc00f261e5c05917e73225f12f55fc80}{sa\_flow}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00062}00062\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{short}\ \ \ \ \mbox{\hyperlink{disp_8c_acac2b0c0522f5427959c801354e194a4}{main\_count}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00063}00063\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{short}\ \ \ \ \mbox{\hyperlink{disp_8c_aaf22b69db891ef13209092fe058b75cf}{disp\_ch}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00064}00064\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \ \ \ \mbox{\hyperlink{disp_8c_aa3cac78822855b3a06467a9f070ca298}{cmi\_count}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00065}00065\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{short}\ \ \ \ \mbox{\hyperlink{disp_8c_a2faf572799c793b94aeed7c38bfd7c5d}{com\_type}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00067}00067\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00068}00068\ \textcolor{comment}{/*\ Function\ :\ drive\_led\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00069}00069\ \textcolor{comment}{/*\ Summary\ \ :\ LED表示更新\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00070}00070\ \textcolor{comment}{/*\ Argument\ :\ led\_num\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00071}00071\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00072}00072\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00073}00073\ \textcolor{comment}{/*\ \ notes\ \ \ \ :\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00074}00074\ \textcolor{comment}{/*\ \ \ \ \ \ 0x0001\ \ \ \ \ \ //LED\ CH1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00075}00075\ \textcolor{comment}{/*\ \ \ \ \ \ 0x0002\ \ \ \ \ \ //LED\ CH2\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00076}00076\ \textcolor{comment}{/*\ \ \ \ \ \ 0x0004\ \ \ \ \ \ //LED\ CH3\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00077}00077\ \textcolor{comment}{/*\ \ \ \ \ \ 0x0008\ \ \ \ \ \ //LED\ CH4\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00078}00078\ \textcolor{comment}{/*\ \ \ \ \ \ 0x0010\ \ \ \ \ \ //LED\ CH5\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00079}00079\ \textcolor{comment}{/*\ \ \ \ \ \ 0x0020\ \ \ \ \ \ //LED\ CH6\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00080}00080\ \textcolor{comment}{/*\ \ \ \ \ \ 0x0100\ \ \ \ \ \ //LED\ ALM1\ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00081}00081\ \textcolor{comment}{/*\ \ \ \ \ \ 0x0200\ \ \ \ \ \ //LED\ ALM2\ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00082}00082\ \textcolor{comment}{/*\ \ \ \ \ \ 0x0400\ \ \ \ \ \ //LED\ ALM3\ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00083}00083\ \textcolor{comment}{/*\ \ \ \ \ \ 0x0800\ \ \ \ \ \ //LED\ ALM4\ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00084}00084\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00085}\mbox{\hyperlink{disp_8c_a0604262ce4442df57cea2ede1ad95f4b}{00085}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a0604262ce4442df57cea2ede1ad95f4b}{drive\_led}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ led\_num)\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00087}00087\ \ \ \ \ \mbox{\hyperlink{define_8h_a94f9be9272f16da67bd756aa95da0e68}{FPGA\_LED\_CNT}}\ =\ led\_num;\ \ \ \ \ \textcolor{comment}{//LED制御レジスタに設定}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00088}00088\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00090}00090\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00091}00091\ \textcolor{comment}{/*\ Function\ :\ disp\_led\_ch\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00092}00092\ \textcolor{comment}{/*\ Summary\ \ :\ channel\ LEDを更新する。\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00093}00093\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00094}00094\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00095}00095\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00096}00096\ \textcolor{comment}{/*\ notes\ \ \ \ :\ 10ms毎に呼ばれる\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00097}00097\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00098}\mbox{\hyperlink{disp_8c_a88642912145c128d3e6109c40d3904a3}{00098}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a88642912145c128d3e6109c40d3904a3}{disp\_led\_ch}}(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00100}00100\ \ \ \ \ \mbox{\hyperlink{disp_8c_a0604262ce4442df57cea2ede1ad95f4b}{drive\_led}}(\mbox{\hyperlink{disp_8c_a65423f121698249df87d76485391738f}{led\_channel}});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00101}00101\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00103}00103\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00104}00104\ \textcolor{comment}{/*\ Function\ :\ disp\_led\_alm\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00105}00105\ \textcolor{comment}{/*\ Summary\ \ :\ alarm\ LEDを更新する。\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00106}00106\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00107}00107\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00108}00108\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00109}00109\ \textcolor{comment}{/*\ notes\ \ \ \ :\ 10ms毎に呼ばれる\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00110}00110\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00111}\mbox{\hyperlink{disp_8c_afcaffb5ef99b44db9b93b8fd6e19d15e}{00111}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_afcaffb5ef99b44db9b93b8fd6e19d15e}{disp\_led\_alm}}(\textcolor{keywordtype}{void})\ \{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00113}00113\ \ \ \ \ \mbox{\hyperlink{disp_8c_a0604262ce4442df57cea2ede1ad95f4b}{drive\_led}}(\mbox{\hyperlink{disp_8c_a3edd205bf6fe60b237392da440d8803d}{led\_alarm}});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00114}00114\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00116}00116\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00117}00117\ \textcolor{comment}{/*\ Function\ :\ disp\_init\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00118}00118\ \textcolor{comment}{/*\ Summary\ \ :\ LED初期化\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00119}00119\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00120}00120\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00121}00121\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00122}00122\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00123}00123\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00124}\mbox{\hyperlink{disp_8c_ac2bff3cdc84df7de0365c6ddfa40dca5}{00124}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_ac2bff3cdc84df7de0365c6ddfa40dca5}{disp\_init}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00126}00126\ \ \ \ \ \mbox{\hyperlink{disp_8c_a65423f121698249df87d76485391738f}{led\_channel}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00127}00127\ \ \ \ \ \mbox{\hyperlink{disp_8c_a3edd205bf6fe60b237392da440d8803d}{led\_alarm}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00128}00128\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00130}00130\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00131}00131\ \textcolor{comment}{/*\ Function\ :\ disp\_zerosw\_check\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00132}00132\ \textcolor{comment}{/*\ Summary\ \ :\ スイッチ制御\ :\ ゼロ点調整スイッチ確認\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00133}00133\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00134}00134\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00135}00135\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00136}00136\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00137}00137\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00138}\mbox{\hyperlink{disp_8c_aeeb0bd518f2f9847f08680d59e1966ce}{00138}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_aeeb0bd518f2f9847f08680d59e1966ce}{disp\_zerosw\_check}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00140}00140\ \ \ \ \ \textcolor{keywordtype}{short}\ sw\_work;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00141}00141\ \ \ \ \ \textcolor{keywordtype}{short}\ ch\_read;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00142}00142\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ i\_cnt;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00143}00143\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00144}00144\ \ \ \ \ \textcolor{keywordflow}{for}(i\_cnt=\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};\ i\_cnt<\mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}};\ i\_cnt++)\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{def_l_e_d_8c_abf055289a0a9e0ba8a2dd82403f8a122}{LED}}[i\_cnt].zero\_active\ !=\ 0)\{\ \ \ \ \ \textcolor{comment}{//ゼロ点調整中は処理しない}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00147}00147\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00148}00148\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00150}00150\ \ \ \ \ sw\_work\ =\ \mbox{\hyperlink{disp_8c_afe2dc49c8ff9679d25460e377ec281a7}{disp\_zero\_read}}();\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ゼロ点調整SW読込み}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00152}00152\ \ \ \ \ \textcolor{keywordflow}{if}(sw\_work\ !=\ \mbox{\hyperlink{disp_8c_a4ab597ec7a8f9e82c9576a7c58ca0809}{sw\_old}})\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SW状態変化あり}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00153}00153\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a6781f51b3df2500b2bd353126d3e434d}{sw\_now}}\ =\ sw\_work;\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SW状態更新}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00154}00154\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a226d9116943e741700a160b2ab9b76c4}{sw\_cont}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00155}00155\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a91ce766e4cbee833d7f5d69d994f34be}{sw\_now\_zeroadj}}\ =\ \mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00156}00156\ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SW状態変化なし}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{disp_8c_a6781f51b3df2500b2bd353126d3e434d}{sw\_now}}\ ==\ \mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}}\ \&\&\ \mbox{\hyperlink{disp_8c_a91ce766e4cbee833d7f5d69d994f34be}{sw\_now\_zeroadj}}\ ==\ \mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}})\{\ \ \ \ \ \textcolor{comment}{//SW押下状態}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a226d9116943e741700a160b2ab9b76c4}{sw\_cont}}++;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00159}00159\ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a226d9116943e741700a160b2ab9b76c4}{sw\_cont}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a91ce766e4cbee833d7f5d69d994f34be}{sw\_now\_zeroadj}}\ =\ \mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00162}00162\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00163}00163\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{disp_8c_a226d9116943e741700a160b2ab9b76c4}{sw\_cont}}\ >\ \mbox{\hyperlink{define_8h_aafe379dafe8515a80bede9dccb015f27}{SW\_ZERO\_START}})\{\ \ \ \ \textcolor{comment}{//SW押下3秒経過}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a226d9116943e741700a160b2ab9b76c4}{sw\_cont}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a91ce766e4cbee833d7f5d69d994f34be}{sw\_now\_zeroadj}}\ =\ \mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}};\ \ \ \ \ \ \ \ \textcolor{comment}{//ゼロ点調整要求}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ ch\_read\ =\ \mbox{\hyperlink{disp_8c_a1237cd3d05883fe06952f56cfe9543b4}{disp\_ch\_read}}();\ \ \ \textcolor{comment}{//CHスイッチ読み込み}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(ch\_read\ ==\ \mbox{\hyperlink{define_8h_a6db512dde3789c5707d619a130c5d866}{SW\_CH0}})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a65423f121698249df87d76485391738f}{led\_channel}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(\ (ch\_read\ >=\ \mbox{\hyperlink{define_8h_ab2601da4533bc06f7c30af64a7c84836}{SW\_CH1}})\ \&\&\ (ch\_read\ <=\ \mbox{\hyperlink{define_8h_a94721a7e383a220db22322ec6d57ab4a}{SW\_CH6}})}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\&\ (\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[ch\_read\ -\/1].sensor\_size\ !=\ \mbox{\hyperlink{define_8h_a4d9c63d66a13ed12726346a5275d67c5}{SNS\_NONE}}))\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a65423f121698249df87d76485391738f}{led\_channel}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00176}00176\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00177}00177\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00178}00178\ \ \ \ \ \mbox{\hyperlink{disp_8c_a4ab597ec7a8f9e82c9576a7c58ca0809}{sw\_old}}\ =\ sw\_work;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SW状態保存}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00179}00179\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00181}00181\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00182}00182\ \textcolor{comment}{/*\ Function\ :\ disp\_zero\_read\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00183}00183\ \textcolor{comment}{/*\ Summary\ \ :\ スイッチ制御\ :\ ゼロスイッチ読込み\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00184}00184\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00185}00185\ \textcolor{comment}{/*\ Return\ \ \ :\ スイッチ状態\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00186}00186\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00187}00187\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00188}00188\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00189}\mbox{\hyperlink{disp_8c_afe2dc49c8ff9679d25460e377ec281a7}{00189}}\ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_afe2dc49c8ff9679d25460e377ec281a7}{disp\_zero\_read}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00191}00191\ \ \ \ \ \textcolor{keywordtype}{short}\ sw;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00193}00193\ \ \ \ \ \textcolor{comment}{//\ GPIO\_PH4}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00194}00194\ \ \ \ \ \textcolor{keywordflow}{if}(\_\_bit\_input(GPIO\_PORTH\_BASE,\ 4)\ ==\ 0)\{\ \ \ \ \ \ \ \textcolor{comment}{//Zero入力}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00195}00195\ \ \ \ \ \ \ \ \ sw\ =\ \mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00196}00196\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00197}00197\ \ \ \ \ \ \ \ \ sw\ =\ \mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00198}00198\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00200}00200\ \ \ \ \ \textcolor{keywordflow}{return}\ (sw);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00201}00201\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00203}00203\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00204}00204\ \textcolor{comment}{/*\ Function\ :\ disp\_ch\_read\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00205}00205\ \textcolor{comment}{/*\ Summary\ \ :\ スイッチ制御\ :\ CH番号読込み[SW2]\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00206}00206\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00207}00207\ \textcolor{comment}{/*\ Return\ \ \ :\ CH番号\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00208}00208\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00209}00209\ \textcolor{comment}{/*\ notes\ \ \ \ :\ 10ポジション(0〜9)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00210}00210\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00211}\mbox{\hyperlink{disp_8c_a1237cd3d05883fe06952f56cfe9543b4}{00211}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{disp_8c_a1237cd3d05883fe06952f56cfe9543b4}{disp\_ch\_read}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00212}00212\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00213}00213\ \ \ \ \ \textcolor{keywordtype}{short}\ sw\_status;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00215}00215\ \textcolor{comment}{//\ \ sw\_status\ =\ (FPGA\_SW\_DISP\ \&\ 0x000F);\ \ \ \ //SW表示レジスタ読込み}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00216}00216\ \ \ \ \ sw\_status\ =\ \mbox{\hyperlink{define_8h_a94bef8758ea96edc49b9023715f41130}{FPGA\_SW\_DISP}};\ \ \ \textcolor{comment}{//SW表示レジスタ読込み}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00217}00217\ \ \ \ \ sw\_status\ =\ (sw\_status\ \string^\ 0xFFFFFFFF);\ \ \ \textcolor{comment}{//ビット反転}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00218}00218\ \ \ \ \ sw\_status\ =\ (sw\_status\ \&\ 0x000F);\ \ \ \textcolor{comment}{//CHスイッチの有効ビット}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00220}00220\ \ \ \ \ \textcolor{keywordflow}{return}\ (sw\_status);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00221}00221\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00223}00223\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00224}00224\ \textcolor{comment}{/*\ Function\ :\ disp\_cunet\_read\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00225}00225\ \textcolor{comment}{/*\ Summary\ \ :\ スイッチ制御\ :\ CUnetアドレス読込み\ [SW3]\ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00226}00226\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00227}00227\ \textcolor{comment}{/*\ Return\ \ \ :\ CUnetアドレス\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00228}00228\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00229}00229\ \textcolor{comment}{/*\ notes\ \ \ \ :\ 16ポジション(0〜15)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00230}00230\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00231}\mbox{\hyperlink{cunet_8c_a1a5950df6b8e9d403b7e74b76fe9a09a}{00231}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{disp_8c_a1a5950df6b8e9d403b7e74b76fe9a09a}{disp\_cunet\_read}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00232}00232\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00233}00233\ \ \ \ \ \textcolor{keywordtype}{short}\ sw\_status;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00234}00234\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00235}00235\ \textcolor{comment}{//\ \ sw\_status\ =\ ((FPGA\_SW\_DISP\ \&\ 0x00F0)\ >>\ 4);\ //SW表示レジスタ読込み}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00236}00236\ \ \ \ \ sw\_status\ =\ \mbox{\hyperlink{define_8h_a94bef8758ea96edc49b9023715f41130}{FPGA\_SW\_DISP}};\ \ \ \textcolor{comment}{//SW表示レジスタ読込み}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00237}00237\ \ \ \ \ sw\_status\ =\ (sw\_status\ \string^\ 0xFFFFFFFF);\ \ \ \textcolor{comment}{//ビット反転}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00238}00238\ \ \ \ \ sw\_status\ =\ ((sw\_status\ \&\ 0x00F0)\ >>\ 4);\ \ \ \ \textcolor{comment}{//CUnetアドレススイッチの有効ビット}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00239}00239\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00240}00240\ \ \ \ \ \textcolor{keywordflow}{return}\ (sw\_status);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00241}00241\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00243}00243\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00244}00244\ \textcolor{comment}{/*\ Function\ :\ disp\_cunet\_set\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00245}00245\ \textcolor{comment}{/*\ Summary\ \ :\ CUnetアドレス設定\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00246}00246\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00247}00247\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00248}00248\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00249}00249\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00250}00250\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00251}\mbox{\hyperlink{disp_8c_a9b2016acd16b760c6606a5ce6ab7c72e}{00251}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a9b2016acd16b760c6606a5ce6ab7c72e}{disp\_cunet\_set}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00253}00253\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{disp_8c_a2faf572799c793b94aeed7c38bfd7c5d}{com\_type}}\ ==\ \mbox{\hyperlink{version_8h_a10d22da97bc46be4473e6fc392a989cc}{COM\_CUNET}})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{disp_8c_a6781f51b3df2500b2bd353126d3e434d}{sw\_now}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00256}00256\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a6781f51b3df2500b2bd353126d3e434d}{sw\_now}}\ =\ \mbox{\hyperlink{disp_8c_a03568f1221adf65de9777c241fa576a3}{mky43\_get\_flow\_num}}();}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{disp_8c_a6781f51b3df2500b2bd353126d3e434d}{sw\_now}}\ ==\ \mbox{\hyperlink{disp_8c_a3e50301680f9ae3c539c743802900863}{sw\_cunet\_num}})\{\ \ \ \textcolor{comment}{//CUnetSW状態変化なし}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00259}00259\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00260}00260\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00261}00261\ \ \ \ \ \textcolor{comment}{/*割込み禁止*/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00262}00262\ \ \ \ \ \ \ \ \ clrpsw\_i();}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00263}00263\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00264}00264\ \ \ \ \ \textcolor{comment}{/*CUnetアドレス設定処理*/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00265}00265\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a3e5e56868cd7a738e4927731adacb006}{mky43\_restart}}();\ \ \ \ \ \ \ \textcolor{comment}{//MKY43の通信再開}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00267}00267\ \ \ \ \ \textcolor{comment}{/*割込み許可*/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00268}00268\ \ \ \ \ \ \ \ \ setpsw\_i();}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00269}00269\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00270}00270\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a3e50301680f9ae3c539c743802900863}{sw\_cunet\_num}}\ =\ \mbox{\hyperlink{disp_8c_a6781f51b3df2500b2bd353126d3e434d}{sw\_now}};\ \ \ \ \ \ \ \ \textcolor{comment}{//CUnetSW状態保存}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00271}00271\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00272}00272\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00274}00274\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00275}00275\ \textcolor{comment}{/*\ Function\ :\ disp\_led\_control\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00276}00276\ \textcolor{comment}{/*\ Summary\ \ :\ パネル部LED処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00277}00277\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00278}00278\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00279}00279\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00280}00280\ \textcolor{comment}{/*\ notes\ \ \ \ :\ 1秒に1回呼ばれる\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00281}00281\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00282}\mbox{\hyperlink{disp_8c_a1e9fdcbecb8e2ee3b0bc447f3a807bd7}{00282}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a1e9fdcbecb8e2ee3b0bc447f3a807bd7}{disp\_led\_control}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00284}00284\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ i\_cnt;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00285}00285\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ ch\_num;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00286}00286\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ ch\_read;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00287}00287\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ oth\_status;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00288}00288\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00289}00289\ \ \ \ \ ch\_num\ =\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00290}00290\ \ \ \ \ oth\_status\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00292}00292\ \ \ \ \ \textcolor{comment}{/*\ 通常運用\ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00293}00293\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{disp_8c_a429964114b28a8c57723514dff874a81}{led\_flash}}\ ==\ 0)\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00294}00294\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00295}00295\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{disp_8c_aaf22b69db891ef13209092fe058b75cf}{disp\_ch}}\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00297}00297\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00298}00298\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(i\_cnt=\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};\ i\_cnt<\mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}};\ i\_cnt++)\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{def_l_e_d_8c_abf055289a0a9e0ba8a2dd82403f8a122}{LED}}[i\_cnt].zero\_active\ !=\ 0)\{\ \textcolor{comment}{//ゼロ点調整中はLED処理しない}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00303}00303\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00304}00304\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00305}00305\ \ \ \ \ \ \ \ \ ch\_read\ =\ \mbox{\hyperlink{disp_8c_a1237cd3d05883fe06952f56cfe9543b4}{disp\_ch\_read}}();\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//表示切替CHの取得}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00306}00306\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(ch\_read\ >\ \mbox{\hyperlink{define_8h_a94721a7e383a220db22322ec6d57ab4a}{SW\_CH6}})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_ac2bff3cdc84df7de0365c6ddfa40dca5}{disp\_init}}();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//全LED消灯}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00309}00309\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00310}00310\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(ch\_read>=\mbox{\hyperlink{define_8h_ab2601da4533bc06f7c30af64a7c84836}{SW\_CH1}}\ \&\&\ ch\_read<=\mbox{\hyperlink{define_8h_a94721a7e383a220db22322ec6d57ab4a}{SW\_CH6}})\{\ \ \ \ \ \textcolor{comment}{//CH1〜6設定時（指定CH処理）}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ ch\_num\ =\ ch\_read\ -\/\ 1;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//他CHのエラー情報を、channel\ LEDに表示}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a65423f121698249df87d76485391738f}{led\_channel}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(i\_cnt=\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};\ i\_cnt<\mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}};\ i\_cnt++)\{\ \ \ \textcolor{comment}{//他CHエラー情報確認}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ oth\_status\ =\ \mbox{\hyperlink{disp_8c_a8becf97f95a0ac7e34e0cd6651f2e569}{disp\_led\_judge}}(i\_cnt);\ \ \ \textcolor{comment}{//エラー情報読込み\ \ }}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(oth\_status\ !=\ 0)\{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラー情報あり}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a65423f121698249df87d76485391738f}{led\_channel}}\ |=\ \mbox{\hyperlink{disp_8c_a43c6486a78441d276ba697512d5dc289}{CH\_LED}}[i\_cnt];}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//自chのエラー情報を出力}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a3edd205bf6fe60b237392da440d8803d}{led\_alarm}}\ =\ \mbox{\hyperlink{disp_8c_a8becf97f95a0ac7e34e0cd6651f2e569}{disp\_led\_judge}}(ch\_num);\ \ \ \ \ \ \textcolor{comment}{//エラー情報読込み}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00322}00322\ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//CH0設定時（全CH処理）}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a65423f121698249df87d76485391738f}{led\_channel}}\ =\ \mbox{\hyperlink{disp_8c_a43c6486a78441d276ba697512d5dc289}{CH\_LED}}[\mbox{\hyperlink{disp_8c_aaf22b69db891ef13209092fe058b75cf}{disp\_ch}}];}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a3edd205bf6fe60b237392da440d8803d}{led\_alarm}}\ =\ \mbox{\hyperlink{disp_8c_a8becf97f95a0ac7e34e0cd6651f2e569}{disp\_led\_judge}}(\mbox{\hyperlink{disp_8c_aaf22b69db891ef13209092fe058b75cf}{disp\_ch}});}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00325}00325\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00326}00326\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00327}00327\ \ \ \ \ \textcolor{comment}{/*\ 全灯検査時\ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00328}00328\ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00329}00329\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a65423f121698249df87d76485391738f}{led\_channel}}\ =\ 0x003F;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00330}00330\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a3edd205bf6fe60b237392da440d8803d}{led\_alarm}}\ =\ 0x0F00;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00331}00331\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00332}00332\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00334}00334\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00335}00335\ \textcolor{comment}{/*\ Function\ :\ disp\_led\_judge\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00336}00336\ \textcolor{comment}{/*\ Summary\ \ :\ エラーLED種別判定\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00337}00337\ \textcolor{comment}{/*\ Argument\ :\ pch\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00338}00338\ \textcolor{comment}{/*\ \ Return\ \ \ :\ \ led\ :\ エラーLED種別\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00339}00339\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LED1:エンプティセンサ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00340}00340\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LED2:波形異常/アンバランス\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00341}00341\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LED3:ゼロ点調整失敗\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00342}00342\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LED4:その他異常\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00343}00343\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00344}00344\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00345}00345\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00346}\mbox{\hyperlink{disp_8c_a8becf97f95a0ac7e34e0cd6651f2e569}{00346}}\ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a8becf97f95a0ac7e34e0cd6651f2e569}{disp\_led\_judge}}(\textcolor{keywordtype}{short}\ pch)\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00348}00348\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ led;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00349}00349\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ led\_err\_status;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00350}00350\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00351}00351\ \ \ \ \ led\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00353}00353\ \ \ \ \ \textcolor{keywordflow}{if}(pch\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00354}00354\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (led);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00355}00355\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00356}00356\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00357}00357\ \ \ \ \ led\_err\_status\ =\ \mbox{\hyperlink{def_m_a_i_n_8c_a6fbaabd4a83fe206713aaa04b6b0fa0c}{MAIN}}[pch].\mbox{\hyperlink{structst_m_a_i_n_af0d78beb249e12261b52358e41985c39}{led\_err\_status}};}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00358}00358\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00359}00359\ \ \ \ \ \textcolor{keywordflow}{if}(led\_err\_status\ ==\ 0\ ||\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラー発生無し}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00360}00360\ \ \ \ \ \ \ \ \ led\_err\_status\ >=\ \mbox{\hyperlink{define_8h_a6a4d39abe8105c640ef823716dc30e00}{ERR\_CODE\_MAX}})\{\ \ \ \ \textcolor{comment}{//指定エラー以外の場合}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00361}00361\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (led);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00362}00362\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00363}00363\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00364}00364\ \ \ \ \ led\ =\ \mbox{\hyperlink{def_m_a_i_n_8c_aae36af03bde273f24f7528f2b7efe1c2}{err\_inf}}[led\_err\_status].\mbox{\hyperlink{struct_e_r_r_o_r___i_n_f_o_a0047c32d07f0f856229e7fc1b4f4f3e9}{err\_led}};\ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00365}00365\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00366}00366\ \ \ \ \ \textcolor{keywordflow}{return}\ (led);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00367}00367\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00368}00368\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00369}00369\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00370}00370\ \textcolor{comment}{/*\ Function\ :\ disp\_led\_cpu\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00371}00371\ \textcolor{comment}{/*\ Summary\ \ :\ LED制御\ :\ CPU\ LED制御\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00372}00372\ \textcolor{comment}{/*\ Argument\ :\ on\_off\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00373}00373\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00374}00374\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00375}00375\ \textcolor{comment}{/*\ notes\ \ \ \ :\ LED点灯/消灯/点滅\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00376}00376\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00377}\mbox{\hyperlink{disp_8c_a00824ca7f4cc215d38987c4dca2b1979}{00377}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a00824ca7f4cc215d38987c4dca2b1979}{disp\_led\_cpu}}(\textcolor{keywordtype}{short}\ on\_off)\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00378}00378\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00379}00379\ \ \ \ \ \textcolor{comment}{/*\ 通常運用\ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00380}00380\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{disp_8c_a429964114b28a8c57723514dff874a81}{led\_flash}}\ ==\ 0)\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00381}00381\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00382}00382\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(on\_off\ ==\ \mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}})\{\ \ \ \ \ \ \ \ \ \textcolor{comment}{//LED点灯}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PB7}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_bit\_output(GPIO\_PORTB\_BASE,\ 7,\ 1);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00385}00385\ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(on\_off\ ==\ \mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}})\{\ \textcolor{comment}{//LED消灯}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PB7}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_bit\_output(GPIO\_PORTB\_BASE,\ 7,\ 0);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00388}00388\ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//LED点滅}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PB7}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\_\_bit\_input(GPIO\_PORTB\_BASE,\ 7)\ !=\ 0)\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PB7}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_bit\_output(GPIO\_PORTB\_BASE,\ 7,\ 0);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PB7}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_bit\_output(GPIO\_PORTB\_BASE,\ 7,\ 1);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00397}00397\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00398}00398\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00399}00399\ \ \ \ \ \textcolor{comment}{/*\ 全灯検査時\ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00400}00400\ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00401}00401\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PB7}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00402}00402\ \ \ \ \ \ \ \ \ \_\_bit\_output(GPIO\_PORTB\_BASE,\ 7,\ 1);}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00403}00403\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00404}00404\ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00405}00405\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00406}00406\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00407}00407\ \textcolor{comment}{/*\ Function\ :\ disp\_cpu\_status\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00408}00408\ \textcolor{comment}{/*\ Summary\ \ :\ LED制御\ :\ CPU動作状態表示\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00409}00409\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00410}00410\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00411}00411\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00412}00412\ \textcolor{comment}{/*\ \ notes\ \ \ \ :　CPU正常時：低速点滅(1sec周期)\ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00413}00413\ \textcolor{comment}{/*\ \ 　　　　\ \ \ \ \ \ \ CPU異常時：高速点滅(300msec周期)\ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00414}00414\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00415}\mbox{\hyperlink{disp_8c_a55c72fd77bbd05cde58371c8f547cde5}{00415}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{disp_8c_a55c72fd77bbd05cde58371c8f547cde5}{disp\_cpu\_status}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00416}00416\ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00417}00417\ \ \ \ \ \textcolor{keywordtype}{short}\ timer;}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00418}00418\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00419}00419\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{def_m_a_i_n_8c_afd397188518ab76e2a744cf18bde56cc}{reset\_factor}}\ ==\ \mbox{\hyperlink{define_8h_afbb9cb4df66b61513fa57ef358fe6a75}{RESTART\_WDOG}})\{\ \ \ \textcolor{comment}{//ウォッチドッグ再起動時}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00420}00420\ \ \ \ \ \ \ \ \ timer\ =\ 3;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//300msec周期(100msec\ x\ 3回\ =\ 300msec)}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00421}00421\ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//CPU正常動作時}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00422}00422\ \ \ \ \ \ \ \ \ timer\ =\ 10;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//1sec周期(100msec\ x\ 10回\ =\ 1sec)}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00423}00423\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00424}00424\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00425}00425\ \ \ \ \ \textcolor{keywordflow}{if}((\mbox{\hyperlink{disp_8c_acac2b0c0522f5427959c801354e194a4}{main\_count}}\ \%\ timer)\ ==\ 0)\{\ \ \ \ \textcolor{comment}{//点滅更新周期}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00426}00426\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{disp_8c_a00824ca7f4cc215d38987c4dca2b1979}{disp\_led\_cpu}}(\mbox{\hyperlink{define_8h_ad26512b73b8dc0312b2d62569932c7f0}{B\_BLINK}});\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//CPU\ LED点滅}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00427}00427\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{disp_8c_source_l00428}00428\ \}}
+
+\end{DoxyCode}

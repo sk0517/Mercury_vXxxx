@@ -1,0 +1,91 @@
+\doxysection{def\+LOG.\+c}
+\hypertarget{def_l_o_g_8c_source}{}\label{def_l_o_g_8c_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/defLOG.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/defLOG.c}}
+\mbox{\hyperlink{def_l_o_g_8c}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00001}00001\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00002}00002\ \textcolor{comment}{/*\ File\ Name\ :\ defLOG.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ エラーログ情報初期値\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ reserved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{define_8h}{define.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_l_o_g_8h}{defLOG.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00013}00013\ \textcolor{comment}{/************************************************************/}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00014}00014\ \textcolor{comment}{/*\ \ グローバル変数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00015}00015\ \textcolor{comment}{/************************************************************/}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00016}\mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{00016}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l}{stLOG\_DETAIL}}\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[\mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}}][\mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}}];\ \ \ \ \ \textcolor{comment}{//エラーログ詳細情報}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00017}\mbox{\hyperlink{def_l_o_g_8c_aaff4783591dd34a7d23911f7466074e4}{00017}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l___d_e_f}{stLOG\_DETAIL\_DEF}}\ \mbox{\hyperlink{def_l_o_g_8c_aaff4783591dd34a7d23911f7466074e4}{LOG\_DETAIL\_DEF}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーログ詳細情報}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00019}00019\ \textcolor{comment}{/************************************************************/}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00020}00020\ \textcolor{comment}{/*\ \ エラーログ詳細情報の初期値\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00021}00021\ \textcolor{comment}{/************************************************************/}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00022}00022\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l___d_e_f}{stLOG\_DETAIL\_DEF}}\ \mbox{\hyperlink{def_l_o_g_8c_aaff4783591dd34a7d23911f7466074e4}{LOG\_DETAIL\_DEF}}=\{}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00023}00023\ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00024}00024\ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラー発生時の電源オンカウンタ}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00025}00025\ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラー発生時の時間}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00026}00026\ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//現在時間}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00027}00027\ \ \ \ \ 9999999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//流量}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00028}00028\ \ \ \ \ 99999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//流速}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00029}00029\ \ \ \ \ 9999999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//音速}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00030}00030\ \ \ \ \ 999999999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//積算値}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00031}00031\ \ \ \ \ 999999999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//伝搬時間（アップ）}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00032}00032\ \ \ \ \ 999999999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//伝搬時間（ダウン）}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00033}00033\ \ \ \ \ 999999999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//伝搬時間差}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00034}00034\ \ \ \ \ 999999999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//無駄時間（アップ）}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00035}00035\ \ \ \ \ 999999999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//無駄時間（ダウン）}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00036}00036\ \ \ \ \ 0xFFFF,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ステータス}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00037}00037\ \ \ \ \ 9999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//窓位置}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00038}00038\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ゲイン（アップ）}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00039}00039\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ゲイン（ダウン）}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00040}00040\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//最大極値}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00041}00041\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//先頭波閾値}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00042}00042\ \ \ \ \ 0xFF,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//メール送信エラーステータス}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00043}00043\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//差分相関値[42]}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00044}00044\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00045}00045\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00046}00046\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00047}00047\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00048}00048\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00049}00049\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00050}00050\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00051}00051\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00052}00052\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00053}00053\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00054}00054\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00055}00055\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00056}00056\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00057}00057\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00058}00058\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00059}00059\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00060}00060\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00061}00061\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00062}00062\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00063}00063\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00064}00064\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00065}00065\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00066}00066\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00067}00067\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00068}00068\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00069}00069\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00070}00070\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00071}00071\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00072}00072\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00073}00073\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00074}00074\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00075}00075\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00076}00076\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00077}00077\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00078}00078\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00079}00079\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00080}00080\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00081}00081\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00082}00082\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00083}00083\ \ \ \ \ 999,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00084}00084\ \ \ \ \ 999\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_l_o_g_8c_source_l00085}00085\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,9 @@
+<map id="mky43_mail_send" name="mky43_mail_send">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,56,132,83"/>
+<area shape="rect" id="Node000002" href="$cunet_8c.html#a6b29f0ddd2e65b36680ad8f662468e9d" title=" " alt="" coords="180,5,314,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,53,182,34,184,39,119,58"/>
+<area shape="rect" id="Node000003" href="$util_8c.html#af83d157e4434f310d21ac4db2bae139e" title=" " alt="" coords="209,56,285,83"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,67,193,67,193,72,132,72"/>
+<area shape="rect" id="Node000004" href="$util_8c.html#aaf493ee5fc4acdd9a325b6aa4eb1e04c" title=" " alt="" coords="187,107,307,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="119,81,184,99,182,105,118,86"/>
+</map>

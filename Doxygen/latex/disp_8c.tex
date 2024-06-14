@@ -1,0 +1,580 @@
+\doxysection{C\+:/\+Work\+Space/\+Mercury/\+Mercury\+\_\+v\+Xxxx/\+Mercury/\+MAIN/disp.c ファイル}
+\hypertarget{disp_8c}{}\label{disp_8c}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/disp.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/disp.c}}
+{\ttfamily \#include $<$machine.\+h$>$}\newline
+{\ttfamily \#include "{}define.\+h"{}}\newline
+{\ttfamily \#include "{}version.\+h"{}}\newline
+{\ttfamily \#include "{}def\+MES.\+h"{}}\newline
+{\ttfamily \#include "{}def\+LED.\+h"{}}\newline
+{\ttfamily \#include "{}def\+MAIN.\+h"{}}\newline
+{\ttfamily \#include "{}SV\+\_\+def.\+h"{}}\newline
+disp.\+c の依存先関係図\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disp_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{disp_8c_a0604262ce4442df57cea2ede1ad95f4b}{drive\+\_\+led}} (unsigned short led\+\_\+num)
+\item 
+void \mbox{\hyperlink{disp_8c_a88642912145c128d3e6109c40d3904a3}{disp\+\_\+led\+\_\+ch}} (void)
+\item 
+void \mbox{\hyperlink{disp_8c_afcaffb5ef99b44db9b93b8fd6e19d15e}{disp\+\_\+led\+\_\+alm}} (void)
+\item 
+void \mbox{\hyperlink{disp_8c_ac2bff3cdc84df7de0365c6ddfa40dca5}{disp\+\_\+init}} (void)
+\item 
+void \mbox{\hyperlink{disp_8c_aeeb0bd518f2f9847f08680d59e1966ce}{disp\+\_\+zerosw\+\_\+check}} (void)
+\item 
+short \mbox{\hyperlink{disp_8c_afe2dc49c8ff9679d25460e377ec281a7}{disp\+\_\+zero\+\_\+read}} (void)
+\item 
+short \mbox{\hyperlink{disp_8c_a1237cd3d05883fe06952f56cfe9543b4}{disp\+\_\+ch\+\_\+read}} (void)
+\item 
+short \mbox{\hyperlink{disp_8c_a1a5950df6b8e9d403b7e74b76fe9a09a}{disp\+\_\+cunet\+\_\+read}} (void)
+\item 
+void \mbox{\hyperlink{disp_8c_a9b2016acd16b760c6606a5ce6ab7c72e}{disp\+\_\+cunet\+\_\+set}} (void)
+\item 
+void \mbox{\hyperlink{disp_8c_a1e9fdcbecb8e2ee3b0bc447f3a807bd7}{disp\+\_\+led\+\_\+control}} (void)
+\item 
+short \mbox{\hyperlink{disp_8c_a8becf97f95a0ac7e34e0cd6651f2e569}{disp\+\_\+led\+\_\+judge}} (short pch)
+\item 
+void \mbox{\hyperlink{disp_8c_a00824ca7f4cc215d38987c4dca2b1979}{disp\+\_\+led\+\_\+cpu}} (short on\+\_\+off)
+\item 
+void \mbox{\hyperlink{disp_8c_a55c72fd77bbd05cde58371c8f547cde5}{disp\+\_\+cpu\+\_\+status}} (void)
+\item 
+void \mbox{\hyperlink{disp_8c_a3e5e56868cd7a738e4927731adacb006}{mky43\+\_\+restart}} (void)
+\item 
+short \mbox{\hyperlink{disp_8c_a03568f1221adf65de9777c241fa576a3}{mky43\+\_\+get\+\_\+flow\+\_\+num}} (void)
+\item 
+unsigned long \mbox{\hyperlink{disp_8c_aac6297df81323e9e329b0b1f65f25d17}{invert\+\_\+data}} (unsigned long data)
+\item 
+void \mbox{\hyperlink{disp_8c_a6b015c4f30f8155a91a017eb23853c81}{delay}} (unsigned short delay\+\_\+count)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{変数}
+\begin{DoxyCompactItemize}
+\item 
+short \mbox{\hyperlink{disp_8c_a6781f51b3df2500b2bd353126d3e434d}{sw\+\_\+now}}
+\item 
+short \mbox{\hyperlink{disp_8c_a4ab597ec7a8f9e82c9576a7c58ca0809}{sw\+\_\+old}}
+\item 
+short \mbox{\hyperlink{disp_8c_a226d9116943e741700a160b2ab9b76c4}{sw\+\_\+cont}}
+\item 
+short \mbox{\hyperlink{disp_8c_a3e50301680f9ae3c539c743802900863}{sw\+\_\+cunet\+\_\+num}}
+\item 
+short \mbox{\hyperlink{disp_8c_a429964114b28a8c57723514dff874a81}{led\+\_\+flash}} = 0
+\item 
+short \mbox{\hyperlink{disp_8c_a65423f121698249df87d76485391738f}{led\+\_\+channel}}
+\item 
+short \mbox{\hyperlink{disp_8c_a3edd205bf6fe60b237392da440d8803d}{led\+\_\+alarm}}
+\item 
+unsigned char \mbox{\hyperlink{disp_8c_a91ce766e4cbee833d7f5d69d994f34be}{sw\+\_\+now\+\_\+zeroadj}}
+\item 
+unsigned char \mbox{\hyperlink{disp_8c_a5dd4ba8eca70c05fa1fdc371951a013c}{sw\+\_\+now\+\_\+almreset}} \mbox{[}6\mbox{]}
+\item 
+short \mbox{\hyperlink{disp_8c_a43c6486a78441d276ba697512d5dc289}{CH\+\_\+\+LED}} \mbox{[}6\mbox{]} = \{\mbox{\hyperlink{define_8h_a6605204d669b2aeffd5b2dd1337cfd5d}{DSP\+\_\+\+LED1}}, \mbox{\hyperlink{define_8h_a5efc96619b7d5a333c2cbbe9948bb016}{DSP\+\_\+\+LED2}}, \mbox{\hyperlink{define_8h_ad23021737a19ffe02ca8589825d4201b}{DSP\+\_\+\+LED3}}, \mbox{\hyperlink{define_8h_a144363dac2dcdf6270de70397e247a69}{DSP\+\_\+\+LED4}}, \mbox{\hyperlink{define_8h_a46f9bac97394bbaaddec2c3aa0e4cbfa}{DSP\+\_\+\+LED5}}, \mbox{\hyperlink{define_8h_adb505426e098bea4fe1b8590bac8e290}{DSP\+\_\+\+LED6}}\}
+\item 
+short \mbox{\hyperlink{disp_8c_acc00f261e5c05917e73225f12f55fc80}{sa\+\_\+flow}}
+\item 
+short \mbox{\hyperlink{disp_8c_acac2b0c0522f5427959c801354e194a4}{main\+\_\+count}}
+\item 
+short \mbox{\hyperlink{disp_8c_aaf22b69db891ef13209092fe058b75cf}{disp\+\_\+ch}}
+\item 
+unsigned long \mbox{\hyperlink{disp_8c_aa3cac78822855b3a06467a9f070ca298}{cmi\+\_\+count}}
+\item 
+short \mbox{\hyperlink{disp_8c_a2faf572799c793b94aeed7c38bfd7c5d}{com\+\_\+type}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{関数詳解}
+\Hypertarget{disp_8c_a6b015c4f30f8155a91a017eb23853c81}\index{disp.c@{disp.c}!delay@{delay}}
+\index{delay@{delay}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{delay()}{delay()}}
+{\footnotesize\ttfamily \label{disp_8c_a6b015c4f30f8155a91a017eb23853c81} 
+void delay (\begin{DoxyParamCaption}\item[{unsigned short}]{delay\+\_\+count}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00710}{710}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a1237cd3d05883fe06952f56cfe9543b4}\index{disp.c@{disp.c}!disp\_ch\_read@{disp\_ch\_read}}
+\index{disp\_ch\_read@{disp\_ch\_read}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_ch\_read()}{disp\_ch\_read()}}
+{\footnotesize\ttfamily \label{disp_8c_a1237cd3d05883fe06952f56cfe9543b4} 
+short disp\+\_\+ch\+\_\+read (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00211}{211}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disp_8c_a1237cd3d05883fe06952f56cfe9543b4_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_a55c72fd77bbd05cde58371c8f547cde5}\index{disp.c@{disp.c}!disp\_cpu\_status@{disp\_cpu\_status}}
+\index{disp\_cpu\_status@{disp\_cpu\_status}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_cpu\_status()}{disp\_cpu\_status()}}
+{\footnotesize\ttfamily \label{disp_8c_a55c72fd77bbd05cde58371c8f547cde5} 
+void disp\+\_\+cpu\+\_\+status (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00415}{415}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=276pt]{disp_8c_a55c72fd77bbd05cde58371c8f547cde5_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{disp_8c_a55c72fd77bbd05cde58371c8f547cde5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_a1a5950df6b8e9d403b7e74b76fe9a09a}\index{disp.c@{disp.c}!disp\_cunet\_read@{disp\_cunet\_read}}
+\index{disp\_cunet\_read@{disp\_cunet\_read}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_cunet\_read()}{disp\_cunet\_read()}}
+{\footnotesize\ttfamily \label{disp_8c_a1a5950df6b8e9d403b7e74b76fe9a09a} 
+short disp\+\_\+cunet\+\_\+read (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00231}{231}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disp_8c_a1a5950df6b8e9d403b7e74b76fe9a09a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_a9b2016acd16b760c6606a5ce6ab7c72e}\index{disp.c@{disp.c}!disp\_cunet\_set@{disp\_cunet\_set}}
+\index{disp\_cunet\_set@{disp\_cunet\_set}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_cunet\_set()}{disp\_cunet\_set()}}
+{\footnotesize\ttfamily \label{disp_8c_a9b2016acd16b760c6606a5ce6ab7c72e} 
+void disp\+\_\+cunet\+\_\+set (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00251}{251}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disp_8c_a9b2016acd16b760c6606a5ce6ab7c72e_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_ac2bff3cdc84df7de0365c6ddfa40dca5}\index{disp.c@{disp.c}!disp\_init@{disp\_init}}
+\index{disp\_init@{disp\_init}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_init()}{disp\_init()}}
+{\footnotesize\ttfamily \label{disp_8c_ac2bff3cdc84df7de0365c6ddfa40dca5} 
+void disp\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00124}{124}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=344pt]{disp_8c_ac2bff3cdc84df7de0365c6ddfa40dca5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_afcaffb5ef99b44db9b93b8fd6e19d15e}\index{disp.c@{disp.c}!disp\_led\_alm@{disp\_led\_alm}}
+\index{disp\_led\_alm@{disp\_led\_alm}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_led\_alm()}{disp\_led\_alm()}}
+{\footnotesize\ttfamily \label{disp_8c_afcaffb5ef99b44db9b93b8fd6e19d15e} 
+void disp\+\_\+led\+\_\+alm (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00111}{111}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=243pt]{disp_8c_afcaffb5ef99b44db9b93b8fd6e19d15e_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=243pt]{disp_8c_afcaffb5ef99b44db9b93b8fd6e19d15e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_a88642912145c128d3e6109c40d3904a3}\index{disp.c@{disp.c}!disp\_led\_ch@{disp\_led\_ch}}
+\index{disp\_led\_ch@{disp\_led\_ch}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_led\_ch()}{disp\_led\_ch()}}
+{\footnotesize\ttfamily \label{disp_8c_a88642912145c128d3e6109c40d3904a3} 
+void disp\+\_\+led\+\_\+ch (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00098}{98}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{disp_8c_a88642912145c128d3e6109c40d3904a3_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{disp_8c_a88642912145c128d3e6109c40d3904a3_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_a1e9fdcbecb8e2ee3b0bc447f3a807bd7}\index{disp.c@{disp.c}!disp\_led\_control@{disp\_led\_control}}
+\index{disp\_led\_control@{disp\_led\_control}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_led\_control()}{disp\_led\_control()}}
+{\footnotesize\ttfamily \label{disp_8c_a1e9fdcbecb8e2ee3b0bc447f3a807bd7} 
+void disp\+\_\+led\+\_\+control (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00282}{282}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=283pt]{disp_8c_a1e9fdcbecb8e2ee3b0bc447f3a807bd7_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{disp_8c_a1e9fdcbecb8e2ee3b0bc447f3a807bd7_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_a00824ca7f4cc215d38987c4dca2b1979}\index{disp.c@{disp.c}!disp\_led\_cpu@{disp\_led\_cpu}}
+\index{disp\_led\_cpu@{disp\_led\_cpu}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_led\_cpu()}{disp\_led\_cpu()}}
+{\footnotesize\ttfamily \label{disp_8c_a00824ca7f4cc215d38987c4dca2b1979} 
+void disp\+\_\+led\+\_\+cpu (\begin{DoxyParamCaption}\item[{short}]{on\+\_\+off}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00377}{377}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{disp_8c_a00824ca7f4cc215d38987c4dca2b1979_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_a8becf97f95a0ac7e34e0cd6651f2e569}\index{disp.c@{disp.c}!disp\_led\_judge@{disp\_led\_judge}}
+\index{disp\_led\_judge@{disp\_led\_judge}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_led\_judge()}{disp\_led\_judge()}}
+{\footnotesize\ttfamily \label{disp_8c_a8becf97f95a0ac7e34e0cd6651f2e569} 
+short disp\+\_\+led\+\_\+judge (\begin{DoxyParamCaption}\item[{short}]{pch}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00346}{346}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disp_8c_a8becf97f95a0ac7e34e0cd6651f2e569_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_afe2dc49c8ff9679d25460e377ec281a7}\index{disp.c@{disp.c}!disp\_zero\_read@{disp\_zero\_read}}
+\index{disp\_zero\_read@{disp\_zero\_read}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_zero\_read()}{disp\_zero\_read()}}
+{\footnotesize\ttfamily \label{disp_8c_afe2dc49c8ff9679d25460e377ec281a7} 
+short disp\+\_\+zero\+\_\+read (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00189}{189}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disp_8c_afe2dc49c8ff9679d25460e377ec281a7_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_aeeb0bd518f2f9847f08680d59e1966ce}\index{disp.c@{disp.c}!disp\_zerosw\_check@{disp\_zerosw\_check}}
+\index{disp\_zerosw\_check@{disp\_zerosw\_check}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_zerosw\_check()}{disp\_zerosw\_check()}}
+{\footnotesize\ttfamily \label{disp_8c_aeeb0bd518f2f9847f08680d59e1966ce} 
+void disp\+\_\+zerosw\+\_\+check (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00138}{138}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=300pt]{disp_8c_aeeb0bd518f2f9847f08680d59e1966ce_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=255pt]{disp_8c_aeeb0bd518f2f9847f08680d59e1966ce_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_a0604262ce4442df57cea2ede1ad95f4b}\index{disp.c@{disp.c}!drive\_led@{drive\_led}}
+\index{drive\_led@{drive\_led}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{drive\_led()}{drive\_led()}}
+{\footnotesize\ttfamily \label{disp_8c_a0604262ce4442df57cea2ede1ad95f4b} 
+void drive\+\_\+led (\begin{DoxyParamCaption}\item[{unsigned short}]{led\+\_\+num}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00085}{85}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disp_8c_a0604262ce4442df57cea2ede1ad95f4b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_aac6297df81323e9e329b0b1f65f25d17}\index{disp.c@{disp.c}!invert\_data@{invert\_data}}
+\index{invert\_data@{invert\_data}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{invert\_data()}{invert\_data()}}
+{\footnotesize\ttfamily \label{disp_8c_aac6297df81323e9e329b0b1f65f25d17} 
+unsigned long invert\+\_\+data (\begin{DoxyParamCaption}\item[{unsigned long}]{data}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00697}{697}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a03568f1221adf65de9777c241fa576a3}\index{disp.c@{disp.c}!mky43\_get\_flow\_num@{mky43\_get\_flow\_num}}
+\index{mky43\_get\_flow\_num@{mky43\_get\_flow\_num}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_get\_flow\_num()}{mky43\_get\_flow\_num()}}
+{\footnotesize\ttfamily \label{disp_8c_a03568f1221adf65de9777c241fa576a3} 
+short mky43\+\_\+get\+\_\+flow\+\_\+num (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00861}{861}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=313pt]{disp_8c_a03568f1221adf65de9777c241fa576a3_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disp_8c_a03568f1221adf65de9777c241fa576a3_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{disp_8c_a3e5e56868cd7a738e4927731adacb006}\index{disp.c@{disp.c}!mky43\_restart@{mky43\_restart}}
+\index{mky43\_restart@{mky43\_restart}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{mky43\_restart()}{mky43\_restart()}}
+{\footnotesize\ttfamily \label{disp_8c_a3e5e56868cd7a738e4927731adacb006} 
+void mky43\+\_\+restart (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00212}{212}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{disp_8c_a3e5e56868cd7a738e4927731adacb006_icgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{変数詳解}
+\Hypertarget{disp_8c_a43c6486a78441d276ba697512d5dc289}\index{disp.c@{disp.c}!CH\_LED@{CH\_LED}}
+\index{CH\_LED@{CH\_LED}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{CH\_LED}{CH\_LED}}
+{\footnotesize\ttfamily \label{disp_8c_a43c6486a78441d276ba697512d5dc289} 
+short CH\+\_\+\+LED\mbox{[}6\mbox{]} = \{\mbox{\hyperlink{define_8h_a6605204d669b2aeffd5b2dd1337cfd5d}{DSP\+\_\+\+LED1}}, \mbox{\hyperlink{define_8h_a5efc96619b7d5a333c2cbbe9948bb016}{DSP\+\_\+\+LED2}}, \mbox{\hyperlink{define_8h_ad23021737a19ffe02ca8589825d4201b}{DSP\+\_\+\+LED3}}, \mbox{\hyperlink{define_8h_a144363dac2dcdf6270de70397e247a69}{DSP\+\_\+\+LED4}}, \mbox{\hyperlink{define_8h_a46f9bac97394bbaaddec2c3aa0e4cbfa}{DSP\+\_\+\+LED5}}, \mbox{\hyperlink{define_8h_adb505426e098bea4fe1b8590bac8e290}{DSP\+\_\+\+LED6}}\}}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00056}{56}} 行目に定義があります。
+
+\Hypertarget{disp_8c_aa3cac78822855b3a06467a9f070ca298}\index{disp.c@{disp.c}!cmi\_count@{cmi\_count}}
+\index{cmi\_count@{cmi\_count}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{cmi\_count}{cmi\_count}}
+{\footnotesize\ttfamily \label{disp_8c_aa3cac78822855b3a06467a9f070ca298} 
+unsigned long cmi\+\_\+count\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00066}{66}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a2faf572799c793b94aeed7c38bfd7c5d}\index{disp.c@{disp.c}!com\_type@{com\_type}}
+\index{com\_type@{com\_type}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{com\_type}{com\_type}}
+{\footnotesize\ttfamily \label{disp_8c_a2faf572799c793b94aeed7c38bfd7c5d} 
+short com\+\_\+type\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_a_i_n_8c_source}{MAIN.\+c}} の \mbox{\hyperlink{_m_a_i_n_8c_source_l00131}{131}} 行目に定義があります。
+
+\Hypertarget{disp_8c_aaf22b69db891ef13209092fe058b75cf}\index{disp.c@{disp.c}!disp\_ch@{disp\_ch}}
+\index{disp\_ch@{disp\_ch}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{disp\_ch}{disp\_ch}}
+{\footnotesize\ttfamily \label{disp_8c_aaf22b69db891ef13209092fe058b75cf} 
+short disp\+\_\+ch\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{int__prg_8c_source}{int\+\_\+prg.\+c}} の \mbox{\hyperlink{int__prg_8c_source_l00058}{58}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a3edd205bf6fe60b237392da440d8803d}\index{disp.c@{disp.c}!led\_alarm@{led\_alarm}}
+\index{led\_alarm@{led\_alarm}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{led\_alarm}{led\_alarm}}
+{\footnotesize\ttfamily \label{disp_8c_a3edd205bf6fe60b237392da440d8803d} 
+short led\+\_\+alarm}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00053}{53}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a65423f121698249df87d76485391738f}\index{disp.c@{disp.c}!led\_channel@{led\_channel}}
+\index{led\_channel@{led\_channel}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{led\_channel}{led\_channel}}
+{\footnotesize\ttfamily \label{disp_8c_a65423f121698249df87d76485391738f} 
+short led\+\_\+channel}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00052}{52}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a429964114b28a8c57723514dff874a81}\index{disp.c@{disp.c}!led\_flash@{led\_flash}}
+\index{led\_flash@{led\_flash}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{led\_flash}{led\_flash}}
+{\footnotesize\ttfamily \label{disp_8c_a429964114b28a8c57723514dff874a81} 
+short led\+\_\+flash = 0}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00051}{51}} 行目に定義があります。
+
+\Hypertarget{disp_8c_acac2b0c0522f5427959c801354e194a4}\index{disp.c@{disp.c}!main\_count@{main\_count}}
+\index{main\_count@{main\_count}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{main\_count}{main\_count}}
+{\footnotesize\ttfamily \label{disp_8c_acac2b0c0522f5427959c801354e194a4} 
+short main\+\_\+count\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_m_a_i_n_8c_source}{MAIN.\+c}} の \mbox{\hyperlink{_m_a_i_n_8c_source_l00130}{130}} 行目に定義があります。
+
+\Hypertarget{disp_8c_acc00f261e5c05917e73225f12f55fc80}\index{disp.c@{disp.c}!sa\_flow@{sa\_flow}}
+\index{sa\_flow@{sa\_flow}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{sa\_flow}{sa\_flow}}
+{\footnotesize\ttfamily \label{disp_8c_acc00f261e5c05917e73225f12f55fc80} 
+short sa\+\_\+flow\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{cunet_8c_source}{cunet.\+c}} の \mbox{\hyperlink{cunet_8c_source_l00070}{70}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a226d9116943e741700a160b2ab9b76c4}\index{disp.c@{disp.c}!sw\_cont@{sw\_cont}}
+\index{sw\_cont@{sw\_cont}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{sw\_cont}{sw\_cont}}
+{\footnotesize\ttfamily \label{disp_8c_a226d9116943e741700a160b2ab9b76c4} 
+short sw\+\_\+cont}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00049}{49}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a3e50301680f9ae3c539c743802900863}\index{disp.c@{disp.c}!sw\_cunet\_num@{sw\_cunet\_num}}
+\index{sw\_cunet\_num@{sw\_cunet\_num}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{sw\_cunet\_num}{sw\_cunet\_num}}
+{\footnotesize\ttfamily \label{disp_8c_a3e50301680f9ae3c539c743802900863} 
+short sw\+\_\+cunet\+\_\+num}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00050}{50}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a6781f51b3df2500b2bd353126d3e434d}\index{disp.c@{disp.c}!sw\_now@{sw\_now}}
+\index{sw\_now@{sw\_now}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{sw\_now}{sw\_now}}
+{\footnotesize\ttfamily \label{disp_8c_a6781f51b3df2500b2bd353126d3e434d} 
+short sw\+\_\+now}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00047}{47}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a5dd4ba8eca70c05fa1fdc371951a013c}\index{disp.c@{disp.c}!sw\_now\_almreset@{sw\_now\_almreset}}
+\index{sw\_now\_almreset@{sw\_now\_almreset}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{sw\_now\_almreset}{sw\_now\_almreset}}
+{\footnotesize\ttfamily \label{disp_8c_a5dd4ba8eca70c05fa1fdc371951a013c} 
+unsigned char sw\+\_\+now\+\_\+almreset\mbox{[}6\mbox{]}}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00055}{55}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a91ce766e4cbee833d7f5d69d994f34be}\index{disp.c@{disp.c}!sw\_now\_zeroadj@{sw\_now\_zeroadj}}
+\index{sw\_now\_zeroadj@{sw\_now\_zeroadj}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{sw\_now\_zeroadj}{sw\_now\_zeroadj}}
+{\footnotesize\ttfamily \label{disp_8c_a91ce766e4cbee833d7f5d69d994f34be} 
+unsigned char sw\+\_\+now\+\_\+zeroadj}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00054}{54}} 行目に定義があります。
+
+\Hypertarget{disp_8c_a4ab597ec7a8f9e82c9576a7c58ca0809}\index{disp.c@{disp.c}!sw\_old@{sw\_old}}
+\index{sw\_old@{sw\_old}!disp.c@{disp.c}}
+\doxysubsubsection{\texorpdfstring{sw\_old}{sw\_old}}
+{\footnotesize\ttfamily \label{disp_8c_a4ab597ec7a8f9e82c9576a7c58ca0809} 
+short sw\+\_\+old}
+
+
+
+ \mbox{\hyperlink{disp_8c_source}{disp.\+c}} の \mbox{\hyperlink{disp_8c_source_l00048}{48}} 行目に定義があります。
+

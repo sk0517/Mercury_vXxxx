@@ -1,0 +1,961 @@
+\doxysection{C\+:/\+Work\+Space/\+Mercury/\+Mercury\+\_\+v\+Xxxx/\+Mercury/\+MAIN/eeprom\+\_\+spi.c ファイル}
+\hypertarget{eeprom__spi_8c}{}\label{eeprom__spi_8c}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/eeprom\_spi.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/eeprom\_spi.c}}
+{\ttfamily \#include "{}machine.\+h"{}}\newline
+{\ttfamily \#include "{}define.\+h"{}}\newline
+{\ttfamily \#include "{}SV\+\_\+def.\+h"{}}\newline
+{\ttfamily \#include "{}def\+MES.\+h"{}}\newline
+{\ttfamily \#include "{}def\+MAIN.\+h"{}}\newline
+eeprom\+\_\+spi.\+c の依存先関係図\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{データ構造}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_e_e_p___q_u_e_u_e}{EEP\+\_\+\+QUEUE}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{マクロ定義}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}~unsigned char
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}}~unsigned short
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_ae4cc35dcc70810fa972cc8a5185a28fa}{BOOL}}~int
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_aa8cecfc5c5c054d2875c03e77b7be15d}{TRUE}}~1
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_aa93f0eb578d23995850d61f7d61c55c1}{FALSE}}~0
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a72caf90d5f14093b9dc1102a1f84d6c9}{IO\+\_\+\+CS\+\_\+0}}~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTB\+\_\+\+BASE, 4, 0))
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a8f8838e4e50f304139ec8ee10231ee7a}{IO\+\_\+\+CS\+\_\+1}}~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTB\+\_\+\+BASE, 4, 1))
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_ad1cf473e852027022765272a32ff9c48}{IO\+\_\+\+SCK\+\_\+0}}~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTB\+\_\+\+BASE, 5, 0))
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a04a78b6a943f3c549df9b2b070daefea}{IO\+\_\+\+SCK\+\_\+1}}~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTB\+\_\+\+BASE, 5, 1))
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a7dc7f009aab5f63fdaedb24833a7e119}{IO\+\_\+\+SI\+\_\+0}}~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTE\+\_\+\+BASE, 4, 0))
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a45cce7d695390de8e091cff3b3965a51}{IO\+\_\+\+SI\+\_\+1}}~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTE\+\_\+\+BASE, 4, 1))
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a63643b86fa02d221acaad7887915ea3e}{IO\+\_\+\+SO}}~(\+\_\+\+\_\+bit\+\_\+input(GPIO\+\_\+\+PORTE\+\_\+\+BASE, 5))
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_af2a1d2daedddd45fc63328e37cfa04dc}{IO\+\_\+\+HOLD}}
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a6f82639444a93f3582445f9747f27497}{IO\+\_\+\+WP}}
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a233ab2b77759d1d35814743f08c96347}{CMD\+\_\+\+WREN}}~0x06
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_aa98eb90657f02a0b7a4634174081799e}{CMD\+\_\+\+WRDI}}~0x04
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_af36d3b85d64c03760c6b76e916b443c1}{CMD\+\_\+\+RDSR}}~0x05
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_acf9ec38b37caa1223e957bba6058f626}{CMD\+\_\+\+WRSR}}~0x01
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a9c953a6c538020e644127ee080608021}{CMD\+\_\+\+READ}}~0x03
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a7391deb9c3a262ded3e186e94eb884e2}{CMD\+\_\+\+WRITE}}~0x02
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_ad80d9a40ff581436f8cf44ea7ccb3a39}{POLLING\+\_\+\+NUM}}~500
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_ac34f125fd3cbc51cec41262541c515fd}{EEP\+\_\+\+DEBUG}}~(1)
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a142810068f1b99cd93d3fc9f0e160e02}{QUEUE\+\_\+\+SIZE}}~(1536)
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_ae0e1d96743c06ea6d109541eacff9d66}{EEP\+\_\+\+WRITE\+\_\+\+TIMEOUT}}~(500)
+\item 
+\#define \mbox{\hyperlink{eeprom__spi_8c_a643bc7179b11873f2ad5ad2c8175bc78}{ENABLE\+\_\+\+QUEUE\+\_\+\+SIZE}}~(300)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{関数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}{Write\+EE}} (\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} Data)
+\item 
+\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} \mbox{\hyperlink{eeprom__spi_8c_ac2d4f02c27f025b6d2e0a128529b4154}{Read\+EE}} ()
+\item 
+\mbox{\hyperlink{eeprom__spi_8c_ae4cc35dcc70810fa972cc8a5185a28fa}{BOOL}} \mbox{\hyperlink{eeprom__spi_8c_adc3dff88fc60044a4be62ed82ab375d9}{Polling\+EE}} ()
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_acd4748d98bf62915949e720d0122be39}{Set\+WEN}} ()
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_a10fe18e7bd16806bff749da3acf45de6}{Clr\+WEN}} ()
+\item 
+\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} \mbox{\hyperlink{eeprom__spi_8c_a610697bfb4fc8f67c43c183061f55a7b}{Read\+SR}} ()
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_a4a9f022e17d68925901f05b2ac1722bb}{Write\+SR}} (\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} Data)
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_ab50c9fa8d035686482642e64312903cf}{Write}} (\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}} Address, \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} \texorpdfstring{$\ast$}{*}Pdata, \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} Length)
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_a135104f5cba8d8add4f48d38fa10d991}{Read}} (\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}} Address, \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} \texorpdfstring{$\ast$}{*}Pdata, \mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} Length)
+\item 
+short \mbox{\hyperlink{eeprom__spi_8c_a0633d5554b624df958bd6833407218c2}{eep\+\_\+read}} (short rom\+\_\+addr)
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_a0a03c6be0d7b62acad7d9b7ffcb9ccf1}{eep\+\_\+write}} (short rom\+\_\+addr, short data)
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_abec4963a7f5cb405784810bc86c09027}{eep\+\_\+sv\+\_\+read}} (short pch)
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_add8fe67b28109b71dd00af2a6266c20a}{eep\+\_\+sv\+\_\+write}} (short pch)
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_a8e327391853cdb0cb6fe7e325d7e2a3a}{eep\+\_\+write\+\_\+ch}} (short pch, short rom\+\_\+addr, short data)
+\item 
+short \mbox{\hyperlink{eeprom__spi_8c_aa1c4260f0eb9a1def3a037203c09baab}{eep\+\_\+spi\+\_\+error}} (void)
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_ad192952f7a9b56edc9c019378e4c9d03}{put\+\_\+queue}} (short addr, short data)
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_a7a31732e9f1d42cda3d9e951754c62e4}{get\+\_\+queue}} (short \texorpdfstring{$\ast$}{*}addr, short \texorpdfstring{$\ast$}{*}data)
+\item 
+short \mbox{\hyperlink{eeprom__spi_8c_abe4270da19df501a4ea5ad6989590443}{check\+\_\+queue}} (void)
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_ac19649cfb54b660f2683469e10f6dedd}{eep\+\_\+write\+\_\+ch\+\_\+delay}} (short pch, short rom\+\_\+addr, short data)
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_a781f4882d510f7a1b025490dba3ea133}{eep\+\_\+write\+\_\+pending\+\_\+data}} ()
+\item 
+void \mbox{\hyperlink{eeprom__spi_8c_a0d3e474dd65491bd74450ca952e8152d}{action\+\_\+status\+\_\+control}} (short pch, short act)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{変数}
+\begin{DoxyCompactItemize}
+\item 
+short \mbox{\hyperlink{eeprom__spi_8c_a47e7ef6ad70da303c54a8cf579705ca4}{eep\+\_\+err}}
+\item 
+\mbox{\hyperlink{structst_s_v_d}{st\+SVD}} \mbox{\hyperlink{eeprom__spi_8c_aa4049d8f58dfab577b7c6d03b579717d}{SVD\+\_\+default}}
+\item 
+\mbox{\hyperlink{struct_e_e_p___q_u_e_u_e}{EEP\+\_\+\+QUEUE}} \mbox{\hyperlink{eeprom__spi_8c_afd1248a09bebb72231539d056eedda92}{eep\+\_\+queue}} \mbox{[}\mbox{\hyperlink{eeprom__spi_8c_a142810068f1b99cd93d3fc9f0e160e02}{QUEUE\+\_\+\+SIZE}}\mbox{]}
+\item 
+short \mbox{\hyperlink{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}{eep\+\_\+rptr}} = 0
+\item 
+short \mbox{\hyperlink{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}{eep\+\_\+wptr}} = 0
+\item 
+short \mbox{\hyperlink{eeprom__spi_8c_afee8e42a9cadd8d32d289ffa3287dfaf}{eep\+\_\+empty}} = 1
+\item 
+short \mbox{\hyperlink{eeprom__spi_8c_a3db0bf8d88a005a7e05950b0df60f296}{eep\+\_\+size}} = 0
+\item 
+short \mbox{\hyperlink{eeprom__spi_8c_ae589485b2fa5f8526c4a448732c4c279}{eep\+\_\+size\+\_\+max}} = 0
+\item 
+short \mbox{\hyperlink{eeprom__spi_8c_a869b7244a69f168b1ac48433fba04331}{eep\+\_\+write\+\_\+retry}} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{マクロ定義詳解}
+\Hypertarget{eeprom__spi_8c_ae4cc35dcc70810fa972cc8a5185a28fa}\index{eeprom\_spi.c@{eeprom\_spi.c}!BOOL@{BOOL}}
+\index{BOOL@{BOOL}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{BOOL}{BOOL}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_ae4cc35dcc70810fa972cc8a5185a28fa} 
+\#define BOOL~int}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00018}{18}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}\index{eeprom\_spi.c@{eeprom\_spi.c}!BYTE@{BYTE}}
+\index{BYTE@{BYTE}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{BYTE}{BYTE}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd} 
+\#define BYTE~unsigned char}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00016}{16}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_af36d3b85d64c03760c6b76e916b443c1}\index{eeprom\_spi.c@{eeprom\_spi.c}!CMD\_RDSR@{CMD\_RDSR}}
+\index{CMD\_RDSR@{CMD\_RDSR}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{CMD\_RDSR}{CMD\_RDSR}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_af36d3b85d64c03760c6b76e916b443c1} 
+\#define CMD\+\_\+\+RDSR~0x05}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00043}{43}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a9c953a6c538020e644127ee080608021}\index{eeprom\_spi.c@{eeprom\_spi.c}!CMD\_READ@{CMD\_READ}}
+\index{CMD\_READ@{CMD\_READ}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{CMD\_READ}{CMD\_READ}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a9c953a6c538020e644127ee080608021} 
+\#define CMD\+\_\+\+READ~0x03}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00045}{45}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_aa98eb90657f02a0b7a4634174081799e}\index{eeprom\_spi.c@{eeprom\_spi.c}!CMD\_WRDI@{CMD\_WRDI}}
+\index{CMD\_WRDI@{CMD\_WRDI}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{CMD\_WRDI}{CMD\_WRDI}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_aa98eb90657f02a0b7a4634174081799e} 
+\#define CMD\+\_\+\+WRDI~0x04}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00042}{42}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a233ab2b77759d1d35814743f08c96347}\index{eeprom\_spi.c@{eeprom\_spi.c}!CMD\_WREN@{CMD\_WREN}}
+\index{CMD\_WREN@{CMD\_WREN}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{CMD\_WREN}{CMD\_WREN}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a233ab2b77759d1d35814743f08c96347} 
+\#define CMD\+\_\+\+WREN~0x06}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00041}{41}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a7391deb9c3a262ded3e186e94eb884e2}\index{eeprom\_spi.c@{eeprom\_spi.c}!CMD\_WRITE@{CMD\_WRITE}}
+\index{CMD\_WRITE@{CMD\_WRITE}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{CMD\_WRITE}{CMD\_WRITE}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a7391deb9c3a262ded3e186e94eb884e2} 
+\#define CMD\+\_\+\+WRITE~0x02}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00046}{46}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_acf9ec38b37caa1223e957bba6058f626}\index{eeprom\_spi.c@{eeprom\_spi.c}!CMD\_WRSR@{CMD\_WRSR}}
+\index{CMD\_WRSR@{CMD\_WRSR}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{CMD\_WRSR}{CMD\_WRSR}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_acf9ec38b37caa1223e957bba6058f626} 
+\#define CMD\+\_\+\+WRSR~0x01}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00044}{44}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_ac34f125fd3cbc51cec41262541c515fd}\index{eeprom\_spi.c@{eeprom\_spi.c}!EEP\_DEBUG@{EEP\_DEBUG}}
+\index{EEP\_DEBUG@{EEP\_DEBUG}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{EEP\_DEBUG}{EEP\_DEBUG}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_ac34f125fd3cbc51cec41262541c515fd} 
+\#define EEP\+\_\+\+DEBUG~(1)}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00390}{390}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_ae0e1d96743c06ea6d109541eacff9d66}\index{eeprom\_spi.c@{eeprom\_spi.c}!EEP\_WRITE\_TIMEOUT@{EEP\_WRITE\_TIMEOUT}}
+\index{EEP\_WRITE\_TIMEOUT@{EEP\_WRITE\_TIMEOUT}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{EEP\_WRITE\_TIMEOUT}{EEP\_WRITE\_TIMEOUT}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_ae0e1d96743c06ea6d109541eacff9d66} 
+\#define EEP\+\_\+\+WRITE\+\_\+\+TIMEOUT~(500)}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00397}{397}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a643bc7179b11873f2ad5ad2c8175bc78}\index{eeprom\_spi.c@{eeprom\_spi.c}!ENABLE\_QUEUE\_SIZE@{ENABLE\_QUEUE\_SIZE}}
+\index{ENABLE\_QUEUE\_SIZE@{ENABLE\_QUEUE\_SIZE}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{ENABLE\_QUEUE\_SIZE}{ENABLE\_QUEUE\_SIZE}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a643bc7179b11873f2ad5ad2c8175bc78} 
+\#define ENABLE\+\_\+\+QUEUE\+\_\+\+SIZE~(300)}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00398}{398}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_aa93f0eb578d23995850d61f7d61c55c1}\index{eeprom\_spi.c@{eeprom\_spi.c}!FALSE@{FALSE}}
+\index{FALSE@{FALSE}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{FALSE}{FALSE}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_aa93f0eb578d23995850d61f7d61c55c1} 
+\#define FALSE~0}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00020}{20}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a72caf90d5f14093b9dc1102a1f84d6c9}\index{eeprom\_spi.c@{eeprom\_spi.c}!IO\_CS\_0@{IO\_CS\_0}}
+\index{IO\_CS\_0@{IO\_CS\_0}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{IO\_CS\_0}{IO\_CS\_0}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a72caf90d5f14093b9dc1102a1f84d6c9} 
+\#define IO\+\_\+\+CS\+\_\+0~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTB\+\_\+\+BASE, 4, 0))}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00024}{24}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a8f8838e4e50f304139ec8ee10231ee7a}\index{eeprom\_spi.c@{eeprom\_spi.c}!IO\_CS\_1@{IO\_CS\_1}}
+\index{IO\_CS\_1@{IO\_CS\_1}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{IO\_CS\_1}{IO\_CS\_1}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a8f8838e4e50f304139ec8ee10231ee7a} 
+\#define IO\+\_\+\+CS\+\_\+1~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTB\+\_\+\+BASE, 4, 1))}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00025}{25}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_af2a1d2daedddd45fc63328e37cfa04dc}\index{eeprom\_spi.c@{eeprom\_spi.c}!IO\_HOLD@{IO\_HOLD}}
+\index{IO\_HOLD@{IO\_HOLD}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{IO\_HOLD}{IO\_HOLD}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_af2a1d2daedddd45fc63328e37cfa04dc} 
+\#define IO\+\_\+\+HOLD}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00037}{37}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_ad1cf473e852027022765272a32ff9c48}\index{eeprom\_spi.c@{eeprom\_spi.c}!IO\_SCK\_0@{IO\_SCK\_0}}
+\index{IO\_SCK\_0@{IO\_SCK\_0}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{IO\_SCK\_0}{IO\_SCK\_0}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_ad1cf473e852027022765272a32ff9c48} 
+\#define IO\+\_\+\+SCK\+\_\+0~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTB\+\_\+\+BASE, 5, 0))}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00028}{28}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a04a78b6a943f3c549df9b2b070daefea}\index{eeprom\_spi.c@{eeprom\_spi.c}!IO\_SCK\_1@{IO\_SCK\_1}}
+\index{IO\_SCK\_1@{IO\_SCK\_1}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{IO\_SCK\_1}{IO\_SCK\_1}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a04a78b6a943f3c549df9b2b070daefea} 
+\#define IO\+\_\+\+SCK\+\_\+1~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTB\+\_\+\+BASE, 5, 1))}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00029}{29}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a7dc7f009aab5f63fdaedb24833a7e119}\index{eeprom\_spi.c@{eeprom\_spi.c}!IO\_SI\_0@{IO\_SI\_0}}
+\index{IO\_SI\_0@{IO\_SI\_0}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{IO\_SI\_0}{IO\_SI\_0}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a7dc7f009aab5f63fdaedb24833a7e119} 
+\#define IO\+\_\+\+SI\+\_\+0~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTE\+\_\+\+BASE, 4, 0))}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00032}{32}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a45cce7d695390de8e091cff3b3965a51}\index{eeprom\_spi.c@{eeprom\_spi.c}!IO\_SI\_1@{IO\_SI\_1}}
+\index{IO\_SI\_1@{IO\_SI\_1}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{IO\_SI\_1}{IO\_SI\_1}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a45cce7d695390de8e091cff3b3965a51} 
+\#define IO\+\_\+\+SI\+\_\+1~(\+\_\+\+\_\+bit\+\_\+output(GPIO\+\_\+\+PORTE\+\_\+\+BASE, 4, 1))}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00033}{33}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a63643b86fa02d221acaad7887915ea3e}\index{eeprom\_spi.c@{eeprom\_spi.c}!IO\_SO@{IO\_SO}}
+\index{IO\_SO@{IO\_SO}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{IO\_SO}{IO\_SO}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a63643b86fa02d221acaad7887915ea3e} 
+\#define IO\+\_\+\+SO~(\+\_\+\+\_\+bit\+\_\+input(GPIO\+\_\+\+PORTE\+\_\+\+BASE, 5))}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00035}{35}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a6f82639444a93f3582445f9747f27497}\index{eeprom\_spi.c@{eeprom\_spi.c}!IO\_WP@{IO\_WP}}
+\index{IO\_WP@{IO\_WP}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{IO\_WP}{IO\_WP}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a6f82639444a93f3582445f9747f27497} 
+\#define IO\+\_\+\+WP}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00038}{38}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_ad80d9a40ff581436f8cf44ea7ccb3a39}\index{eeprom\_spi.c@{eeprom\_spi.c}!POLLING\_NUM@{POLLING\_NUM}}
+\index{POLLING\_NUM@{POLLING\_NUM}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{POLLING\_NUM}{POLLING\_NUM}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_ad80d9a40ff581436f8cf44ea7ccb3a39} 
+\#define POLLING\+\_\+\+NUM~500}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00048}{48}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a142810068f1b99cd93d3fc9f0e160e02}\index{eeprom\_spi.c@{eeprom\_spi.c}!QUEUE\_SIZE@{QUEUE\_SIZE}}
+\index{QUEUE\_SIZE@{QUEUE\_SIZE}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{QUEUE\_SIZE}{QUEUE\_SIZE}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a142810068f1b99cd93d3fc9f0e160e02} 
+\#define QUEUE\+\_\+\+SIZE~(1536)}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00396}{396}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_aa8cecfc5c5c054d2875c03e77b7be15d}\index{eeprom\_spi.c@{eeprom\_spi.c}!TRUE@{TRUE}}
+\index{TRUE@{TRUE}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{TRUE}{TRUE}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_aa8cecfc5c5c054d2875c03e77b7be15d} 
+\#define TRUE~1}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00019}{19}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}\index{eeprom\_spi.c@{eeprom\_spi.c}!WORD@{WORD}}
+\index{WORD@{WORD}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{WORD}{WORD}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5} 
+\#define WORD~unsigned short}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00017}{17}} 行目に定義があります。
+
+
+
+\doxysubsection{関数詳解}
+\Hypertarget{eeprom__spi_8c_a0d3e474dd65491bd74450ca952e8152d}\index{eeprom\_spi.c@{eeprom\_spi.c}!action\_status\_control@{action\_status\_control}}
+\index{action\_status\_control@{action\_status\_control}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{action\_status\_control()}{action\_status\_control()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a0d3e474dd65491bd74450ca952e8152d} 
+void action\+\_\+status\+\_\+control (\begin{DoxyParamCaption}\item[{short}]{pch}{, }\item[{short}]{act}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{util_8c_source}{util.\+c}} の \mbox{\hyperlink{util_8c_source_l00625}{625}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_a0d3e474dd65491bd74450ca952e8152d_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_abe4270da19df501a4ea5ad6989590443}\index{eeprom\_spi.c@{eeprom\_spi.c}!check\_queue@{check\_queue}}
+\index{check\_queue@{check\_queue}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{check\_queue()}{check\_queue()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_abe4270da19df501a4ea5ad6989590443} 
+short check\+\_\+queue (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00473}{473}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_abe4270da19df501a4ea5ad6989590443_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_a10fe18e7bd16806bff749da3acf45de6}\index{eeprom\_spi.c@{eeprom\_spi.c}!ClrWEN@{ClrWEN}}
+\index{ClrWEN@{ClrWEN}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{ClrWEN()}{ClrWEN()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a10fe18e7bd16806bff749da3acf45de6} 
+void Clr\+WEN (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00192}{192}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{eeprom__spi_8c_a10fe18e7bd16806bff749da3acf45de6_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_a0633d5554b624df958bd6833407218c2}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_read@{eep\_read}}
+\index{eep\_read@{eep\_read}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_read()}{eep\_read()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a0633d5554b624df958bd6833407218c2} 
+short eep\+\_\+read (\begin{DoxyParamCaption}\item[{short}]{rom\+\_\+addr}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00285}{285}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=299pt]{eeprom__spi_8c_a0633d5554b624df958bd6833407218c2_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_a0633d5554b624df958bd6833407218c2_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_aa1c4260f0eb9a1def3a037203c09baab}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_spi\_error@{eep\_spi\_error}}
+\index{eep\_spi\_error@{eep\_spi\_error}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_spi\_error()}{eep\_spi\_error()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_aa1c4260f0eb9a1def3a037203c09baab} 
+short eep\+\_\+spi\+\_\+error (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00381}{381}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_aa1c4260f0eb9a1def3a037203c09baab_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_abec4963a7f5cb405784810bc86c09027}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_sv\_read@{eep\_sv\_read}}
+\index{eep\_sv\_read@{eep\_sv\_read}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_sv\_read()}{eep\_sv\_read()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_abec4963a7f5cb405784810bc86c09027} 
+void eep\+\_\+sv\+\_\+read (\begin{DoxyParamCaption}\item[{short}]{pch}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00316}{316}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_abec4963a7f5cb405784810bc86c09027_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_abec4963a7f5cb405784810bc86c09027_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_add8fe67b28109b71dd00af2a6266c20a}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_sv\_write@{eep\_sv\_write}}
+\index{eep\_sv\_write@{eep\_sv\_write}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_sv\_write()}{eep\_sv\_write()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_add8fe67b28109b71dd00af2a6266c20a} 
+void eep\+\_\+sv\+\_\+write (\begin{DoxyParamCaption}\item[{short}]{pch}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00337}{337}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_add8fe67b28109b71dd00af2a6266c20a_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_add8fe67b28109b71dd00af2a6266c20a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_a0a03c6be0d7b62acad7d9b7ffcb9ccf1}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_write@{eep\_write}}
+\index{eep\_write@{eep\_write}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_write()}{eep\_write()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a0a03c6be0d7b62acad7d9b7ffcb9ccf1} 
+void eep\+\_\+write (\begin{DoxyParamCaption}\item[{short}]{rom\+\_\+addr}{, }\item[{short}]{data}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00300}{300}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_a0a03c6be0d7b62acad7d9b7ffcb9ccf1_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_a0a03c6be0d7b62acad7d9b7ffcb9ccf1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_a8e327391853cdb0cb6fe7e325d7e2a3a}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_write\_ch@{eep\_write\_ch}}
+\index{eep\_write\_ch@{eep\_write\_ch}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_write\_ch()}{eep\_write\_ch()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a8e327391853cdb0cb6fe7e325d7e2a3a} 
+void eep\+\_\+write\+\_\+ch (\begin{DoxyParamCaption}\item[{short}]{pch}{, }\item[{short}]{rom\+\_\+addr}{, }\item[{short}]{data}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00358}{358}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_a8e327391853cdb0cb6fe7e325d7e2a3a_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_a8e327391853cdb0cb6fe7e325d7e2a3a_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_ac19649cfb54b660f2683469e10f6dedd}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_write\_ch\_delay@{eep\_write\_ch\_delay}}
+\index{eep\_write\_ch\_delay@{eep\_write\_ch\_delay}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_write\_ch\_delay()}{eep\_write\_ch\_delay()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_ac19649cfb54b660f2683469e10f6dedd} 
+void eep\+\_\+write\+\_\+ch\+\_\+delay (\begin{DoxyParamCaption}\item[{short}]{pch}{, }\item[{short}]{rom\+\_\+addr}{, }\item[{short}]{data}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00496}{496}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=291pt]{eeprom__spi_8c_ac19649cfb54b660f2683469e10f6dedd_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_ac19649cfb54b660f2683469e10f6dedd_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_a781f4882d510f7a1b025490dba3ea133}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_write\_pending\_data@{eep\_write\_pending\_data}}
+\index{eep\_write\_pending\_data@{eep\_write\_pending\_data}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_write\_pending\_data()}{eep\_write\_pending\_data()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a781f4882d510f7a1b025490dba3ea133} 
+void eep\+\_\+write\+\_\+pending\+\_\+data (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00518}{518}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_a781f4882d510f7a1b025490dba3ea133_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{eeprom__spi_8c_a781f4882d510f7a1b025490dba3ea133_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_a7a31732e9f1d42cda3d9e951754c62e4}\index{eeprom\_spi.c@{eeprom\_spi.c}!get\_queue@{get\_queue}}
+\index{get\_queue@{get\_queue}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{get\_queue()}{get\_queue()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a7a31732e9f1d42cda3d9e951754c62e4} 
+void get\+\_\+queue (\begin{DoxyParamCaption}\item[{short \texorpdfstring{$\ast$}{*}}]{addr}{, }\item[{short \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00449}{449}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_a7a31732e9f1d42cda3d9e951754c62e4_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_adc3dff88fc60044a4be62ed82ab375d9}\index{eeprom\_spi.c@{eeprom\_spi.c}!PollingEE@{PollingEE}}
+\index{PollingEE@{PollingEE}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{PollingEE()}{PollingEE()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_adc3dff88fc60044a4be62ed82ab375d9} 
+\mbox{\hyperlink{eeprom__spi_8c_ae4cc35dcc70810fa972cc8a5185a28fa}{BOOL}} Polling\+EE (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00153}{153}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=316pt]{eeprom__spi_8c_adc3dff88fc60044a4be62ed82ab375d9_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_adc3dff88fc60044a4be62ed82ab375d9_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_ad192952f7a9b56edc9c019378e4c9d03}\index{eeprom\_spi.c@{eeprom\_spi.c}!put\_queue@{put\_queue}}
+\index{put\_queue@{put\_queue}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{put\_queue()}{put\_queue()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_ad192952f7a9b56edc9c019378e4c9d03} 
+void put\+\_\+queue (\begin{DoxyParamCaption}\item[{short}]{addr}{, }\item[{short}]{data}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00423}{423}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_ad192952f7a9b56edc9c019378e4c9d03_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_a135104f5cba8d8add4f48d38fa10d991}\index{eeprom\_spi.c@{eeprom\_spi.c}!Read@{Read}}
+\index{Read@{Read}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{Read()}{Read()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a135104f5cba8d8add4f48d38fa10d991} 
+void Read (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}}}]{Address}{, }\item[{\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} \texorpdfstring{$\ast$}{*}}]{Pdata}{, }\item[{\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}}]{Length}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00263}{263}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=207pt]{eeprom__spi_8c_a135104f5cba8d8add4f48d38fa10d991_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_a135104f5cba8d8add4f48d38fa10d991_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_ac2d4f02c27f025b6d2e0a128529b4154}\index{eeprom\_spi.c@{eeprom\_spi.c}!ReadEE@{ReadEE}}
+\index{ReadEE@{ReadEE}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{ReadEE()}{ReadEE()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_ac2d4f02c27f025b6d2e0a128529b4154} 
+\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} Read\+EE (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00125}{125}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_ac2d4f02c27f025b6d2e0a128529b4154_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_a610697bfb4fc8f67c43c183061f55a7b}\index{eeprom\_spi.c@{eeprom\_spi.c}!ReadSR@{ReadSR}}
+\index{ReadSR@{ReadSR}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{ReadSR()}{ReadSR()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a610697bfb4fc8f67c43c183061f55a7b} 
+\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} Read\+SR (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00207}{207}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{eeprom__spi_8c_a610697bfb4fc8f67c43c183061f55a7b_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_a610697bfb4fc8f67c43c183061f55a7b_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_acd4748d98bf62915949e720d0122be39}\index{eeprom\_spi.c@{eeprom\_spi.c}!SetWEN@{SetWEN}}
+\index{SetWEN@{SetWEN}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{SetWEN()}{SetWEN()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_acd4748d98bf62915949e720d0122be39} 
+void Set\+WEN (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00177}{177}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=223pt]{eeprom__spi_8c_acd4748d98bf62915949e720d0122be39_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_acd4748d98bf62915949e720d0122be39_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_ab50c9fa8d035686482642e64312903cf}\index{eeprom\_spi.c@{eeprom\_spi.c}!Write@{Write}}
+\index{Write@{Write}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{Write()}{Write()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_ab50c9fa8d035686482642e64312903cf} 
+void Write (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}}}]{Address}{, }\item[{\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}} \texorpdfstring{$\ast$}{*}}]{Pdata}{, }\item[{\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}}]{Length}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00241}{241}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{eeprom__spi_8c_ab50c9fa8d035686482642e64312903cf_cgraph}
+\end{center}
+\end{figure}
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_ab50c9fa8d035686482642e64312903cf_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695}\index{eeprom\_spi.c@{eeprom\_spi.c}!WriteEE@{WriteEE}}
+\index{WriteEE@{WriteEE}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{WriteEE()}{WriteEE()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695} 
+void Write\+EE (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}}]{Data}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00097}{97}} 行目に定義があります。
+
+被呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{eeprom__spi_8c_a62c2962ba6064dcf138c759341a02695_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{eeprom__spi_8c_a4a9f022e17d68925901f05b2ac1722bb}\index{eeprom\_spi.c@{eeprom\_spi.c}!WriteSR@{WriteSR}}
+\index{WriteSR@{WriteSR}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{WriteSR()}{WriteSR()}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a4a9f022e17d68925901f05b2ac1722bb} 
+void Write\+SR (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eeprom__spi_8c_aec93e83855ac17c3c25c55c37ca186dd}{BYTE}}}]{Data}{}\end{DoxyParamCaption})}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00225}{225}} 行目に定義があります。
+
+呼び出し関係図\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{eeprom__spi_8c_a4a9f022e17d68925901f05b2ac1722bb_cgraph}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{変数詳解}
+\Hypertarget{eeprom__spi_8c_afee8e42a9cadd8d32d289ffa3287dfaf}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_empty@{eep\_empty}}
+\index{eep\_empty@{eep\_empty}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_empty}{eep\_empty}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_afee8e42a9cadd8d32d289ffa3287dfaf} 
+short eep\+\_\+empty = 1}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00408}{408}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a47e7ef6ad70da303c54a8cf579705ca4}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_err@{eep\_err}}
+\index{eep\_err@{eep\_err}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_err}{eep\_err}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a47e7ef6ad70da303c54a8cf579705ca4} 
+short eep\+\_\+err\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{protocol_8c_source}{protocol.\+c}} の \mbox{\hyperlink{protocol_8c_source_l00088}{88}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_afd1248a09bebb72231539d056eedda92}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_queue@{eep\_queue}}
+\index{eep\_queue@{eep\_queue}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_queue}{eep\_queue}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_afd1248a09bebb72231539d056eedda92} 
+\mbox{\hyperlink{struct_e_e_p___q_u_e_u_e}{EEP\+\_\+\+QUEUE}} eep\+\_\+queue\mbox{[}\mbox{\hyperlink{eeprom__spi_8c_a142810068f1b99cd93d3fc9f0e160e02}{QUEUE\+\_\+\+SIZE}}\mbox{]}}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00405}{405}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_rptr@{eep\_rptr}}
+\index{eep\_rptr@{eep\_rptr}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_rptr}{eep\_rptr}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a2c72ac67347e832b6ea69bf45f9a711e} 
+short eep\+\_\+rptr = 0}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00406}{406}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a3db0bf8d88a005a7e05950b0df60f296}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_size@{eep\_size}}
+\index{eep\_size@{eep\_size}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_size}{eep\_size}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a3db0bf8d88a005a7e05950b0df60f296} 
+short eep\+\_\+size = 0}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00411}{411}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_ae589485b2fa5f8526c4a448732c4c279}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_size\_max@{eep\_size\_max}}
+\index{eep\_size\_max@{eep\_size\_max}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_size\_max}{eep\_size\_max}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_ae589485b2fa5f8526c4a448732c4c279} 
+short eep\+\_\+size\+\_\+max = 0}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00412}{412}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_wptr@{eep\_wptr}}
+\index{eep\_wptr@{eep\_wptr}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_wptr}{eep\_wptr}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a7d4aabfdad4f1986eabf288da2840684} 
+short eep\+\_\+wptr = 0}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00407}{407}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_a869b7244a69f168b1ac48433fba04331}\index{eeprom\_spi.c@{eeprom\_spi.c}!eep\_write\_retry@{eep\_write\_retry}}
+\index{eep\_write\_retry@{eep\_write\_retry}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{eep\_write\_retry}{eep\_write\_retry}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_a869b7244a69f168b1ac48433fba04331} 
+short eep\+\_\+write\+\_\+retry = 0}
+
+
+
+ \mbox{\hyperlink{eeprom__spi_8c_source}{eeprom\+\_\+spi.\+c}} の \mbox{\hyperlink{eeprom__spi_8c_source_l00507}{507}} 行目に定義があります。
+
+\Hypertarget{eeprom__spi_8c_aa4049d8f58dfab577b7c6d03b579717d}\index{eeprom\_spi.c@{eeprom\_spi.c}!SVD\_default@{SVD\_default}}
+\index{SVD\_default@{SVD\_default}!eeprom\_spi.c@{eeprom\_spi.c}}
+\doxysubsubsection{\texorpdfstring{SVD\_default}{SVD\_default}}
+{\footnotesize\ttfamily \label{eeprom__spi_8c_aa4049d8f58dfab577b7c6d03b579717d} 
+\mbox{\hyperlink{structst_s_v_d}{st\+SVD}} SVD\+\_\+default\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+ \mbox{\hyperlink{_s_v__def_8c_source}{SV\+\_\+def.\+c}} の \mbox{\hyperlink{_s_v__def_8c_source_l00018}{18}} 行目に定義があります。
+

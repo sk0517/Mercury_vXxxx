@@ -1,0 +1,11 @@
+<map id="read_serial_num" name="read_serial_num">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,122,57"/>
+<area shape="rect" id="Node000002" href="$eeprom__spi_8c.html#a0633d5554b624df958bd6833407218c2" title=" " alt="" coords="170,31,244,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,41,154,41,154,47,122,47"/>
+<area shape="rect" id="Node000003" href="$eeprom__spi_8c.html#a135104f5cba8d8add4f48d38fa10d991" title=" " alt="" coords="292,31,343,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="244,41,276,41,276,47,244,47"/>
+<area shape="rect" id="Node000004" href="$eeprom__spi_8c.html#ac2d4f02c27f025b6d2e0a128529b4154" title=" " alt="" coords="392,5,461,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="343,36,376,28,377,33,344,41"/>
+<area shape="rect" id="Node000005" href="$eeprom__spi_8c.html#a62c2962ba6064dcf138c759341a02695" title=" " alt="" coords="391,56,462,83"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="344,47,377,55,376,60,343,52"/>
+</map>

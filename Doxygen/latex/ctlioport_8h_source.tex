@@ -1,0 +1,31 @@
+\doxysection{ctlioport.\+h}
+\hypertarget{ctlioport_8h_source}{}\label{ctlioport_8h_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/ctlioport.h@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/ctlioport.h}}
+\mbox{\hyperlink{ctlioport_8h}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00001}00001\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00002}00002\ \textcolor{comment}{/*\ File\ Name\ :\ ctlioport.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00003}00003\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ I/Oポート処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00004}00004\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00006}00006\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ reserved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00010}00010\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00011}00011\ \textcolor{comment}{//インクルードガード}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00012}00012\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00013}00013\ \textcolor{preprocessor}{\#ifndef\ CTLIOPORT\_H}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00014}00014\ \textcolor{preprocessor}{\#define\ CTLIOPORT\_H}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00016}00016\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00017}00017\ \textcolor{comment}{//外部宣言}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00018}00018\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00019}00019\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8h_a6baa98f73713e126987850ddd9ee8c83}{portmesfwdW}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ data,\ \textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00020}00020\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8h_a027fa9fc108cc94ddf9daec7c31f624f}{portmesrevW}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ data,\ \textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00021}00021\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8h_af53b5679bdbcd5f71fbc65afe4ef1887}{OutputRestartPulse}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00022}00022\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8h_a0edbfa38d6c430a3e2d28329792d0cee}{OutputStartPulse}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00023}00023\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8h_ab732ad2423f242c3c6373af9a7b157d4}{CheckEndPulse}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8h_source_l00025}00025\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

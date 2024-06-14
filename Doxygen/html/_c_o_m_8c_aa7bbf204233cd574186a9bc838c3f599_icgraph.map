@@ -1,0 +1,9 @@
+<map id="com_init_host" name="com_init_host">
+<area shape="rect" id="Node000001" title=" " alt="" coords="307,5,410,32"/>
+<area shape="rect" id="Node000002" href="$_c_o_m_8c.html#a33af8205625755cb2e778146550ffbd3" title=" " alt="" coords="189,5,259,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="292,21,260,21,260,16,292,16"/>
+<area shape="rect" id="Node000003" href="$_m_a_i_n_8c.html#a2858154e2009b0e6e616f313177762bc" title=": 初期化処理 /*" alt="" coords="103,5,141,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="173,21,142,21,142,16,173,16"/>
+<area shape="rect" id="Node000004" href="$_m_a_i_n_8c.html#a6288eba0f8e8ad3ab1544ad731eb7667" title=" " alt="" coords="5,5,55,32"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="87,21,55,21,55,16,87,16"/>
+</map>

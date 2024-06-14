@@ -1,0 +1,462 @@
+\doxysection{define.\+h}
+\hypertarget{define_8h_source}{}\label{define_8h_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/define.h@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/define.h}}
+\mbox{\hyperlink{define_8h}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00001}00001\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00002}00002\ \textcolor{comment}{/*\ File\ Name\ :\ define.h\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00003}00003\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ 固定定数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00004}00004\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00006}00006\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ reserved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00010}00010\ \textcolor{comment}{/*条件コンパイル*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00011}\mbox{\hyperlink{define_8h_a92c4f769d38f8e4975826f08d08b856d}{00011}}\ \textcolor{preprocessor}{\#define\ FPGADOWNLOAD\ }\textcolor{comment}{//FPGAコンフィグデータをマイコンから読み出す}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00012}\mbox{\hyperlink{define_8h_aad621e45e72b4ed11d9a76fa9aafd7b3}{00012}}\ \textcolor{preprocessor}{\#define\ MEMDBG\ \ \ }\textcolor{comment}{//メモリ読み書き(MR/MWコマンド)機能}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00013}\mbox{\hyperlink{define_8h_a195e4d052612ee91fd28b7e10c5ff1fe}{00013}}\ \textcolor{preprocessor}{\#define\ FRQSCH\ \ }\textcolor{comment}{//周波数サーチ機能}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00015}00015\ \textcolor{comment}{/*割込み回数(100msec)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00016}\mbox{\hyperlink{define_8h_a50185000f9f8cd56899b001eec0036ec}{00016}}\ \textcolor{preprocessor}{\#define\ T100MS\ 100/18\ \ \ \ \ \ \ }\textcolor{comment}{/*1ch\ 18msec周期*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00018}00018\ \textcolor{comment}{/*相関演算個数（＊サンプリング時間）*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00019}00019\ \textcolor{comment}{//\#define\ SUB\_POINT\ 42\ \ \ \ \ \ /*60以下（変更不可）*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00020}\mbox{\hyperlink{define_8h_a9f119c7958b7bae36bf7fd077fc5c4c9}{00020}}\ \textcolor{preprocessor}{\#define\ SUB\_POINT\ 21\ \ \ \ \ \ \ \ }\textcolor{comment}{/*60以下（変更不可）*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00022}00022\ \textcolor{comment}{/*流量情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00023}00023\ \textcolor{comment}{//\#define\ AD\_BASE\ 2047}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00024}00024\ \textcolor{comment}{//\#define\ AD\_MAX\ 4095\ \ \ \ \ \ \ /*12bit\ MAX*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00025}00025\ \textcolor{comment}{//\#define\ GAIN\_CONT\_LOW\ 3700}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00026}00026\ \textcolor{comment}{//\ \#define\ AD\_BASE\_UNIT\ 2047\ \ \ \ /*中心線*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00027}\mbox{\hyperlink{define_8h_ac5d60cea245993240ee5f165dc07b87f}{00027}}\ \textcolor{preprocessor}{\#define\ AD\_BASE\_UNIT\ 4095\ \ \ }\textcolor{comment}{/*中心線*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00028}00028\ \textcolor{comment}{//\#define\ AD\_BASE\ 8188\ \ \ \ \ \ /*4回加算分(2047*4)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00029}00029\ \textcolor{comment}{//\ \#define\ AD\_MAX\_UNIT\ 4095\ /*12bit\ MAX*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00030}\mbox{\hyperlink{define_8h_a75960f1e368b5beb566d2adb3746f3d8}{00030}}\ \textcolor{preprocessor}{\#define\ AD\_MAX\_UNIT\ 8191\ \ \ \ }\textcolor{comment}{/*12bit\ MAX*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00031}00031\ \textcolor{comment}{//\#define\ AD\_MAX\ 16380\ \ \ \ \ \ /*4回加算分(4095*4)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00033}00033\ \textcolor{comment}{//10bitデータ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00034}00034\ \textcolor{comment}{//\ \#define\ GAIN\_INIT\_LOW\ \ \ \ 196\ \ \ \ \ /*初期化時の信号レベル*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00035}00035\ \textcolor{comment}{//\ \#define\ GAIN\_CONT\_LOW\ \ \ \ 3700\ \ \ \ /*ゲイン制御時の信号レベル*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00036}00036\ \textcolor{comment}{//\ \#define\ GAIN\_WAVE\_LOW\ \ \ \ 1600\ \ \ \ /*ゲイン制御時の信号レベル*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00037}00037\ \textcolor{comment}{//\ \#define\ GAIN\_WAVE\_HI\ 2500\ \ \ \ /*ゲイン制御時の信号レベル*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00038}00038\ \textcolor{comment}{//\ \#define\ SONIC\_WAVE\_HI\ \ \ \ 3000\ \ \ \ /*音速測定時の信号レベル*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00039}00039\ \textcolor{comment}{//13bitデータ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00040}\mbox{\hyperlink{define_8h_a0c83cfb7f818e6c87292e3dbf52bf200}{00040}}\ \textcolor{preprocessor}{\#define\ GAIN\_INIT\_LOW\ \ \ 392\ \ \ \ \ }\textcolor{comment}{/*初期化時の信号レベル*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00041}\mbox{\hyperlink{define_8h_a193bae7326e73cdda485d9b154677fa7}{00041}}\ \textcolor{preprocessor}{\#define\ GAIN\_CONT\_LOW\ \ \ 7400\ \ \ \ }\textcolor{comment}{/*ゲイン制御時の信号レベル*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00042}\mbox{\hyperlink{define_8h_a3878b9c3240f3b5f0370b742660968ce}{00042}}\ \textcolor{preprocessor}{\#define\ GAIN\_WAVE\_LOW\ \ \ 3200\ \ \ \ }\textcolor{comment}{/*ゲイン制御時の信号レベル*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00043}\mbox{\hyperlink{define_8h_a6c51f9e56753f3087758da9292b3e3cb}{00043}}\ \textcolor{preprocessor}{\#define\ GAIN\_WAVE\_HI\ \ \ \ 5000\ \ \ \ }\textcolor{comment}{/*ゲイン制御時の信号レベル*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00044}\mbox{\hyperlink{define_8h_abec6166b5e4e74b3e3201d6a9e99be85}{00044}}\ \textcolor{preprocessor}{\#define\ SONIC\_WAVE\_HI\ \ \ 6000\ \ \ \ }\textcolor{comment}{/*音速測定時の信号レベル*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00046}00046\ \textcolor{comment}{//\#define\ GAIN\_INIT\_LOW\ 784\ \ \ \ \ /*初期化時の信号レベル\ 4回加算分(196*4)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00047}00047\ \textcolor{comment}{//\#define\ GAIN\_CONT\_LOW\ 14800\ \ \ /*ゲイン制御時の信号レベル\ 4回加算分(3700*4)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00048}00048\ \textcolor{comment}{//\#define\ GAIN\_WAVE\_LOW\ 6400\ \ \ \ /*ゲイン制御時の信号レベル\ 4回加算分(1600*4)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00049}00049\ \textcolor{comment}{//\#define\ GAIN\_WAVE\_HI\ \ 10000\ \ \ /*ゲイン制御時の信号レベル\ 4回加算分(2500*4)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00050}00050\ \textcolor{comment}{//\#define\ SONIC\_WAVE\_HI\ 12000\ \ \ /*音速測定時の信号レベル\ 4回加算分(3000*4)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00052}00052\ \textcolor{comment}{/*FPGA\ アドレス*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00053}\mbox{\hyperlink{define_8h_ae65b534f5f212c5151abcee5a6db1fd6}{00053}}\ \textcolor{preprocessor}{\#define\ FPGA\_OFFSET\ (*(volatile\ unsigned\ short\ *)0x80000000)\ }\textcolor{comment}{/*\ DP-\/RAM読出し開始オフセット(0-\/63)\ */}\textcolor{preprocessor}{\ }}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00054}\mbox{\hyperlink{define_8h_a06aa393e31e9ceda21f37554dd0d284d}{00054}}\ \textcolor{preprocessor}{\#define\ FPGA\_FREQ\ \ \ (*(volatile\ unsigned\ short\ *)0x80000002)\ }\textcolor{comment}{/*\ 駆動周波数(0-\/490)\ */}\textcolor{preprocessor}{\ }}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00055}\mbox{\hyperlink{define_8h_abe23f8bdee8ec8c62c84733a4d5f9f08}{00055}}\ \textcolor{preprocessor}{\#define\ FPGA\_CLOCK\ \ (*(volatile\ unsigned\ short\ *)0x80000004)\ }\textcolor{comment}{/*\ ADC供給クロック(0-\/3)\ */}\textcolor{preprocessor}{\ }}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00056}\mbox{\hyperlink{define_8h_aeda966cd3f209f95647ab6f7d7b7a1b3}{00056}}\ \textcolor{preprocessor}{\#define\ FPGA\_PULSE\ \ (*(volatile\ unsigned\ short\ *)0x80000006)\ }\textcolor{comment}{/*\ 駆動パルス数(1-\/15)\ */}\textcolor{preprocessor}{\ }}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00057}\mbox{\hyperlink{define_8h_a56b06dbb9e10755c8ba0c9c654498761}{00057}}\ \textcolor{preprocessor}{\#define\ FPGA\_START\ \ (*(volatile\ unsigned\ short\ *)0x80000008)\ }\textcolor{comment}{/*\ WINDOW開始時間(0-\/63)\ */}\textcolor{preprocessor}{\ }}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00058}\mbox{\hyperlink{define_8h_a2bc85f8fbc97eba3976e8015ac73489b}{00058}}\ \textcolor{preprocessor}{\#define\ FPGA\_END\ \ \ \ (*(volatile\ unsigned\ short\ *)0x8000000A)\ }\textcolor{comment}{/*\ WINDOW終了時間(0-\/63)\ */}\textcolor{preprocessor}{\ }}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00059}\mbox{\hyperlink{define_8h_a8db70c5ad22135e699194c94f270f683}{00059}}\ \textcolor{preprocessor}{\#define\ FPGA\_SYNC\ \ \ (*(volatile\ unsigned\ short\ *)0x8000000C)\ }\textcolor{comment}{/*\ 位相パルス制御(0-\/3)\ */}\textcolor{preprocessor}{\ }}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00060}\mbox{\hyperlink{define_8h_a924a64402c20b224ae25d34336718275}{00060}}\ \textcolor{preprocessor}{\#define\ FPGA\_ANALOG\_FREQ\ \ \ \ (*(volatile\ unsigned\ short\ *)0x8000000E)\ }\textcolor{comment}{/*\ アナログスイッチ周波数切替(0-\/1)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00061}\mbox{\hyperlink{define_8h_aeffc1744c9dc4108afb219b972408ad4}{00061}}\ \textcolor{preprocessor}{\#define\ FPGA\_FILIN0\_0\ \ \ (*(volatile\ unsigned\ short\ *)0x80000010)\ }\textcolor{comment}{/*\ デジタルフィルタ係数(入力側0)\ (符号1bit+整数17bit)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00062}\mbox{\hyperlink{define_8h_a4b20ccc3ea742cf5fac13e52a5aac0dd}{00062}}\ \textcolor{preprocessor}{\#define\ FPGA\_FILIN0\_1\ \ \ (*(volatile\ unsigned\ short\ *)0x80000012)\ }\textcolor{comment}{/*\ デジタルフィルタ係数(入力側0)\ (符号1bit+整数17bit)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00063}\mbox{\hyperlink{define_8h_a1c79f8f07087b495535a1df2e54ea2dc}{00063}}\ \textcolor{preprocessor}{\#define\ FPGA\_FILIN1\_0\ \ \ (*(volatile\ unsigned\ short\ *)0x80000014)\ }\textcolor{comment}{/*\ デジタルフィルタ係数(入力側1)\ (符号1bit+整数17bit)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00064}\mbox{\hyperlink{define_8h_a6b2b51b61f658704f518546d7ce6cf72}{00064}}\ \textcolor{preprocessor}{\#define\ FPGA\_FILIN1\_1\ \ \ (*(volatile\ unsigned\ short\ *)0x80000016)\ }\textcolor{comment}{/*\ デジタルフィルタ係数(入力側1)\ (符号1bit+整数17bit)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00065}\mbox{\hyperlink{define_8h_a430a61ba9a19395479f379e2187d911f}{00065}}\ \textcolor{preprocessor}{\#define\ FPGA\_FILIN2\_0\ \ \ (*(volatile\ unsigned\ short\ *)0x80000018)\ }\textcolor{comment}{/*\ デジタルフィルタ係数(入力側2)\ (符号1bit+整数17bit)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00066}\mbox{\hyperlink{define_8h_af7d423d4d7228be4a2e2099219100c77}{00066}}\ \textcolor{preprocessor}{\#define\ FPGA\_FILIN2\_1\ \ \ (*(volatile\ unsigned\ short\ *)0x8000001A)\ }\textcolor{comment}{/*\ デジタルフィルタ係数(入力側2)\ (符号1bit+整数17bit)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00067}00067\ \textcolor{comment}{//<<reserve>>\ \ \ \ \ \ \ \ \ \ \ (*(volatile\ unsigned\ short\ *)0x8000001C)\ /*\ reserve\ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00068}00068\ \textcolor{comment}{//<<reserve>>\ \ \ \ \ \ \ \ \ \ \ (*(volatile\ unsigned\ short\ *)0x8000001E)\ /*\ reserve\ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00069}00069\ \textcolor{comment}{//<<reserve>>\ \ \ \ \ \ \ \ \ \ \ (*(volatile\ unsigned\ short\ *)0x80000020)\ /*\ reserve\ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00070}00070\ \textcolor{comment}{//<<reserve>>\ \ \ \ \ \ \ \ \ \ \ (*(volatile\ unsigned\ short\ *)0x80000022)\ /*\ reserve\ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00071}\mbox{\hyperlink{define_8h_a95911a2ac14faa7dfd35d60631a6fbec}{00071}}\ \textcolor{preprocessor}{\#define\ FPGA\_FIL\_EN\ \ \ \ \ (*(volatile\ unsigned\ short\ *)0x80000024)\ }\textcolor{comment}{/*\ デジタルフィルタ有効・無効設定\ (0-\/1)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00072}00072\ \textcolor{comment}{//<<reserve>>\ \ \ \ \ \ \ \ \ \ \ (*(volatile\ unsigned\ short\ *)0x80000026)\ /*\ reserve\ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00073}\mbox{\hyperlink{define_8h_a625502c00952c37642baa0d0b549696e}{00073}}\ \textcolor{preprocessor}{\#define\ FPGA\_FILOUT1\_0\ \ (*(volatile\ unsigned\ short\ *)0x80000028)\ }\textcolor{comment}{/*\ デジタルフィルタ係数(出力側1)\ (符号1bit+整数17bit)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00074}\mbox{\hyperlink{define_8h_a30bd09495cee8ea2b9c2a923ddfd2e9a}{00074}}\ \textcolor{preprocessor}{\#define\ FPGA\_FILOUT1\_1\ \ (*(volatile\ unsigned\ short\ *)0x8000002A)\ }\textcolor{comment}{/*\ デジタルフィルタ係数(出力側1)\ (符号1bit+整数17bit)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00075}\mbox{\hyperlink{define_8h_aa6d524a92174d6b37c78f591e6120ed0}{00075}}\ \textcolor{preprocessor}{\#define\ FPGA\_FILOUT2\_0\ \ (*(volatile\ unsigned\ short\ *)0x8000002C)\ }\textcolor{comment}{/*\ デジタルフィルタ係数(出力側2)\ (符号1bit+整数17bit)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00076}\mbox{\hyperlink{define_8h_a1264eb76bcc4f845d320d38c4cf389cb}{00076}}\ \textcolor{preprocessor}{\#define\ FPGA\_FILOUT2\_1\ \ (*(volatile\ unsigned\ short\ *)0x8000002E)\ }\textcolor{comment}{/*\ デジタルフィルタ係数(出力側2)\ (符号1bit+整数17bit)\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00077}00077\ \textcolor{comment}{//<<reserve>>\ \ \ \ \ \ \ \ \ \ \ (*(volatile\ unsigned\ short\ *)0x80000030)\ /*\ reserve\ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00078}00078\ \textcolor{comment}{//<<reserve>>\ \ \ \ \ \ \ \ \ \ \ (*(volatile\ unsigned\ short\ *)0x80000032)\ /*\ reserve\ */}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00079}\mbox{\hyperlink{define_8h_a94f9be9272f16da67bd756aa95da0e68}{00079}}\ \textcolor{preprocessor}{\#define\ FPGA\_LED\_CNT\ \ \ \ \ \ \ \ (*(volatile\ unsigned\ short\ *)0x80000034)\ }\textcolor{comment}{/*\ LED制御レジスタ\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00080}\mbox{\hyperlink{define_8h_a94bef8758ea96edc49b9023715f41130}{00080}}\ \textcolor{preprocessor}{\#define\ FPGA\_SW\_DISP\ \ \ \ \ \ \ \ (*(volatile\ unsigned\ short\ *)0x80000036)\ }\textcolor{comment}{/*\ SW表示レジスタ\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00081}\mbox{\hyperlink{define_8h_abf32a9d0d435d6b5180fca161b76edbc}{00081}}\ \textcolor{preprocessor}{\#define\ FPGA\_VERSION\ \ \ \ \ \ \ \ (*(volatile\ unsigned\ short\ *)0x8000003E)\ }\textcolor{comment}{/*\ FPGAバージョン\ */}\textcolor{preprocessor}{\ }}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00083}00083\ \textcolor{comment}{/*設定データ数*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00084}\mbox{\hyperlink{define_8h_adcd58470216ac93459f24f6de3c99cce}{00084}}\ \textcolor{preprocessor}{\#define\ SV\_NUM\ \ 491\ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*SVD\ の総数*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00085}\mbox{\hyperlink{define_8h_ad3b31c896df105909c83ac5f00fda911}{00085}}\ \textcolor{preprocessor}{\#define\ AMP\_BUFF\ \ \ \ 60}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00087}00087\ \textcolor{comment}{/*EEPROM*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00088}\mbox{\hyperlink{define_8h_aea8e3c961780303763257c72e00d7af8}{00088}}\ \textcolor{preprocessor}{\#define\ SIZEOFMODBUSADDR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x400\ \ \ }\textcolor{comment}{/*CH1個分のアドレスサイズ*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00089}\mbox{\hyperlink{define_8h_a5da0ad4a8cdee54071b55e440da7f99c}{00089}}\ \textcolor{preprocessor}{\#define\ WRIT\_CHECK\ (SIZEOFMODBUSADDR\ -\/\ 1)\ \ \ \ \ \ \ }\textcolor{comment}{/*EEPROM\ 書込みチェックアドレス*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00091}\mbox{\hyperlink{define_8h_ac6c2a15b3f38860128ed59c64994ef3f}{00091}}\ \textcolor{preprocessor}{\#define\ WR\_USER\_PARA\ \ 0x0001\ \ }\textcolor{comment}{/*ユーザパラメータ書込み*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00092}\mbox{\hyperlink{define_8h_ad586fd2fa54dfd8cf55a59e7307b9fd2}{00092}}\ \textcolor{preprocessor}{\#define\ WR\_USPAR\_DEVICE\ \ 0x0002\ \ }\textcolor{comment}{/*ユーザパラメータ書込み(メモリデバイス)*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00093}\mbox{\hyperlink{define_8h_a011e00d04c39edfa5c70a34756c14057}{00093}}\ \textcolor{preprocessor}{\#define\ WR\_USER\_LINR\ \ 0x0004\ \ }\textcolor{comment}{/*ユーザリニアライズ書込み*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00094}\mbox{\hyperlink{define_8h_aaf29647c4a7084ced01b1232b05d8859}{00094}}\ \textcolor{preprocessor}{\#define\ WR\_MAKER\_PARA\ 0x0008\ \ }\textcolor{comment}{/*メーカパラメータ書込み*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00095}\mbox{\hyperlink{define_8h_a37a524b2bbff7535b44ce6200b39d272}{00095}}\ \textcolor{preprocessor}{\#define\ WR\_MAKER\_LINR\ 0x0010\ \ }\textcolor{comment}{/*メーカリニアライズ書込み*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00096}\mbox{\hyperlink{define_8h_a04b6c2e21bc978cc3bb542c5876bcf79}{00096}}\ \textcolor{preprocessor}{\#define\ WR\_CVT\_SERIAL\ 0x0020\ \ }\textcolor{comment}{/*変換器シリアルナンバー書込み*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00097}\mbox{\hyperlink{define_8h_a5002ddcade5f5017ad7636296d6b06a4}{00097}}\ \textcolor{preprocessor}{\#define\ WR\_SNS\_SERIAL\ 0x0040\ \ }\textcolor{comment}{/*センサシリアルナンバー書込み*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00099}\mbox{\hyperlink{define_8h_a246520d63982e42d9876d14692456e8a}{00099}}\ \textcolor{preprocessor}{\#define\ WR\_ALL\ (WR\_USER\_PARA\ +\ WR\_USPAR\_DEVICE\ +\ WR\_USER\_LINR\ +\ WR\_MAKER\_PARA\ +\ WR\_MAKER\_LINR\ +\ WR\_CVT\_SERIAL\ +\ WR\_SNS\_SERIAL)\ }\textcolor{comment}{/*全パラメータ書込み*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00100}\mbox{\hyperlink{define_8h_a0be3535b6fa68e90ce83b9b095c2bfa0}{00100}}\ \textcolor{preprocessor}{\#define\ WR\_DEVICE\ (WR\_USPAR\_DEVICE\ +\ WR\_USER\_LINR\ +\ WR\_SNS\_SERIAL)\ }\textcolor{comment}{/*メモリデバイス書込み*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00102}00102\ \textcolor{comment}{/*通信用*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00103}\mbox{\hyperlink{define_8h_a876ce77f3c672c7162658151e648389e}{00103}}\ \textcolor{preprocessor}{\#define\ CR\ \ \ \ \ \ 0x0D\ \ \ \ \ \ \ \ }\textcolor{comment}{/*キャリッジリターン*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00104}\mbox{\hyperlink{define_8h_a350c9d6cb81908d59427ee96844d1a9c}{00104}}\ \textcolor{preprocessor}{\#define\ LF\ \ \ \ \ \ 0x0A\ \ \ \ \ \ \ \ }\textcolor{comment}{/*ラインフィード*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00106}\mbox{\hyperlink{define_8h_acc64ae77183d9debc8bed65a75fce859}{00106}}\ \textcolor{preprocessor}{\#define\ Dt\ \ \ \ \ \ 1\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*制御周期(10ms)1固定*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00108}00108\ \textcolor{comment}{/*ステータス情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00109}\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{00109}}\ \textcolor{preprocessor}{\#define\ B\_OFF\ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ }\textcolor{comment}{//オフ状態}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00110}\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{00110}}\ \textcolor{preprocessor}{\#define\ B\_ON\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ }\textcolor{comment}{//オン状態}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00111}\mbox{\hyperlink{define_8h_ad26512b73b8dc0312b2d62569932c7f0}{00111}}\ \textcolor{preprocessor}{\#define\ B\_BLINK\ \ \ \ \ \ \ \ \ \ \ \ \ 2\ \ \ \ \ \ \ }\textcolor{comment}{//反転}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00112}\mbox{\hyperlink{define_8h_a3ac97aa47b0fb0aa84f3f0e1867f080e}{00112}}\ \textcolor{preprocessor}{\#define\ B\_BLANK\ \ \ \ \ \ \ \ \ \ \ \ \ 3\ \ \ \ \ \ \ }\textcolor{comment}{//空白}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00114}\mbox{\hyperlink{define_8h_a2d6efe61b45e84872b3395d5c0531d1b}{00114}}\ \textcolor{preprocessor}{\#define\ B\_NO\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ }\textcolor{comment}{//No}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00115}\mbox{\hyperlink{define_8h_ae0d618fb5993ca0634f4af9d9afd8aa4}{00115}}\ \textcolor{preprocessor}{\#define\ B\_YES\ \ \ \ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ }\textcolor{comment}{//Yes}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00117}\mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{00117}}\ \textcolor{preprocessor}{\#define\ B\_OK\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ }\textcolor{comment}{//OK}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00118}\mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{00118}}\ \textcolor{preprocessor}{\#define\ B\_NG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ -\/1\ \ \ \ \ \ }\textcolor{comment}{//NG}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00120}\mbox{\hyperlink{define_8h_aa6a0a8a54c5352271777ba9c2e7acb18}{00120}}\ \textcolor{preprocessor}{\#define\ B\_PLUS\ \ \ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ }\textcolor{comment}{//+方向}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00121}\mbox{\hyperlink{define_8h_a82503abc84f693fc5571042d1a525a27}{00121}}\ \textcolor{preprocessor}{\#define\ B\_MINUS\ \ \ \ \ \ \ \ \ -\/1\ \ \ \ \ \ }\textcolor{comment}{//-\/方向}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00123}\mbox{\hyperlink{define_8h_a35500ef465288c2211844d494fc36cde}{00123}}\ \textcolor{preprocessor}{\#define\ B\_POSI\ \ \ \ \ \ \ \ \ \ 1}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00124}\mbox{\hyperlink{define_8h_a8871d9b42ea39faca5ab874adf787553}{00124}}\ \textcolor{preprocessor}{\#define\ B\_NEGA\ \ \ \ \ \ \ \ \ \ 2}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00126}\mbox{\hyperlink{define_8h_a0b48d8dd80f0960747f2abe7b31998e3}{00126}}\ \textcolor{preprocessor}{\#define\ B\_FORWARD\ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00127}\mbox{\hyperlink{define_8h_a2c540c5a5d09722fb600b085f49ee56a}{00127}}\ \textcolor{preprocessor}{\#define\ B\_REVERSE\ \ \ \ \ \ \ 1}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00129}00129\ \textcolor{comment}{/*ゼロ点調整情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00130}\mbox{\hyperlink{define_8h_aafe379dafe8515a80bede9dccb015f27}{00130}}\ \textcolor{preprocessor}{\#define\ SW\_ZERO\_START\ \ \ \ \ \ \ 30\ \ \ \ \ \ }\textcolor{comment}{//ゼロ点調整開始押下時間:3秒(100msec\ x\ 30回\ =\ 3sec)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00131}\mbox{\hyperlink{define_8h_ac4ef649a56cb7d5f8cbf129b40850b86}{00131}}\ \textcolor{preprocessor}{\#define\ ZERO\_ADJ\_TIME\ \ \ \ \ \ \ 20\ \ \ \ \ \ }\textcolor{comment}{//ゼロ点調整時間：2秒(100msec\ x\ 20回\ =\ 2sec)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00132}\mbox{\hyperlink{define_8h_aa2a1dbd2d782212c928d4eb37938965a}{00132}}\ \textcolor{preprocessor}{\#define\ VTH\_ADJ\_TIME\ \ \ \ \ \ \ \ 20\ \ \ \ \ \ }\textcolor{comment}{//Vth調整時間：2秒(100msec\ x\ 20回\ =\ 2sec)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00133}\mbox{\hyperlink{define_8h_a4db81e0a1867120983d3f9af47f8d7de}{00133}}\ \textcolor{preprocessor}{\#define\ WAVE\_ADJ\_TIME\ \ \ \ \ \ \ 300\ \ \ \ \ }\textcolor{comment}{//波形認識調整時間：3秒(100msec\ x\ 300回\ =\ 30sec)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00135}00135\ \textcolor{comment}{/*エラーしきい値*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00136}\mbox{\hyperlink{define_8h_a1495c61b1232abac5e5e745c0913c851}{00136}}\ \textcolor{preprocessor}{\#define\ LIM\_OVERFLOW\ 100\ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{/*オーバーフロー*/}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00138}00138\ \textcolor{comment}{/*エラーログ情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00139}\mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{00139}}\ \textcolor{preprocessor}{\#define\ LOGMAX\ \ \ \ \ \ \ \ \ \ \ \ \ \ 10\ \ \ \ \ \ }\textcolor{comment}{//エラーログ保存数}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00141}00141\ \textcolor{comment}{/*エラーコード*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00142}\mbox{\hyperlink{define_8h_a1c03645caeef3895103f985de716d241}{00142}}\ \textcolor{preprocessor}{\#define\ ERR\_ZERO\_EMPTY\ \ \ \ \ \ 1\ \ \ \ \ \ \ }\textcolor{comment}{//ゼロ調整エンプティセンサ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00143}\mbox{\hyperlink{define_8h_a9ff27d999d2f73ca79a35d98523d0c55}{00143}}\ \textcolor{preprocessor}{\#define\ ERR\_ZERO\_WAVE\ \ \ \ \ \ \ 2\ \ \ \ \ \ \ }\textcolor{comment}{//ゼロ調整波形減衰\ （波形異常）}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00144}\mbox{\hyperlink{define_8h_a4dd8ebde4345687bb335244503642e0a}{00144}}\ \textcolor{preprocessor}{\#define\ ERR\_ZERO\_CALC\ \ \ \ \ \ \ 3\ \ \ \ \ \ \ }\textcolor{comment}{//ゼロ調整演算異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00145}\mbox{\hyperlink{define_8h_ac444c301333792804126369e3e8f1bd7}{00145}}\ \textcolor{preprocessor}{\#define\ ERR\_ZERO\_LEVEL\ \ \ \ \ \ 4\ \ \ \ \ \ \ }\textcolor{comment}{//ゼロ調整波形アンバランス}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00146}\mbox{\hyperlink{define_8h_a19acddbee534f26e110f5c5624862690}{00146}}\ \textcolor{preprocessor}{\#define\ ERR\_ZERO\_AGC\ \ \ \ \ \ \ \ 5\ \ \ \ \ \ \ }\textcolor{comment}{//ゼロ調整AGC不能//}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00148}\mbox{\hyperlink{define_8h_add8d6e242b9a4adcb5369193f8a11ced}{00148}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_EMPTY\_L\ \ \ \ 6\ \ \ \ \ \ \ }\textcolor{comment}{//測定エンプティセンサL}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00149}\mbox{\hyperlink{define_8h_a6c5bba3ce77a815e1aef6d438712b8c4}{00149}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_EMPTY\_H\ \ \ \ 7\ \ \ \ \ \ \ }\textcolor{comment}{//測定エンプティセンサH}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00150}\mbox{\hyperlink{define_8h_a4495f26c26f4bc37f3098b7f24a0e026}{00150}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_WAVE\_L\ \ \ \ \ 8\ \ \ \ \ \ \ }\textcolor{comment}{//測定波形減衰L}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00151}\mbox{\hyperlink{define_8h_af92977812c7d5f666baf01511bb8cf85}{00151}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_WAVE\_H\ \ \ \ \ 9\ \ \ \ \ \ \ }\textcolor{comment}{//測定波形減衰H}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00152}\mbox{\hyperlink{define_8h_a65c95fbe133071abf7795f2e279ccb8d}{00152}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_CALC\_L\ \ \ \ \ 10\ \ \ \ \ \ }\textcolor{comment}{//測定演算異常L}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00153}\mbox{\hyperlink{define_8h_ae234865a2d41da70e38206ee6e2a37d9}{00153}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_CALC\_H\ \ \ \ \ 11\ \ \ \ \ \ }\textcolor{comment}{//測定演算異常H}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00154}\mbox{\hyperlink{define_8h_ae29e2a207fb2adf498112ca515b53036}{00154}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_LEVEL\_L\ \ \ \ 12\ \ \ \ \ \ }\textcolor{comment}{//測定波形アンバランスL}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00155}\mbox{\hyperlink{define_8h_acbf50a5d3e5969093099691826f96f21}{00155}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_LEVEL\_H\ \ \ \ 13\ \ \ \ \ \ }\textcolor{comment}{//測定波形アンバランスH}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00156}\mbox{\hyperlink{define_8h_a32a1c26d5b7e04de5bef3974bb87eafc}{00156}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_AGC\_L\ \ \ \ \ \ 14\ \ \ \ \ \ }\textcolor{comment}{//測定AGC不能L}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00157}\mbox{\hyperlink{define_8h_a07bc674bcb77bd9ac14c06353c31e39d}{00157}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_AGC\_H\ \ \ \ \ \ 15\ \ \ \ \ \ }\textcolor{comment}{//測定AGC不能H}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00158}\mbox{\hyperlink{define_8h_a427890b0a45d27ddd38fdf2b8442d46d}{00158}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_REVERSE\ \ \ \ 16\ \ \ \ \ \ }\textcolor{comment}{//測定逆流異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00160}\mbox{\hyperlink{define_8h_ae12aa9e96b59537a5c41da2914b9921e}{00160}}\ \textcolor{preprocessor}{\#define\ ERR\_10POINT\ \ \ \ \ \ \ \ \ 19\ \ \ \ \ \ }\textcolor{comment}{//10点データ無効}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00161}\mbox{\hyperlink{define_8h_a0b359437ec0b244079d84a67d72eede7}{00161}}\ \textcolor{preprocessor}{\#define\ ERR\_EEPROM\ \ \ \ \ \ \ \ \ \ 20\ \ \ \ \ \ }\textcolor{comment}{//EEPROMエラー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00162}\mbox{\hyperlink{define_8h_adedd7c2ae58ce9adbc8c945b41652f7f}{00162}}\ \textcolor{preprocessor}{\#define\ ERR\_RESTART\ \ \ \ \ \ \ \ \ 22\ \ \ \ \ \ }\textcolor{comment}{//再起動}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00164}\mbox{\hyperlink{define_8h_ac70852d21a31c3f63fcb5099bd321f43}{00164}}\ \textcolor{preprocessor}{\#define\ ERR\_MESR\_OVERFLOW\ \ \ 23\ \ \ \ \ \ }\textcolor{comment}{//測定オーバーフロー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00165}\mbox{\hyperlink{define_8h_ae710964acc85b18b5c883cfd5cca3ed3}{00165}}\ \textcolor{preprocessor}{\#define\ ERR\_CUNET\ \ \ \ \ \ \ \ \ \ \ 24\ \ \ \ \ \ }\textcolor{comment}{//CUnetエラー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00166}\mbox{\hyperlink{define_8h_ab12ac37bd44015c8d94da019f8faf129}{00166}}\ \textcolor{preprocessor}{\#define\ ERR\_ZERO\_UNSTABLE\ \ \ 25\ \ \ \ \ \ }\textcolor{comment}{//ゼロ調整計測時間発散}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00168}\mbox{\hyperlink{define_8h_adfc4548b20ff4ac4fd47551c7ace2028}{00168}}\ \textcolor{preprocessor}{\#define\ ALM\_MESR\_GAIN\ \ \ \ \ \ \ 26\ \ \ \ \ \ }\textcolor{comment}{//測定アンプゲイン急変（警告）}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00169}\mbox{\hyperlink{define_8h_aefc2a5a3aea550d2e4314821a506db73}{00169}}\ \textcolor{preprocessor}{\#define\ ALM\_MESR\_EMPTY\ \ 27\ \ \ \ \ \ }\textcolor{comment}{//測定エンプティセンサ（警告）}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00171}\mbox{\hyperlink{define_8h_a1e08808dbaddf77379d6f708acf71e2e}{00171}}\ \textcolor{preprocessor}{\#define\ TTL\_CACL\_ERR\ \ \ \ 28\ \ \ \ \ \ }\textcolor{comment}{//積算値演算異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00172}\mbox{\hyperlink{define_8h_a9092ab0ade0dbe726705d54ae7974480}{00172}}\ \textcolor{preprocessor}{\#define\ TTL\_OVERFLOW\ \ \ \ 29\ \ \ \ \ \ }\textcolor{comment}{//積算値オーバーフロー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00174}\mbox{\hyperlink{define_8h_a4061da664b45de1b3812897bc34142ca}{00174}}\ \textcolor{preprocessor}{\#define\ ERR\_DEVICE\ \ \ \ \ \ 30\ \ \ \ \ \ }\textcolor{comment}{//メモリデバイス異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00176}\mbox{\hyperlink{define_8h_a6a4d39abe8105c640ef823716dc30e00}{00176}}\ \textcolor{preprocessor}{\#define\ ERR\_CODE\_MAX\ \ \ \ \ \ \ \ 32\ \ \ \ \ \ }\textcolor{comment}{//エラーコード数}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00178}00178\ \textcolor{comment}{/*エラー判定ビット(MES[].err\_statusを使用する)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00179}\mbox{\hyperlink{define_8h_a61ca21e9b97997446f59541afa63073f}{00179}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_AGC\ \ \ \ \ \ \ 0x0001\ \ \ \ \ \ }\textcolor{comment}{//AGC不能//}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00180}\mbox{\hyperlink{define_8h_a78b03bbbb7974ba3b35d66469f5a8cc9}{00180}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_EMPTY\ \ \ \ \ 0x0002\ \ \ \ \ \ }\textcolor{comment}{//エンプティセンサ(異常判定回数以上)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00181}\mbox{\hyperlink{define_8h_a2f8fb5c69673794442b0fd89f6a8577e}{00181}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_LEVEL\ \ \ \ \ 0x0004\ \ \ \ \ \ }\textcolor{comment}{//波形アンバランス}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00182}\mbox{\hyperlink{define_8h_a54481fa2b8abb9dd9ba4acd11f0444a7}{00182}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_BUBLE\ \ \ \ \ 0x0008\ \ \ \ \ \ }\textcolor{comment}{//気泡影響（センサ信号低レベル）}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00183}\mbox{\hyperlink{define_8h_a62441a1f929ded094c14f4f06bfa6ad4}{00183}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_CALC\ \ \ \ \ \ 0x0010\ \ \ \ \ \ }\textcolor{comment}{//演算異常(異常判定回数以上)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00184}\mbox{\hyperlink{define_8h_a0c62cfb0b8453bf77f7e1a536317046e}{00184}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_REVERSE\ \ \ 0x0020\ \ \ \ \ \ }\textcolor{comment}{//逆流異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00185}\mbox{\hyperlink{define_8h_a58388852a7bd7af1b5f3e6f49c796ec2}{00185}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_WAVE\ \ \ \ \ \ 0x0040\ \ \ \ \ \ }\textcolor{comment}{//波形減衰}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00186}\mbox{\hyperlink{define_8h_ac60b4773c1b159fead5fc42be664e66f}{00186}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_OVERFLOW\ \ 0x0080\ \ \ \ \ \ }\textcolor{comment}{//オーバーフロー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00187}\mbox{\hyperlink{define_8h_a2fb133d5163482fff01fda6f7283ba7d}{00187}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_10POINT\ \ \ 0x0100\ \ \ \ \ \ }\textcolor{comment}{//10点データ無効エラー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00188}\mbox{\hyperlink{define_8h_a1c7d3239a90f8424dfe11576b127375b}{00188}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_EEPROM\ \ \ \ 0x0200\ \ \ \ \ \ }\textcolor{comment}{//EEPROMエラー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00189}\mbox{\hyperlink{define_8h_ae9adafd7752e09e94438bcce10ea3452}{00189}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_CUNET\ \ \ \ \ 0x0400\ \ \ \ \ \ }\textcolor{comment}{//CUnetエラー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00190}\mbox{\hyperlink{define_8h_a4ca4a72803e7733727e2679265d0b45c}{00190}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_RESTART\ \ \ 0x0800\ \ \ \ \ \ }\textcolor{comment}{//再起動}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00191}\mbox{\hyperlink{define_8h_ab02ae5125497aa837eb42263f67cb985}{00191}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_PRE\_EMPTY\ 0x1000\ \ \ \ \ \ }\textcolor{comment}{//エンプティセンサ(異常判定回数未満)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00192}\mbox{\hyperlink{define_8h_abeb7e1cf9f0e09223f152c35281fc57c}{00192}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_PRE\_CALC\ \ 0x2000\ \ \ \ \ \ }\textcolor{comment}{//演算異常(異常判定回数未満)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00193}\mbox{\hyperlink{define_8h_a4546c6c39fb2ae33c4ecad92758911be}{00193}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_UNSTABLE\ \ 0x4000\ \ \ \ \ \ }\textcolor{comment}{//ゼロ調整計測時間発散エラー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00194}\mbox{\hyperlink{define_8h_a2e40daa42902b9c1c7f39406ec2a46c1}{00194}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_ZERO\ \ \ \ \ \ 0x8000\ \ \ \ \ \ }\textcolor{comment}{//ゼロ点調整状態}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00196}00196\ \textcolor{comment}{/*エラー判定ビット(MES\_SUB[].err\_status\_subを使用する)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00197}\mbox{\hyperlink{define_8h_a6ccf374aa131110a2ba6c7f2bc47cf2e}{00197}}\ \textcolor{preprocessor}{\#define\ ERR\_JUDGE\_DEVICE\ \ \ \ 0x0001\ \ \ \ \ \ }\textcolor{comment}{//メモリデバイス異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00199}00199\ \textcolor{comment}{/*メール送信エラー(CUnet通信)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00200}\mbox{\hyperlink{define_8h_a81989fc8dc93c8adc9fc115d7c7e3460}{00200}}\ \textcolor{preprocessor}{\#define\ MAIL\_ERR\_NORDY\ \ \ \ \ \ 0x0001\ \ \ \ \ \ }\textcolor{comment}{//送信先の受信バッファが受信許可でない}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00201}\mbox{\hyperlink{define_8h_a934839af142101bb5e32fe5cce14ec8d}{00201}}\ \textcolor{preprocessor}{\#define\ MAIL\_ERR\_NOEX\ \ \ \ \ \ \ 0x0002\ \ \ \ \ \ }\textcolor{comment}{//送信先のCUnetステーションが存在しない}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00202}\mbox{\hyperlink{define_8h_ab2cfe55ef6db005988287061188135a8}{00202}}\ \textcolor{preprocessor}{\#define\ MAIL\_ERR\_TOUT\ \ \ \ \ \ \ 0x0004\ \ \ \ \ \ }\textcolor{comment}{//設定サイクル回数を経過してもメール送信が完了しない}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00203}\mbox{\hyperlink{define_8h_af646f26f545f7c8dcb4b7b9f896d631a}{00203}}\ \textcolor{preprocessor}{\#define\ MAIL\_ERR\_SZFLT\ \ \ \ \ \ 0x0008\ \ \ \ \ \ }\textcolor{comment}{//メール送信サイズが不正値}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00204}\mbox{\hyperlink{define_8h_a23d0882ac1449e2bc645ebc22f303f31}{00204}}\ \textcolor{preprocessor}{\#define\ MAIL\_ERR\_LMFLT\ \ \ \ \ \ 0x0010\ \ \ \ \ \ }\textcolor{comment}{//MSLRの設定値が不正値}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00205}\mbox{\hyperlink{define_8h_a38065e199e279d4e2900c412436ae063}{00205}}\ \textcolor{preprocessor}{\#define\ MAIL\_ERR\_STOP\ \ \ \ \ \ \ 0x0020\ \ \ \ \ \ }\textcolor{comment}{//ネットワークが停止}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00207}00207\ \textcolor{comment}{/*バーンアウト対象エラー*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00208}\mbox{\hyperlink{define_8h_ae0c6edc18fe4345a59728ba45fbc512e}{00208}}\ \textcolor{preprocessor}{\#define\ ERR\_BURN\_OUT\ \ \ \ \ \ \ \ (ERR\_JUDGE\_AGC+ERR\_JUDGE\_EMPTY+ERR\_JUDGE\_LEVEL+ERR\_JUDGE\_CALC+ERR\_JUDGE\_OVERFLOW)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00209}00209\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00210}00210\ \textcolor{comment}{/*ゼロ調整不可対象エラー*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00211}\mbox{\hyperlink{define_8h_a349ea053cb1b1249c9445b9becdb0c58}{00211}}\ \textcolor{preprocessor}{\#define\ ERR\_ZERO\_ADJ\ \ \ \ \ \ \ \ (ERR\_JUDGE\_AGC+ERR\_JUDGE\_EMPTY+ERR\_JUDGE\_LEVEL+ERR\_JUDGE\_BUBLE+ERR\_JUDGE\_CALC+ERR\_JUDGE\_WAVE+ERR\_JUDGE\_OVERFLOW)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00213}00213\ \textcolor{comment}{/*CUnetエラー対象エラー*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00214}\mbox{\hyperlink{define_8h_a5cd60420f26a2efe7b2f1304d6f6a353}{00214}}\ \textcolor{preprocessor}{\#define\ ERR\_CUNET\_MAIL\ \ \ \ \ \ (MAIL\_ERR\_NOEX+MAIL\_ERR\_TOUT+MAIL\_ERR\_SZFLT+MAIL\_ERR\_LMFLT+MAIL\_ERR\_STOP)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00216}00216\ \textcolor{comment}{/*流量エラー*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00217}\mbox{\hyperlink{define_8h_a27aa18e6aff03b18dc4fc553bd193b52}{00217}}\ \textcolor{preprocessor}{\#define\ ERR\_FLOW\_CONT\ \ \ \ \ \ \ (ERR\_JUDGE\_AGC+ERR\_JUDGE\_EMPTY+ERR\_JUDGE\_LEVEL+ERR\_JUDGE\_BUBLE+ERR\_JUDGE\_CALC+ERR\_JUDGE\_REVERSE+ERR\_JUDGE\_WAVE+ERR\_JUDGE\_OVERFLOW)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00218}00218\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00219}00219\ \textcolor{comment}{/*メディアンフィルタ演算除外エラー*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00220}\mbox{\hyperlink{define_8h_a718610265ef16c206bf6c12f60b7f55a}{00220}}\ \textcolor{preprocessor}{\#define\ ERR\_MEDIAN\_CALC\ \ \ \ \ (ERR\_JUDGE\_AGC+ERR\_JUDGE\_EMPTY+ERR\_JUDGE\_LEVEL+ERR\_JUDGE\_CALC+ERR\_JUDGE\_OVERFLOW+ERR\_JUDGE\_PRE\_EMPTY+ERR\_JUDGE\_PRE\_CALC)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00222}00222\ \textcolor{comment}{/*警告判定ビット*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00223}\mbox{\hyperlink{define_8h_af1214f97b06aa3d67df62121b84ed320}{00223}}\ \textcolor{preprocessor}{\#define\ ALM\_JUDGE\_GAIN\ \ \ \ \ \ 0x0001\ \ \ \ \ \ }\textcolor{comment}{//ゲイン値急変（警告）}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00224}\mbox{\hyperlink{define_8h_a5c736e0b1d04d2b665b2dd3a32fbf1b3}{00224}}\ \textcolor{preprocessor}{\#define\ ALM\_JUDGE\_EMPTY\ \ \ \ \ 0x0002\ \ \ \ \ \ }\textcolor{comment}{//エンプティセンサ（警告）}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00226}00226\ \textcolor{comment}{/*積算監視ビット*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00227}\mbox{\hyperlink{define_8h_af53fa5264b1d7f70b09c2ec17210e8d2}{00227}}\ \textcolor{preprocessor}{\#define\ TTL\_JUDGE\_REACH\ \ \ \ \ 0x0001\ \ \ \ \ \ }\textcolor{comment}{//積算目標値到達}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00228}\mbox{\hyperlink{define_8h_af5566ca34b0900693471d8826ee991b3}{00228}}\ \textcolor{preprocessor}{\#define\ TTL\_JUDGE\_CACL\_ERR\ \ 0x0002\ \ \ \ \ \ }\textcolor{comment}{//積算値演算異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00229}\mbox{\hyperlink{define_8h_adf985e3145d74e6543c1ef052fe63712}{00229}}\ \textcolor{preprocessor}{\#define\ TTL\_JUDGE\_OVERFLOW\ \ 0x0004\ \ \ \ \ \ }\textcolor{comment}{//積算値オーバーフロー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00231}00231\ \textcolor{comment}{/*エラーコンディションビット*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00232}00232\ \textcolor{comment}{/*CUnetアドレス出力用*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00233}\mbox{\hyperlink{define_8h_ab9460e93b4586b935b0d81a7629333a2}{00233}}\ \textcolor{preprocessor}{\#define\ CON\_EMPTY\_CU\ \ \ \ \ \ \ \ 0x0001\ \ \ \ \ \ }\textcolor{comment}{//エンプティセンサ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00234}\mbox{\hyperlink{define_8h_a05e21c95085cd1686e3738c2ee472eeb}{00234}}\ \textcolor{preprocessor}{\#define\ CON\_CALC\_CU\ \ \ \ \ \ \ \ \ 0x0002\ \ \ \ \ \ }\textcolor{comment}{//演算異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00235}\mbox{\hyperlink{define_8h_a9cb77a57bdb9049e931e06de9776ec14}{00235}}\ \textcolor{preprocessor}{\#define\ CON\_AGC\_CU\ \ \ \ \ \ \ \ \ \ 0x0004\ \ \ \ \ \ }\textcolor{comment}{//AGC不能//}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00236}\mbox{\hyperlink{define_8h_a74937bc1cbb7c925f8e01979b0de5e68}{00236}}\ \textcolor{preprocessor}{\#define\ CON\_LEVEL\_CU\ \ \ \ \ \ \ \ 0x0008\ \ \ \ \ \ }\textcolor{comment}{//波形アンバランス}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00237}\mbox{\hyperlink{define_8h_ab424ef4fb13fc1af7c04b7660fe831b3}{00237}}\ \textcolor{preprocessor}{\#define\ CON\_REV\_CU\ \ \ \ \ \ \ \ \ \ 0x0010\ \ \ \ \ \ }\textcolor{comment}{//逆流異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00238}\mbox{\hyperlink{define_8h_ae0511c9386168d6f6bcb1305bce94773}{00238}}\ \textcolor{preprocessor}{\#define\ CON\_WAVE\_CU\ \ \ \ \ \ \ \ \ 0x0020\ \ \ \ \ \ }\textcolor{comment}{//波形減衰}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00239}\mbox{\hyperlink{define_8h_ac675bc4448bdc0c35a8932ce5b45c68a}{00239}}\ \textcolor{preprocessor}{\#define\ CON\_OVER\_CU\ \ \ \ \ \ \ \ \ 0x0040\ \ \ \ \ \ }\textcolor{comment}{//オーバーフロー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00240}\mbox{\hyperlink{define_8h_ac68749b6436daa9f24bc0baf15e68464}{00240}}\ \textcolor{preprocessor}{\#define\ CON\_TOTAL\_CU\ \ \ \ \ \ \ \ \ \ \ \ 0x0080\ \ \ \ \ \ }\textcolor{comment}{//積算目標値到達}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00242}00242\ \textcolor{comment}{/*エラーコンディションビット*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00243}\mbox{\hyperlink{define_8h_abb6fc09aaf2bd8e555e3d20fb64b5a3d}{00243}}\ \textcolor{preprocessor}{\#define\ CON\_EMPTY\ \ \ \ \ \ \ \ \ \ \ 0x0001\ \ \ \ \ \ }\textcolor{comment}{//エンプティセンサ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00244}\mbox{\hyperlink{define_8h_aca4cc58d93da36f4ccdd756332c8740a}{00244}}\ \textcolor{preprocessor}{\#define\ CON\_PEAK\ \ \ \ \ \ \ \ \ \ \ \ 0x0002\ \ \ \ \ \ }\textcolor{comment}{//極値異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00245}\mbox{\hyperlink{define_8h_aef0dc647787719b6a2d201c4d02e9301}{00245}}\ \textcolor{preprocessor}{\#define\ CON\_LEVEL\ \ \ \ \ \ \ \ \ \ \ 0x0004\ \ \ \ \ \ }\textcolor{comment}{//波形アンバランス}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00246}\mbox{\hyperlink{define_8h_ae352e4176d455e8da04bad031352f320}{00246}}\ \textcolor{preprocessor}{\#define\ CON\_WAVE\ \ \ \ \ \ \ \ \ \ \ \ 0x0008\ \ \ \ \ \ }\textcolor{comment}{//波形減衰}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00247}\mbox{\hyperlink{define_8h_ac518003a213ba07f600a21daaa3043be}{00247}}\ \textcolor{preprocessor}{\#define\ CON\_CALC\ \ \ \ \ \ \ \ \ \ \ \ 0x0010\ \ \ \ \ \ }\textcolor{comment}{//演算異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00248}\mbox{\hyperlink{define_8h_a6ad7e3d3152120025fd5012b76fcca98}{00248}}\ \textcolor{preprocessor}{\#define\ CON\_GAIN\_OV\ \ \ \ \ \ \ \ \ 0x0020\ \ \ \ \ \ }\textcolor{comment}{//ゲインオーバー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00249}\mbox{\hyperlink{define_8h_a50d75354d818a34dbd71b94aba63edac}{00249}}\ \textcolor{preprocessor}{\#define\ CON\_GAIN\_UD\ \ \ \ \ \ \ \ \ 0x0040\ \ \ \ \ \ }\textcolor{comment}{//ゲインアンダー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00250}\mbox{\hyperlink{define_8h_a96998ffa0331a89fce14f8d03de3e6a3}{00250}}\ \textcolor{preprocessor}{\#define\ CON\_REV\ \ \ \ \ \ \ \ \ \ \ \ \ 0x0080\ \ \ \ \ \ }\textcolor{comment}{//逆流異常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00251}\mbox{\hyperlink{define_8h_a820e70e348fdb4bfefeb7f10a4224056}{00251}}\ \textcolor{preprocessor}{\#define\ CON\_HOLD\ \ \ \ \ \ \ \ \ \ \ \ 0x0100\ \ \ \ \ \ }\textcolor{comment}{//ホールドタイム未満}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00252}\mbox{\hyperlink{define_8h_a68d1e330675593536df714ea0244b688}{00252}}\ \textcolor{preprocessor}{\#define\ CON\_HOLDOUT\ \ \ \ \ \ \ \ \ 0x0200\ \ \ \ \ \ }\textcolor{comment}{//ホールドタイム以上}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00253}\mbox{\hyperlink{define_8h_aa3990d0be711e688f269a8efe740aab7}{00253}}\ \textcolor{preprocessor}{\#define\ CON\_ZERO\ \ \ \ \ \ \ \ \ \ \ \ 0x0400\ \ \ \ \ \ }\textcolor{comment}{//ゼロ点調整エラー}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00255}00255\ \textcolor{comment}{/*動作ステータス*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00256}\mbox{\hyperlink{define_8h_af86cba5d004db01ada13e7c866563096}{00256}}\ \textcolor{preprocessor}{\#define\ ACT\_STS\_NORMAL\ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//通常}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00257}\mbox{\hyperlink{define_8h_a080e61e7a6f9deac544c5c5ae1b66250}{00257}}\ \textcolor{preprocessor}{\#define\ ACT\_STS\_ZERO\ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//ゼロ点調整中}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00258}\mbox{\hyperlink{define_8h_a25f40962955e0307537ab877abb73a72}{00258}}\ \textcolor{preprocessor}{\#define\ ACT\_STS\_ADDIT\ \ \ \ \ \ \ 2\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//積算実行中}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00259}\mbox{\hyperlink{define_8h_afb112a6c1982fa8add895fb54afb07d1}{00259}}\ \textcolor{preprocessor}{\#define\ ACT\_STS\_WRITE\ \ \ \ \ \ \ 3\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//パラメータ書込み中}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00260}\mbox{\hyperlink{define_8h_a63618fcf8d8ff7b9cea3999ea4c344e0}{00260}}\ \textcolor{preprocessor}{\#define\ ACT\_STS\_DLOAD\ \ \ \ \ \ \ 4\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//ファームウェアダウンロード中}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00261}\mbox{\hyperlink{define_8h_a0c753ded1024d990ef4cae960a999199}{00261}}\ \textcolor{preprocessor}{\#define\ ACT\_STS\_TEST\ \ \ \ \ \ \ \ 5\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//テスト中}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00262}\mbox{\hyperlink{define_8h_ac387419bc61f22dc53efca226a8506c5}{00262}}\ \textcolor{preprocessor}{\#define\ ACT\_STS\_OTHER\ \ \ \ \ \ \ 6\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//その他}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00264}00264\ \textcolor{comment}{/*再起動要因コード*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00265}\mbox{\hyperlink{define_8h_aa17b135dfc47ca494aa7e2555e70dc80}{00265}}\ \textcolor{preprocessor}{\#define\ RESTART\_NORMAL\ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//パワーオンリセット(正常起動)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00266}\mbox{\hyperlink{define_8h_afbb9cb4df66b61513fa57ef358fe6a75}{00266}}\ \textcolor{preprocessor}{\#define\ RESTART\_WDOG\ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//ウォッチドッグタイマリセット}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00267}\mbox{\hyperlink{define_8h_ae5a4ba946175645b1fc16df3586bd109}{00267}}\ \textcolor{preprocessor}{\#define\ RESTART\_POWER\ \ \ \ \ \ \ 2\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//電源監視リセット}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00268}\mbox{\hyperlink{define_8h_a95446f806944a3c3aecde955ba91d8e3}{00268}}\ \textcolor{preprocessor}{\#define\ RESTART\_TERM\ \ \ \ \ \ \ \ 3\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//端子リセット(MKY43)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00270}00270\ \textcolor{comment}{/*カウンタ情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00271}\mbox{\hyperlink{define_8h_a05969d6cd8e963adaf506c6e8647cb21}{00271}}\ \textcolor{preprocessor}{\#define\ CMI\_RATIO\_100MSEC\ \ \ 19\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//分解能：95msec周期}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00272}\mbox{\hyperlink{define_8h_aa0661151947010b1bd95eb21260e399a}{00272}}\ \textcolor{preprocessor}{\#define\ CMI\_RATIO\_1SEC\ \ \ \ \ \ 200\ \ \ \ \ \ \ \ \ }\textcolor{comment}{//分解能：1秒周期}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00273}\mbox{\hyperlink{define_8h_a6e4e2282c266305ad463d740c762bdac}{00273}}\ \textcolor{preprocessor}{\#define\ CMI\_COUNT\_MAX\ \ \ \ \ \ \ 0x7FFFFFFF\ \ }\textcolor{comment}{//タイマ割込みカウンタMAX}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00274}00274\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00275}00275\ \textcolor{comment}{/*CH情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00276}\mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{00276}}\ \textcolor{preprocessor}{\#define\ CH\_NUMMAX\ \ \ \ \ \ \ \ \ \ \ 6\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//CH個数}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00277}\mbox{\hyperlink{define_8h_a636495075472e301d1b03e9a48037ad8}{00277}}\ \textcolor{preprocessor}{\#define\ CH\_IDXMAX\ \ \ \ \ \ \ \ \ \ \ CH\_NUMMAX\ -\/\ 1\ \ \ }\textcolor{comment}{//CHインデックス}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00279}00279\ \textcolor{comment}{/*CH番号(インデックスを兼ねるため0開始)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00280}\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{00280}}\ \textcolor{preprocessor}{\#define\ CH1\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ }\textcolor{comment}{//CH1}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00281}\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{00281}}\ \textcolor{preprocessor}{\#define\ CH2\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ }\textcolor{comment}{//CH2}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00282}\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{00282}}\ \textcolor{preprocessor}{\#define\ CH3\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 2\ \ \ \ \ \ \ }\textcolor{comment}{//CH3}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00283}\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{00283}}\ \textcolor{preprocessor}{\#define\ CH4\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 3\ \ \ \ \ \ \ }\textcolor{comment}{//CH4}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00284}\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{00284}}\ \textcolor{preprocessor}{\#define\ CH5\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 4\ \ \ \ \ \ \ }\textcolor{comment}{//CH5}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00285}\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{00285}}\ \textcolor{preprocessor}{\#define\ CH6\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 5\ \ \ \ \ \ \ }\textcolor{comment}{//CH6}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00287}00287\ \textcolor{comment}{/*LED点灯処理*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00288}\mbox{\hyperlink{define_8h_a6605204d669b2aeffd5b2dd1337cfd5d}{00288}}\ \textcolor{preprocessor}{\#define\ DSP\_LED1\ \ \ \ \ \ \ \ 0x0001\ \ \ \ \ \ }\textcolor{comment}{//LED\ CH1}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00289}\mbox{\hyperlink{define_8h_a5efc96619b7d5a333c2cbbe9948bb016}{00289}}\ \textcolor{preprocessor}{\#define\ DSP\_LED2\ \ \ \ \ \ \ \ 0x0002\ \ \ \ \ \ }\textcolor{comment}{//LED\ CH2}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00290}\mbox{\hyperlink{define_8h_ad23021737a19ffe02ca8589825d4201b}{00290}}\ \textcolor{preprocessor}{\#define\ DSP\_LED3\ \ \ \ \ \ \ \ 0x0004\ \ \ \ \ \ }\textcolor{comment}{//LED\ CH3}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00291}\mbox{\hyperlink{define_8h_a144363dac2dcdf6270de70397e247a69}{00291}}\ \textcolor{preprocessor}{\#define\ DSP\_LED4\ \ \ \ \ \ \ \ 0x0008\ \ \ \ \ \ }\textcolor{comment}{//LED\ CH4}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00292}\mbox{\hyperlink{define_8h_a46f9bac97394bbaaddec2c3aa0e4cbfa}{00292}}\ \textcolor{preprocessor}{\#define\ DSP\_LED5\ \ \ \ \ \ \ \ 0x0010\ \ \ \ \ \ }\textcolor{comment}{//LED\ CH5}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00293}\mbox{\hyperlink{define_8h_adb505426e098bea4fe1b8590bac8e290}{00293}}\ \textcolor{preprocessor}{\#define\ DSP\_LED6\ \ \ \ \ \ \ \ 0x0020\ \ \ \ \ \ }\textcolor{comment}{//LED\ CH6}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00294}\mbox{\hyperlink{define_8h_a92a3d41123e443fba7fea0edad718816}{00294}}\ \textcolor{preprocessor}{\#define\ DSP\_ALM1\ \ \ \ \ \ \ \ 0x0100\ \ \ \ \ \ }\textcolor{comment}{//LED\ ALM1}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00295}\mbox{\hyperlink{define_8h_ae87bcd649b08dc86de056bd456c03f2c}{00295}}\ \textcolor{preprocessor}{\#define\ DSP\_ALM2\ \ \ \ \ \ \ \ 0x0200\ \ \ \ \ \ }\textcolor{comment}{//LED\ ALM2}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00296}\mbox{\hyperlink{define_8h_adf8c05b7efac86736d53aa4de66f73ed}{00296}}\ \textcolor{preprocessor}{\#define\ DSP\_ALM3\ \ \ \ \ \ \ \ 0x0400\ \ \ \ \ \ }\textcolor{comment}{//LED\ ALM3}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00297}\mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{00297}}\ \textcolor{preprocessor}{\#define\ DSP\_ALM4\ \ \ \ \ \ \ \ 0x0800\ \ \ \ \ \ }\textcolor{comment}{//LED\ ALM4}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00298}00298\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00299}\mbox{\hyperlink{define_8h_ac6f803af1e702c741d2a2141a92e7eda}{00299}}\ \textcolor{preprocessor}{\#define\ DSP\_CH\_ALL\ \ \ \ \ \ (DSP\_LED1+DSP\_LED2+DSP\_LED3+DSP\_LED4+DSP\_LED5+DSP\_LED6)\ \ \ \ \ }\textcolor{comment}{//全CH\ LED}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00300}\mbox{\hyperlink{define_8h_a3d5af05be3c796b32f103b1e93923902}{00300}}\ \textcolor{preprocessor}{\#define\ DSP\_ALM\_ALL\ \ \ \ \ (DSP\_ALM1+DSP\_ALM2+DSP\_ALM3+DSP\_ALM4)\ \ \ \ \ \ \ }\textcolor{comment}{//全ALM\ LED}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00302}00302\ \textcolor{comment}{/*スイッチ情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00303}\mbox{\hyperlink{define_8h_a2c66aac5b720869edd4051f210741373}{00303}}\ \textcolor{preprocessor}{\#define\ SW\_NUM\ \ \ \ \ \ \ \ \ \ 8\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//スイッチ数}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00304}\mbox{\hyperlink{define_8h_a6db512dde3789c5707d619a130c5d866}{00304}}\ \textcolor{preprocessor}{\#define\ SW\_CH0\ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//CH0スイッチ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00305}\mbox{\hyperlink{define_8h_ab2601da4533bc06f7c30af64a7c84836}{00305}}\ \textcolor{preprocessor}{\#define\ SW\_CH1\ \ \ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//CH1スイッチ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00306}\mbox{\hyperlink{define_8h_a2456a9bf06ce591b791101a4e7ffe3a5}{00306}}\ \textcolor{preprocessor}{\#define\ SW\_CH2\ \ \ \ \ \ \ \ \ \ 2\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//CH2スイッチ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00307}\mbox{\hyperlink{define_8h_a83eaa810323433d1ea6a2635ba3d311e}{00307}}\ \textcolor{preprocessor}{\#define\ SW\_CH3\ \ \ \ \ \ \ \ \ \ 3\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//CH3スイッチ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00308}\mbox{\hyperlink{define_8h_ae6bbad921670354f6906cfd90cfa8d67}{00308}}\ \textcolor{preprocessor}{\#define\ SW\_CH4\ \ \ \ \ \ \ \ \ \ 4\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//CH4スイッチ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00309}\mbox{\hyperlink{define_8h_a0cac24c6d483022f02a729a533d1beb2}{00309}}\ \textcolor{preprocessor}{\#define\ SW\_CH5\ \ \ \ \ \ \ \ \ \ 5\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//CH5スイッチ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00310}\mbox{\hyperlink{define_8h_a94721a7e383a220db22322ec6d57ab4a}{00310}}\ \textcolor{preprocessor}{\#define\ SW\_CH6\ \ \ \ \ \ \ \ \ \ 6\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//CH6スイッチ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00311}\mbox{\hyperlink{define_8h_a30fe6635134c2994d3e06e2fe5c97025}{00311}}\ \textcolor{preprocessor}{\#define\ SW\_CH9\ \ \ \ \ \ \ \ \ \ 9\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//CH9スイッチ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00312}00312\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00313}00313\ \textcolor{comment}{/*ステーションアドレス*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00314}\mbox{\hyperlink{define_8h_a4c42ce7a131e71dca2095f4f3f3e5be8}{00314}}\ \textcolor{preprocessor}{\#define\ SA\_HOST\ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//HOST}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00315}00315\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00316}00316\ \textcolor{comment}{//CUnet\ 16ch対応}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00317}\mbox{\hyperlink{define_8h_a660db01ec9f30deb248042b9e236324e}{00317}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW01\ \ \ \ \ \ \ 4\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計01}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00318}\mbox{\hyperlink{define_8h_a3ab465f0481eadcc1b62b257df3ec332}{00318}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW02\ \ \ \ \ \ \ 7\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計02}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00319}\mbox{\hyperlink{define_8h_a0b7079e0c2a2812de0af3ecbbdd99a75}{00319}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW03\ \ \ \ \ \ \ 10\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計03}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00320}\mbox{\hyperlink{define_8h_ae98830284314cfefcf430b677b2f2d3b}{00320}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW04\ \ \ \ \ \ \ 13\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計04}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00321}\mbox{\hyperlink{define_8h_afe932ee978fbf964d990eb180618d4ae}{00321}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW05\ \ \ \ \ \ \ 16\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計05}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00322}\mbox{\hyperlink{define_8h_a3968fc29f34a018a9b83f3caba7cc839}{00322}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW06\ \ \ \ \ \ \ 19\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計06}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00323}\mbox{\hyperlink{define_8h_a33ede9fdd9c0a439ecfa7f0c4cf26733}{00323}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW07\ \ \ \ \ \ \ 22\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計07}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00324}\mbox{\hyperlink{define_8h_a12fdd781650ec5e0b05ad5b7785044ce}{00324}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW08\ \ \ \ \ \ \ 25\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計08}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00325}\mbox{\hyperlink{define_8h_a63ad03fb8f314e94e6608cc2d4c5916a}{00325}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW09\ \ \ \ \ \ \ 28\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計09}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00326}\mbox{\hyperlink{define_8h_a824c54355ee712e258820425c491760c}{00326}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW10\ \ \ \ \ \ \ 31\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計10}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00327}\mbox{\hyperlink{define_8h_af103fdd9d4e4d4dfdbcb9f9edeb4311a}{00327}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW11\ \ \ \ \ \ \ 34\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計11}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00328}\mbox{\hyperlink{define_8h_aadc63d6aa460233ef43263023dc1497c}{00328}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW12\ \ \ \ \ \ \ 37\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計12}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00329}\mbox{\hyperlink{define_8h_a1342e9bc66e3b533c112000538827c3f}{00329}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW13\ \ \ \ \ \ \ 40\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計13}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00330}\mbox{\hyperlink{define_8h_a23feda74cc648f7af984f4eaa3f0e372}{00330}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW14\ \ \ \ \ \ \ 43\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計14}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00331}\mbox{\hyperlink{define_8h_af9aaabbc26098d1f9445596b3dd81a55}{00331}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW15\ \ \ \ \ \ \ 46\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計15}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00332}\mbox{\hyperlink{define_8h_a169dd440b521cb7b346048ce8de92ad8}{00332}}\ \textcolor{preprocessor}{\#define\ SA\_FLOW16\ \ \ \ \ \ \ 49\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計16}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00334}00334\ \textcolor{comment}{/*占有幅*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00335}\mbox{\hyperlink{define_8h_a62f07f33df7496da467bf86ddcf86e17}{00335}}\ \textcolor{preprocessor}{\#define\ OWN\_HOST\ \ \ \ \ \ \ \ 3\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//HOST}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00336}\mbox{\hyperlink{define_8h_a562095f1bcda7ba9c5dbedfcc75e1b30}{00336}}\ \textcolor{preprocessor}{\#define\ OWN\_FLOW\ \ \ \ \ \ \ \ 3\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//流量計}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00337}00337\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00338}00338\ \textcolor{comment}{/*通信メッセージ情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00339}\mbox{\hyperlink{define_8h_a125068d98a9d9d367518ed22f5b8568e}{00339}}\ \textcolor{preprocessor}{\#define\ MSG\_MAX\ \ \ \ \ \ \ \ \ 700\ \ \ \ \ \ \ \ \ }\textcolor{comment}{//通信メッセージ最大数}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00340}\mbox{\hyperlink{define_8h_a8a6c6757f9ac8d6e2ac6c3a6863eff2b}{00340}}\ \textcolor{preprocessor}{\#define\ MSG\_MAX\_DL\ \ \ \ \ \ 256\ +\ 40\ \ \ \ }\textcolor{comment}{//通信メッセージ最大数(ダウンロード時)\ 128byte(2文字/1byte)+マージン}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00341}\mbox{\hyperlink{define_8h_ae73392af7e55d660d87ba8ea28a1c370}{00341}}\ \textcolor{preprocessor}{\#define\ MES\_RESEND\_MAX\ \ 1000\ \ \ \ \ \ \ \ }\textcolor{comment}{//最大再送回数}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00342}\mbox{\hyperlink{define_8h_acb30adbe0e10b97918f1eb8156ec1182}{00342}}\ \textcolor{preprocessor}{\#define\ MSG\_NUM\ \ \ \ \ \ \ \ \ 3\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//通信タイプ数（ホスト、サブホスト、メンテナンス）}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00343}\mbox{\hyperlink{define_8h_ac2144c943bcbc9a58480d6db36665153}{00343}}\ \textcolor{preprocessor}{\#define\ MES\_RESEND\_LIM\ \ (60\ *\ CMI\_RATIO\_1SEC)\ \ \ }\textcolor{comment}{//最大再送時間:60秒(60\ *\ カウンタ分解能)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00344}\mbox{\hyperlink{define_8h_a8a6d3aaead2bab750f2210372dc03b2f}{00344}}\ \textcolor{preprocessor}{\#define\ MES\_1ST\_TOP\ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//送信メッセージ1回目先頭バイト}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00345}\mbox{\hyperlink{define_8h_a3dad42e3250a8463c173b88ba853819b}{00345}}\ \textcolor{preprocessor}{\#define\ MES\_2ND\_TOP\ \ \ \ \ 256\ \ \ \ \ \ \ \ \ }\textcolor{comment}{//送信メッセージ2回目先頭バイト}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00346}\mbox{\hyperlink{define_8h_ae7729f34bac526ebf3c047d7f299c1b5}{00346}}\ \textcolor{preprocessor}{\#define\ MES\_3RD\_TOP\ \ \ \ \ 512\ \ \ \ \ \ \ \ \ }\textcolor{comment}{//送信メッセージ3回目先頭バイト}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00347}\mbox{\hyperlink{define_8h_aa697e2d3c5ed26c3e9773e6b27b466ed}{00347}}\ \textcolor{preprocessor}{\#define\ MES\_CHAR\_MAX\ 20\ \ \ \ \ }\textcolor{comment}{//コマンド内最大文字数}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00348}\mbox{\hyperlink{define_8h_a5486ec5eb03f3ae7f48fa47bb24f74cd}{00348}}\ \textcolor{preprocessor}{\#define\ MES\_W7\_STATUS\ 5\ \ \ \ \ \ \ \ \ }\textcolor{comment}{//W7コマンドステータス文字数}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00349}00349\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00350}\mbox{\hyperlink{define_8h_abbbcf3c42c997889127cc676754a6fea}{00350}}\ \textcolor{preprocessor}{\#define\ HOST\ \ \ \ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//ホスト通信}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00351}\mbox{\hyperlink{define_8h_a081d1bd19acaa9a14868d991b8a8bdbb}{00351}}\ \textcolor{preprocessor}{\#define\ MENT\ \ \ \ \ \ \ \ \ \ \ \ 1\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//メンテナンス通信}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00352}\mbox{\hyperlink{define_8h_ad27682a9f86e2ed06f5bafb241039e92}{00352}}\ \textcolor{preprocessor}{\#define\ SUB\_HOST\ \ \ \ \ \ \ \ 2\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//サブホスト通信}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00353}00353\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00354}\mbox{\hyperlink{define_8h_a1563581cb931ae98fbcc1d9dfc0a98e7}{00354}}\ \textcolor{preprocessor}{\#define\ HEADER\_CH\ \ \ \ \ \ \ 0x01\ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//CUnet\ Header\ CH}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00356}00356\ \textcolor{comment}{/*通信メッセージ情報\ (End\ Code)*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00357}\mbox{\hyperlink{define_8h_af199b3ef9c8ea221927d0c56ec643362}{00357}}\ \textcolor{preprocessor}{\#define\ REBOOT\_MANUAL\ \ \ \ \ \ \ \ \ \ \ 2}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00358}\mbox{\hyperlink{define_8h_ac3109d2589b29ec6894291bf5f625dc5}{00358}}\ \textcolor{preprocessor}{\#define\ ADDRESS\_OVER\ \ \ \ \ \ \ \ \ \ \ \ 4}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00359}\mbox{\hyperlink{define_8h_a81d2ca6759f3f3bf04556b7558aea6bc}{00359}}\ \textcolor{preprocessor}{\#define\ PARITY\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ 10}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00360}\mbox{\hyperlink{define_8h_a5bf1d46877ac22d5e12d9b1c0432d373}{00360}}\ \textcolor{preprocessor}{\#define\ FRAMING\_ERROR\ \ \ \ \ \ \ \ \ \ \ 11}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00361}\mbox{\hyperlink{define_8h_a71c26bc752960acd5308f21b05a13714}{00361}}\ \textcolor{preprocessor}{\#define\ OVERRUN\_ERROR\ \ \ \ \ \ \ \ \ \ \ 12}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00362}\mbox{\hyperlink{define_8h_a2b8e101882a539488555ac810415e649}{00362}}\ \textcolor{preprocessor}{\#define\ FCS\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 13}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00363}\mbox{\hyperlink{define_8h_aee85ee662a975234843514ad1ad3f1d1}{00363}}\ \textcolor{preprocessor}{\#define\ FORMAT\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ 14}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00364}\mbox{\hyperlink{define_8h_a755c019733af60e8024e12a74b2f8650}{00364}}\ \textcolor{preprocessor}{\#define\ COMMAND\_ERROR\ \ \ \ \ \ \ \ \ \ \ 16}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00365}\mbox{\hyperlink{define_8h_acff9a1afad2355f1313d0296f30d118d}{00365}}\ \textcolor{preprocessor}{\#define\ CU\_LENGTH\_ERROR\ \ \ \ \ \ \ \ \ 18}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00366}\mbox{\hyperlink{define_8h_a19de8c05cabd6fa1909bbd953415f8ba}{00366}}\ \textcolor{preprocessor}{\#define\ ZEROADJUST\_NOW\ \ \ \ \ \ \ \ \ \ 20}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00367}\mbox{\hyperlink{define_8h_ab56c9f3b98f5e5555011f009f8570d8f}{00367}}\ \textcolor{preprocessor}{\#define\ INTEGRATE\_NOW\ \ \ \ \ \ \ \ \ \ \ 21}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00368}\mbox{\hyperlink{define_8h_a35e85c13db9fc25d1a5fc33d63f9871c}{00368}}\ \textcolor{preprocessor}{\#define\ DOWNLOAD\_NOW\ \ \ \ \ \ \ \ \ \ \ \ 22}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00369}\mbox{\hyperlink{define_8h_ad92439a11dc705ede71ed2c23fa3bcdf}{00369}}\ \textcolor{preprocessor}{\#define\ EEPROMWRITE\_NOW\ \ \ \ \ \ \ \ \ 23}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00370}\mbox{\hyperlink{define_8h_a3637a14135dc71f10e2cb8e883f12d0c}{00370}}\ \textcolor{preprocessor}{\#define\ EEPROM\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ 30}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00371}\mbox{\hyperlink{define_8h_afc7d0ad4e2c646d68115642ac2bcf818}{00371}}\ \textcolor{preprocessor}{\#define\ MEASURE\_ERROR\ \ \ \ \ \ \ \ \ \ \ 32}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00372}\mbox{\hyperlink{define_8h_a37ce8c85202db02faa2de2eb941faff5}{00372}}\ \textcolor{preprocessor}{\#define\ REBOOT\_WDT\ \ \ \ \ \ \ \ \ \ \ \ \ \ 33}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00373}\mbox{\hyperlink{define_8h_ad27347e3ec50cf66b10046d4fffb90f1}{00373}}\ \textcolor{preprocessor}{\#define\ SENSORSIZE\_ERROR\ \ \ \ \ \ \ \ 34}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00374}\mbox{\hyperlink{define_8h_a84bd561e4414b6a3e739376419a3fc87}{00374}}\ \textcolor{preprocessor}{\#define\ FULLSCALE\_ERROR\ \ \ \ \ \ \ \ \ 35}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00375}\mbox{\hyperlink{define_8h_aeb9474a766ba59d5121a4a39308d2d32}{00375}}\ \textcolor{preprocessor}{\#define\ KFACTOR\_ERROR\ \ \ \ \ \ \ \ \ \ \ 36}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00376}\mbox{\hyperlink{define_8h_aeda8ab1408d88688698fd162051b3267}{00376}}\ \textcolor{preprocessor}{\#define\ DUMPING\_ERROR\ \ \ \ \ \ \ \ \ \ \ 37}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00377}\mbox{\hyperlink{define_8h_aa044645c2b72b85ca6a7eba21bd935ab}{00377}}\ \textcolor{preprocessor}{\#define\ LOWCUT\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ 38}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00378}\mbox{\hyperlink{define_8h_a1a0580ca01f927496bece312e96318e3}{00378}}\ \textcolor{preprocessor}{\#define\ BURNOUT\_CLASS\_ERROR\ \ \ \ \ 39}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00379}\mbox{\hyperlink{define_8h_a664bd609e8dda80a723e26564bcf8688}{00379}}\ \textcolor{preprocessor}{\#define\ BURNOUT\_VALUE\_ERROR\ \ \ \ \ 40}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00380}\mbox{\hyperlink{define_8h_a42c05eb7c7caad00c5339df7a6fd2991}{00380}}\ \textcolor{preprocessor}{\#define\ KVISCOSITY\_ERROR\ \ \ \ \ \ \ \ 41}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00381}\mbox{\hyperlink{define_8h_a49361817bdc607c19906b35994080562}{00381}}\ \textcolor{preprocessor}{\#define\ ERRORHOLDTIME\_ERROR\ \ \ \ \ 42}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00382}\mbox{\hyperlink{define_8h_ac71b61cd21414c1315dabe3317ff6cb7}{00382}}\ \textcolor{preprocessor}{\#define\ USERLINEAR\_POINT\_ERROR\ \ 43}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00383}\mbox{\hyperlink{define_8h_a8eb1ff91961f3952079dbb23f6896002}{00383}}\ \textcolor{preprocessor}{\#define\ USERLINEAR\_VALUE\_ERROR\ \ 44}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00384}\mbox{\hyperlink{define_8h_ae3ba6b02987cc7751b0b5ed67cabba1a}{00384}}\ \textcolor{preprocessor}{\#define\ USERLINEAR\_ORDER\_ERROR\ \ 45}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00385}\mbox{\hyperlink{define_8h_a62d229a3525a4541f35defc39bd84f7e}{00385}}\ \textcolor{preprocessor}{\#define\ REVERSE\_VALUE\_ERROR\ \ \ \ \ 46}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00386}\mbox{\hyperlink{define_8h_a4d97b089385242796be06916e049d40d}{00386}}\ \textcolor{preprocessor}{\#define\ REVERSE\_TIME\_ERROR\ \ \ \ \ \ 47}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00387}\mbox{\hyperlink{define_8h_a5a2cd1dbb668992f24c59a26296bbc86}{00387}}\ \textcolor{preprocessor}{\#define\ READ\_10POINTS\_ERROR\ \ \ \ \ 48}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00388}\mbox{\hyperlink{define_8h_a5bc90982f72e991d86d306c2529f23de}{00388}}\ \textcolor{preprocessor}{\#define\ MAKERSET\_ERROR\ \ \ \ \ \ \ \ \ \ 49}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00389}\mbox{\hyperlink{define_8h_a839a366df8adbb29b9311e0d55f9e640}{00389}}\ \textcolor{preprocessor}{\#define\ JUDGEMENT\_WAVE\_ERROR\ \ \ \ 50}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00390}\mbox{\hyperlink{define_8h_aaba028cff26f3df49cf440e22ed6c77e}{00390}}\ \textcolor{preprocessor}{\#define\ DEBUGMODE\_ERROR\ \ \ \ \ \ \ \ \ 51}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00391}\mbox{\hyperlink{define_8h_abe8b3d39f1b38d0591b199490bb2c882}{00391}}\ \textcolor{preprocessor}{\#define\ ATTENUATOR\_GAIN\_ERROR\ \ \ 52}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00392}\mbox{\hyperlink{define_8h_a8be760775519036c22fca968fee1e71a}{00392}}\ \textcolor{preprocessor}{\#define\ ZADJ\_WRITE\_ERROR\ \ \ \ \ \ \ \ 54}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00393}\mbox{\hyperlink{define_8h_aa67f125b7a4a694e26645604c181b1bf}{00393}}\ \textcolor{preprocessor}{\#define\ MAKERLINEAR\_POINT\_ERROR\ 55}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00394}\mbox{\hyperlink{define_8h_a973880877bb9e6ec95da684a6d7a9236}{00394}}\ \textcolor{preprocessor}{\#define\ MAKERLINEAR\_VALUE\_ERROR\ 56}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00395}\mbox{\hyperlink{define_8h_a666a87220d33cf5a713d279b05c651cd}{00395}}\ \textcolor{preprocessor}{\#define\ MAKERLINEAR\_ORDER\_ERROR\ 57}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00396}\mbox{\hyperlink{define_8h_ab815b1e2340453b1d606c357bb5319e4}{00396}}\ \textcolor{preprocessor}{\#define\ LLMODE\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ 58}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00397}\mbox{\hyperlink{define_8h_a0b63879662568ef4e09a14752bf0a491}{00397}}\ \textcolor{preprocessor}{\#define\ USERLINEAR\_5POINT\_ERROR\ \ \ \ \ 59}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00398}\mbox{\hyperlink{define_8h_af3f21232d4d754bb07b4da864c0be2a9}{00398}}\ \textcolor{preprocessor}{\#define\ USERLINEAR\_5POINT\_EMPTY\ \ \ \ \ 60}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00399}\mbox{\hyperlink{define_8h_a2f3c21c7b9581e012030faca018f0797}{00399}}\ \textcolor{preprocessor}{\#define\ TOTALTARGET\_ERROR\ \ \ 61}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00400}\mbox{\hyperlink{define_8h_ae75d0ca30184db966ab65996d32befcf}{00400}}\ \textcolor{preprocessor}{\#define\ TOTALOFFSET\_ERROR\ \ \ 62}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00401}\mbox{\hyperlink{define_8h_a048eb1a7011440c0307c565ee333b7e9}{00401}}\ \textcolor{preprocessor}{\#define\ FILTER\_MODE\_ERROR\ \ \ 65}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00402}\mbox{\hyperlink{define_8h_a8999c5e6171c8478fa3f74f50d4c02ca}{00402}}\ \textcolor{preprocessor}{\#define\ FILTER\_AVG\_ERROR\ \ \ \ 66}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00403}\mbox{\hyperlink{define_8h_a057be4ee5988da2ee55020a3878f9acd}{00403}}\ \textcolor{preprocessor}{\#define\ FREQUENCY\_ERROR\ 67}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00404}00404\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00405}00405\ \textcolor{comment}{/*センサ情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00406}\mbox{\hyperlink{define_8h_a4d9c63d66a13ed12726346a5275d67c5}{00406}}\ \textcolor{preprocessor}{\#define\ SNS\_NONE\ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//センサ無し}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00407}\mbox{\hyperlink{define_8h_a81b45fd919d535fd8ec5bd1a54e130e7}{00407}}\ \textcolor{preprocessor}{\#define\ SNS\_TYPE\_1\_8\ \ \ \ 1\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//PFA\ 1/8"{}}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00408}\mbox{\hyperlink{define_8h_afe18ab0cad7b4c52b33864c3dd037d32}{00408}}\ \textcolor{preprocessor}{\#define\ SNS\_TYPE\_4\_3\ \ \ \ 2\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//PFA\ 4x3}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00409}\mbox{\hyperlink{define_8h_af62f9ba97f23b43bde8ce399795231b9}{00409}}\ \textcolor{preprocessor}{\#define\ SNS\_TYPE\_1\_4\ \ \ \ 3\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//PFA\ 1/4"{}}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00410}\mbox{\hyperlink{define_8h_a0cd562cb88b4877fb40f7064ac98f43c}{00410}}\ \textcolor{preprocessor}{\#define\ SNS\_TYPE\_3\_8\ \ \ \ 4\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//0PFA\ 3/8"{}}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00411}00411\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00412}00412\ \textcolor{comment}{/*メディアンフィルタ情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00413}\mbox{\hyperlink{define_8h_a45bfbafa7f55dbafd679f7c4c808721b}{00413}}\ \textcolor{preprocessor}{\#define\ MF\_DEPTH\ \ \ \ (32)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00414}\mbox{\hyperlink{define_8h_a21ba90dad5fc1295e50fe0d9bd7e7732}{00414}}\ \textcolor{preprocessor}{\#define\ MF\_AVE\_ST\ \ \ (8)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00415}\mbox{\hyperlink{define_8h_a3cff3c918d0ab594151a6ff73be6526e}{00415}}\ \textcolor{preprocessor}{\#define\ MF\_AVE\_EN\ \ \ (23)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00416}00416\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00417}00417\ \textcolor{comment}{/*薬液リニア情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00418}\mbox{\hyperlink{define_8h_a3a9751d79476aa9d65959d8a027e2944}{00418}}\ \textcolor{preprocessor}{\#define\ LL\_NUM\ \ \ \ \ \ 8\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//薬液種別総数}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00419}\mbox{\hyperlink{define_8h_a0377c13d3e67764e0717adf04fa050f3}{00419}}\ \textcolor{preprocessor}{\#define\ LL\_KV\ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//動粘度}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00420}\mbox{\hyperlink{define_8h_a3813135d49c3c39b3538c053b7d4bccd}{00420}}\ \textcolor{preprocessor}{\#define\ LL\_SS\ \ \ \ \ \ \ 1\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//センサ種別}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00421}\mbox{\hyperlink{define_8h_a6dcb2698cb1d4cb4169fecef6236f6bd}{00421}}\ \textcolor{preprocessor}{\#define\ LL\_FS\ \ \ \ \ \ \ 2\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//フルスケール}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00422}\mbox{\hyperlink{define_8h_a07b53ae3d2e9c21426bdbf8b1814a512}{00422}}\ \textcolor{preprocessor}{\#define\ LL\_LP\ \ \ \ \ \ \ 3\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//リニアライズ点数}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00423}\mbox{\hyperlink{define_8h_ab564a794e8506a6e8158946fb8875ef1}{00423}}\ \textcolor{preprocessor}{\#define\ LL\_POINT1\ \ \ 4\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//補正量1点目}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00424}00424\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00425}00425\ \textcolor{comment}{/*フィルターモード情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00426}\mbox{\hyperlink{define_8h_a1e1abd67c970b5f7ae222eb2561a16ff}{00426}}\ \textcolor{preprocessor}{\#define\ FILTER\_MOVING\ 0\ }\textcolor{comment}{//移動平均}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00427}\mbox{\hyperlink{define_8h_a7e7bf52f7c9411f72576cfd19c2625b6}{00427}}\ \textcolor{preprocessor}{\#define\ FILTER\_DIRECT\ 1\ }\textcolor{comment}{//フィルタ無し}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00428}\mbox{\hyperlink{define_8h_a391968017bd123fccadf0c7707cf43a8}{00428}}\ \textcolor{preprocessor}{\#define\ FILTER\_MEDIAN\ 2\ }\textcolor{comment}{//メディアンフィルタ}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00429}00429\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00430}00430\ \textcolor{comment}{/*ゼロクロス情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00431}\mbox{\hyperlink{define_8h_a44d10f352bfc53fbb9c58ad5a8c1c933}{00431}}\ \textcolor{preprocessor}{\#define\ ZC\_POINT\_MAX\ 40\ }\textcolor{comment}{//ゼロクロス点最大値}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00432}00432\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00433}00433\ \textcolor{comment}{/*Windowサーチ情報*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00434}00434\ \textcolor{comment}{/*32MHz,\ 40MHz*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00435}\mbox{\hyperlink{define_8h_ace4f0f5be68a73700e90be3ff722a333}{00435}}\ \textcolor{preprocessor}{\#define\ WS\_FIFO\_START\_14\_3240\ 10\ \ \ \ }\textcolor{comment}{//Windowサーチ開始FIFO\ CH(1/4"{}用)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00436}\mbox{\hyperlink{define_8h_a894943a6dceba929ce1210c020eabeee}{00436}}\ \textcolor{preprocessor}{\#define\ WS\_FIFO\_START\_38\_3240\ 10\ \ \ \ }\textcolor{comment}{//Windowサーチ開始FIFO\ CH(3/8"{}用)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00437}\mbox{\hyperlink{define_8h_a7cc8152c22758dd09f028bcbdcfc273d}{00437}}\ \textcolor{preprocessor}{\#define\ WS\_FIFO\_END\_3240\ 25\ }\textcolor{comment}{//Windowサーチ終了FIFO\ CH}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00438}00438\ \textcolor{comment}{/*65MHz*/}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00439}\mbox{\hyperlink{define_8h_ad9b29598e017ae7acb7d042c5982c0d8}{00439}}\ \textcolor{preprocessor}{\#define\ WS\_FIFO\_START\_14\ 15\ }\textcolor{comment}{//Windowサーチ開始FIFO\ CH(1/4"{}用)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00440}\mbox{\hyperlink{define_8h_a9e46bcbcc540282340ef8de9ca1dbcca}{00440}}\ \textcolor{preprocessor}{\#define\ WS\_FIFO\_START\_38\ 15\ }\textcolor{comment}{//Windowサーチ開始FIFO\ CH(3/8"{}用)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00441}\mbox{\hyperlink{define_8h_af9e042ca67c7f10bd15c9318eb15214b}{00441}}\ \textcolor{preprocessor}{\#define\ WS\_FIFO\_END\ 30\ \ }\textcolor{comment}{//Windowサーチ終了FIFO\ CH}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00442}00442\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00443}\mbox{\hyperlink{define_8h_aa34dce79e6d669ea4e986cd1ed9a1d71}{00443}}\ \textcolor{preprocessor}{\#define\ WS\_FIFO\_RANGE\ 8\ }\textcolor{comment}{//FIFO取得範囲}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00444}00444\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00445}00445\ \textcolor{comment}{//\ UART\ 割り付け定義\ }}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00446}\mbox{\hyperlink{define_8h_a2829fd7cc79ded20530eaabfaccb320d}{00446}}\ \textcolor{preprocessor}{\#define\ UART\_COM\_HOST\_BASE\ \ UART6\_BASE}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00447}\mbox{\hyperlink{define_8h_a2cd04e530e0b578f00362454e906c3f4}{00447}}\ \textcolor{preprocessor}{\#define\ INT\_UART\_COM\_HOST\ \ \ INT\_UART6}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00448}\mbox{\hyperlink{define_8h_aa0e3cf56f496e04240ca1e0dec5ead1b}{00448}}\ \textcolor{preprocessor}{\#define\ UART\_COM\_MENT\_BASE\ \ UART2\_BASE}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00449}\mbox{\hyperlink{define_8h_aedfd8b855fe6eecbd80b8e317a447dc6}{00449}}\ \textcolor{preprocessor}{\#define\ INT\_UART\_COM\_MENT\ \ \ INT\_UART2}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00450}00450\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00451}\mbox{\hyperlink{define_8h_a926120416d288e301bf3b28046206628}{00451}}\ \textcolor{preprocessor}{\#define\ WAV\_PEK\_NUM\ 10\ }\textcolor{comment}{//取得する波形のピーク値数}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00452}\mbox{\hyperlink{define_8h_aeff12975533dd8c1f3eee248e19a1dbe}{00452}}\ \textcolor{preprocessor}{\#define\ LDG\_PNT\_OFS\ 40\ \ }\textcolor{comment}{//Leading\ Point\ Offset\ ((従来値)40\ /\ (オーバーサンプリング倍率)8\ =\ 5)}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00453}00453\ }
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00454}\mbox{\hyperlink{define_8h_a92dd644ef4a3673f580444a6e0125c56}{00454}}\ \textcolor{preprocessor}{\#define\ ADD\_NO\_CMM\ 0\ }\textcolor{comment}{//Add\ No\ Comma}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00455}\mbox{\hyperlink{define_8h_a9eae9e67a6a2e2d75a369389e91a03f6}{00455}}\ \textcolor{preprocessor}{\#define\ ADD\_CMM\_BFR\_VAL\ 1\ }\textcolor{comment}{//Add\ Comma\ Before\ Value}}
+\DoxyCodeLine{\Hypertarget{define_8h_source_l00456}\mbox{\hyperlink{define_8h_a7df52d87e7b343c7bf689c81e849cb9c}{00456}}\ \textcolor{preprocessor}{\#define\ ADD\_CMM\_AFR\_VAL\ 2\ }\textcolor{comment}{//Add\ Comma\ After\ Value}}
+
+\end{DoxyCode}

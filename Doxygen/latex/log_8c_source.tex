@@ -1,0 +1,304 @@
+\doxysection{log.\+c}
+\hypertarget{log_8c_source}{}\label{log_8c_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/log.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/log.c}}
+\mbox{\hyperlink{log_8c}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00001}00001\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00002}00002\ \textcolor{comment}{/*\ File\ Name\ :\ log.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ エラーログ処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ reserved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <machine.h>}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <string.h>}\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{define_8h}{define.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_s_v__def_8h}{SV\_def.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{typedefine_8h}{typedefine.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_m_e_s_8h}{defMES.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_l_o_g_8h}{defLOG.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_m_a_i_n_8h}{defMAIN.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_s_a_v_e_8h}{defSAVE.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00020}00020\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00021}00021\ \textcolor{comment}{/*\ \ モジュール内定義関数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00022}00022\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00023}00023\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{log_8c_a2508fad025e49f9746b6c178dce6917e}{log\_init}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00024}00024\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{log_8c_a35931fdc2c8b78eacf9ed0ac4182d569}{log\_detailinfo\_init}}(\textcolor{keywordtype}{short}\ ch);}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00025}00025\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{log_8c_a23729b76bf231420d9926ecbacfb5c94}{log\_basicinfo\_save}}(\textcolor{keywordtype}{short}\ ch,\ \textcolor{keywordtype}{short}\ code);}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00026}00026\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{log_8c_a5562c5465fb0198f596b929b8901a74e}{log\_detailinfo\_save}}(\textcolor{keywordtype}{short}\ ch,\ \textcolor{keywordtype}{short}\ code);}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00027}00027\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{log_8c_a38c4e28274006231dfa745984a208789}{log\_save}}(\textcolor{keywordtype}{short}\ ch,\ \textcolor{keywordtype}{short}\ code);}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00029}00029\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00030}00030\ \textcolor{comment}{/*\ \ モジュール外定義関数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00031}00031\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00032}00032\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{log_8c_abc24144696198a3af65314333356cd04}{eep\_write\_ch\_delay}}(\textcolor{keywordtype}{short},\ \textcolor{keywordtype}{short},\ \textcolor{keywordtype}{short});}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00033}00033\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{log_8c_ad5ddb4515f9f37c98af2e3bb268012da}{get\_attenuator\_gain}}(\textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00034}00034\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{log_8c_a48a1a4bf9b2ef22bacb79ef63bf78ff5}{err\_priority}}(\textcolor{keywordtype}{short}\ ch,\ \textcolor{keywordtype}{short}\ new\_err\_code);}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00035}00035\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{log_8c_abe4270da19df501a4ea5ad6989590443}{check\_queue}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00037}00037\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00038}00038\ \textcolor{comment}{/*\ \ モジュール内定義変数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00039}00039\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00041}00041\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00042}00042\ \textcolor{comment}{/*\ \ モジュール外定義変数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00043}00043\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00044}00044\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \ \ \ \mbox{\hyperlink{log_8c_aa3cac78822855b3a06467a9f070ca298}{cmi\_count}};}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00047}00047\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00048}00048\ \textcolor{comment}{/*\ Function\ :\ log\_init\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00049}00049\ \textcolor{comment}{/*\ Summary\ \ :\ エラーログの初期化\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00050}00050\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00051}00051\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00052}00052\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00053}00053\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00054}00054\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00055}\mbox{\hyperlink{log_8c_a2508fad025e49f9746b6c178dce6917e}{00055}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{log_8c_a2508fad025e49f9746b6c178dce6917e}{log\_init}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00057}00057\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ log\_ch;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00058}00058\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ log\_num;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00059}00059\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ log\_count;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00060}00060\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ i\_count;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00061}00061\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \ \mbox{\hyperlink{_m_a_i_n_8c_ae33f6ff61845f2b8e2eac8239335958b}{pwon\_count}};}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00062}00062\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \ \ err\_time;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00063}00063\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00064}00064\ \ \ \ \ \textcolor{keywordflow}{for}(log\_ch\ =\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};\ log\_ch\ <\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}};\ log\_ch\ ++)\{\ \ \ \ \ \ \ \textcolor{comment}{//エラーログ詳細情報の初期化}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00065}00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{log_8c_a35931fdc2c8b78eacf9ed0ac4182d569}{log\_detailinfo\_init}}(log\_ch);}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00066}00066\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00067}00067\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00068}00068\ \ \ \ \ \textcolor{keywordflow}{for}(log\_ch\ =\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};\ log\_ch\ <\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}};\ log\_ch\ ++)\{\ \ \ \ \ \ \ \textcolor{comment}{//エラーログを登録する配列番号を検索}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00069}00069\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_s_a_v_e_8c_af741d68ae1e47bc4ebdd517dbfd03c06}{SAVE}}[log\_ch].\mbox{\hyperlink{structst_s_a_v_e_a03b67ade2e0a335e92b03c4850eef14b}{log\_save\_num}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00070}00070\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_m_a_i_n_8c_ae33f6ff61845f2b8e2eac8239335958b}{pwon\_count}}\ =\ 0xFFFF;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00071}00071\ \ \ \ \ \ \ \ \ err\_time\ =\ 0xFFFFFFFF;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(log\_num\ =\ 0;\ log\_num\ <\ \mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}};\ log\_num\ ++)\{\ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].err\_code[log\_num]\ !=\ 0)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].err\_pwon\_count[log\_num]\ <=\ \mbox{\hyperlink{_m_a_i_n_8c_ae33f6ff61845f2b8e2eac8239335958b}{pwon\_count}})\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].err\_pwon\_count[log\_num]\ !=\ \mbox{\hyperlink{_m_a_i_n_8c_ae33f6ff61845f2b8e2eac8239335958b}{pwon\_count}})\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ err\_time\ =\ 0xFFFFFFFF;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_m_a_i_n_8c_ae33f6ff61845f2b8e2eac8239335958b}{pwon\_count}}\ =\ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_af2f85293a0219441f7e1bc6dd1c3ccef}{err\_pwon\_count}}[log\_num];}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].err\_time[log\_num].DWORD\ <\ err\_time)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ err\_time\ =\ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_a617f4f35d1c77ef98f7318eb6968e0b7}{err\_time}}[log\_num].\mbox{\hyperlink{structst_s_v_d_a90bbc5face42efebdee05ba342db7f22}{DWORD}};}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_s_a_v_e_8c_af741d68ae1e47bc4ebdd517dbfd03c06}{SAVE}}[log\_ch].\mbox{\hyperlink{structst_s_a_v_e_a03b67ade2e0a335e92b03c4850eef14b}{log\_save\_num}}\ =\ log\_num;\ \ \ \ \ \ \ \ \textcolor{comment}{//エラーログ登録開始番号}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00085}00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00086}00086\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00087}00087\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00088}00088\ \ \ \ \ \textcolor{keywordflow}{for}(log\_ch\ =\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};\ log\_ch\ <\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}};\ log\_ch\ ++)\{\ \ \ \ \ \ \ \textcolor{comment}{//エラーログ基本情報(EEPROM)をエラーログ詳細情報(RAM)にコピー}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00089}00089\ \ \ \ \ \ \ \ \ log\_count\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00090}00090\ \ \ \ \ \ \ \ \ log\_num\ =\ \mbox{\hyperlink{def_s_a_v_e_8c_af741d68ae1e47bc4ebdd517dbfd03c06}{SAVE}}[log\_ch].\mbox{\hyperlink{structst_s_a_v_e_a03b67ade2e0a335e92b03c4850eef14b}{log\_save\_num}};}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(i\_count\ =\ 0;\ i\_count\ <\ \mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}};\ i\_count\ ++)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].err\_code[log\_num]\ !=\ 0)\{\ \ \ \ \ \ \textcolor{comment}{//エラーログ基本情報に登録情報あり}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_count].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_aa7a22a48338c0e1ceea48bd403e7c2c7}{err\_code}}\ =\ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_ac835a42a1268ce059efec80712ffe32f}{err\_code}}[log\_num];\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_count].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_ab8c1e0a4249926b26f7490e7d0568d50}{err\_pwon\_count}}\ =\ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_af2f85293a0219441f7e1bc6dd1c3ccef}{err\_pwon\_count}}[log\_num];\ \ \ \ \ \ \ \ \textcolor{comment}{//エラー発生時の電源オンカウンタ}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_count].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_abd21d5ca5e626ae4b9764646d0479c03}{err\_time}}\ =\ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_a617f4f35d1c77ef98f7318eb6968e0b7}{err\_time}}[log\_num].\mbox{\hyperlink{structst_s_v_d_a90bbc5face42efebdee05ba342db7f22}{DWORD}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラー発生時時間}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ log\_count\ ++;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(log\_num\ ==\ (\mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}}\ -\/\ 1))\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーログ登録番号の更新}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ log\_num\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ log\_num\ ++;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00103}00103\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00104}00104\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00105}00105\ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00107}00107\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00108}00108\ \textcolor{comment}{/*\ Function\ :\ log\_detailinfo\_init\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00109}00109\ \textcolor{comment}{/*\ Summary\ \ :\ エラーログ詳細情報の初期化\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00110}00110\ \textcolor{comment}{/*\ Argument\ :\ ch\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00111}00111\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00112}00112\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00113}00113\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00114}00114\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00115}\mbox{\hyperlink{log_8c_a35931fdc2c8b78eacf9ed0ac4182d569}{00115}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{log_8c_a35931fdc2c8b78eacf9ed0ac4182d569}{log\_detailinfo\_init}}(\textcolor{keywordtype}{short}\ ch)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00117}00117\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ log\_ch;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00118}00118\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ log\_num;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00119}00119\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00120}00120\ \ \ \ \ \textcolor{keywordflow}{if}(ch\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\{\ \ \ \ \ \ \ \textcolor{comment}{//CH指定チェック}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//初期化不可}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00122}00122\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00123}00123\ \ \ \ \ log\_ch\ =\ ch;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00125}00125\ \ \ \ \ \textcolor{keywordflow}{for}(log\_num\ =\ 0;\ log\_num\ <\ \mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}};\ log\_num\ ++)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00126}00126\ \ \ \ \ \ \ \ \ memcpy(\&\mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num],\ \&\mbox{\hyperlink{def_l_o_g_8c_aaff4783591dd34a7d23911f7466074e4}{LOG\_DETAIL\_DEF}},\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num]));}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00127}00127\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00128}00128\ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00130}00130\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00131}00131\ \textcolor{comment}{/*\ Function\ :\ log\_basicinfo\_save\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00132}00132\ \textcolor{comment}{/*\ Summary\ \ :\ エラーログ基本情報の登録\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00133}00133\ \textcolor{comment}{/*\ Argument\ :\ ch,\ \ code\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00134}00134\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00135}00135\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00136}00136\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00137}00137\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00138}\mbox{\hyperlink{log_8c_a23729b76bf231420d9926ecbacfb5c94}{00138}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{log_8c_a23729b76bf231420d9926ecbacfb5c94}{log\_basicinfo\_save}}(\textcolor{keywordtype}{short}\ ch,\ \textcolor{keywordtype}{short}\ code)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00140}00140\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ log\_ch;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00141}00141\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ log\_num;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00142}00142\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00143}00143\ \ \ \ \ \textcolor{keywordflow}{if}(ch\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\{\ \ \ \ \ \ \ \textcolor{comment}{//CH指定チェック}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//登録不可}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00145}00145\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00146}00146\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{log_8c_abe4270da19df501a4ea5ad6989590443}{check\_queue}}()\ !=\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//EEPROM書込み用Queueが取得可能か確認する}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//登録不可}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00148}00148\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00150}00150\ \ \ \ \ log\_ch\ =\ ch;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00151}00151\ \ \ \ \ log\_num\ =\ \mbox{\hyperlink{def_s_a_v_e_8c_af741d68ae1e47bc4ebdd517dbfd03c06}{SAVE}}[log\_ch].\mbox{\hyperlink{structst_s_a_v_e_a03b67ade2e0a335e92b03c4850eef14b}{log\_save\_num}};\ \ \ \ \ \ \ \ \textcolor{comment}{//エラーログ登録番号}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00153}00153\ \ \ \ \ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_ac835a42a1268ce059efec80712ffe32f}{err\_code}}[log\_num]\ =\ code;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00154}00154\ \ \ \ \ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_af2f85293a0219441f7e1bc6dd1c3ccef}{err\_pwon\_count}}[log\_num]\ =\ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[ch].\mbox{\hyperlink{structst_s_v_d_adfcbfb706f9e3766a3e3b08418786834}{pwon\_count}};\ \textcolor{comment}{//エラー発生時の電源オンカウンタ}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00155}00155\ \ \ \ \ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_a617f4f35d1c77ef98f7318eb6968e0b7}{err\_time}}[log\_num].\mbox{\hyperlink{structst_s_v_d_a90bbc5face42efebdee05ba342db7f22}{DWORD}}\ =\ \mbox{\hyperlink{log_8c_aa3cac78822855b3a06467a9f070ca298}{cmi\_count}};\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラー発生時の時間}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00157}00157\ \ \ \ \ \textcolor{comment}{//EEPROM書き込み}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00158}00158\ \ \ \ \ \mbox{\hyperlink{log_8c_abc24144696198a3af65314333356cd04}{eep\_write\_ch\_delay}}(log\_ch,\ (\textcolor{keywordtype}{short})(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].err\_code[log\_num]\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].max\_flow),\ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].err\_code[log\_num]);}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00159}00159\ \ \ \ \ \mbox{\hyperlink{log_8c_abc24144696198a3af65314333356cd04}{eep\_write\_ch\_delay}}(log\_ch,\ (\textcolor{keywordtype}{short})(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].err\_pwon\_count[log\_num]\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].max\_flow),\ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].err\_pwon\_count[log\_num]);}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00160}00160\ \ \ \ \ \mbox{\hyperlink{log_8c_abc24144696198a3af65314333356cd04}{eep\_write\_ch\_delay}}(log\_ch,\ (\textcolor{keywordtype}{short})(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].err\_time[log\_num].\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_a9d2401fcddc6eee14f1ea1e3c01d619e}{max\_flow}}),\ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_a617f4f35d1c77ef98f7318eb6968e0b7}{err\_time}}[log\_num].\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}});}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00161}00161\ \ \ \ \ \mbox{\hyperlink{log_8c_abc24144696198a3af65314333356cd04}{eep\_write\_ch\_delay}}(log\_ch,\ (\textcolor{keywordtype}{short})(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].err\_time[log\_num].\mbox{\hyperlink{eeprom__spi_8c_a4cfc63e05db4883dc4b60a1245a9ffc5}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_a9d2401fcddc6eee14f1ea1e3c01d619e}{max\_flow}}),\ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_a617f4f35d1c77ef98f7318eb6968e0b7}{err\_time}}[log\_num].\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}});}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00163}00163\ \ \ \ \ \textcolor{comment}{//エラーログ登録番号の更新}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00164}00164\ \ \ \ \ \textcolor{keywordflow}{if}(log\_num\ ==\ (\mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}}\ -\/\ 1))\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00165}00165\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_s_a_v_e_8c_af741d68ae1e47bc4ebdd517dbfd03c06}{SAVE}}[log\_ch].\mbox{\hyperlink{structst_s_a_v_e_a03b67ade2e0a335e92b03c4850eef14b}{log\_save\_num}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00166}00166\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00167}00167\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_s_a_v_e_8c_af741d68ae1e47bc4ebdd517dbfd03c06}{SAVE}}[log\_ch].\mbox{\hyperlink{structst_s_a_v_e_a03b67ade2e0a335e92b03c4850eef14b}{log\_save\_num}}\ ++;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00168}00168\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00169}00169\ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00171}00171\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00172}00172\ \textcolor{comment}{/*\ Function\ :\ log\_detailinfo\_save\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00173}00173\ \textcolor{comment}{/*\ Summary\ \ :\ エラーログ詳細情報の登録\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00174}00174\ \textcolor{comment}{/*\ Argument\ :\ ch,\ \ code\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00175}00175\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00176}00176\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00177}00177\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00178}00178\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00179}\mbox{\hyperlink{log_8c_a5562c5465fb0198f596b929b8901a74e}{00179}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{log_8c_a5562c5465fb0198f596b929b8901a74e}{log\_detailinfo\_save}}(\textcolor{keywordtype}{short}\ ch,\ \textcolor{keywordtype}{short}\ code)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00181}00181\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ log\_ch;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00182}00182\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ log\_num;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00183}00183\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ log\_shift;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00184}00184\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ shift\_count;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00185}00185\ \ \ \ \ \textcolor{keywordtype}{short}\ \ \ \ \ \ \ i\_cnt;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00186}00186\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00187}00187\ \ \ \ \ \textcolor{keywordflow}{if}(ch\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\{\ \ \ \ \ \ \ \textcolor{comment}{//CH指定チェック}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00188}00188\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//登録不可}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00189}00189\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00190}00190\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{log_8c_abe4270da19df501a4ea5ad6989590443}{check\_queue}}()\ !=\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//EEPROM書込み用Queueが取得可能か確認する}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00191}00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//登録不可}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00192}00192\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00193}00193\ \ \ \ \ log\_ch\ =\ ch;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00194}00194\ \ \ \ \ log\_shift\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00196}00196\ \ \ \ \ \textcolor{keywordflow}{for}(log\_num\ =\ 0;\ log\_num\ <\ \mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}};\ log\_num\ ++)\{\ \ \ \ \ \ \ \textcolor{comment}{//エラーログを登録する配列番号を検索}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].err\_code\ ==\ 0)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ log\_shift\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00200}00200\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00201}00201\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00202}00202\ \ \ \ \ \textcolor{keywordflow}{if}(log\_num\ ==\ \mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}})\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00203}00203\ \ \ \ \ \ \ \ \ log\_num-\/-\/;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00204}00204\ \ \ \ \ \}\ \ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00205}00205\ \ \ \ \ \textcolor{keywordflow}{if}(log\_shift\ !=\ 0)\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーログ配列をシフトしてから登録する}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(shift\_count\ =\ 0;\ shift\_count\ <\ (\mbox{\hyperlink{define_8h_a300c181ec73c38cead934ad8c87bab24}{LOGMAX}}-\/1);\ shift\_count\ ++)\{\ \ \ \ \ \ \ \textcolor{comment}{//エラーログ配列をシフトする}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ memcpy(\&\mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][shift\_count],\ \&\mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][shift\_count+1],\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][shift\_count+1]));\ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00208}00208\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00209}00209\ \ \ \ \ \}\ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00210}00210\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00211}00211\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_aa7a22a48338c0e1ceea48bd403e7c2c7}{err\_code}}\ =\ code;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00212}00212\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_ab8c1e0a4249926b26f7490e7d0568d50}{err\_pwon\_count}}\ =\ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_adfcbfb706f9e3766a3e3b08418786834}{pwon\_count}};\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラー発生時の電源オンカウンタ}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00213}00213\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_abd21d5ca5e626ae4b9764646d0479c03}{err\_time}}\ =\ \mbox{\hyperlink{log_8c_aa3cac78822855b3a06467a9f070ca298}{cmi\_count}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラー発生時時間}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00214}00214\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_ad225a0ca965c24d28cbe3318787cb7eb}{flow\_quantity}}\ =\ (long)\mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].ml\_min\_now;\ \ \ \ \ \textcolor{comment}{//流量}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00215}00215\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_a66ddc959dd9d3aa997dc80d97748e615}{flow\_velocity}}\ =\ (long)\mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].flow\_vel\_c\ /\ 100;\textcolor{comment}{//流速}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00216}00216\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_a07883ed8f768b7988ffd043858571b92}{sound\_speed}}\ =\ (long)\mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].sound\_vel\_f;\ \ \ \ \ \ \ \ \textcolor{comment}{//音速}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00217}00217\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_a4bff8333f271d5779b7a204930109214}{total\_count}}.\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_a220371f4dfde763594470a837e4e7526}{DWORD}}\ =\ (\mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].\mbox{\hyperlink{structst_m_e_s_a67f9164b642f5228deddff1e5344b4e1}{addit\_buff}}.\mbox{\hyperlink{structst_m_e_s_a220371f4dfde763594470a837e4e7526}{DWORD}});\textcolor{comment}{//積算値}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00218}00218\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_a50976499336ded7de4b6092f3b83dd33}{wave\_max}}\ =\ \mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].\mbox{\hyperlink{structst_m_e_s_a658acbd3861acd34fc8033f877744ba6}{rev\_max\_data}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//受波波形最大値}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00219}00219\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_a933a142579bdd1d5b3205198f562615a}{wave\_min}}\ =\ \mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].\mbox{\hyperlink{structst_m_e_s_ae81c393ed6d4500473129fb38be56aa0}{rev\_min\_data}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//受波波形最小値}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00220}00220\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_a5fad1ff71976effc6b8f0fa1c0802f43}{dt}}\ =\ (long)\mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].delta\_ts\_zero;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//伝搬時間差}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00221}00221\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_afd65a6fa55d32846dbfad9686dbcf7fc}{correlate}}\ =\ (\mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].\mbox{\hyperlink{structst_m_e_s_a296429db3a92b395d1287e8867d61ad0}{correlate}}\ *\ 1000);\ \ \ \ \ \ \textcolor{comment}{//相関値幅}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00222}00222\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_a1d7e5b3152506a17c964db28b83d64a0}{zero\_offset}}\ =\ (\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[log\_ch].\mbox{\hyperlink{structst_s_v_d_abf06301f97ba89bc3f9de5ba11b21589}{zero\_offset}}\ -\/\ 4000)\ *\ 32;\ \textcolor{comment}{//ゼロ点オフセット}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00223}00223\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_aab78832eca253df36aafa204d68e4bac}{status}}\ =\ \mbox{\hyperlink{def_m_a_i_n_8c_a6fbaabd4a83fe206713aaa04b6b0fa0c}{MAIN}}[log\_ch].\mbox{\hyperlink{structst_m_a_i_n_a8d232f1003651a6729809c59b7d03d31}{err\_condition}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ステータス}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00224}00224\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_ac806ac83ab37d9a7bbba1e5de92d8fa8}{fifo\_position}}\ =\ \mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].\mbox{\hyperlink{structst_m_e_s_a4368d6dc0fe7d23bad9c10b8fc6e126b}{fifo\_no\_read}};\ \ \ \ \ \ \ \ \ \textcolor{comment}{//FIFO受波波形検出位置}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00225}00225\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_a3faaae54f6be7c60191a5703513c71bc}{gain\_up}}\ =\ (short)\mbox{\hyperlink{log_8c_ad5ddb4515f9f37c98af2e3bb268012da}{get\_attenuator\_gain}}(log\_ch);\ \ \ \ \ \ \ \textcolor{comment}{//第1ゲイン}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00226}00226\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_a29691f06fc130307a9c3778e9a76ebfb}{gain\_down}}\ =\ (short)\mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].amp\_gain\_for;\ \ \ \ \ \ \textcolor{comment}{//第2ゲイン}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00227}00227\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_aff3daed543a4158f3f4730fec08fa907}{fifo\_ch}}\ =\ \mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].\mbox{\hyperlink{structst_m_e_s_a40e6127ea0bb76b272c2e0885d9bd145}{fifo\_ch\_read}};\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//FIFO\ CH}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00228}00228\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_a3f788997cfdeb4bfd20685e80d571338}{p1\_p2}}\ =\ \mbox{\hyperlink{def_m_e_s_8c_a202c65e1ca3a5712692cc529f040634b}{MES}}[log\_ch].\mbox{\hyperlink{structst_m_e_s_aa7ada482e362e1b09ab29b77fca2da91}{max\_point\_sub\_f}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//受波の差(P1-\/P2)}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00229}00229\ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_ac7e40706c488b8daa392bcace8eaea5d}{mail\_err\_status}}\ =\ \mbox{\hyperlink{def_m_a_i_n_8c_acfbe2b0a0b7aab8cf1da01cc8b99b877}{cunet\_error}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//メール送信エラーステータス}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00231}00231\ \ \ \ \ \textcolor{keywordflow}{if}(code\ ==\ \mbox{\hyperlink{define_8h_a1c03645caeef3895103f985de716d241}{ERR\_ZERO\_EMPTY}}\ ||\ code\ ==\ \mbox{\hyperlink{define_8h_add8d6e242b9a4adcb5369193f8a11ced}{ERR\_MESR\_EMPTY\_L}}\ ||\ code\ ==\ \mbox{\hyperlink{define_8h_a6c5bba3ce77a815e1aef6d438712b8c4}{ERR\_MESR\_EMPTY\_H}})\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(i\_cnt\ =\ 0;\ i\_cnt\ <\ \mbox{\hyperlink{define_8h_a9f119c7958b7bae36bf7fd077fc5c4c9}{SUB\_POINT}};\ i\_cnt\ ++)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_ac57799e2e0f6b6e39bda3ca04dce6a2c}{sum\_abs\_log}}[i\_cnt]\ =\ 0;\ \ \ \ \ \ \ \ \textcolor{comment}{//波形データ0}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00234}00234\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00235}00235\ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(i\_cnt\ =\ 0;\ i\_cnt\ <\ \mbox{\hyperlink{define_8h_a9f119c7958b7bae36bf7fd077fc5c4c9}{SUB\_POINT}};\ i\_cnt\ ++)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_l_o_g_8c_a611933168bb5b76a81af1a1e9706389c}{LOG\_DETAIL}}[log\_ch][log\_num].\mbox{\hyperlink{structst_l_o_g___d_e_t_a_i_l_ac57799e2e0f6b6e39bda3ca04dce6a2c}{sum\_abs\_log}}[i\_cnt]\ =\ \mbox{\hyperlink{def_s_a_v_e_8c_af741d68ae1e47bc4ebdd517dbfd03c06}{SAVE}}[log\_ch].\mbox{\hyperlink{structst_s_a_v_e_ab2c513573bf86ad83e5b7d7896b11061}{sum\_abs\_com}}[i\_cnt];\ \ \ \ \ \ \ \textcolor{comment}{//差分相関値}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00238}00238\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00239}00239\ \ \ \ \ \}\ \ \ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00240}00240\ \ \ \ \ \mbox{\hyperlink{def_m_a_i_n_8c_acfbe2b0a0b7aab8cf1da01cc8b99b877}{cunet\_error}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00241}00241\ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00243}00243\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00244}00244\ \textcolor{comment}{/*\ Function\ :\ log\_save\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00245}00245\ \textcolor{comment}{/*\ Summary\ \ :\ エラーログ情報の登録\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00246}00246\ \textcolor{comment}{/*\ Argument\ :\ ch,\ \ code\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00247}00247\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00248}00248\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00249}00249\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00250}00250\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00251}\mbox{\hyperlink{log_8c_a38c4e28274006231dfa745984a208789}{00251}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{log_8c_a38c4e28274006231dfa745984a208789}{log\_save}}(\textcolor{keywordtype}{short}\ ch,\ \textcolor{keywordtype}{short}\ code)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00253}00253\ \ \ \ \ \textcolor{keywordflow}{if}(ch\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//CH指定チェック}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//登録不可}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00255}00255\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00257}00257\ \ \ \ \ \textcolor{keywordflow}{switch}(code)\{}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00258}00258\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*EEPROMへログ情報を保持するエラー*/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a1c03645caeef3895103f985de716d241}{ERR\_ZERO\_EMPTY}}:\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ゼロ調整エンプティセンサー\ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a9ff27d999d2f73ca79a35d98523d0c55}{ERR\_ZERO\_WAVE}}:\ \ \ \ \ \ \ \ \ \textcolor{comment}{//ゼロ調整波形減衰\ （波形異常）}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00261}00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a4dd8ebde4345687bb335244503642e0a}{ERR\_ZERO\_CALC}}:\ \ \ \ \ \ \ \ \ \textcolor{comment}{//ゼロ調整演算異常}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_ac444c301333792804126369e3e8f1bd7}{ERR\_ZERO\_LEVEL}}:\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ゼロ調整U/Dレベル差異常}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a19acddbee534f26e110f5c5624862690}{ERR\_ZERO\_AGC}}:\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ゼロ調整AGC不能//}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00264}00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a6c5bba3ce77a815e1aef6d438712b8c4}{ERR\_MESR\_EMPTY\_H}}:\ \ \ \ \ \ \ \textcolor{comment}{//測定エンプティセンサーH\ \ }}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00265}00265\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_af92977812c7d5f666baf01511bb8cf85}{ERR\_MESR\_WAVE\_H}}:\ \ \ \ \ \textcolor{comment}{//測定波形減衰\ （波形異常）H}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_ae234865a2d41da70e38206ee6e2a37d9}{ERR\_MESR\_CALC\_H}}:\ \ \ \ \ \textcolor{comment}{//測定演算異常H}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00267}00267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_acbf50a5d3e5969093099691826f96f21}{ERR\_MESR\_LEVEL\_H}}:\ \ \ \ \ \ \ \textcolor{comment}{//測定U/Dレベル差異常H}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00268}00268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a07bc674bcb77bd9ac14c06353c31e39d}{ERR\_MESR\_AGC\_H}}:\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//測定AGC不能H}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a427890b0a45d27ddd38fdf2b8442d46d}{ERR\_MESR\_REVERSE}}:\ \ \ \ \ \ \ \textcolor{comment}{//測定逆流異常}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00270}00270\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_ac70852d21a31c3f63fcb5099bd321f43}{ERR\_MESR\_OVERFLOW}}:\ \ \ \ \ \textcolor{comment}{//オーバーフロー}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00271}00271\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a0b359437ec0b244079d84a67d72eede7}{ERR\_EEPROM}}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//EEPROMエラー}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_ae710964acc85b18b5c883cfd5cca3ed3}{ERR\_CUNET}}:\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//CUnetエラー}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_ab12ac37bd44015c8d94da019f8faf129}{ERR\_ZERO\_UNSTABLE}}:\ \ \ \ \ \textcolor{comment}{//ゼロ調整計測時間発散}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_adedd7c2ae58ce9adbc8c945b41652f7f}{ERR\_RESTART}}:\ \ \ \ \ \ \ \ \ \textcolor{comment}{//再起動}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a4061da664b45de1b3812897bc34142ca}{ERR\_DEVICE}}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//メモリデバイス異常}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{log_8c_a23729b76bf231420d9926ecbacfb5c94}{log\_basicinfo\_save}}(ch,\ code);\ \ \ \ \ \textcolor{comment}{//エラーログ基本情報の登録}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{log_8c_a5562c5465fb0198f596b929b8901a74e}{log\_detailinfo\_save}}(ch,\ code);\ \ \ \ \ \ \ \textcolor{comment}{//エラーログ詳細情報の登録}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*EEPROMへログ情報を保持しないエラー*/}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_add8d6e242b9a4adcb5369193f8a11ced}{ERR\_MESR\_EMPTY\_L}}:\ \ \ \ \ \ \ \textcolor{comment}{//測定エンプティセンサーL\ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00281}00281\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a4495f26c26f4bc37f3098b7f24a0e026}{ERR\_MESR\_WAVE\_L}}:\ \ \ \ \ \textcolor{comment}{//測定波形減衰\ （波形異常）L}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00282}00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a65c95fbe133071abf7795f2e279ccb8d}{ERR\_MESR\_CALC\_L}}:\ \ \ \ \ \textcolor{comment}{//測定演算異常L}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_ae29e2a207fb2adf498112ca515b53036}{ERR\_MESR\_LEVEL\_L}}:\ \ \ \ \ \ \ \textcolor{comment}{//測定U/Dレベル差異常L}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00284}00284\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a32a1c26d5b7e04de5bef3974bb87eafc}{ERR\_MESR\_AGC\_L}}:\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//測定AGC不能L}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00285}00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_ae12aa9e96b59537a5c41da2914b9921e}{ERR\_10POINT}}:\ \ \ \ \ \ \ \ \ \textcolor{comment}{//10点データ無効}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a1e08808dbaddf77379d6f708acf71e2e}{TTL\_CACL\_ERR}}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//積算値演算異常}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00287}00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_a9092ab0ade0dbe726705d54ae7974480}{TTL\_OVERFLOW}}:\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//積算値オーバーフロー}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{log_8c_a5562c5465fb0198f596b929b8901a74e}{log\_detailinfo\_save}}(ch,\ code);\ \ \ \ \ \ \ \textcolor{comment}{//エラーログ詳細情報の登録}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00290}00290\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_adfc4548b20ff4ac4fd47551c7ace2028}{ALM\_MESR\_GAIN}}:\ \ \ \ \ \textcolor{comment}{//測定アンプゲイン急変（警告）\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \ \ \ \mbox{\hyperlink{define_8h_aefc2a5a3aea550d2e4314821a506db73}{ALM\_MESR\_EMPTY}}:\ \ \ \ \ \ \ \textcolor{comment}{//測定エンプティセンサ（警告）\ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00294}00294\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00296}00296\ \ \ \ \ \mbox{\hyperlink{log_8c_a48a1a4bf9b2ef22bacb79ef63bf78ff5}{err\_priority}}(ch,\ code);\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位確認}}
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{log_8c_source_l00298}00298\ \}}
+
+\end{DoxyCode}

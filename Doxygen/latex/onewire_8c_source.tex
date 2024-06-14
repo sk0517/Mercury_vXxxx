@@ -1,0 +1,986 @@
+\doxysection{onewire.\+c}
+\hypertarget{onewire_8c_source}{}\label{onewire_8c_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/onewire.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/onewire.c}}
+\mbox{\hyperlink{onewire_8c}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00001}00001\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00002}00002\ \textcolor{comment}{/*\ File\ Name\ :\ onewire.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ 1Wireメモリ読み書き処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ reserved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <machine.h>}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{define_8h}{define.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_s_v__def_8h}{SV\_def.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{typedefine_8h}{typedefine.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_m_e_s_8h}{defMES.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_l_o_g_8h}{defLOG.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_m_a_i_n_8h}{defMAIN.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ctlioport_8h}{ctlioport.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00022}00022\ \textcolor{preprocessor}{\#include\ "{}inc/hw\_ints.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00023}00023\ \textcolor{preprocessor}{\#include\ "{}driverlib/sysctl.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00024}00024\ \textcolor{preprocessor}{\#include\ "{}driverlib/interrupt.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00025}00025\ \textcolor{preprocessor}{\#include\ "{}driverlib/watchdog.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00026}00026\ \textcolor{preprocessor}{\#include\ "{}inc/hw\_gpio.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00027}00027\ \textcolor{preprocessor}{\#include\ "{}inc/hw\_memmap.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00028}00028\ \textcolor{preprocessor}{\#include\ "{}inc/hw\_types.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00029}00029\ \textcolor{preprocessor}{\#include\ "{}driverlib/gpio.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00030}00030\ \textcolor{preprocessor}{\#include\ "{}driverlib/pin\_map.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00031}00031\ \textcolor{preprocessor}{\#include\ "{}driverlib/rom.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00032}00032\ \textcolor{preprocessor}{\#include\ "{}driverlib/rom\_map.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00033}00033\ \textcolor{preprocessor}{\#include\ "{}driverlib/sysctl.h"{}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00035}00035\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00036}00036\ \textcolor{comment}{/*\ \ 定数定義(\#define)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00037}00037\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00038}\mbox{\hyperlink{onewire_8c_a5b2127bc06e9ef78a44f707092b81a24}{00038}}\ \textcolor{preprocessor}{\#define\ DS28E07\_FAMILYCODE\ 0x2D\ }\textcolor{comment}{//DS28E07のFAMILY\ CODE}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00039}\mbox{\hyperlink{onewire_8c_abe539dea27c25bb8be45a9de8e5d6938}{00039}}\ \textcolor{preprocessor}{\#define\ DS2431\_FAMILYCODE\ 0x2D\ }\textcolor{comment}{//DS2431のFAMILY\ CODE}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00040}\mbox{\hyperlink{onewire_8c_a36adf4344b7f360a20e69f9e20657adc}{00040}}\ \textcolor{preprocessor}{\#define\ DS18B20\_FAMILYCODE\ 0x28\ }\textcolor{comment}{//DS18B20のFAMILY\ CODE}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00041}\mbox{\hyperlink{onewire_8c_ac38e53659d0693375cf91aa427ba8cb2}{00041}}\ \textcolor{preprocessor}{\#define\ DS28E80\_FAMILYCODE\ 0x4A\ }\textcolor{comment}{//DS28E80のFAMILY\ CODE}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00043}\mbox{\hyperlink{onewire_8c_a94cf1475a46ceef4f0e28cb202997760}{00043}}\ \textcolor{preprocessor}{\#define\ FAMILY\_CODE\ DS28E07\_FAMILYCODE\ \ \ \ \ \ }\textcolor{comment}{//FAMILY\ CODE}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00045}\mbox{\hyperlink{onewire_8c_adbfa7793b55d3cc42737f6651279c2ab}{00045}}\ \textcolor{preprocessor}{\#define\ TIM\_tRSTL\ \ \ \ \ \ \ 500\ \ \ \ \ }\textcolor{comment}{//Reset\ Low\ Time(480-\/640us)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00046}\mbox{\hyperlink{onewire_8c_a75e33a3c37ba9bc8fd3e9dc6a7784d18}{00046}}\ \textcolor{preprocessor}{\#define\ TIM\_tPDH\ \ \ \ \ \ \ \ \ \ \ \ 15\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//Presence\ Detect\ High\ Time(15-\/60us)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00047}\mbox{\hyperlink{onewire_8c_acadc4e9f7a9004eff53c22d60053bcd7}{00047}}\ \textcolor{preprocessor}{\#define\ TIM\_tPDL\ \ \ \ \ \ \ \ \ \ \ \ 60\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//Presence\ Detect\ Low\ Time(60-\/240us)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00048}\mbox{\hyperlink{onewire_8c_ad0e005c6e6979e6c409aa53e3ffb6d91}{00048}}\ \textcolor{preprocessor}{\#define\ TIM\_tMSP\ \ \ \ \ \ \ \ \ \ \ \ 60\ \ \ \ \ \ }\textcolor{comment}{//Presence\ Detect\ Sample\ Time(60-\/75us)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00049}\mbox{\hyperlink{onewire_8c_abbc9aad75a2d1e81d318a86fdaed4573}{00049}}\ \textcolor{preprocessor}{\#define\ TIM\_tREC\ \ \ \ \ \ \ \ \ \ \ \ 5\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//Recovery\ Time}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00050}\mbox{\hyperlink{onewire_8c_a083906e2666b4a862354babcf5e1f438}{00050}}\ \textcolor{preprocessor}{\#define\ TIM\_tRSTH\ \ \ \ \ \ \ 305\ \ \ \ \ }\textcolor{comment}{//tPDHMAX(60)+tPDLMAX(240)+tRECMIN(5)\ \ \ }}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00052}\mbox{\hyperlink{onewire_8c_a5d8d276b57dbc9dda630b815d655c508}{00052}}\ \textcolor{preprocessor}{\#define\ TIM\_tW1L\ \ \ \ \ \ \ \ \ \ \ \ 10\ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//Write-\/One\ Low\ Time(1-\/15us)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00053}\mbox{\hyperlink{onewire_8c_a397f771f52b8da91c9382d50eafd19a2}{00053}}\ \textcolor{preprocessor}{\#define\ TIM\_tW0L\ \ \ \ 60\ \ \ }\textcolor{comment}{//Write-\/Zero\ Low\ Time(52.1-\/120us)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00054}\mbox{\hyperlink{onewire_8c_abd09cde63e8316e799e465d7a0c8e8ac}{00054}}\ \textcolor{preprocessor}{\#define\ TIM\_tSLOT\ \ \ \ \ \ \ 65\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//Time\ Slot\ Duration}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00056}\mbox{\hyperlink{onewire_8c_a17de5233deb5c50a56cca59ccb0d3cba}{00056}}\ \textcolor{preprocessor}{\#define\ TIM\_tRL\ \ \ 10\ \ \ \ }\textcolor{comment}{//Read\ Low\ Time(5-\/15us)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00057}\mbox{\hyperlink{onewire_8c_a5e5273ac355d6f898c85d1af16e610f3}{00057}}\ \textcolor{preprocessor}{\#define\ TIM\_tMSR\ \ 20\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//Read\ Sample\ Time(TIM\_tRL\ +\ 12)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00059}\mbox{\hyperlink{onewire_8c_afe8a553dddbbd53b789eff457c176094}{00059}}\ \textcolor{preprocessor}{\#define\ TIM\_tPROGMAX\ \ \ 10\ \ \ }\textcolor{comment}{//Programming\ Time(10ms)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00061}\mbox{\hyperlink{onewire_8c_a27466737f1e485403d87846b0b4fab91}{00061}}\ \textcolor{preprocessor}{\#define\ WRITE\_SCRATCHPAD\ \ \ \ 0x0F\ \ \ \ \ \ \ \ }\textcolor{comment}{//書込みコマンド}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00062}\mbox{\hyperlink{onewire_8c_af8162a9da284eb45c7f53f4a37c749f5}{00062}}\ \textcolor{preprocessor}{\#define\ READ\_SCRATCHPAD\ \ \ \ \ 0xAA\ \ \ \ \ \ \ \ }\textcolor{comment}{//読込みコマンド}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00063}\mbox{\hyperlink{onewire_8c_a6f02502f76c88160d363cad5ea5f86c8}{00063}}\ \textcolor{preprocessor}{\#define\ COPY\_SCRATCHPAD\ \ \ \ \ 0x55\ \ \ \ \ \ \ \ }\textcolor{comment}{//EEPROMコピーコマンド}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00064}\mbox{\hyperlink{onewire_8c_a73bca8a9a4a773829639bc83422f687a}{00064}}\ \textcolor{preprocessor}{\#define\ READ\_MEMORY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0xF0\ \ \ \ \ \ \ \ }\textcolor{comment}{//メモリ読込みコマンド}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00066}\mbox{\hyperlink{onewire_8c_a7217bf0edddda1e17d347f7c5b717f27}{00066}}\ \textcolor{preprocessor}{\#define\ WRITE\_BLOCK\ 0x55\ \ \ \ \ \ \ \ }\textcolor{comment}{//書込みコマンド}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00067}\mbox{\hyperlink{onewire_8c_ac3bd3efa60d223ffe1d498159090bf71}{00067}}\ \textcolor{preprocessor}{\#define\ WRITE\_PRO\_BLOCK\ \ \ \ \ 0xC3\ \ \ \ \ \ \ \ }\textcolor{comment}{//Write\ Protect\ Blockコマンド}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00068}\mbox{\hyperlink{onewire_8c_a055705b4659b7929842c72c34424f0f2}{00068}}\ \textcolor{preprocessor}{\#define\ READ\_PRO\_BLOCK\ \ \ \ \ \ 0xAA\ \ \ \ \ \ \ \ }\textcolor{comment}{//Read\ Block\ Protectionコマンド}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00070}\mbox{\hyperlink{onewire_8c_a16ad242f444508c47fe745c67669b699}{00070}}\ \textcolor{preprocessor}{\#define\ READ\_ROM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x33\ \ \ \ \ \ \ \ }\textcolor{comment}{//READ\_ROMコマンド}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00071}\mbox{\hyperlink{onewire_8c_a20a70a05486a1fa3aba1881aa90104cd}{00071}}\ \textcolor{preprocessor}{\#define\ MATCH\_ROM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0x55\ \ \ \ \ \ \ \ }\textcolor{comment}{//MATCH\_ROMコマンド}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00072}\mbox{\hyperlink{onewire_8c_ae22115770cfd724213b05d36afcb7d8e}{00072}}\ \textcolor{preprocessor}{\#define\ SEARCH\_ROM\ \ \ \ \ \ \ \ \ \ \ \ \ \ 0xF0\ \ \ \ \ \ \ \ }\textcolor{comment}{//SERACH\_ROMコマンド}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00073}\mbox{\hyperlink{onewire_8c_ae5773d5b673b0c12c6615958dd2efb22}{00073}}\ \textcolor{preprocessor}{\#define\ SKIP\_ROM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0xCC\ \ \ \ \ \ \ \ }\textcolor{comment}{//SKIP\_ROMコマンド}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00075}\mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{00075}}\ \textcolor{preprocessor}{\#define\ MEMORY\_MAX\ \ \ \ \ \ \ \ \ \ 144\ \ \ \ \ }\textcolor{comment}{//メモリ最大バイト数}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00077}\mbox{\hyperlink{onewire_8c_ad375560b32ab25098696b9275cfc25a2}{00077}}\ \textcolor{preprocessor}{\#define\ MSB\_CRC8\ (0x31)\ \ }\textcolor{comment}{//\ x8\ +\ x5\ +\ x4\ +\ x0\ 標準\ (先頭1bitは削除)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00078}\mbox{\hyperlink{onewire_8c_a308d9dd2c0028ddb184b455bbd7865de}{00078}}\ \textcolor{preprocessor}{\#define\ CHAR\_BIT\ 8}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00080}00080\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00081}00081\ \textcolor{comment}{/*\ \ モジュール内定義関数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00082}00082\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00083}00083\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\textcolor{keywordtype}{short}\ sw);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00084}00084\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}{OWSensSigSW}}(\textcolor{keywordtype}{short}\ sw);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00085}00085\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a2899889224024f6b9de34bff4da55ca4}{OWSensPowSW}}(\textcolor{keywordtype}{short}\ sw);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00086}00086\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a78d5c45f996476fc6d244630619aa7ea}{OWSensEnable}}(\textcolor{keywordtype}{short}\ sw);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00087}00087\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_a086baa422dfc15f69b1fd3ec1cbf451a}{OWSensRX}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00088}00088\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}{OWSensSigPDR}}(\textcolor{keywordtype}{short}\ sw);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00089}00089\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_ae04fe706ef098b9a94473e5c59de1524}{OWResetDevice}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00090}00090\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_aae83913f5fba4558dfed0bd99492b98f}{OWWriteBit}}(\textcolor{keywordtype}{short}\ bit);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00091}00091\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_a4831f1a21e0afef5e0ce9f2597aa2fea}{OWReadBit}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00092}00092\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(\textcolor{keywordtype}{short}\ data);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00093}00093\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0}{OWReadByte}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00094}00094\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \ \ \mbox{\hyperlink{onewire_8c_a873d4bf71facfebefed654241b82b441}{GetReflect}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ data);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00095}00095\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{onewire_8c_a11a14f43913762081016190d05ba288e}{GetCRC8}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *buff,\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00096}00096\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{onewire_8c_a16446599f12c3b29faa7d4b702a08c03}{OWCheckDevice}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00097}00097\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{onewire_8c_a14251ebb7fac64c12097101f3ab6cc26}{OWCheckROMID}}(\textcolor{keywordtype}{short}\ ch);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00098}00098\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{onewire_8c_a6140bfa818aa0d1f38fa1258fc2d5972}{OWWriteData}}(\textcolor{keywordtype}{short}\ address,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *buff);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00099}00099\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{onewire_8c_acfaa80eebb10fe4c0c554c37e969cd25}{OWCompareData}}(\textcolor{keywordtype}{short}\ address,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *buff);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00100}00100\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{onewire_8c_ae8de5459b1952288dad5125ffb1bcb8f}{OWReadSensinfo}}(\textcolor{keywordtype}{short}\ ch);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00101}00101\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{onewire_8c_a54ce1c6683ea97bc494fd927d6777213}{OWWriteSensinfo}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00102}00102\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a0f6e3096e9042aa605161e9305db4629}{OWCheckDeviceSide}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00103}00103\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(\textcolor{keywordtype}{long}\ us);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00104}00104\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a64877c51e5db853a6b17dba2655c3cb5}{OWWaitMS}}(\textcolor{keywordtype}{long}\ ms);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00106}00106\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00107}00107\ \textcolor{comment}{/*\ \ モジュール外定義関数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00108}00108\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00109}00109\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a6baa98f73713e126987850ddd9ee8c83}{portmesfwdW}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ data,\ \textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00110}00110\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a027fa9fc108cc94ddf9daec7c31f624f}{portmesrevW}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ data,\ \textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00111}00111\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a6881a5fc9cfe8a449cf54295ee1b25e7}{util\_eep\_allwrite}}(\textcolor{keywordtype}{short}\ pch,\ \textcolor{keywordtype}{short}\ opt);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00112}00112\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_abd027fc3ea00a551c764fdcf8bca66d0}{action\_status\_check}}(\textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00113}00113\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_ac915dc02c19f84bb9569d3a6f3b3b4df}{SelectReverseOn}}(\textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00114}00114\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a49cb3218b42d20bf66a66e2f57213140}{SelectReverseOff}}(\textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00116}00116\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00117}00117\ \textcolor{comment}{/*\ \ モジュール内定義変数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00118}00118\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00119}00119\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{short}\ phase\_owwrite\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00120}\mbox{\hyperlink{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568}{00120}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_a7b99fd21940c0ca0568ca80de4bcf521}{ow\_pos}},\ \mbox{\hyperlink{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568}{ow\_cnt}},\ \mbox{\hyperlink{onewire_8c_a86e83a15de43408867bc1ecb1a2b368e}{ow\_retry}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00121}\mbox{\hyperlink{_m_e_s_8c_a8d6ec2d519e9e5770f15886f09338214}{00121}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_a8d6ec2d519e9e5770f15886f09338214}{OWwrite}}[6]\ =\ \{0,\ 0,\ 0,\ 0,\ 0,\ 0\};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00122}\mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{00122}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}}\ =\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00123}\mbox{\hyperlink{onewire_8c_aae3cac3387c569796c62bfe511afa8d1}{00123}}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{onewire_8c_aae3cac3387c569796c62bfe511afa8d1}{sens\_info}}[256];}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00124}\mbox{\hyperlink{onewire_8c_a8e81c5361db4e922bc4ec1ad367900ee}{00124}}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{onewire_8c_a8e81c5361db4e922bc4ec1ad367900ee}{memory\_R\_data}}[\mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{MEMORY\_MAX}}];}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00125}\mbox{\hyperlink{onewire_8c_a6141a7677586faa55d71fbaef3f4e485}{00125}}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{onewire_8c_a6141a7677586faa55d71fbaef3f4e485}{memory\_W\_data}}[\mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{MEMORY\_MAX}}];}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00126}\mbox{\hyperlink{onewire_8c_a2becc89dff9d2825f715a4c971b4dbac}{00126}}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{onewire_8c_a2becc89dff9d2825f715a4c971b4dbac}{memory\_C\_data}}[\mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{MEMORY\_MAX}}];}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00128}00128\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00129}00129\ \textcolor{comment}{/*\ \ モジュール外定義変数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00130}00130\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00133}00133\ \textcolor{comment}{//メモリデバイスに保存するデータ}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00134}\mbox{\hyperlink{struct_o_w_eeprom}{00134}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_o_w_eeprom}{OWEeprom}}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00135}00135\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00136}\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{00136}}\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}};\ \ \ \ \ \ \ \textcolor{comment}{//CH番号}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00137}\mbox{\hyperlink{struct_o_w_eeprom_a38bf2677252354aefb356a49ce7e459e}{00137}}\ \ \ \ \ \textcolor{keywordtype}{short}\ *\mbox{\hyperlink{struct_o_w_eeprom_a38bf2677252354aefb356a49ce7e459e}{p}};\ \ \ \ \ \ \textcolor{comment}{//保存先頭位置}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00138}\mbox{\hyperlink{struct_o_w_eeprom_ab625f0c997d22893810b71f46a492086}{00138}}\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \ \mbox{\hyperlink{struct_o_w_eeprom_ab625f0c997d22893810b71f46a492086}{size}};\ \ \ \textcolor{comment}{//保存ｻｲｽﾞ}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00139}00139\ \};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00141}00141\ \textcolor{comment}{//メモリデバイスに保存するデータ}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00142}00142\ \textcolor{comment}{//\ ※各CHのメモリデバイスの保存データ量は1kbit以内であること}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00143}\mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{00143}}\ \textcolor{keyword}{const}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_o_w_eeprom}{OWEeprom}}\ \mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00144}00144\ \ \textcolor{comment}{//1ch\ ﾕｰｻﾞﾊﾟﾗﾒｰﾀ(12byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00145}00145\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].max\_flow,\ \ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].low\_cut\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].max\_flow\ +\ 1))\},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00146}00146\ \ \ \ \ \textcolor{comment}{//1ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正点数、小数点位置)(2byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00147}00147\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].uslnr\_num,\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].uslnr\_num\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].uslnr\_num\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00148}00148\ \ \ \ \ \textcolor{comment}{//1ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正出力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00149}00149\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].uslnr\_out1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].\mbox{\hyperlink{structst_s_v_d_a9711b6f81ae36c06bee8f0f5ade2f634}{uslnr\_out10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].\mbox{\hyperlink{structst_s_v_d_a4efc846480dd8eb63be33035847dcb30}{uslnr\_out1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00150}00150\ \ \ \ \ \textcolor{comment}{//1ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正入力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00151}00151\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].uslnr\_in1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].\mbox{\hyperlink{structst_s_v_d_a18f7696ab188c6d4b6c4e4957c93d4c5}{uslnr\_in10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].\mbox{\hyperlink{structst_s_v_d_ae3aacae824e8595f263e43fb7065b23a}{uslnr\_in1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00152}00152\ \ \ \ \ \textcolor{comment}{//1ch\ ｾﾝｻｼﾘｱﾙﾅﾝﾊﾞｰ(16byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00153}00153\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].s\_serial[0],\ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].s\_serial[7]\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}].s\_serial[0]\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00155}00155\ \ \textcolor{comment}{//2ch\ ﾕｰｻﾞﾊﾟﾗﾒｰﾀ(12byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00156}00156\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].max\_flow,\ \ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].low\_cut\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].max\_flow\ +\ 1))\},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00157}00157\ \ \ \ \ \textcolor{comment}{//2ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正点数、小数点位置)(2byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00158}00158\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].uslnr\_num,\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].uslnr\_num\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].uslnr\_num\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00159}00159\ \ \ \ \ \textcolor{comment}{//2ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正出力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00160}00160\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].uslnr\_out1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].\mbox{\hyperlink{structst_s_v_d_a9711b6f81ae36c06bee8f0f5ade2f634}{uslnr\_out10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].\mbox{\hyperlink{structst_s_v_d_a4efc846480dd8eb63be33035847dcb30}{uslnr\_out1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00161}00161\ \ \ \ \ \textcolor{comment}{//2ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正入力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00162}00162\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].uslnr\_in1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].\mbox{\hyperlink{structst_s_v_d_a18f7696ab188c6d4b6c4e4957c93d4c5}{uslnr\_in10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].\mbox{\hyperlink{structst_s_v_d_ae3aacae824e8595f263e43fb7065b23a}{uslnr\_in1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00163}00163\ \ \ \ \ \textcolor{comment}{//2ch\ ｾﾝｻｼﾘｱﾙﾅﾝﾊﾞｰ(16byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00164}00164\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].s\_serial[0],\ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].s\_serial[7]\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}].s\_serial[0]\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00166}00166\ \ \textcolor{comment}{//3ch\ ﾕｰｻﾞﾊﾟﾗﾒｰﾀ(12byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00167}00167\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].max\_flow,\ \ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].low\_cut\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].max\_flow\ +\ 1))\},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00168}00168\ \ \ \ \ \textcolor{comment}{//3ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正点数、小数点位置)(2byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00169}00169\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].uslnr\_num,\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].uslnr\_num\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].uslnr\_num\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00170}00170\ \ \ \ \ \textcolor{comment}{//3ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正出力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00171}00171\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].uslnr\_out1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].\mbox{\hyperlink{structst_s_v_d_a9711b6f81ae36c06bee8f0f5ade2f634}{uslnr\_out10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].\mbox{\hyperlink{structst_s_v_d_a4efc846480dd8eb63be33035847dcb30}{uslnr\_out1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00172}00172\ \ \ \ \ \textcolor{comment}{//3ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正入力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00173}00173\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].uslnr\_in1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].\mbox{\hyperlink{structst_s_v_d_a18f7696ab188c6d4b6c4e4957c93d4c5}{uslnr\_in10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].\mbox{\hyperlink{structst_s_v_d_ae3aacae824e8595f263e43fb7065b23a}{uslnr\_in1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00174}00174\ \ \ \ \ \textcolor{comment}{//3ch\ ｾﾝｻｼﾘｱﾙﾅﾝﾊﾞｰ(16byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00175}00175\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].s\_serial[0],\ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].s\_serial[7]\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}].s\_serial[0]\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00177}00177\ \ \textcolor{comment}{//4ch\ ﾕｰｻﾞﾊﾟﾗﾒｰﾀ(12byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00178}00178\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].max\_flow,\ \ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].low\_cut\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].max\_flow\ +\ 1))\},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00179}00179\ \ \ \ \ \textcolor{comment}{//4ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正点数、小数点位置)(2byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00180}00180\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].uslnr\_num,\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].uslnr\_num\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].uslnr\_num\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00181}00181\ \ \ \ \ \textcolor{comment}{//4ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正出力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00182}00182\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].uslnr\_out1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].\mbox{\hyperlink{structst_s_v_d_a9711b6f81ae36c06bee8f0f5ade2f634}{uslnr\_out10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].\mbox{\hyperlink{structst_s_v_d_a4efc846480dd8eb63be33035847dcb30}{uslnr\_out1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00183}00183\ \ \ \ \ \textcolor{comment}{//4ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正入力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00184}00184\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].uslnr\_in1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].\mbox{\hyperlink{structst_s_v_d_a18f7696ab188c6d4b6c4e4957c93d4c5}{uslnr\_in10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].\mbox{\hyperlink{structst_s_v_d_ae3aacae824e8595f263e43fb7065b23a}{uslnr\_in1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00185}00185\ \ \ \ \ \textcolor{comment}{//4ch\ ｾﾝｻｼﾘｱﾙﾅﾝﾊﾞｰ(16byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00186}00186\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].s\_serial[0],\ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].s\_serial[7]\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}].s\_serial[0]\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00188}00188\ \ \textcolor{comment}{//5ch\ ﾕｰｻﾞﾊﾟﾗﾒｰﾀ(12byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00189}00189\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].max\_flow,\ \ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].low\_cut\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].max\_flow\ +\ 1))\},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00190}00190\ \ \ \ \ \textcolor{comment}{//5ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正点数、小数点位置)(2byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00191}00191\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].uslnr\_num,\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].uslnr\_num\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].uslnr\_num\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00192}00192\ \ \ \ \ \textcolor{comment}{//5ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正出力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00193}00193\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].uslnr\_out1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].\mbox{\hyperlink{structst_s_v_d_a9711b6f81ae36c06bee8f0f5ade2f634}{uslnr\_out10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].\mbox{\hyperlink{structst_s_v_d_a4efc846480dd8eb63be33035847dcb30}{uslnr\_out1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00194}00194\ \ \ \ \ \textcolor{comment}{//5ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正入力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00195}00195\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].uslnr\_in1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].\mbox{\hyperlink{structst_s_v_d_a18f7696ab188c6d4b6c4e4957c93d4c5}{uslnr\_in10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].\mbox{\hyperlink{structst_s_v_d_ae3aacae824e8595f263e43fb7065b23a}{uslnr\_in1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00196}00196\ \ \ \ \ \textcolor{comment}{//5ch\ ｾﾝｻｼﾘｱﾙﾅﾝﾊﾞｰ(16byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00197}00197\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].s\_serial[0],\ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].s\_serial[7]\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}].s\_serial[0]\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00199}00199\ \ \textcolor{comment}{//6ch\ ﾕｰｻﾞﾊﾟﾗﾒｰﾀ(12byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00200}00200\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].max\_flow,\ \ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].low\_cut\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].max\_flow\ +\ 1))\},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00201}00201\ \ \ \ \ \textcolor{comment}{//6ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正点数、小数点位置)(2byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00202}00202\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].uslnr\_num,\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].uslnr\_num\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].uslnr\_num\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00203}00203\ \ \ \ \ \textcolor{comment}{//6ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正出力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00204}00204\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].uslnr\_out1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].\mbox{\hyperlink{structst_s_v_d_a9711b6f81ae36c06bee8f0f5ade2f634}{uslnr\_out10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].\mbox{\hyperlink{structst_s_v_d_a4efc846480dd8eb63be33035847dcb30}{uslnr\_out1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00205}00205\ \ \ \ \ \textcolor{comment}{//6ch\ ﾕｰｻﾞﾘﾆｱﾗｲｽﾞ\ (補正入力値1〜10)(40byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00206}00206\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].uslnr\_in1.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}},\ \ \ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].\mbox{\hyperlink{structst_s_v_d_a18f7696ab188c6d4b6c4e4957c93d4c5}{uslnr\_in10}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a9ba4aaa3940897902c06062f108db271}{high}}\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].\mbox{\hyperlink{structst_s_v_d_ae3aacae824e8595f263e43fb7065b23a}{uslnr\_in1}}.\mbox{\hyperlink{structst_s_v_d_acb0c289ede9a22ed8ae77d6e4573a5cb}{WORD}}.\mbox{\hyperlink{structst_s_v_d_a6684f8200e505d289405afa02a720064}{low}}\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00207}00207\ \ \ \ \ \textcolor{comment}{//6ch\ ｾﾝｻｼﾘｱﾙﾅﾝﾊﾞｰ(16byte)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00208}00208\ \ \ \ \ \{\ \mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}},\ (\textcolor{keywordtype}{short}\ *)\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].s\_serial[0],\ (2*(\&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].s\_serial[7]\ -\/\ \&\mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}].s\_serial[0]\ +\ 1))\ \},}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00209}00209\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00210}00210\ \ \textcolor{comment}{//END}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00211}00211\ \ \ \ \ \{\ 0xffff,\ (\textcolor{keywordtype}{short}\ *)0,\ 0\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00212}00212\ \};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00214}00214\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00215}00215\ \textcolor{comment}{/*\ Function\ :\ OWSensSig\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00216}00216\ \textcolor{comment}{/*\ Summary\ \ :\ 1Wireメモリ制御\ SENS\_SIG(SENS\_TX)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00217}00217\ \textcolor{comment}{/*\ Argument\ :\ short\ sw\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00218}00218\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00219}00219\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00220}00220\ \textcolor{comment}{/*\ notes\ \ \ \ :\ PORTG\ BIT2\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00221}00221\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00222}\mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{00222}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\textcolor{keywordtype}{short}\ sw)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00224}00224\ \ \ \ \ \textcolor{keywordflow}{if}(sw\ ==\ \mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}})\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00225}00225\ \ \ \ \ \ \ \ \ GPIOPinWrite(GPIO\_PORTG\_BASE,\ GPIO\_PIN\_2,\ 0x00);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00226}00226\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00227}00227\ \ \ \ \ \ \ \ \ GPIOPinWrite(GPIO\_PORTG\_BASE,\ GPIO\_PIN\_2,\ 0x04);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00228}00228\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00229}00229\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00231}00231\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00232}00232\ \textcolor{comment}{/*\ Function\ :\ OWSensSigSW\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00233}00233\ \textcolor{comment}{/*\ Summary\ \ :\ 1Wireメモリ制御\ SENS\_SIG\_SW\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00234}00234\ \textcolor{comment}{/*\ Argument\ :\ short\ sw\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00235}00235\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00236}00236\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00237}00237\ \textcolor{comment}{/*\ notes\ \ \ \ :\ PORTG\ BIT4\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00238}00238\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00239}\mbox{\hyperlink{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}{00239}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}{OWSensSigSW}}(\textcolor{keywordtype}{short}\ sw)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00241}00241\ \ \ \ \ \textcolor{keywordflow}{if}(sw\ ==\ \mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}})\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00242}00242\ \ \ \ \ \ \ \ \ GPIOPinWrite(GPIO\_PORTG\_BASE,\ GPIO\_PIN\_4,\ 0x10);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00243}00243\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00244}00244\ \ \ \ \ \ \ \ \ GPIOPinWrite(GPIO\_PORTG\_BASE,\ GPIO\_PIN\_4,\ 0x00);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00245}00245\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00246}00246\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00247}00247\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00248}00248\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00249}00249\ \textcolor{comment}{/*\ Function\ :\ OWSensPowSW\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00250}00250\ \textcolor{comment}{/*\ Summary\ \ :\ 1Wireメモリ制御\ SENS\_POW\_SW\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00251}00251\ \textcolor{comment}{/*\ Argument\ :\ short\ sw\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00252}00252\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00253}00253\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00254}00254\ \textcolor{comment}{/*\ notes\ \ \ \ :\ PORTG\ BIT5\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00255}00255\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00256}\mbox{\hyperlink{onewire_8c_a2899889224024f6b9de34bff4da55ca4}{00256}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a2899889224024f6b9de34bff4da55ca4}{OWSensPowSW}}(\textcolor{keywordtype}{short}\ sw)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00257}00257\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00258}00258\ \ \ \ \ \textcolor{keywordflow}{if}(sw\ ==\ \mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}})\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00259}00259\ \ \ \ \ \ \ \ \ GPIOPinWrite(GPIO\_PORTG\_BASE,\ GPIO\_PIN\_5,\ 0x20);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00260}00260\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00261}00261\ \ \ \ \ \ \ \ \ GPIOPinWrite(GPIO\_PORTG\_BASE,\ GPIO\_PIN\_5,\ 0x00);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00262}00262\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00263}00263\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00265}00265\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00266}00266\ \textcolor{comment}{/*\ Function\ :\ OWSensEnable\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00267}00267\ \textcolor{comment}{/*\ Summary\ \ :\ 1Wireメモリ制御\ SENS\_EN\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00268}00268\ \textcolor{comment}{/*\ Argument\ :\ short\ sw\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00269}00269\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00270}00270\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00271}00271\ \textcolor{comment}{/*\ notes\ \ \ \ :\ PORTG\ BIT7\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00272}00272\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ :\ DG469:NoCnnect\ DG470:Enable\ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00273}00273\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00274}\mbox{\hyperlink{onewire_8c_a78d5c45f996476fc6d244630619aa7ea}{00274}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a78d5c45f996476fc6d244630619aa7ea}{OWSensEnable}}(\textcolor{keywordtype}{short}\ sw)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00276}00276\ \ \ \ \ \textcolor{keywordflow}{if}(sw\ ==\ \mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}})\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00277}00277\ \ \ \ \ \ \ \ \ GPIOPinWrite(GPIO\_PORTG\_BASE,\ GPIO\_PIN\_7,\ 0x00);\ \ \textcolor{comment}{//0設定でEnable}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00278}00278\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00279}00279\ \ \ \ \ \ \ \ \ GPIOPinWrite(GPIO\_PORTG\_BASE,\ GPIO\_PIN\_7,\ 0x80);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00280}00280\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00281}00281\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00283}00283\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00284}00284\ \textcolor{comment}{/*\ Function\ :\ OWSensRX\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00285}00285\ \textcolor{comment}{/*\ Summary\ \ :\ 1Wireメモリ制御\ SENS\_RX\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00286}00286\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00287}00287\ \textcolor{comment}{/*\ Return\ \ \ :\ PORTG\ Bit3の値\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00288}00288\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00289}00289\ \textcolor{comment}{/*\ notes\ \ \ \ :\ PORTG\ BIT3\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00290}00290\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00291}\mbox{\hyperlink{onewire_8c_a086baa422dfc15f69b1fd3ec1cbf451a}{00291}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_a086baa422dfc15f69b1fd3ec1cbf451a}{OWSensRX}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00292}00292\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00293}00293\ \ \ \ \ \textcolor{keywordtype}{short}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00295}00295\ \ \ \ \ \textcolor{keywordflow}{if}(GPIOPinRead(GPIO\_PORTG\_BASE,\ GPIO\_PIN\_3)\ ==\ 0x00)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00296}00296\ \ \ \ \ \ \ \ \ result\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00297}00297\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00298}00298\ \ \ \ \ \ \ \ \ result\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00299}00299\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00300}00300\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00301}00301\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00302}00302\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00304}00304\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00305}00305\ \textcolor{comment}{/*\ Function\ :\ OWSensSigPDR\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00306}00306\ \textcolor{comment}{/*\ Summary\ \ :\ 1Wireメモリ制御\ SENS\_SIG(ポート方向切替え)*/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00307}00307\ \textcolor{comment}{/*\ Argument\ :\ short\ sw\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00308}00308\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00309}00309\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00310}00310\ \textcolor{comment}{/*\ notes\ \ \ \ :\ PORTG\ BIT2\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00311}00311\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00312}\mbox{\hyperlink{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}{00312}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}{OWSensSigPDR}}(\textcolor{keywordtype}{short}\ sw)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00314}00314\ \ \ \ \ \textcolor{keywordflow}{if}(sw\ ==\ \mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}})\{\ \ \textcolor{comment}{//出力ポートをに切替え}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00315}00315\ \ \ \ \ \ \ \ \ \textcolor{comment}{//SENS\_SIG(PORTG\ BIT2)\ output}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00316}00316\ \ \ \ \ GPIOPinTypeGPIOOutput(GPIO\_PORTG\_BASE,\ GPIO\_PIN\_2);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00317}00317\ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ \ \ \ \ \ \ \ \textcolor{comment}{//入力ポートをに切替え}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{comment}{//SENS\_SIG(PORTG\ BIT2)\ input}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00319}00319\ \ \ \ \ GPIOPinTypeGPIOInput(GPIO\_PORTG\_BASE,\ GPIO\_PIN\_2);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00320}00320\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00321}00321\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00322}00322\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00323}00323\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00324}00324\ \textcolor{comment}{/*\ Function\ :\ OWResetDevice\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00325}00325\ \textcolor{comment}{/*\ Summary\ \ :\ 1WireデバイスにRESET\ PULSEを出力し、\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00326}00326\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ 1WireデバイスからのPRESENCE\ PULSEを確認する\ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00327}00327\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00328}00328\ \textcolor{comment}{/*\ Return\ \ \ :\ 0:正常　0以外:異常\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00329}00329\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00330}00330\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00331}00331\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00332}\mbox{\hyperlink{onewire_8c_ae04fe706ef098b9a94473e5c59de1524}{00332}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_ae04fe706ef098b9a94473e5c59de1524}{OWResetDevice}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00333}00333\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00334}00334\ \ \ \ \ \textcolor{keywordtype}{short}\ result,\ retry;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00335}00335\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00336}00336\ \ \ \ \ \mbox{\hyperlink{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}{OWSensSigPDR}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SENS\_SIGを入力ポート}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00337}00337\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00338}00338\ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00339}00339\ \ \ \ \ retry\ =\ 125;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00340}00340\ \ \ \ \ \textcolor{keywordflow}{do}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00341}00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(-\/-\/retry\ ==\ 0)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00343}00343\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00344}00344\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00345}00345\ \ \ \ \ \}\textcolor{keywordflow}{while}(\mbox{\hyperlink{onewire_8c_a086baa422dfc15f69b1fd3ec1cbf451a}{OWSensRX}}()!=1);\ \ \ \ \ \ \textcolor{comment}{//1Wireデバイスからのデータ読込み(PRESENCE\ PULSEがHI状態であることを確認する)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00346}00346\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00347}00347\ \ \ \ \ \mbox{\hyperlink{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}{OWSensSigPDR}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \ \ \textcolor{comment}{//SENS\_SIGを出力ポート}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00348}00348\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//1Wire通信信号Hi(RESET\ PULSEを出力)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00349}00349\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00350}00350\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00351}00351\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//1Wire通信信号Low(RESET\ PULSEを出力)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00352}00352\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(\mbox{\hyperlink{onewire_8c_adbfa7793b55d3cc42737f6651279c2ab}{TIM\_tRSTL}});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00353}00353\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//1Wire通信信号Hi(RESET\ PULSEを出力)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00354}00354\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00355}00355\ \ \ \ \ \mbox{\hyperlink{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}{OWSensSigPDR}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SENS\_SIGを入力ポート}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00356}00356\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00357}00357\ \ \ \ \ retry\ =\ 125;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00358}00358\ \ \ \ \ \textcolor{keywordflow}{do}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00359}00359\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(-\/-\/retry\ ==\ 0)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00361}00361\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00362}00362\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00363}00363\ \ \ \ \ \}\textcolor{keywordflow}{while}(\mbox{\hyperlink{onewire_8c_a086baa422dfc15f69b1fd3ec1cbf451a}{OWSensRX}}()!=0);\ \ \ \ \ \ \textcolor{comment}{//1Wireデバイスからのデータ読込み(PRESENCE\ PULSEがLOW状態であることを確認する)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00364}00364\ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00365}00365\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00366}00366\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(\mbox{\hyperlink{onewire_8c_a083906e2666b4a862354babcf5e1f438}{TIM\_tRSTH}});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00367}00367\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00368}00368\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00369}00369\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00370}00370\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00371}00371\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00372}00372\ \textcolor{comment}{/*\ Function\ :\ OWWriteBit\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00373}00373\ \textcolor{comment}{/*\ Summary\ \ :\ 1Wireデバイスにデータを書込む\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00374}00374\ \textcolor{comment}{/*\ Argument\ :\ short\ bit\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00375}00375\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00376}00376\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00377}00377\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00378}00378\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00379}\mbox{\hyperlink{onewire_8c_aae83913f5fba4558dfed0bd99492b98f}{00379}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_aae83913f5fba4558dfed0bd99492b98f}{OWWriteBit}}(\textcolor{keywordtype}{short}\ bit)}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00380}00380\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00381}00381\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00382}00382\ \ \ \ \ \textcolor{keywordflow}{if}(bit)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00383}00383\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Write\ '1'\ bit}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00384}00384\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}{OWSensSigPDR}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \ \ \textcolor{comment}{//SENS\_SIGを出力ポート}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00385}00385\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00386}00386\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//1Wire通信信号Hi}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00387}00387\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00388}00388\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \ \ \ \ \ \ \ \textcolor{comment}{//1Wire通信信号Low}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00389}00389\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(\mbox{\hyperlink{onewire_8c_a5d8d276b57dbc9dda630b815d655c508}{TIM\_tW1L}});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00390}00390\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00391}00391\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \textcolor{comment}{//1Wire通信信号Hi}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00392}00392\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(\mbox{\hyperlink{onewire_8c_abd09cde63e8316e799e465d7a0c8e8ac}{TIM\_tSLOT}}\ -\/\ \mbox{\hyperlink{onewire_8c_a5d8d276b57dbc9dda630b815d655c508}{TIM\_tW1L}});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00393}00393\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00394}00394\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Write\ '0'\ bit}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00395}00395\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}{OWSensSigPDR}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \ \ \textcolor{comment}{//SENS\_SIGを出力ポート}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00396}00396\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00397}00397\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//1Wire通信信号Hi}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00398}00398\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00399}00399\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \ \ \ \textcolor{comment}{//1Wire通信信号Low}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00400}00400\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(\mbox{\hyperlink{onewire_8c_a397f771f52b8da91c9382d50eafd19a2}{TIM\_tW0L}});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00401}00401\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00402}00402\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \textcolor{comment}{//1Wire通信信号Hi}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00403}00403\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(\mbox{\hyperlink{onewire_8c_abd09cde63e8316e799e465d7a0c8e8ac}{TIM\_tSLOT}}\ -\/\ \mbox{\hyperlink{onewire_8c_a397f771f52b8da91c9382d50eafd19a2}{TIM\_tW0L}});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00404}00404\ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00405}00405\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00406}00406\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00407}00407\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00408}00408\ \textcolor{comment}{/*\ Function\ :\ OWReadBit\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00409}00409\ \textcolor{comment}{/*\ Summary\ \ :\ 1Wireデバイスからデータを読込む\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00410}00410\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00411}00411\ \textcolor{comment}{/*\ Return\ \ \ :\ 1Wireデバイスからのデータ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00412}00412\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00413}00413\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00414}00414\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00415}\mbox{\hyperlink{onewire_8c_a4831f1a21e0afef5e0ce9f2597aa2fea}{00415}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_a4831f1a21e0afef5e0ce9f2597aa2fea}{OWReadBit}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00416}00416\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00417}00417\ \ \ \ \ \textcolor{keywordtype}{short}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00418}00418\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00419}00419\ \ \ \ \ \mbox{\hyperlink{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}{OWSensSigPDR}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \ \ \textcolor{comment}{//SENS\_SIGを出力ポート}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00420}00420\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00421}00421\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//1Wire通信信号Hi}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00422}00422\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00423}00423\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a56ad7d157204b4f2fc3706c0247d4ad8}{OWSensSig}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//1Wire通信信号Low}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00424}00424\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(\mbox{\hyperlink{onewire_8c_a17de5233deb5c50a56cca59ccb0d3cba}{TIM\_tRL}});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00425}00425\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00426}00426\ \ \ \ \ \mbox{\hyperlink{onewire_8c_aab644901aa4fc4cf65155fce2c5b3910}{OWSensSigPDR}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SENS\_SIGを入力ポート}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00427}00427\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(\mbox{\hyperlink{onewire_8c_a5e5273ac355d6f898c85d1af16e610f3}{TIM\_tMSR}});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00428}00428\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00429}00429\ \ \ \ \ result\ =\ \mbox{\hyperlink{onewire_8c_a086baa422dfc15f69b1fd3ec1cbf451a}{OWSensRX}}()\ \&\ 0x01;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//1Wireデバイスからのデータ読込み}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00430}00430\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(\mbox{\hyperlink{onewire_8c_abd09cde63e8316e799e465d7a0c8e8ac}{TIM\_tSLOT}}\ -\/\ \mbox{\hyperlink{onewire_8c_a5e5273ac355d6f898c85d1af16e610f3}{TIM\_tMSR}});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00431}00431\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00432}00432\ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00433}00433\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00434}00434\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00435}00435\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00436}00436\ \textcolor{comment}{/*\ Function\ :\ OWWriteByte\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00437}00437\ \textcolor{comment}{/*\ Summary\ \ :\ 1Wireデバイスにデータを書込む\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00438}00438\ \textcolor{comment}{/*\ Argument\ :\ short\ data\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00439}00439\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00440}00440\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00441}00441\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00442}00442\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00443}\mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{00443}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(\textcolor{keywordtype}{short}\ data)}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00444}00444\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00445}00445\ \ \ \ \ \textcolor{keywordtype}{short}\ loop,\ \mbox{\hyperlink{download_8c_ab849bacce0954c007a2f3968bc810ac8}{write\_data}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00446}00446\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00447}00447\ \ \ \ \ \mbox{\hyperlink{download_8c_ab849bacce0954c007a2f3968bc810ac8}{write\_data}}\ =\ data;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00448}00448\ \ \ \ \ \textcolor{keywordflow}{for}(loop\ =\ 0;\ loop\ <\ 8;\ loop++)\{\ \ \ \ \ \ \ \ \textcolor{comment}{//8bit分書込む}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00449}00449\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_aae83913f5fba4558dfed0bd99492b98f}{OWWriteBit}}(\mbox{\hyperlink{download_8c_ab849bacce0954c007a2f3968bc810ac8}{write\_data}}\ \&\ 0x01);\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//1Wireデバイスにデータを書込む}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00450}00450\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{download_8c_ab849bacce0954c007a2f3968bc810ac8}{write\_data}}\ >>=\ 1;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00451}00451\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00452}00452\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00453}00453\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00454}00454\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00455}00455\ \textcolor{comment}{/*\ Function\ :\ OWReadByte\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00456}00456\ \textcolor{comment}{/*\ Summary\ \ :\ 1Wireデバイスからデータを読込む\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00457}00457\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00458}00458\ \textcolor{comment}{/*\ Return\ \ \ :\ 1Wireデバイスからのデータ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00459}00459\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00460}00460\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00461}00461\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00462}\mbox{\hyperlink{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0}{00462}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0}{OWReadByte}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00463}00463\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00464}00464\ \ \ \ \ \textcolor{keywordtype}{short}\ loop,\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00465}00465\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00466}00466\ \ \ \ \ result\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00467}00467\ \ \ \ \ \textcolor{keywordflow}{for}(loop\ =\ 0;\ loop\ <\ 8;\ loop++)\{\ \ \ \ \ \ \ \ \textcolor{comment}{//8bit分読込む}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00468}00468\ \ \ \ \ \ \ \ \ result\ >>=\ 1;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00469}00469\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00470}00470\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a4831f1a21e0afef5e0ce9f2597aa2fea}{OWReadBit}}()\ !=\ 0)\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//1Wireデバイスからデータを読込む}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ |=\ 0x80;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00472}00472\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00473}00473\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00474}00474\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00475}00475\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00476}00476\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00477}00477\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00478}00478\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00479}00479\ \textcolor{comment}{/*\ Function\ :\ GetReflect\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00480}00480\ \textcolor{comment}{/*\ Summary\ \ :\ bit0が最上位bit、bit7が最下位bitに変換する\ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00481}00481\ \textcolor{comment}{/*\ Argument\ :\ unsigned\ char\ data\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00482}00482\ \textcolor{comment}{/*\ Return\ \ \ :\ bit0が最上位bit、bit7が最下位bit\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00483}00483\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00484}00484\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00485}00485\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00486}\mbox{\hyperlink{onewire_8c_a873d4bf71facfebefed654241b82b441}{00486}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \ \ \mbox{\hyperlink{onewire_8c_a873d4bf71facfebefed654241b82b441}{GetReflect}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ data)}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00487}00487\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00488}00488\ \ \ \ \ \textcolor{keywordtype}{short}\ loop;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00489}00489\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ reflect\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00490}00490\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00491}00491\ \ \ \ \ \textcolor{keywordflow}{for}(loop\ =\ 0;\ loop\ <\ 8;\ loop++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00492}00492\ \ \ \ \ \ \ \ \ reflect\ <<=\ 1;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00493}00493\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00494}00494\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}((data\ \&\ 0x01)\ !=\ 0)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ reflect\ |=\ 0x01;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00496}00496\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00497}00497\ \ \ \ \ \ \ \ \ data\ >>=\ 1;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00498}00498\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00499}00499\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00500}00500\ \ \ \ \ \textcolor{keywordflow}{return}\ reflect;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00501}00501\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00502}00502\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00503}00503\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00504}00504\ \textcolor{comment}{/*\ Function\ :\ GetCRC8\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00505}00505\ \textcolor{comment}{/*\ Summary\ \ :\ CRC8(MAXIM)の計算(生成多項式:0x31,左送り)\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00506}00506\ \textcolor{comment}{/*\ Argument\ :\ buff\ :\ データバッファ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00507}00507\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ :\ size\ :\ データサイズ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00508}00508\ \textcolor{comment}{/*\ Return\ \ \ :\ crc8\ :\ crc8値\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00509}00509\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00510}00510\ \textcolor{comment}{/*\ note\ \ \ \ \ :\ 仕様\ \ \ \ 　　　　　　　\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00511}00511\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ :\ 初期値\ :\ 0x0000\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00512}00512\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ :\ シフト方向\ :\ 左\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00513}00513\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ :\ 出力反転\ :\ 非反転\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00514}00514\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ :\ Input\ reflected\ :\ 有り\ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00515}00515\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ :\ Result\ reflected\ :\ 有り\ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00516}00516\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00517}\mbox{\hyperlink{onewire_8c_a11a14f43913762081016190d05ba288e}{00517}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{onewire_8c_a11a14f43913762081016190d05ba288e}{GetCRC8}}(\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *buff,\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}}\ )}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00518}00518\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00519}00519\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{struct_o_w_eeprom_a38bf2677252354aefb356a49ce7e459e}{p}}\ =\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *)buff;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00520}00520\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ crc8;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00521}00521\ \ \ \ \ \textcolor{keywordtype}{short}\ i\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00522}00522\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00523}00523\ \ \ \ \ \textcolor{comment}{//初期値0}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00524}00524\ \ \ \ \ \textcolor{keywordflow}{for}\ (\ crc8\ =\ 0x00\ ;\ \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}}\ !=\ 0\ ;\ \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}}-\/-\/\ )\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00525}00525\ \ \ \ \ \ \ \ \ crc8\ \string^=\ \mbox{\hyperlink{onewire_8c_a873d4bf71facfebefed654241b82b441}{GetReflect}}(*\mbox{\hyperlink{struct_o_w_eeprom_a38bf2677252354aefb356a49ce7e459e}{p}}++);\ \ \ \ \ \ \ \ \textcolor{comment}{//入力値bitを逆の順序にする(Input\ reflected)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00526}00526\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00527}00527\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\ i\ =\ 0\ ;\ i\ <\ \mbox{\hyperlink{onewire_8c_a308d9dd2c0028ddb184b455bbd7865de}{CHAR\_BIT}}\ ;\ i++\ )\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//左シフト}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ crc8\ \&\ 0x80\ )\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ crc8\ <<=\ 1;\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ crc8\ \string^=\ \mbox{\hyperlink{onewire_8c_ad375560b32ab25098696b9275cfc25a2}{MSB\_CRC8}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ crc8\ <<=\ 1;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00536}00536\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00537}00537\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00538}00538\ \ \ \ \ \textcolor{comment}{//出力非反転}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00539}00539\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{onewire_8c_a873d4bf71facfebefed654241b82b441}{GetReflect}}(crc8);\ \ \textcolor{comment}{//戻り値bitを逆の順序にする(Result\ reflected)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00540}00540\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00541}00541\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00542}00542\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00543}00543\ \textcolor{comment}{/*\ Function\ :\ OWCheckDevice\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00544}00544\ \textcolor{comment}{/*\ Summary\ \ :\ メモリデバイスの接続判別\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00545}00545\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00546}00546\ \textcolor{comment}{/*\ Return\ \ \ :\ 接続:0\ 未接続:-\/1\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00547}00547\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00548}00548\ \textcolor{comment}{/*\ note\ \ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00549}00549\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00550}\mbox{\hyperlink{onewire_8c_a16446599f12c3b29faa7d4b702a08c03}{00550}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{onewire_8c_a16446599f12c3b29faa7d4b702a08c03}{OWCheckDevice}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00551}00551\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00552}00552\ \ \ \ \ \textcolor{keywordtype}{short}\ retry,\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00553}00553\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00554}00554\ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00555}00555\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00556}00556\ \ \ \ \ \textcolor{keywordflow}{for}(retry\ =\ 0;\ retry\ <\ 10;\ retry++)\{\ \ \ \ \textcolor{comment}{//リトライ処理(リトライ10回)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00557}00557\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_ae04fe706ef098b9a94473e5c59de1524}{OWResetDevice}}()==\mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \textcolor{comment}{//RESETパルスを出力し、PRESENCEパルス(返信)を確認する}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00558}00558\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00559}00559\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00560}00560\ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00561}00561\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00562}00562\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00563}00563\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00564}00564\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00565}00565\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00566}00566\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00567}00567\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00568}00568\ \textcolor{comment}{/*\ Function\ :\ OWCheckROMID\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00569}00569\ \textcolor{comment}{/*\ Summary\ \ :\ メモリデバイスのROM\ IDを取得し、\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00570}00570\ \textcolor{comment}{/*\ 　　　　　　\ \ \ 　FAMILY\ CODEを確認する\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00571}00571\ \textcolor{comment}{/*\ Argument\ :\ short\ ch\ \ \ 読込むCH\ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00572}00572\ \textcolor{comment}{/*\ Return\ \ \ :\ 正常:0\ 異常:0以外\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00573}00573\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00574}00574\ \textcolor{comment}{/*\ note\ \ \ \ \ :\ FAMILY\ CODEが0x2Dならば正常\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00575}00575\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00576}\mbox{\hyperlink{onewire_8c_a14251ebb7fac64c12097101f3ab6cc26}{00576}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{onewire_8c_a14251ebb7fac64c12097101f3ab6cc26}{OWCheckROMID}}(\textcolor{keywordtype}{short}\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}})}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00577}00577\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00578}00578\ \ \ \ \ \textcolor{keywordtype}{short}\ i,\ retry,\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00579}00579\ \ \ \ \ \textcolor{keywordtype}{char}\ rom\_data[8];}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00580}00580\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00581}00581\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a16446599f12c3b29faa7d4b702a08c03}{OWCheckDevice}}()\ !=\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \ \textcolor{comment}{//メモリデバイスの接続判別}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00582}00582\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00583}00583\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00584}00584\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00585}00585\ \ \ \ \ \textcolor{keywordflow}{for}(retry\ =\ 0;\ retry\ <\ 3;\ retry++)\{\ \ \ \ \ \textcolor{comment}{//リトライ処理(リトライ3回)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00586}00586\ \ \ \ \ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00587}00587\ \ \ \ \ \ \ \ \ memset(\&rom\_data,\ 0,\ \textcolor{keyword}{sizeof}(rom\_data));\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00588}00588\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_ae04fe706ef098b9a94473e5c59de1524}{OWResetDevice}}()!=\mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \textcolor{comment}{//RESETパルスを出力し、PRESENCEパルス(返信)を確認する}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00589}00589\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00590}00590\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};\ \ \ \ \ \ \ \textcolor{comment}{//リトライ処理}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00591}00591\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00592}00592\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00593}00593\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(\mbox{\hyperlink{onewire_8c_a16ad242f444508c47fe745c67669b699}{READ\_ROM}});\ \textcolor{comment}{//"{}Read\ ROM(0x33)"{}コマンド発行}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00594}00594\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(i\ =\ 0;\ i\ <\ 8;\ i++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00595}00595\ \ \ \ \ \ \ \ \ \ \ \ \ rom\_data[i]\ =\ \mbox{\hyperlink{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0}{OWReadByte}}();\ \ \ \ \ \ \ \textcolor{comment}{//FAMILY\ CODE(1byte),\ SERIAL\ NUMBER(6byte),\ CRC\ CODE(1byte)を読込む}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00596}00596\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00597}00597\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(rom\_data[0]\ !=\ \mbox{\hyperlink{onewire_8c_a94cf1475a46ceef4f0e28cb202997760}{FAMILY\_CODE}})\{\ \ \ \ \ \ \textcolor{comment}{//FAMILY\ CODEを確認する}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00598}00598\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00599}00599\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};\ \ \ \ \ \ \ \textcolor{comment}{//リトライ処理}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00600}00600\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00601}00601\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00602}00602\ \ \ \ \ \ \ \ \ \textcolor{comment}{//ROM\ ID正常取得}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00603}00603\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//リトライ処理を抜ける}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00604}00604\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00605}00605\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00606}00606\ \ \ \ \ \textcolor{keywordflow}{if}(result\ ==\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \textcolor{comment}{//正常時}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00607}00607\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}].\mbox{\hyperlink{structst_s_v_d_ae7626614ee923698f507702913b535f9}{m\_serial}}[0]\ =\ (rom\_data[2]\ <<\ 8)\ |\ rom\_data[1];\ \ \ \ \textcolor{comment}{//メモリデバイスのSERIAL\ NUMBERを保持}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00608}00608\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}].\mbox{\hyperlink{structst_s_v_d_ae7626614ee923698f507702913b535f9}{m\_serial}}[1]\ =\ (rom\_data[4]\ <<\ 8)\ |\ rom\_data[3];}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00609}00609\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v__def_8c_adcdc4b5de82d8bf31a0536fc87967dd7}{SVD}}[\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}].\mbox{\hyperlink{structst_s_v_d_ae7626614ee923698f507702913b535f9}{m\_serial}}[2]\ =\ (rom\_data[6]\ <<\ 8)\ |\ rom\_data[5];}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00610}00610\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00611}00611\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00612}00612\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00613}00613\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00614}00614\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00615}00615\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00616}00616\ \textcolor{comment}{/*\ Function\ :\ OWWriteData\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00617}00617\ \textcolor{comment}{/*\ Summary\ \ :\ メモリデバイスにデータを書込む\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00618}00618\ \textcolor{comment}{/*\ Argument\ :\ アドレス、書込みデータ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00619}00619\ \textcolor{comment}{/*\ Return\ \ \ :\ 正常:0\ 異常:0以外\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00620}00620\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00621}00621\ \textcolor{comment}{/*\ note\ \ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00622}00622\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00623}\mbox{\hyperlink{onewire_8c_a6140bfa818aa0d1f38fa1258fc2d5972}{00623}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{onewire_8c_a6140bfa818aa0d1f38fa1258fc2d5972}{OWWriteData}}(\textcolor{keywordtype}{short}\ address,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *buff)}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00624}00624\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00625}00625\ \ \ \ \ \textcolor{keywordtype}{short}\ i,\ ow\_address,\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00626}00626\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{struct_o_w_eeprom_a38bf2677252354aefb356a49ce7e459e}{p}}\ =\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *)buff;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00627}00627\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00628}00628\ \ \ \ \ ow\_address\ =\ address;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00629}00629\ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00630}00630\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00631}00631\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_ae04fe706ef098b9a94473e5c59de1524}{OWResetDevice}}()!=\mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \textcolor{comment}{//RESETパルスを出力し、PRESENCEパルス(返信)を確認する}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00632}00632\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00633}00633\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00634}00634\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00635}00635\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(\mbox{\hyperlink{onewire_8c_ae5773d5b673b0c12c6615958dd2efb22}{SKIP\_ROM}});\ \textcolor{comment}{//"{}SKIP\ ROM(0xCC)"{}コマンド発行}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00636}00636\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(\mbox{\hyperlink{onewire_8c_a27466737f1e485403d87846b0b4fab91}{WRITE\_SCRATCHPAD}});\ \textcolor{comment}{//"{}WRITE\ SCRATCHPAD(0x0F)"{}コマンド発行}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00637}00637\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}((\textcolor{keywordtype}{char})(ow\_address\ \&\ 0x00FF));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TA1\ (書込み先アドレス)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00638}00638\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}((\textcolor{keywordtype}{char})((ow\_address\ \&\ 0xFF00)\ >>\ 8));\ \textcolor{comment}{//\ TA2}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00639}00639\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00640}00640\ \ \ \ \ \textcolor{keywordflow}{for}(i\ =\ 0;\ i\ <\ 8;\ i++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00641}00641\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(*\mbox{\hyperlink{struct_o_w_eeprom_a38bf2677252354aefb356a49ce7e459e}{p}}++);\ \ \ \ \ \ \textcolor{comment}{//データを書込む}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00642}00642\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00643}00643\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00644}00644\ \ \ \ \ \textcolor{comment}{//\ read\ CRC\ data}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00645}00645\ \ \ \ \ \textcolor{keywordflow}{for}(i\ =\ 0;\ i\ <\ 2;\ i++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00646}00646\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a6141a7677586faa55d71fbaef3f4e485}{memory\_W\_data}}[i]\ =\ \mbox{\hyperlink{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0}{OWReadByte}}();}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00647}00647\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00648}00648\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00649}00649\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_ae04fe706ef098b9a94473e5c59de1524}{OWResetDevice}}()!=\mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \textcolor{comment}{//RESETパルスを出力し、PRESENCEパルス(返信)を確認する}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00650}00650\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00651}00651\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00652}00652\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00653}00653\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(\mbox{\hyperlink{onewire_8c_ae5773d5b673b0c12c6615958dd2efb22}{SKIP\_ROM}});\ \textcolor{comment}{//"{}SKIP\ ROM(0xCC)"{}コマンド発行}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00654}00654\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(\mbox{\hyperlink{onewire_8c_a6f02502f76c88160d363cad5ea5f86c8}{COPY\_SCRATCHPAD}});\ \textcolor{comment}{//"{}COPY\ SCRATCHPAD(0x55)"{}コマンド発行}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00655}00655\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}((\textcolor{keywordtype}{char})(ow\_address\ \&\ 0x00FF));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TA1\ (書込み先アドレス)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00656}00656\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}((\textcolor{keywordtype}{char})((ow\_address\ \&\ 0xFF00)\ >>\ 8));\ \textcolor{comment}{//\ TA2}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00657}00657\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(0x07);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00658}00658\ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00659}00659\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00660}00660\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a64877c51e5db853a6b17dba2655c3cb5}{OWWaitMS}}(\mbox{\hyperlink{onewire_8c_afe8a553dddbbd53b789eff457c176094}{TIM\_tPROGMAX}});\ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘﾃﾞﾊﾞｲｽ書込み待機}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00661}00661\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00662}00662\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00663}00663\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00664}00664\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00665}00665\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00666}00666\ \textcolor{comment}{/*\ Function\ :\ OWCompareData\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00667}00667\ \textcolor{comment}{/*\ Summary\ \ :\ メモリデバイスに書込んだデータの照合処理\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00668}00668\ \textcolor{comment}{/*\ Argument\ :\ アドレス、書込みデータ\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00669}00669\ \textcolor{comment}{/*\ Return\ \ \ :\ 正常:0\ 異常:0以外\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00670}00670\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00671}00671\ \textcolor{comment}{/*\ note\ \ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00672}00672\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00673}\mbox{\hyperlink{onewire_8c_acfaa80eebb10fe4c0c554c37e969cd25}{00673}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{onewire_8c_acfaa80eebb10fe4c0c554c37e969cd25}{OWCompareData}}(\textcolor{keywordtype}{short}\ address,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}\ *buff)}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00674}00674\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00675}00675\ \ \ \ \ \textcolor{keywordtype}{short}\ i,\ ow\_address,\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00676}00676\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00677}00677\ \ \ \ \ ow\_address\ =\ address;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00678}00678\ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00679}00679\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00680}00680\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_ae04fe706ef098b9a94473e5c59de1524}{OWResetDevice}}()!=\mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \textcolor{comment}{//RESETパルスを出力し、PRESENCEパルス(返信)を確認する}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00681}00681\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00682}00682\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00683}00683\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00684}00684\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(\mbox{\hyperlink{onewire_8c_ae5773d5b673b0c12c6615958dd2efb22}{SKIP\_ROM}});\ \textcolor{comment}{//"{}SKIP\ ROM(0xCC)"{}コマンド発行}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00685}00685\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(\mbox{\hyperlink{onewire_8c_a73bca8a9a4a773829639bc83422f687a}{READ\_MEMORY}});\ \textcolor{comment}{//"{}READ\ MEMORY(0xF0)"{}コマンド発行}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00686}00686\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}((\textcolor{keywordtype}{char})(ow\_address\ \&\ 0x00FF));\ \ \ \ \textcolor{comment}{//\ TA1\ (読込み開始アドレス)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00687}00687\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}((\textcolor{keywordtype}{char})((ow\_address\ \&\ 0xFF00)\ >>\ 8));\ \textcolor{comment}{//\ TA2}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00688}00688\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00689}00689\ \ \ \ \ \textcolor{comment}{//\ ﾒﾓﾘﾃﾞﾊﾞｲｽのﾃﾞｰﾀを読込む}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00690}00690\ \ \ \ \ \textcolor{keywordflow}{for}(i\ =\ 0;\ i\ <\ 8;\ i++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00691}00691\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a2becc89dff9d2825f715a4c971b4dbac}{memory\_C\_data}}[i]\ =\ \mbox{\hyperlink{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0}{OWReadByte}}();}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00692}00692\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00693}00693\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00694}00694\ \ \ \ \ \textcolor{comment}{//照合処理}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00695}00695\ \ \ \ \ \textcolor{keywordflow}{if}(memcmp(\&\mbox{\hyperlink{onewire_8c_a2becc89dff9d2825f715a4c971b4dbac}{memory\_C\_data}}[0],\ buff,\ 8)\ ==\ 0)\{\ \ \ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘﾃﾞﾊﾞｲｽに書込んだﾃﾞｰﾀとﾒﾓﾘﾃﾞﾊﾞｲｽ読込んだﾃﾞｰﾀが一致}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00696}00696\ \ \ \ \ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00697}00697\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00698}00698\ \ \ \ \ \ \ \ \ ;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00699}00699\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00700}00700\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00701}00701\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00702}00702\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00703}00703\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00704}00704\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00705}00705\ \textcolor{comment}{/*\ Function\ :\ OWReadSensinfo\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00706}00706\ \textcolor{comment}{/*\ Summary\ \ :\ メモリデバイスからセンサ情報を読込む\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00707}00707\ \textcolor{comment}{/*\ Argument\ :\ short\ ch\ \ \ 読込むCH\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00708}00708\ \textcolor{comment}{/*\ Return\ \ \ :\ 正常:0\ 異常:0以外\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00709}00709\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00710}00710\ \textcolor{comment}{/*\ note\ \ \ \ \ :\ センサ情報(ﾕｰｻﾞﾊﾟﾗﾒｰﾀ)を読込む\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00711}00711\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00712}\mbox{\hyperlink{_m_a_i_n_8c_ae8de5459b1952288dad5125ffb1bcb8f}{00712}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{onewire_8c_ae8de5459b1952288dad5125ffb1bcb8f}{OWReadSensinfo}}(\textcolor{keywordtype}{short}\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}})}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00713}00713\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00714}00714\ \ \ \ \ \textcolor{keywordtype}{short}\ retry,\ result,\ \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}},\ cnt,\ pos;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00715}00715\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00716}00716\ \ \ \ \ clrpsw\_i();\ \ \ \ \ \textcolor{comment}{/*\ 割り込み禁止\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00717}00717\ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00718}00718\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00719}00719\ \ \ \ \ \mbox{\hyperlink{onewire_8c_ac915dc02c19f84bb9569d3a6f3b3b4df}{SelectReverseOn}}(\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}});\ \ \ \textcolor{comment}{//IN/OUT切替え}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00720}00720\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00721}00721\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a2899889224024f6b9de34bff4da55ca4}{OWSensPowSW}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘ保護回路有効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00722}00722\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}{OWSensSigSW}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘﾃﾞﾊﾞｲｽ有効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00723}00723\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//5usec待機}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00724}00724\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00725}00725\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a14251ebb7fac64c12097101f3ab6cc26}{OWCheckROMID}}(\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}})\ !=\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \ \ \ \textcolor{comment}{//ROM\_IDの確認}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00726}00726\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_m_e_s_8c_a7ba6c85a073d6dc7e54b96fe11c07772}{MES\_SUB}}[\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}].\mbox{\hyperlink{structst_m_e_s___s_u_b_a874b420dd142b136ecc00afe1b02a2de}{err\_status\_sub}}\ |=\ \mbox{\hyperlink{define_8h_a6ccf374aa131110a2ba6c7f2bc47cf2e}{ERR\_JUDGE\_DEVICE}};\ \ \textcolor{comment}{//異常：メモリデバイス検知エラーセット}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00727}00727\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a49cb3218b42d20bf66a66e2f57213140}{SelectReverseOff}}(\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}});\ \textcolor{comment}{//IN/OUT打込み切替え}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00728}00728\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}{OWSensSigSW}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘﾃﾞﾊﾞｲｽ無効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00729}00729\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a2899889224024f6b9de34bff4da55ca4}{OWSensPowSW}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \textcolor{comment}{//ﾒﾓﾘ保護回路無効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00730}00730\ \ \ \ \ \ \ \ \ setpsw\_i();\ \ \ \ \ \textcolor{comment}{/*\ 割り込み許可\ */}\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00731}00731\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00732}00732\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00733}00733\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00734}00734\ \ \ \ \ \textcolor{keywordflow}{for}(retry\ =\ 0;\ retry\ <\ 3;\ retry++)\{\ \textcolor{comment}{//リトライ処理(リトライ3回)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00735}00735\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_ae04fe706ef098b9a94473e5c59de1524}{OWResetDevice}}()\ !=\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \textcolor{comment}{//RESETパルスを出力し、PRESENCEパルス(返信)を確認する}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00736}00736\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00737}00737\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};\ \ \ \ \ \ \ \textcolor{comment}{//リトライ処理}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00738}00738\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00739}00739\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00740}00740\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(\mbox{\hyperlink{onewire_8c_ae5773d5b673b0c12c6615958dd2efb22}{SKIP\_ROM}});\ \textcolor{comment}{//"{}SKIP\ ROM(0xCC)"{}コマンド発行}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00741}00741\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(\mbox{\hyperlink{onewire_8c_a73bca8a9a4a773829639bc83422f687a}{READ\_MEMORY}});\ \textcolor{comment}{//"{}READ\ MEMORY(0xF0)"{}コマンド発行}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00742}00742\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00743}00743\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(0x00);\ \textcolor{comment}{//\ TA1\ (読込み開始アドレス:0x0000)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00744}00744\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a74246f775da9e6095a1eca9713a8f21f}{OWWriteByte}}(0x00);\ \textcolor{comment}{//\ TA2}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00745}00745\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00746}00746\ \ \ \ \ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘﾃﾞﾊﾞｲｽのﾒﾓﾘﾃﾞｰﾀを読込む}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00747}00747\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(cnt\ =\ 0;\ cnt\ <\ \mbox{\hyperlink{onewire_8c_a6e67afdf54514977b8dd746e995c2c86}{MEMORY\_MAX}};\ cnt++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00748}00748\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a8e81c5361db4e922bc4ec1ad367900ee}{memory\_R\_data}}[cnt]\ =\ \mbox{\hyperlink{onewire_8c_a38bbb8a51014ef2ed841f0d6eae59fe0}{OWReadByte}}();}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00749}00749\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00750}00750\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00751}00751\ \ \ \ \ \ \ \ \ \textcolor{comment}{//先頭にFAMILY\ CODEが保持されていることを確認する。}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00752}00752\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a8e81c5361db4e922bc4ec1ad367900ee}{memory\_R\_data}}[0]\ ==\ \mbox{\hyperlink{onewire_8c_a94cf1475a46ceef4f0e28cb202997760}{FAMILY\_CODE}})\{\ \ \ \ \textcolor{comment}{//「FAMILY\ CODE」が保持されている場合}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00753}00753\ \ \ \ \ \ \ \ \ \ \ \ \ ;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00754}00754\ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ \ \ \ \ \textcolor{comment}{//「FAMILY\ CODE」が保持されていない場合}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00755}00755\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a3ac97aa47b0fb0aa84f3f0e1867f080e}{B\_BLANK}};\ \ \ \ \ \ \ \ \textcolor{comment}{//EEPROM読み込みｴﾗｰにしない(何も書かれていない新品状態のﾒﾓﾘﾃﾞﾊﾞｲｽを読込んだ時は、Modbusにコピーしない為の処理。EEPROMに書き込まない。)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00756}00756\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};\ \ \ \ \ \ \ \textcolor{comment}{//リトライ処理}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00757}00757\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00758}00758\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00759}00759\ \ \ \ \ \ \ \ \ \textcolor{comment}{//CRCチェック}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00760}00760\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00761}00761\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(cnt=0;\ \mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}!=0xffff;\ cnt++)\{\ \ \ \ \ \ \textcolor{comment}{//センサ情報のサイズを取得}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00762}00762\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}\ ==\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}})\{\ \ \textcolor{comment}{//対象CHのセンサ情報のサイズを計算する}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00763}00763\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}}\ +=\ \mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{struct_o_w_eeprom_ab625f0c997d22893810b71f46a492086}{size}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00764}00764\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00765}00765\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00766}00766\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}}\ +=\ 1;\ \ \ \ \ \ \textcolor{comment}{//先頭のFAMILY\ CODE分のサイズを加算}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00767}00767\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a8e81c5361db4e922bc4ec1ad367900ee}{memory\_R\_data}}[\mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}}]\ ==\ \mbox{\hyperlink{onewire_8c_a11a14f43913762081016190d05ba288e}{GetCRC8}}(\&\mbox{\hyperlink{onewire_8c_a8e81c5361db4e922bc4ec1ad367900ee}{memory\_R\_data}}[0],\ \mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}}))\{\ \ \ \ \ \ \ \textcolor{comment}{//保存したCRCと計算したCRCが一致}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00768}00768\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00769}00769\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ =\ 1;\ \ \textcolor{comment}{//先頭にFAMILY\ CODEが保持されているので1から開始する}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00770}00770\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(cnt=0;\ \mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}!=0xffff;\ cnt++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00771}00771\ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}\ ==\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}})\{\ \ \textcolor{comment}{//対象CH}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00772}00772\ \ \ \ \ \ \ \ \ \ \ \ \ memcpy(\mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{struct_o_w_eeprom_a38bf2677252354aefb356a49ce7e459e}{p}},\ \&\mbox{\hyperlink{onewire_8c_a8e81c5361db4e922bc4ec1ad367900ee}{memory\_R\_data}}[pos],\ \mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}});\ \textcolor{comment}{//ﾒﾓﾘﾃﾞﾊﾞｲｽのﾃﾞｰﾀをModbusにコピー}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00773}00773\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pos\ +=\ \mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{struct_o_w_eeprom_ab625f0c997d22893810b71f46a492086}{size}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00774}00774\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00775}00775\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00776}00776\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \ \ \ \ \ \textcolor{comment}{//リトライ処理を抜ける\ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00777}00777\ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ \ \ \ \ \textcolor{comment}{//CRC不一致}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00778}00778\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00779}00779\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};\ \ \ \ \ \ \ \textcolor{comment}{//リトライ処理}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00780}00780\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00781}00781\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00782}00782\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00783}00783\ \ \ \ \ \textcolor{keywordflow}{if}(result\ ==\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}})\{\ \ \ \ \ \textcolor{comment}{//センサ情報読込み失敗した場合}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00784}00784\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_m_e_s_8c_a7ba6c85a073d6dc7e54b96fe11c07772}{MES\_SUB}}[\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}].\mbox{\hyperlink{structst_m_e_s___s_u_b_a874b420dd142b136ecc00afe1b02a2de}{err\_status\_sub}}\ |=\ \mbox{\hyperlink{define_8h_a6ccf374aa131110a2ba6c7f2bc47cf2e}{ERR\_JUDGE\_DEVICE}};\ \ \textcolor{comment}{//異常：メモリデバイス検知エラーセット}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00785}00785\ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00786}00786\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_m_e_s_8c_a7ba6c85a073d6dc7e54b96fe11c07772}{MES\_SUB}}[\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}].\mbox{\hyperlink{structst_m_e_s___s_u_b_a874b420dd142b136ecc00afe1b02a2de}{err\_status\_sub}}\ \&=\ \string~ERR\_JUDGE\_DEVICE;\ \textcolor{comment}{//正常：メモリデバイス検知エラークリア}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00787}00787\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00788}00788\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00789}00789\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a49cb3218b42d20bf66a66e2f57213140}{SelectReverseOff}}(\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}});\ \textcolor{comment}{//IN/OUT打込み切替え}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00790}00790\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}{OWSensSigSW}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \textcolor{comment}{//ﾒﾓﾘﾃﾞﾊﾞｲｽ無効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00791}00791\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a2899889224024f6b9de34bff4da55ca4}{OWSensPowSW}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \textcolor{comment}{//ﾒﾓﾘ保護回路無効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00792}00792\ \ \ \ \ setpsw\_i();\ \ \ \ \ \textcolor{comment}{/*\ 割り込み許可\ */}\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00793}00793\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00794}00794\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00795}00795\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00796}00796\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00797}00797\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00798}00798\ \textcolor{comment}{/*\ Function\ :\ OWWriteSensinfo\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00799}00799\ \textcolor{comment}{/*\ Summary\ \ :\ メモリデバイスにセンサ情報を書込む\ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00800}00800\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00801}00801\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00802}00802\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00803}00803\ \textcolor{comment}{/*\ note\ \ \ \ \ :\ センサ情報(ﾕｰｻﾞﾊﾟﾗﾒｰﾀ)を書込む\ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00804}00804\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00805}\mbox{\hyperlink{_m_a_i_n_8c_a54ce1c6683ea97bc494fd927d6777213}{00805}}\ \textcolor{keywordtype}{void}\ \ \ \ \mbox{\hyperlink{onewire_8c_a54ce1c6683ea97bc494fd927d6777213}{OWWriteSensinfo}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00806}00806\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00807}00807\ \ \ \ \ \textcolor{keywordtype}{short}\ cnt,\ num;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00808}00808\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00809}00809\ \ \ \ \ \textcolor{keywordflow}{switch}(phase\_owwrite)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00811}00811\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00812}00812\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a8d6ec2d519e9e5770f15886f09338214}{OWwrite}}[\mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}}]\ ==\ 1)\{\ \ \textcolor{comment}{//メモリデバイス書込み要求あり}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00813}00813\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phase\_owwrite++;\ \ \ \ \textcolor{comment}{//ﾌｪｰｽﾞ更新}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00814}00814\ \ \ \ \ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00815}00815\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}}++;\ \ \textcolor{comment}{//書込みCH更新}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00816}00816\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}}\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00817}00817\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}}\ =\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00818}00818\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00819}00819\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00820}00820\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00821}00821\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00823}00823\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00824}00824\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}((\mbox{\hyperlink{onewire_8c_abd027fc3ea00a551c764fdcf8bca66d0}{action\_status\_check}}(\mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}})\ ==\ \mbox{\hyperlink{define_8h_af86cba5d004db01ada13e7c866563096}{ACT\_STS\_NORMAL}})\ ||\ \ \textcolor{comment}{//通常状態}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00825}00825\ \ \ \ \ \ \ \ \ \ \ \ (\mbox{\hyperlink{onewire_8c_abd027fc3ea00a551c764fdcf8bca66d0}{action\_status\_check}}(\mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}})\ ==\ \mbox{\hyperlink{define_8h_a25f40962955e0307537ab877abb73a72}{ACT\_STS\_ADDIT}}))\{\ \ \ \ \textcolor{comment}{//積算実行中}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00826}00826\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clrpsw\_i();\ \ \ \ \ \textcolor{comment}{/*\ 割り込み禁止\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00827}00827\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_ac915dc02c19f84bb9569d3a6f3b3b4df}{SelectReverseOn}}(\mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}});\ \ \ \ \ \textcolor{comment}{//IN/OUT切替え}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00828}00828\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a2899889224024f6b9de34bff4da55ca4}{OWSensPowSW}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘ保護回路有効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00829}00829\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}{OWSensSigSW}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘﾃﾞﾊﾞｲｽ有効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00830}00830\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phase\_owwrite++;\ \ \ \ \textcolor{comment}{//ﾌｪｰｽﾞ更新}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00831}00831\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00832}00832\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00833}00833\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00835}00835\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00836}00836\ \ \ \ \ \ \ \ \ \ \ \ \ clrpsw\_i();\ \ \ \ \ \textcolor{comment}{/*\ 割り込み禁止\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00837}00837\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_aae3cac3387c569796c62bfe511afa8d1}{sens\_info}}[0]\ =\ \mbox{\hyperlink{onewire_8c_a94cf1475a46ceef4f0e28cb202997760}{FAMILY\_CODE}};\ \ \ \ \ \textcolor{comment}{//先頭に「FAMILY\ CODE」を書込む(新品状態のﾒﾓﾘﾃﾞﾊﾞｲｽを判別するため)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00838}00838\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a7b99fd21940c0ca0568ca80de4bcf521}{ow\_pos}}\ =\ 1;\ \ \textcolor{comment}{//先頭にFAMILY\ CODEが保持されているので1から開始する}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00839}00839\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(cnt=0;\ \mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}!=0xffff;\ cnt++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00840}00840\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}\ ==\ \mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}})\{\ \ \textcolor{comment}{//対象CH}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00841}00841\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ memcpy(\&\mbox{\hyperlink{onewire_8c_aae3cac3387c569796c62bfe511afa8d1}{sens\_info}}[\mbox{\hyperlink{onewire_8c_a7b99fd21940c0ca0568ca80de4bcf521}{ow\_pos}}],\ \mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{struct_o_w_eeprom_a38bf2677252354aefb356a49ce7e459e}{p}},\ \mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{_m_e_s_8c_a23e2e8a0e299aac2ef9ea37f3d3519ad}{size}});\ \ \ \ \textcolor{comment}{//EEPROM書込みデータをsens\_infにコピー}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00842}00842\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a7b99fd21940c0ca0568ca80de4bcf521}{ow\_pos}}\ +=\ \mbox{\hyperlink{onewire_8c_a46c7630d0af6a2cff08f49c1d3702302}{OWEepromData}}[cnt].\mbox{\hyperlink{struct_o_w_eeprom_ab625f0c997d22893810b71f46a492086}{size}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00843}00843\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00844}00844\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00845}00845\ \ \ \ \ \ \ \ \ \ \ \ \ phase\_owwrite++;\ \ \ \ \textcolor{comment}{//ﾌｪｰｽﾞ更新}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00846}00846\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00847}00847\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00849}00849\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00850}00850\ \ \ \ \ \ \ \ \ \ \ \ \ clrpsw\_i();\ \ \ \ \ \textcolor{comment}{/*\ 割り込み禁止\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00851}00851\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_aae3cac3387c569796c62bfe511afa8d1}{sens\_info}}[\mbox{\hyperlink{onewire_8c_a7b99fd21940c0ca0568ca80de4bcf521}{ow\_pos}}]\ =\ \mbox{\hyperlink{onewire_8c_a11a14f43913762081016190d05ba288e}{GetCRC8}}(\&\mbox{\hyperlink{onewire_8c_aae3cac3387c569796c62bfe511afa8d1}{sens\_info}},\ \mbox{\hyperlink{onewire_8c_a7b99fd21940c0ca0568ca80de4bcf521}{ow\_pos}});}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00852}00852\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568}{ow\_cnt}}\ =\ \mbox{\hyperlink{onewire_8c_a86e83a15de43408867bc1ecb1a2b368e}{ow\_retry}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00853}00853\ \ \ \ \ \ \ \ \ \ \ \ \ phase\_owwrite++;\ \ \ \ \textcolor{comment}{//ﾌｪｰｽﾞ更新}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00854}00854\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00856}00856\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 5:}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00857}00857\ \ \ \ \ \ \ \ \ \ \ \ \ clrpsw\_i();\ \ \ \ \ \textcolor{comment}{/*\ 割り込み禁止\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00858}00858\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a6140bfa818aa0d1f38fa1258fc2d5972}{OWWriteData}}(0x0008*\mbox{\hyperlink{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568}{ow\_cnt}},\ \&\mbox{\hyperlink{onewire_8c_aae3cac3387c569796c62bfe511afa8d1}{sens\_info}}[0x0008*\mbox{\hyperlink{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568}{ow\_cnt}}])\ ==\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \textcolor{comment}{//書込み正常}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00859}00859\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phase\_owwrite++;\ \ \ \ \textcolor{comment}{//ﾌｪｰｽﾞ更新}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00860}00860\ \ \ \ \ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ \textcolor{comment}{//書込み異常}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00861}00861\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a86e83a15de43408867bc1ecb1a2b368e}{ow\_retry}}++;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00862}00862\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a86e83a15de43408867bc1ecb1a2b368e}{ow\_retry}}\ >\ 3)\{\ \ \ \ \ \ \ \textcolor{comment}{//ﾘﾄﾗｲ3回}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00863}00863\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phase\_owwrite\ =\ 7;\ \ \textcolor{comment}{//ﾌｪｰｽﾞ更新(処理終了)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00864}00864\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00865}00865\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00866}00866\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00867}00867\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00869}00869\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 6:}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00870}00870\ \ \ \ \ \ \ \ \ \ \ \ \ clrpsw\_i();\ \ \ \ \ \textcolor{comment}{/*\ 割り込み禁止\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00871}00871\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_acfaa80eebb10fe4c0c554c37e969cd25}{OWCompareData}}(0x0008*\mbox{\hyperlink{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568}{ow\_cnt}},\ \&\mbox{\hyperlink{onewire_8c_aae3cac3387c569796c62bfe511afa8d1}{sens\_info}}[0x0008*\mbox{\hyperlink{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568}{ow\_cnt}}])\ ==\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \textcolor{comment}{//照合正常した場合}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00872}00872\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568}{ow\_cnt}}++;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00873}00873\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ num\ =\ \mbox{\hyperlink{onewire_8c_a7b99fd21940c0ca0568ca80de4bcf521}{ow\_pos}}\ /\ 8\ +\ 1;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00874}00874\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a41f22fbb03ff2e41da1abcdf6e0e9568}{ow\_cnt}}\ >\ num)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00875}00875\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phase\_owwrite++;\ \ \ \ \textcolor{comment}{//ﾌｪｰｽﾞ更新(全ｱﾄﾞﾚｽ書込み\&照合終了)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00876}00876\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00877}00877\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phase\_owwrite\ =\ 5;\ \ \textcolor{comment}{//ﾌｪｰｽﾞ更新(次ｱﾄﾞﾚｽ書込み)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00878}00878\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00879}00879\ \ \ \ \ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ \ \ \ \ \textcolor{comment}{//照合異常した場合}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00880}00880\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a86e83a15de43408867bc1ecb1a2b368e}{ow\_retry}}++;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00881}00881\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a86e83a15de43408867bc1ecb1a2b368e}{ow\_retry}}\ >\ 3)\{\ \ \ \ \ \ \ \textcolor{comment}{//ﾘﾄﾗｲ3回}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00882}00882\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phase\_owwrite\ =\ 7;\ \ \textcolor{comment}{//ﾌｪｰｽﾞ更新(処理終了)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00883}00883\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00884}00884\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ phase\_owwrite\ =\ 5;\ \ \textcolor{comment}{//ﾌｪｰｽﾞ更新(再書込み)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00885}00885\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00886}00886\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00887}00887\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00888}00888\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00890}00890\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 7:}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00891}00891\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00892}00892\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a49cb3218b42d20bf66a66e2f57213140}{SelectReverseOff}}(\mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}});\ \ \ \textcolor{comment}{//IN/OUT打込み切替え}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00893}00893\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}{OWSensSigSW}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘﾃﾞﾊﾞｲｽ無効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00894}00894\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a2899889224024f6b9de34bff4da55ca4}{OWSensPowSW}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘ保護回路無効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00895}00895\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a8d6ec2d519e9e5770f15886f09338214}{OWwrite}}[\mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}}]\ =\ 0;\ \ \ \ \ \textcolor{comment}{//メモリデバイス書込み要求ｸﾘｱ}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00896}00896\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}}++;\ \ \textcolor{comment}{//書込みCH更新}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00897}00897\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}}\ >=\ \mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}})\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00898}00898\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a08b8a410391f5c7e6bd61f462c03a34b}{OWwriteCH}}\ =\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00899}00899\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00900}00900\ \ \ \ \ \ \ \ \ \ \ \ \ phase\_owwrite\ =\ 1;\ \ \textcolor{comment}{//ﾌｪｰｽﾞ初期化}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00901}00901\ \ \ \ \ \ \ \ \ \ \ \ \ setpsw\_i();\ \ \ \ \ \textcolor{comment}{/*\ 割り込み許可\ */}\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00902}00902\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00903}00903\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00904}00904\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00905}00905\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00906}00906\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00907}00907\ \textcolor{comment}{/*\ Function\ :\ OWCheckDeviceSide\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00908}00908\ \textcolor{comment}{/*\ Summary\ \ :\ メモリデバイスの実装位置を読込む\ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00909}00909\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00910}00910\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00911}00911\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00912}00912\ \textcolor{comment}{/*\ note\ \ \ \ \ :\ 自動IN/OUT判別機能\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00913}00913\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ :\ 上流側にメモリデバイスが実装されているため上流/下流\ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00914}00914\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ :\ の判別ができる\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00915}00915\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00916}\mbox{\hyperlink{_m_a_i_n_8c_a0f6e3096e9042aa605161e9305db4629}{00916}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a0f6e3096e9042aa605161e9305db4629}{OWCheckDeviceSide}}(\textcolor{keywordtype}{void})}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00917}00917\ \{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00918}00918\ \ \ \ \ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00919}00919\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00920}00920\ \ \ \ \ clrpsw\_i();\ \ \ \ \ \textcolor{comment}{/*\ 割り込み禁止\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00921}00921\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00922}00922\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}{OWSensSigSW}}(\mbox{\hyperlink{define_8h_a0b8f50f45d7d26cbf72e4fb12a2954ef}{B\_ON}});\ \ \ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘﾃﾞﾊﾞｲｽ有効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00923}00923\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00924}00924\ \ \ \ \ \textcolor{keywordflow}{for}(\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}=\mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}};\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}<\mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}};\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00925}00925\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_m_e_s_8c_a7ba6c85a073d6dc7e54b96fe11c07772}{MES\_SUB}}[\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}].\mbox{\hyperlink{structst_m_e_s___s_u_b_adfd38f78992fbfef8d5c966cdf5a9106}{memory\_side}}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00926}00926\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a027fa9fc108cc94ddf9daec7c31f624f}{portmesrevW}}(0,\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}});\ \ \ \ \ \ \ \ \textcolor{comment}{//CH\ REV切替え有効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00927}00927\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//5usec待機}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00928}00928\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00929}00929\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a14251ebb7fac64c12097101f3ab6cc26}{OWCheckROMID}}(\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}})\ ==\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \ \ \ \ \textcolor{comment}{//ROM\_IDの確認に成功}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00930}00930\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a027fa9fc108cc94ddf9daec7c31f624f}{portmesrevW}}(1,\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}});\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//CH\ REV切替え無効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00931}00931\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_m_e_s_8c_a7ba6c85a073d6dc7e54b96fe11c07772}{MES\_SUB}}[\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}].\mbox{\hyperlink{structst_m_e_s___s_u_b_adfd38f78992fbfef8d5c966cdf5a9106}{memory\_side}}\ =\ \mbox{\hyperlink{define_8h_a35500ef465288c2211844d494fc36cde}{B\_POSI}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00932}00932\ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ROM\_IDの確認に失敗}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00933}00933\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a027fa9fc108cc94ddf9daec7c31f624f}{portmesrevW}}(1,\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}});\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//CH\ REV切替え無効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00934}00934\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a6baa98f73713e126987850ddd9ee8c83}{portmesfwdW}}(0,\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}});\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//CH\ FWD切替え有効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00935}00935\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//5usec待機}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00936}00936\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{onewire_8c_a14251ebb7fac64c12097101f3ab6cc26}{OWCheckROMID}}(\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}})\ ==\ \mbox{\hyperlink{define_8h_a8b193eaf461abe1431a2185ba0ae313c}{B\_OK}})\{\ \textcolor{comment}{//ROM\_IDの確認に成功}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00937}00937\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a6baa98f73713e126987850ddd9ee8c83}{portmesfwdW}}(1,\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}});\ \ \ \ \ \ \ \ \textcolor{comment}{//CH\ FWD切替え無効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00938}00938\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_m_e_s_8c_a7ba6c85a073d6dc7e54b96fe11c07772}{MES\_SUB}}[\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}].\mbox{\hyperlink{structst_m_e_s___s_u_b_adfd38f78992fbfef8d5c966cdf5a9106}{memory\_side}}\ =\ \mbox{\hyperlink{define_8h_a8871d9b42ea39faca5ab874adf787553}{B\_NEGA}};}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00939}00939\ \ \ \ \ \ \ \ \ \ \ \ \ \}\textcolor{keywordflow}{else}\{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//ROM\_IDの確認に失敗}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00940}00940\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a6baa98f73713e126987850ddd9ee8c83}{portmesfwdW}}(1,\ \mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}});\ \ \ \ \ \ \ \ \textcolor{comment}{//CH\ FWD切替え無効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00941}00941\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{def_m_e_s_8c_a7ba6c85a073d6dc7e54b96fe11c07772}{MES\_SUB}}[\mbox{\hyperlink{struct_o_w_eeprom_a6925c0820ccd0b56ec86c4848fbc4f81}{ch}}].\mbox{\hyperlink{structst_m_e_s___s_u_b_adfd38f78992fbfef8d5c966cdf5a9106}{memory\_side}}\ =\ \mbox{\hyperlink{define_8h_a3f41f0207d18c9401d856ce8e55fa6e3}{B\_NG}};\ \textcolor{comment}{//異常(センサ接続不良)}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00942}00942\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00943}00943\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00944}00944\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00945}00945\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00946}00946\ \ \ \ \ \mbox{\hyperlink{onewire_8c_a12e536d13943cb8ceb9aeb0490a8effc}{OWSensSigSW}}(\mbox{\hyperlink{define_8h_af75942fc725a2ea44ccb019c2a355e67}{B\_OFF}});\ \ \ \ \ \textcolor{comment}{//ﾒﾓﾘﾃﾞﾊﾞｲｽ無効}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00947}00947\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00948}00948\ \ \ \ \ setpsw\_i();\ \ \ \ \ \textcolor{comment}{/*\ 割り込み許可\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00949}00949\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00950}00950\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00951}00951\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00952}00952\ \textcolor{comment}{/*\ Function\ :\ OWWaitUS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00953}00953\ \textcolor{comment}{/*\ Summary\ \ :\ 約1us単位待機\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00954}00954\ \textcolor{comment}{/*\ Argument\ :\ 待ち時間\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00955}00955\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00956}00956\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00957}00957\ \textcolor{comment}{/*\ notes\ \ \ \ :\ 引数で指定した値×1us分待機する\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00958}00958\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00959}\mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{00959}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(\textcolor{keywordtype}{long}\ us)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00960}00960\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00961}00961\ \ \ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{long}\ i,\ j;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00962}00962\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00963}00963\ \ \ \ \ \textcolor{keywordflow}{for}(i\ =\ 0;\ i\ <\ us;\ i++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00964}00964\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(j\ =\ 0;\ j\ <\ 6;\ j++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00965}00965\ \ \ \ \ \ \ \ \ \ \ \ \ nop();}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00966}00966\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00967}00967\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00968}00968\ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00969}00969\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00970}00970\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00971}00971\ \textcolor{comment}{/*\ Function\ :\ OWWaitMS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00972}00972\ \textcolor{comment}{/*\ Summary\ \ :\ 約1ms単位待機\ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00973}00973\ \textcolor{comment}{/*\ Argument\ :\ 待ち時間\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00974}00974\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00975}00975\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00976}00976\ \textcolor{comment}{/*\ notes\ \ \ \ :\ 引数で指定した値×1ms分待機する\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00977}00977\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00978}\mbox{\hyperlink{onewire_8c_a64877c51e5db853a6b17dba2655c3cb5}{00978}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{onewire_8c_a64877c51e5db853a6b17dba2655c3cb5}{OWWaitMS}}(\textcolor{keywordtype}{long}\ ms)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00979}00979\ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00980}00980\ \ \ \ \ \textcolor{keyword}{volatile}\ \textcolor{keywordtype}{long}\ i,\ j;}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00981}00981\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00982}00982\ \ \ \ \ \textcolor{keywordflow}{for}(i\ =\ 0;\ i\ <\ ms;\ i++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00983}00983\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(j\ =\ 0;\ j\ <\ 200;\ j++)\{}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00984}00984\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{onewire_8c_a1dadce14be62be3f628249f2413cfecd}{OWWaitUS}}(5);}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00985}00985\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00986}00986\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{onewire_8c_source_l00987}00987\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,189 @@
+\doxysection{def\+MAIN.\+c}
+\hypertarget{def_m_a_i_n_8c_source}{}\label{def_m_a_i_n_8c_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/defMAIN.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/defMAIN.c}}
+\mbox{\hyperlink{def_m_a_i_n_8c}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00001}00001\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00002}00002\ \textcolor{comment}{/*\ File\ Name\ :\ defMAIN.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ MAIN定義\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ reserved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{def_m_a_i_n_8h}{defMAIN.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00011}\mbox{\hyperlink{def_m_a_i_n_8c_a6fbaabd4a83fe206713aaa04b6b0fa0c}{00011}}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structst_m_a_i_n}{stMAIN}}\ \mbox{\hyperlink{def_m_a_i_n_8c_a6fbaabd4a83fe206713aaa04b6b0fa0c}{MAIN}}[\mbox{\hyperlink{define_8h_ae0e0a5815cfa2e7d50ba4732f1593f6a}{CH\_NUMMAX}}];}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00013}\mbox{\hyperlink{def_m_a_i_n_8c_a0805e0dc206e2c86b8517c0935a12fed}{00013}}\ \textcolor{keywordtype}{short}\ \mbox{\hyperlink{def_m_a_i_n_8c_a0805e0dc206e2c86b8517c0935a12fed}{set\_mode}}\ =\ 0;\ \textcolor{comment}{//1=set\ mode}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00014}\mbox{\hyperlink{def_m_a_i_n_8c_afd397188518ab76e2a744cf18bde56cc}{00014}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{def_m_a_i_n_8c_afd397188518ab76e2a744cf18bde56cc}{reset\_factor}};\ \ \ \textcolor{comment}{//リセット要因}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00015}\mbox{\hyperlink{def_m_a_i_n_8c_acfbe2b0a0b7aab8cf1da01cc8b99b877}{00015}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{def_m_a_i_n_8c_acfbe2b0a0b7aab8cf1da01cc8b99b877}{cunet\_error}};\ \textcolor{comment}{//CUnetエラー要因}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00016}\mbox{\hyperlink{def_m_a_i_n_8c_ad51eed09924afe245bc40046a185c317}{00016}}\ \textcolor{keywordtype}{short}\ \ \ \mbox{\hyperlink{def_m_a_i_n_8c_ad51eed09924afe245bc40046a185c317}{send\_err\_status}};\textcolor{comment}{//メール送信エラーステータス}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00018}\mbox{\hyperlink{def_m_a_i_n_8c_afa67527f18086a177bd191faf74510d6}{00018}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \ \mbox{\hyperlink{def_m_a_i_n_8c_afa67527f18086a177bd191faf74510d6}{cunet\_mcare}};\ \textcolor{comment}{//CUnet\ MCARE/LCARE情報}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00019}\mbox{\hyperlink{def_m_a_i_n_8c_a27670b6c6718a5cbb679d9796cedefca}{00019}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \ \mbox{\hyperlink{def_m_a_i_n_8c_a27670b6c6718a5cbb679d9796cedefca}{cunet\_mfr1}};\ \ \ \textcolor{comment}{//CUnet\ MFR情報1}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00020}\mbox{\hyperlink{def_m_a_i_n_8c_a242620b8e75bcef2803d79a480f3e65a}{00020}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \ \mbox{\hyperlink{def_m_a_i_n_8c_a242620b8e75bcef2803d79a480f3e65a}{cunet\_mfr2}};\ \ \ \textcolor{comment}{//CUnet\ MFR情報2}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00021}\mbox{\hyperlink{def_m_a_i_n_8c_a2c5378e80f3158efc707392b232eb0fd}{00021}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \ \mbox{\hyperlink{def_m_a_i_n_8c_a2c5378e80f3158efc707392b232eb0fd}{cunet\_mfr3}};\ \ \ \textcolor{comment}{//CUnet\ MFR情報3}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00022}\mbox{\hyperlink{def_m_a_i_n_8c_a5f1e786a080433dcab18087e2ac3765a}{00022}}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{short}\ \ \mbox{\hyperlink{def_m_a_i_n_8c_a5f1e786a080433dcab18087e2ac3765a}{cunet\_mfr4}};\ \ \ \textcolor{comment}{//CUnet\ MFR情報4}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00024}\mbox{\hyperlink{def_m_a_i_n_8c_aae36af03bde273f24f7528f2b7efe1c2}{00024}}\ \mbox{\hyperlink{struct_e_r_r_o_r___i_n_f_o}{ERROR\_INFO}}\ \mbox{\hyperlink{def_m_a_i_n_8c_aae36af03bde273f24f7528f2b7efe1c2}{err\_inf}}[];\ \ }
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00026}00026\ \mbox{\hyperlink{struct_e_r_r_o_r___i_n_f_o}{ERROR\_INFO}}\ \mbox{\hyperlink{def_m_a_i_n_8c_aae36af03bde273f24f7528f2b7efe1c2}{err\_inf}}[]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00027}00027\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//0.None}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00028}00028\ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00029}00029\ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00030}00030\ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00031}00031\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00032}00032\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//1.ゼロ調整エンプティセンサ}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00033}00033\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a1c03645caeef3895103f985de716d241}{ERR\_ZERO\_EMPTY}},\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00034}00034\ \ \ \ \ \ \ \ \ 1,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00035}00035\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a92a3d41123e443fba7fea0edad718816}{DSP\_ALM1}}\ |\ \mbox{\hyperlink{define_8h_adf8c05b7efac86736d53aa4de66f73ed}{DSP\_ALM3}}\ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00036}00036\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00037}00037\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//2.ゼロ調整波形減衰\ （波形異常）}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00038}00038\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a9ff27d999d2f73ca79a35d98523d0c55}{ERR\_ZERO\_WAVE}},\ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00039}00039\ \ \ \ \ \ \ \ \ 2,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00040}00040\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_adf8c05b7efac86736d53aa4de66f73ed}{DSP\_ALM3}}\ |\ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00041}00041\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00042}00042\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//3.ゼロ調整演算異常}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00043}00043\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a4dd8ebde4345687bb335244503642e0a}{ERR\_ZERO\_CALC}},\ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00044}00044\ \ \ \ \ \ \ \ \ 3,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00045}00045\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ae87bcd649b08dc86de056bd456c03f2c}{DSP\_ALM2}}\ |\ \mbox{\hyperlink{define_8h_adf8c05b7efac86736d53aa4de66f73ed}{DSP\_ALM3}}\ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00046}00046\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00047}00047\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//4.ゼロ調整波形アンバランス}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00048}00048\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ac444c301333792804126369e3e8f1bd7}{ERR\_ZERO\_LEVEL}},\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00049}00049\ \ \ \ \ \ \ \ \ 4,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00050}00050\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ae87bcd649b08dc86de056bd456c03f2c}{DSP\_ALM2}}\ |\ \mbox{\hyperlink{define_8h_adf8c05b7efac86736d53aa4de66f73ed}{DSP\_ALM3}}\ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00051}00051\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00052}00052\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//5.ゼロ調整AGC不能//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00053}00053\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a19acddbee534f26e110f5c5624862690}{ERR\_ZERO\_AGC}},\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00054}00054\ \ \ \ \ \ \ \ \ 5,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00055}00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_adf8c05b7efac86736d53aa4de66f73ed}{DSP\_ALM3}}\ |\ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00056}00056\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00057}00057\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//6.測定エンプティセンサL}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00058}00058\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_add8d6e242b9a4adcb5369193f8a11ced}{ERR\_MESR\_EMPTY\_L}},\ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00059}00059\ \ \ \ \ \ \ \ \ 12,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00060}00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a92a3d41123e443fba7fea0edad718816}{DSP\_ALM1}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00061}00061\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00062}00062\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//7.測定エンプティセンサH}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00063}00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a6c5bba3ce77a815e1aef6d438712b8c4}{ERR\_MESR\_EMPTY\_H}},\ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00064}00064\ \ \ \ \ \ \ \ \ 7,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00065}00065\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a92a3d41123e443fba7fea0edad718816}{DSP\_ALM1}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00066}00066\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00067}00067\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//8.測定波形減衰L}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00068}00068\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a4495f26c26f4bc37f3098b7f24a0e026}{ERR\_MESR\_WAVE\_L}},\ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00069}00069\ \ \ \ \ \ \ \ \ 13,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00070}00070\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00071}00071\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00072}00072\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//9.測定波形減衰H}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00073}00073\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_af92977812c7d5f666baf01511bb8cf85}{ERR\_MESR\_WAVE\_H}},\ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00074}00074\ \ \ \ \ \ \ \ \ 8,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00075}00075\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00076}00076\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00077}00077\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//10.測定演算異常L}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00078}00078\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a65c95fbe133071abf7795f2e279ccb8d}{ERR\_MESR\_CALC\_L}},\ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00079}00079\ \ \ \ \ \ \ \ \ 14,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00080}00080\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ae87bcd649b08dc86de056bd456c03f2c}{DSP\_ALM2}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00081}00081\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00082}00082\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//11.測定演算異常H}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00083}00083\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ae234865a2d41da70e38206ee6e2a37d9}{ERR\_MESR\_CALC\_H}},\ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00084}00084\ \ \ \ \ \ \ \ \ 9,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00085}00085\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ae87bcd649b08dc86de056bd456c03f2c}{DSP\_ALM2}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00086}00086\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00087}00087\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//12.測定波形アンバランスL}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00088}00088\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ae29e2a207fb2adf498112ca515b53036}{ERR\_MESR\_LEVEL\_L}},\ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00089}00089\ \ \ \ \ \ \ \ \ 15,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00090}00090\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ae87bcd649b08dc86de056bd456c03f2c}{DSP\_ALM2}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00091}00091\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00092}00092\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//13.測定波形アンバランスH}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00093}00093\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_acbf50a5d3e5969093099691826f96f21}{ERR\_MESR\_LEVEL\_H}},\ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00094}00094\ \ \ \ \ \ \ \ \ 10,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00095}00095\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ae87bcd649b08dc86de056bd456c03f2c}{DSP\_ALM2}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00096}00096\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00097}00097\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//14.測定AGC不能L}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00098}00098\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a32a1c26d5b7e04de5bef3974bb87eafc}{ERR\_MESR\_AGC\_L}},\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00099}00099\ \ \ \ \ \ \ \ \ 16,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00100}00100\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00101}00101\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00102}00102\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//15.測定AGC不能H}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00103}00103\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a07bc674bcb77bd9ac14c06353c31e39d}{ERR\_MESR\_AGC\_H}},\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00104}00104\ \ \ \ \ \ \ \ \ 11,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00105}00105\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00106}00106\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00107}00107\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//16.測定逆流異常}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00108}00108\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a427890b0a45d27ddd38fdf2b8442d46d}{ERR\_MESR\_REVERSE}},\ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00109}00109\ \ \ \ \ \ \ \ \ 19,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00110}00110\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00111}00111\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00112}00112\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//17.Reserve}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00113}00113\ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00114}00114\ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00115}00115\ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00116}00116\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00117}00117\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//18.Reserve}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00118}00118\ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00119}00119\ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00120}00120\ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00121}00121\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00122}00122\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//19.10点データ無効}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00123}00123\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ae12aa9e96b59537a5c41da2914b9921e}{ERR\_10POINT}},\ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00124}00124\ \ \ \ \ \ \ \ \ 21,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00125}00125\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00126}00126\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00127}00127\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//20.EEPROMエラー}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00128}00128\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a0b359437ec0b244079d84a67d72eede7}{ERR\_EEPROM}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00129}00129\ \ \ \ \ \ \ \ \ 25,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00130}00130\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00131}00131\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00132}00132\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//21.Reserve}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00133}00133\ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00134}00134\ \ \ \ \ \ \ \ \ 0,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00135}00135\ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00136}00136\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00137}00137\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//22.再起動}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00138}00138\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_adedd7c2ae58ce9adbc8c945b41652f7f}{ERR\_RESTART}},\ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00139}00139\ \ \ \ \ \ \ \ \ 28,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00140}00140\ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00141}00141\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00142}00142\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//23.測定オーバーフロー}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00143}00143\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ac70852d21a31c3f63fcb5099bd321f43}{ERR\_MESR\_OVERFLOW}},\ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00144}00144\ \ \ \ \ \ \ \ \ 20,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00145}00145\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00146}00146\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00147}00147\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//24.CUnetエラー}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00148}00148\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ae710964acc85b18b5c883cfd5cca3ed3}{ERR\_CUNET}},\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00149}00149\ \ \ \ \ \ \ \ \ 27,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00150}00150\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00151}00151\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00152}00152\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//25.ゼロ調整計測時間発散}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00153}00153\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_ab12ac37bd44015c8d94da019f8faf129}{ERR\_ZERO\_UNSTABLE}},\ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00154}00154\ \ \ \ \ \ \ \ \ 6,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00155}00155\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_adf8c05b7efac86736d53aa4de66f73ed}{DSP\_ALM3}}\ |\ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00156}00156\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00157}00157\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//26.測定アンプゲイン急変（警告）}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00158}00158\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_adfc4548b20ff4ac4fd47551c7ace2028}{ALM\_MESR\_GAIN}},\ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00159}00159\ \ \ \ \ \ \ \ \ 17,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00160}00160\ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00161}00161\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00162}00162\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//27.測定エンプティセンサ（警告）}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00163}00163\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_aefc2a5a3aea550d2e4314821a506db73}{ALM\_MESR\_EMPTY}},\ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00164}00164\ \ \ \ \ \ \ \ \ 18,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00165}00165\ \ \ \ \ \ \ \ \ 0\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00166}00166\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00167}00167\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//28.積算値演算異常}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00168}00168\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a1e08808dbaddf77379d6f708acf71e2e}{TTL\_CACL\_ERR}},\ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00169}00169\ \ \ \ \ \ \ \ \ 22,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00170}00170\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00171}00171\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00172}00172\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//29.積算値オーバーフロー}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00173}00173\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a9092ab0ade0dbe726705d54ae7974480}{TTL\_OVERFLOW}},\ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00174}00174\ \ \ \ \ \ \ \ \ 23,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00175}00175\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00176}00176\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00177}00177\ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//30.メモリデバイス異常}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00178}00178\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a4061da664b45de1b3812897bc34142ca}{ERR\_DEVICE}},\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//エラーコード}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00179}00179\ \ \ \ \ \ \ \ \ 26,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//優先順位}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00180}00180\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{define_8h_a3f05b27563566ca62e88babbfc4f57ab}{DSP\_ALM4}}\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//点灯LED}}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00181}00181\ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00182}00182\ \};}
+\DoxyCodeLine{\Hypertarget{def_m_a_i_n_8c_source_l00183}00183\ }
+
+\end{DoxyCode}

@@ -1,0 +1,176 @@
+\doxysection{ctlioport.\+c}
+\hypertarget{ctlioport_8c_source}{}\label{ctlioport_8c_source}\index{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/ctlioport.c@{C:/WorkSpace/Mercury/Mercury\_vXxxx/Mercury/MAIN/ctlioport.c}}
+\mbox{\hyperlink{ctlioport_8c}{\mbox{[}詳解\mbox{]}}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00001}00001\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00002}00002\ \textcolor{comment}{/*\ File\ Name\ :\ ctlioport.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00003}00003\ \textcolor{comment}{/*\ \ Summary\ \ \ :\ I/Oポート処理\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00004}00004\ \textcolor{comment}{/*\ \ Date\ \ \ \ \ \ :\ 2023/03/16\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00005}00005\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00006}00006\ \textcolor{comment}{/*\ \ Copyright(c)\ 2023\ Tokyo\ Keiso\ Co.Ltd.\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00007}00007\ \textcolor{comment}{/*\ \ \ \ \ \ \ \ \ \ All\ rights\ reserved\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00008}00008\ \textcolor{comment}{/***********************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}machine.h"{}}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{ctlioport_8h}{ctlioport.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{define_8h}{define.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00014}00014\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00015}00015\ \textcolor{comment}{/*\ \ モジュール内定義関数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00016}00016\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00017}00017\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8c_a6baa98f73713e126987850ddd9ee8c83}{portmesfwdW}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ data,\ \textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00018}00018\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8c_a027fa9fc108cc94ddf9daec7c31f624f}{portmesrevW}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ data,\ \textcolor{keywordtype}{short}\ pch);}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00019}00019\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8c_af53b5679bdbcd5f71fbc65afe4ef1887}{OutputRestartPulse}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00020}00020\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8c_a0edbfa38d6c430a3e2d28329792d0cee}{OutputStartPulse}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00021}00021\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8c_ab732ad2423f242c3c6373af9a7b157d4}{CheckEndPulse}}(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00023}00023\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00024}00024\ \textcolor{comment}{/*\ \ モジュール外定義関数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00025}00025\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00027}00027\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00028}00028\ \textcolor{comment}{/*\ \ モジュール内定義変数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00029}00029\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00031}00031\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00032}00032\ \textcolor{comment}{/*\ \ モジュール外定義変数\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00033}00033\ \textcolor{comment}{/********************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00036}00036\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00037}00037\ \textcolor{comment}{/*\ Function\ :\ portmesfwdW\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00038}00038\ \textcolor{comment}{/*\ Summary\ \ :\ 流量計測\ 片道:FORWARD\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00039}00039\ \textcolor{comment}{/*\ Argument\ :\ data,\ \ \ pch\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00040}00040\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00041}00041\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00042}00042\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00043}00043\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00044}\mbox{\hyperlink{ctlioport_8c_a6baa98f73713e126987850ddd9ee8c83}{00044}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8c_a6baa98f73713e126987850ddd9ee8c83}{portmesfwdW}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ data,\ \textcolor{keywordtype}{short}\ pch)\{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00046}00046\ \ \ \ \ \textcolor{keywordflow}{if}(data\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(pch)\{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PE1}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTE\_BASE,\ 1,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PK1}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTK\_BASE,\ 1,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PK3}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTK\_BASE,\ 3,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PR5}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTR\_BASE,\ 5,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PH6}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTH\_BASE,\ 6,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PA1}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTA\_BASE,\ 1,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00061}00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00062}00062\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(pch)\{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PE1}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTE\_BASE,\ 1,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PK1}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTK\_BASE,\ 1,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PK3}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTK\_BASE,\ 3,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PR5}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTR\_BASE,\ 5,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PH6}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTH\_BASE,\ 6,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PA1}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTA\_BASE,\ 1,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00077}00077\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00078}00078\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00079}00079\ \}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00081}00081\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00082}00082\ \textcolor{comment}{/*\ Function\ :\ portmesrevW\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00083}00083\ \textcolor{comment}{/*\ Summary\ \ :\ 流量計測\ 片道:REVERSE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00084}00084\ \textcolor{comment}{/*\ Argument\ :\ data,\ \ \ pch\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00085}00085\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00086}00086\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00087}00087\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00088}00088\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00089}\mbox{\hyperlink{ctlioport_8c_a027fa9fc108cc94ddf9daec7c31f624f}{00089}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8c_a027fa9fc108cc94ddf9daec7c31f624f}{portmesrevW}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ data,\ \textcolor{keywordtype}{short}\ pch)\{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00091}00091\ \ \ \ \ \textcolor{keywordflow}{if}(data\ ==\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(pch)\{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PE0}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTE\_BASE,\ 0,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PK0}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTK\_BASE,\ 0,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PK2}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTK\_BASE,\ 2,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PR4}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTR\_BASE,\ 4,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PH5}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTH\_BASE,\ 5,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00103}00103\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PA0}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTA\_BASE,\ 0,\ 0);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00106}00106\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00107}00107\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}(pch)\{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PE0}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a90643238cf4f49aae5f0ab215ada7889}{CH1}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTE\_BASE,\ 0,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PK0}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a92dc73af14a6902eadd21bdee033cbfb}{CH2}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTK\_BASE,\ 0,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PK2}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a9a593b4f2e9cc1ab563a99ccc361ac2e}{CH3}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTK\_BASE,\ 2,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PR4}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_abb9059a95eaaeef166368aeb2ef74887}{CH4}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTR\_BASE,\ 4,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PH5}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_acb5bf8b78ff13b3aa9d3c630227a30f0}{CH5}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTH\_BASE,\ 5,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GPIO\_PA0}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{define_8h_a7c32c4aff8a5b903d368c3cef4834da4}{CH6}}:\ \ \ \ \_\_bit\_output(GPIO\_PORTA\_BASE,\ 0,\ 1);\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00122}00122\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00123}00123\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00124}00124\ \}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00126}00126\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00127}00127\ \textcolor{comment}{/*\ Function\ :\ OutputRestartPulse\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00128}00128\ \textcolor{comment}{/*\ Summary\ \ :\ RESTART信号パルス出力\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00129}00129\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00130}00130\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00131}00131\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00132}00132\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00133}00133\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00134}\mbox{\hyperlink{ctlioport_8c_af53b5679bdbcd5f71fbc65afe4ef1887}{00134}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8c_af53b5679bdbcd5f71fbc65afe4ef1887}{OutputRestartPulse}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00136}00136\ \ \ \ \ \textcolor{comment}{//\ GPIO\_PN0}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00137}00137\ \ \ \ \ \_\_bit\_output(GPIO\_PORTN\_BASE,\ 0,\ 1);\ \ \ \ \textcolor{comment}{/*パルス出力*/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00138}00138\ \ \ \ \ \textcolor{comment}{//\ GPIO\_PN0}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00139}00139\ \ \ \ \ \_\_bit\_output(GPIO\_PORTN\_BASE,\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00140}00140\ \}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00142}00142\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00143}00143\ \textcolor{comment}{/*\ Function\ :\ OutputStartPulse\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00144}00144\ \textcolor{comment}{/*\ Summary\ \ :\ START信号パルス出力\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00145}00145\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00146}00146\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00147}00147\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00148}00148\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00149}00149\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00150}\mbox{\hyperlink{ctlioport_8c_a0edbfa38d6c430a3e2d28329792d0cee}{00150}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8c_a0edbfa38d6c430a3e2d28329792d0cee}{OutputStartPulse}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00152}00152\ \ \ \ \ \textcolor{comment}{//\ GPIO\_PJ0}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00153}00153\ \ \ \ \ \_\_bit\_output(GPIO\_PORTJ\_BASE,\ 0,\ 1);\ \ \ \ \textcolor{comment}{/*パルス出力*/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00154}00154\ \ \ \ \ \textcolor{comment}{//\ GPIO\_PJ0}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00155}00155\ \ \ \ \ \_\_bit\_output(GPIO\_PORTJ\_BASE,\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00156}00156\ \}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00158}00158\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00159}00159\ \textcolor{comment}{/*\ Function\ :\ CheckEndPulse\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00160}00160\ \textcolor{comment}{/*\ Summary\ \ :\ END信号確認\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00161}00161\ \textcolor{comment}{/*\ Argument\ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00162}00162\ \textcolor{comment}{/*\ Return\ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00163}00163\ \textcolor{comment}{/*\ Caution\ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00164}00164\ \textcolor{comment}{/*\ notes\ \ \ \ :\ なし\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00165}00165\ \textcolor{comment}{/****************************************************/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00166}\mbox{\hyperlink{ctlioport_8c_ab732ad2423f242c3c6373af9a7b157d4}{00166}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{ctlioport_8c_ab732ad2423f242c3c6373af9a7b157d4}{CheckEndPulse}}(\textcolor{keywordtype}{void})\{}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00168}00168\ \ \ \ \ \textcolor{comment}{//\ GPIO\_PJ1}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00169}00169\ \ \ \ \ \textcolor{keywordflow}{while}(\_\_bit\_input(GPIO\_PORTJ\_BASE,\ 1)\ ==\ 1);\ \ \ \ \ \ \ \ \textcolor{comment}{/*END信号確認*/}}
+\DoxyCodeLine{\Hypertarget{ctlioport_8c_source_l00170}00170\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,12 @@
+<map id="mky43_set_register" name="mky43_set_register">
+<area shape="rect" id="Node000001" title=" " alt="" coords="444,31,580,57"/>
+<area shape="rect" id="Node000002" href="$cunet_8c.html#a2f7dce1b96bdeae7da561e440b2fd9b8" title=" " alt="" coords="103,5,264,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="429,40,264,28,265,22,429,35"/>
+<area shape="rect" id="Node000004" href="$cunet_8c.html#aafe1db9a3a3f3c0971b383913c78c584" title=" " alt="" coords="312,56,396,83"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="430,60,397,65,396,60,429,55"/>
+<area shape="rect" id="Node000003" href="$_m_a_i_n_8c.html#a6288eba0f8e8ad3ab1544ad731eb7667" title=" " alt="" coords="5,31,55,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="88,37,56,43,55,37,87,32"/>
+<area shape="rect" id="Node000005" href="$_m_a_i_n_8c.html#a2858154e2009b0e6e616f313177762bc" title=": 初期化処理 /*" alt="" coords="164,56,203,83"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="297,72,203,72,203,67,297,67"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="148,66,54,51,55,45,149,61"/>
+</map>
