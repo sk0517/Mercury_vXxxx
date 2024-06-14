@@ -3889,7 +3889,7 @@ void LLmode_kind(short vis, short pch){
 	point = (short)(SVD[pch].uslnr_num >> 8) & 0x00FF;	/*リニアライズ点数取得*/
 	
 	SVD[pch].LL_kind = 0;
-	if((SensorSize == 3) || (SensorSize == 4))
+	if(SensorSize > 0)
 	{
 		Index = SensorSize - 1;
 		//一致条件検索：ない場合は0設定に
