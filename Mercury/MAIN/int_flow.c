@@ -3490,7 +3490,7 @@ float CalcLinerCorrection(long x0, long x1, long y0, long y1, float x)
 /* notes    : “®”S“x‚É‚æ‚è—¬‘¬‚ğ•â³‚·‚é                  */
 /****************************************************/
 long	auto_linear(long viscos, short pch){
-#if 1
+#if 0
 	short i,no;
 	short ratio;
 	short malt;
@@ -3869,6 +3869,14 @@ void LLmode_kind(short vis, short pch){
 		Index = SensorSize - 1;
 		//ˆê’vğŒŒŸõF‚È‚¢ê‡‚Í0İ’è‚É
 		for(i = 0; i < LL_NUM; i++){
+#if 1
+		if(	(LL_TBL[i].dat[LL_KV] == vis) &&
+			(LL_TBL[i].dat[LL_SS] == SVD[pch].sensor_size) &&
+			(LL_TBL[i].dat[LL_FS] == SVD[pch].max_flow) &&
+			(LL_TBL[i].dat[LL_LP] == point)){
+			SVD[pch].LL_kind = i;
+		}
+#else
 			if(	
 				(LL_TBL[i].Vis == vis) &&
 				(LL_TBL[i].MaxFlow[Index] == SVD[pch].max_flow) &&
@@ -3877,7 +3885,7 @@ void LLmode_kind(short vis, short pch){
 				SVD[pch].LL_kind = i;
 				SVD[pch].fifo_ch_init = LL_TBL[i].FifoCh[Index];
 				SVD[pch].ZerPeakPos = LL_TBL[i].ZerPeakPos[Index];
-			}
+#endif
 		}
 	}
 }
