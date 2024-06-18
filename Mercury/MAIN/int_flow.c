@@ -1423,7 +1423,19 @@ void GetRevAnyPnt(short pch)
 	SchTrshld(pch, &MES[pch].rev_data[0], &MES[pch].ThreasholdPoint_Rev);
 }
 
-void GetSearchRange(short sType, short lType, short* StartPos, short* EndPos)
+/*******************************************
+ * Function : GetSearchRange
+ * Summary  : ZC’Tõ”ÍˆÍ‚ğ’²‚×‚é
+ * Argument : sType : SensorType
+ *          : lType : LiquidType
+ *          : OneSideRange : ŒŸõ”ÍˆÍ‚Ì•Ğ–Ê’·
+ *          : StartPos : ’TõŠJnˆÊ’u(ZerPeakPos - OneSideRange)
+ *          : EndPos : ’TõI—¹ˆÊ’u(ZerPeakPos + OneSideRange)
+ * Return   : 
+ * Caution  : None
+ * Note     : 
+ * *****************************************/
+void GetSearchRange(short sType, short lType, short OneSideRange,short* StartPos, short* EndPos)
 {
 	short Flg = 0;
 	*StartPos = 10;
@@ -1441,8 +1453,8 @@ void GetSearchRange(short sType, short lType, short* StartPos, short* EndPos)
 
 	if(Flg == 0)
 	{
-		*StartPos = LL_TBL[lType].ZerPeakPos[sType - 1] - 3;
-		*EndPos = LL_TBL[lType].ZerPeakPos[sType - 1] + 3;
+		*StartPos = LL_TBL[lType].ZerPeakPos[sType - 1] - OneSideRange;
+		*EndPos = LL_TBL[lType].ZerPeakPos[sType - 1] + OneSideRange;
 	}
 }
 
@@ -1541,6 +1553,7 @@ void SchMaxMinPnt(short pch)
 	short i = 0;
 	short ZerAdjYetFlg = 0; //0:ƒ[ƒ’²®À{, 1:ƒ[ƒ’²®–¢À{
 	short StartPos = 0, EndPos = 0;
+	short OneSideRange = GetSkpPnt(pch, 4); //1/4”g’·‚ğæ“¾
 
 	// MES[pch].ThresholdPeakPos != 0 : ƒ[ƒ“_’²®’†‚É”gŒ`‚Æ5“_Œğ‚í‚é“_‚ªŒ©‚Â‚©‚Á‚Ä‚¢‚é
 	// MES_SUB[pch].zc_peak_req == 1 : ƒGƒ‰[‚ª‹N‚«‚¸‚Éƒ[ƒ“_’²®‚ªI—¹‚µ‚Ä‚¢‚é
@@ -1583,7 +1596,7 @@ void SchMaxMinPnt(short pch)
 	if(ZerAdjYetFlg != 0)
 	{
 		//’Tõ”ÍˆÍ‚ğŒˆ‚ß‚é
-		GetSearchRange(SVD[pch].sensor_size, SVD[pch].LL_kind, &StartPos, &EndPos);
+		GetSearchRange(SVD[pch].sensor_size, SVD[pch].LL_kind, OneSideRange, &StartPos, &EndPos);
 		//’Tõ”ÍˆÍ‚ÅZerPeakPos‚ğ’T‚·
 		SVD[pch].ZerPeakPos = SearchZerPeakPos(pch, StartPos, EndPos);
 
