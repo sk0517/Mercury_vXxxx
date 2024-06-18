@@ -1279,7 +1279,7 @@ void SchMaxPek(short pch, short *WavPtr, short *OutVal, short *OutPos)
 	short SkpPnt;
 
 	//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
-	SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
+	// SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
 	SkpPnt = GetSkpPnt(pch, 2);
 	
 	FndFlg = -1;
@@ -3410,8 +3410,6 @@ void	make_viscos_tbl(short pch){
 	short ratio;
 	long work;
 	short swork;
-	short iNum;
-	short DataNum;
 
 	KV_TBL *tbl;
 
@@ -3449,17 +3447,15 @@ void	make_viscos_tbl(short pch){
 			break;
 	}
 
-	iNum = sizeof(tbl) / sizeof(KV_TBL);
-	for (i=0; i<iNum; i++){/*動粘度テーブルを探す*/
+	for (i=0; i<21; i++){/*動粘度テーブルを探す*/
 		if ( MES[pch].viscos_val < tbl[i].viscos){
 			no = i;
 			break;
 		}
 	}
 	/*no-1 と　no の間を補間 */
-	DataNum = sizeof(tbl[0].dat) / sizeof(short);
 	ratio = (short)((long)(MES[pch].viscos_val - tbl[no-1].viscos) * 1000 / (tbl[no].viscos - tbl[no-1].viscos));
-	for (i=0; i<DataNum; i++){
+	for (i=0; i<21; i++){
 		swork = (short)((long)(tbl[no].dat[i] - tbl[no-1].dat[i]) * ratio / 1000 + tbl[no-1].dat[i]);
 		MES[pch].viscos_table[i] = (short)((long)100000000 / (swork + 10000));
 		/*10000 = 1倍*/
