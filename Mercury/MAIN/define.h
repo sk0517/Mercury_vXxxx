@@ -403,6 +403,7 @@
 #define FREQUENCY_ERROR	67
 
 /*センサ情報*/
+#define SNS_KIND        4           //センサの種類(SNS_xxxの最大値と合わせる)
 #define SNS_NONE		0			//センサ無し
 #define SNS_TYPE_1_8	1			//PFA 1/8"
 #define SNS_TYPE_4_3	2			//PFA 4x3

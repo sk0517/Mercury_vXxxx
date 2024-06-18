@@ -275,7 +275,6 @@ struct stMES{	//流量計測
 	float zc_zero_calc;
 	float zc_zero_offset;
 
-	short zc_peak;
 	short zc_peak_UpdateFlg;
 	unsigned short ThresholdWave;	/*波形認識閾値*/
 	unsigned short ThresholdPeak;	/*波形認識ピーク*/

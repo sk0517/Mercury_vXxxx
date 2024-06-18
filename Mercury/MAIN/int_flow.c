@@ -112,6 +112,24 @@ void SchZerDat(short pch, short *WavPtr, short *ZerPnt, short *ZerDat1, short *Z
 void SchTrshld(short pch, short *WavPtr, short *OutVal);
 float DelAbnPnt(float *FwdPnt, float *RevPnt, float zc_SumOld, short zc_num, float SmpTdt);
 float DelAbnPntMod(float *FwdPnt, float *RevPnt, float zc_SumOld, short zc_num, float SmpTdt);
+short GetSkpPnt(short, short);
+void SchMaxPek(short, short*, short* ,short*);
+void SchMinPek(short, short*, short* ,short*);
+void GetFwdAnyPnt(short);
+void GetRevAnyPnt(short pch);
+void GetSearchRange(short sType, short lType, short* StartPos, short* EndPos);
+short SearchZerPeakPos(short pch, short StartPos, short EndPos);
+void SchMaxMinPnt(short pch);
+void SetWavTopPos(short pch);
+void ClcDifWavPos(short pch);
+void UserMemSet(short* Buf, short Val, short BufSize);
+void AnalyzeWave(short pch);
+float CalFx(float y0, float y1);
+float CalRegLin(float x1, float x2, float x3, float x4, float y1, float y2, float y3, float y4);
+float CorZrcPnt(short x1, short x2, short x3, short x4, short y1, short y2, short y3, short y4);
+void CalculateDeltaT(short pch, float *FwdPnt, float *RevPnt);
+float CalcLinerCorrection(long x0, long x1, long y0, long y1, float x);
+void ChkClcActFlg(short pch);
 
 /********************************************************/
 /*	モジュール外定義関数								*/
@@ -439,30 +457,129 @@ const KV_TBL AUTO_COEFF_3_8[]={
 		{4001,-192,124,429,700,905,1007,959,706,0,0,0,0,0,0,0,0,0,0,0,0,0}
 };
 
-/********************************************************************************/
-/*			薬液リニアライズモードテーブル				*/
-/* 	前半：判定項目（動粘度,センサ種類,フルスケール,リニアライズ点数）	*/
-/* 	後半：薬液毎の補正量（mL/min 10倍データ）				*/
-/********************************************************************************/
-const struct {
-	short dat[19];
-}LL_TBL[]={
-		/* 0: None(DIW) */
-		{100, SNS_TYPE_1_4, 300, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 1: OK73*/
-		{84, SNS_TYPE_1_4, 300, 5, 20, 30, 20, 35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 2: ONNR20*/
-		{167, SNS_TYPE_1_4, 300, 5, 0, -40, -130, -190, -210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 3: IPA*/
-		{90, SNS_TYPE_1_4, 300, 5, 23, 28, 1, -3, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 4: Butyl Acetate*/
-		{30, SNS_TYPE_1_4, 300, 5, 40, 100, 170, 240, 280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 5: EL*/
-		{260, SNS_TYPE_1_4, 300, 5, -5, -39, -119, -184, -243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 6: LA95*/
-		{160, SNS_TYPE_1_4, 300, 5, -6, -29, -61, -82, -94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		/* 7: PM*/
-		{40, SNS_TYPE_1_4, 300, 5, 39, 84, 144, 184, 205, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+/********************************************************************************
+ *			薬液リニアライズモードテーブル
+ * 判定項目
+ * 00 : 動粘度
+ * 01 : センサ種類
+ * 02 : フルスケール(センサ4種類に対応)
+ * 03 : リニアライズ点数
+ * 04-07 : FIFO CH (センサ4種類に対応)
+ * 08-11 : ゼロクロス点検索開始位置(波形の極大値となるように実測, センサ4種類に対応)
+ * 12-26 : リニアライズ設定値（mL/min 10倍データ）
+ ********************************************************************************/
+// const struct {
+// 	short dat[19];
+// }LL_TBL[]={
+// 		/* 0: None(DIW) */
+// 		{100, SNS_TYPE_1_4, 300, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 1: OK73*/
+// 		{84, SNS_TYPE_1_4, 300, 5, 20, 30, 20, 35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 2: ONNR20*/
+// 		{167, SNS_TYPE_1_4, 300, 5, 0, -40, -130, -190, -210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 3: IPA*/
+// 		{90, SNS_TYPE_1_4, 300, 5, 23, 28, 1, -3, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 4: Butyl Acetate*/
+// 		{30, SNS_TYPE_1_4, 300, 5, 40, 100, 170, 240, 280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 5: EL*/
+// 		{260, SNS_TYPE_1_4, 300, 5, -5, -39, -119, -184, -243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 6: LA95*/
+// 		{160, SNS_TYPE_1_4, 300, 5, -6, -29, -61, -82, -94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+// 		/* 7: PM*/
+// 		{40, SNS_TYPE_1_4, 300, 5, 39, 84, 144, 184, 205, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+// };
+struct strLLModeInfo
+{
+	short Vis;
+	short SensorSize;
+	short MaxFlow[SNS_KIND];
+	short LinerPnt;
+	short FifoCh[SNS_KIND];
+	short ZerPeakPos[SNS_KIND];
+	short LinerData[15];
+};
+const struct strLLModeInfo LL_TBL[] =
+{
+	/* 0: None(DIW) */
+	{
+		100, 
+		SNS_TYPE_1_4, 
+		800, 800, 800, 4000,
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 1: OK73*/
+	{
+		84, 
+		SNS_TYPE_1_4, 
+		800, 800, 800, 4000,
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		20, 30, 20, 35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 2: ONNR20*/
+	{
+		167, 
+		SNS_TYPE_1_4, 
+		800,  800, 800, 4000,
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		0, -40, -130, -190, -210, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 3: IPA*/
+	{
+		90, 
+		SNS_TYPE_1_4, 
+		800,  800, 800, 4000,
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		23, 28, 1, -3, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 4: Butyl Acetate*/
+	{
+		30, 
+		SNS_TYPE_1_4, 
+		800,  800, 800, 4000,
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		40, 100, 170, 240, 280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 5: EL*/
+	{
+		260, 
+		SNS_TYPE_1_4, 
+		800,  800, 800, 4000,
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		-5, -39, -119, -184, -243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 6: LA95*/
+	{
+		160, 
+		SNS_TYPE_1_4, 
+		800,  800, 800, 4000,
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		-6, -29, -61, -82, -94, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
+	/* 7: PM*/
+	{
+		40, 
+		SNS_TYPE_1_4, 
+		800,  800, 800, 4000,
+		5, 
+		22, 22, 22, 22, 
+		23, 23, 23, 23,
+		39, 84, 144, 184, 205, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	},
 };
 
 /****************************************************/
@@ -543,21 +660,11 @@ void	dma_start(short *read_add){
 
 }
 void	us_dma_start(short *read_add){
-
-//	unsigned short TmpBuf[200];
-//	short i;
-
 	uDMAChannelTransferSet(UDMA_CHANNEL_SW | UDMA_PRI_SELECT, UDMA_MODE_AUTO, (void*)&FIFO, read_add, 240);	// DMA 転送開始
 
 	uDMAChannelEnable(UDMA_CHANNEL_SW);
 	uDMAChannelRequest(UDMA_CHANNEL_SW);	// DMA 転送開始 
 	while(uDMAChannelModeGet(UDMA_CHANNEL_SW) != UDMA_MODE_STOP);	//転送待ち
-
-	//for(i=0; i<200; i++){
-	//	*(read_add + i) = (short)(TmpBuf[i] >> 2);
-        // *(read_add + i) = (short)(TmpBuf[i]);
-	//}
-
 }
 
 /****************************************************/
@@ -829,21 +936,6 @@ short fifo_search(short pch, short search_ch){
 	return (ret);
 }
 
-short GetMinWaveValue(short* data, short* StartPos)
-{
-	short i = *StartPos;
-	short MinValue = 0;
-	for(i = *StartPos; i < 250; i++){
-		if(data[i - 1] > data[i] && data[i] <= data[i + 1])
-		{
-			MinValue = data[i];
-			break;
-		}
-	}
-	*StartPos = i;
-	return MinValue;
-}
-
 /****************************************************/
 /* Function : get_vth2                     */
 /* Summary  : Vthの取得        */
@@ -853,29 +945,6 @@ short GetMinWaveValue(short* data, short* StartPos)
 /* note     : なし                                 */
 /****************************************************/
 short get_vth2(short data[], short vth){
-#if 0
-	short i = 0;
-	short VthPos = 0;
-	unsigned short VthVal = (unsigned short)((long)AD_MAX * vth / 100);
-	short min1 = 0;
-	short min2 = 0;
-
-	for(i = 0; i < 300; i++)
-	{
-		if(data[i] < VthVal)
-		{
-			break;
-		}
-	}
-	VthPos = i;
-	if(VthPos < 12)
-	{
-		VthPos = 12;
-	}
-
-	min1 = GetMinWaveValue(&data[0], &VthPos);
-	min2 = GetMinWaveValue(&data[0], &VthPos);
-#else
 	unsigned short wave_level;
 	short ptr, cross_ptr;
 	short min1, min2;
@@ -922,7 +991,6 @@ short get_vth2(short data[], short vth){
 		}
 	}
 	min2 = data[ptr];
-#endif
 	return (min1 + min2);
 }
 /*******************************************
@@ -1067,6 +1135,32 @@ void SetFifoPos(short pch)
 }
 
 /*******************************************
+ * Function : GetSkpPnt (Get Skip Point)
+ * Summary  : スキップする点数を決定する
+ * Argument : Div : 1周期の1/Divの値を取得する
+ * Return   : SkpPnt : スキップする点数
+ * Caution  : None
+ * Note     : 1周期の点数 = ADCの周波数[MHz] / 波形の周波数[kHz] / オーバーサンプリング数
+ * *****************************************/
+short GetSkpPnt(short pch, short Div)
+{
+	short SkpPnt;
+	
+	//FPGAオーバーサンプリング4点バージョン
+	if((FpgaVersion == 0x2211) || (FpgaVersion == 0x3211))
+	{
+		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 4 / Div;
+	}
+	//FPGAオーバーサンプリング8点バージョン
+	else
+	{
+		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / Div;
+	}
+
+	return SkpPnt;
+}
+
+/*******************************************
  * Function : SchZerDat (Search Zero cross Data)
  * Summary  : ゼロクロス点を検索する
  * Argument : pch : チャンネル番号
@@ -1087,14 +1181,11 @@ void SchZerDat(short pch, short *WavPtr, short *ZerPnt, short *ZerDat1, short *Z
 	short FndFlg = -1;
 	short SkpPnt;
 
-	if((FpgaVersion == 0x2211) || (FpgaVersion == 0x3211)){	//FPGAオーバーサンプリング4点バージョン
-		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 4 / 4;
-	}else{
-		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 4;
-	}
+	// SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 4;
+	SkpPnt = GetSkpPnt(pch, 4);
 
 	// i = 14;
-	i = MES[pch].zc_peak;
+	i = SVD[pch].ZerPeakPos;
 	if(i < 14) i = 14;
 	while(i < 250)
 	{
@@ -1187,14 +1278,10 @@ void SchMaxPek(short pch, short *WavPtr, short *OutVal, short *OutPos)
 	short DatM1, Dat0, DatP1;
 	short SkpPnt;
 
-	if((FpgaVersion == 0x2211) || (FpgaVersion == 0x3211)){	//FPGAオーバーサンプリング4点バージョン
-		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング4点) = 1/600kHz * 65MHz/4
-		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 4 / 2; //Skip Point (デフォルトで13.54)
-	}else{
-		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
-		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
-	}
-
+	//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
+	SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
+	SkpPnt = GetSkpPnt(pch, 2);
+	
 	FndFlg = -1;
 	while(i < 250)
 	{
@@ -1252,13 +1339,9 @@ void SchMinPek(short pch, short *WavPtr, short *OutVal, short *OutPos)
 	short DatM1, Dat0, DatP1;
 	short SkpPnt;
 
-	if((FpgaVersion == 0x2211) || (FpgaVersion == 0x3211)){	//FPGAオーバーサンプリング4点バージョン
-		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング4点) = 1/600kHz * 65MHz/4
-		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 4 / 2; //Skip Point (デフォルトで13.54)
-	}else{
-		//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
-		SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
-	}
+	//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
+	// SkpPnt = AdcSmpFrq[SVD[pch].adc_clock] * 1000 / SVD[pch].drive_freq / 8 / 2; //Skip Point (デフォルトで13.54)
+	SkpPnt = GetSkpPnt(pch, 2);
 
 	FndFlg = -1;
 	while(i < 250)
@@ -1297,134 +1380,6 @@ void SchMinPek(short pch, short *WavPtr, short *OutVal, short *OutPos)
 		}
 	}
 }
-
-// void SchMaxPek(short pch, short *WavPtr, short *OutVal, short *OutPos, short ZerRng0, short ZerRng1)
-// {
-// 	short TmpIdx, TmpMax, i;
-// 	short MaxPekCnt = 0;
-// 	short FndFlg = -1;
-// 	short DatM1, Dat0, DatP1;
-// 	//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
-// 	short SkpPnt = 13; //Skip Point (デフォルトで13.54)
-
-// 	//1点目はゼロクロス点の間をちゃんと探す
-// 	TmpMax = AD_BASE;
-// 	TmpIdx = 0;
-// 	for(i = ZerRng0; i < ZerRng1; i++)
-// 	{
-// 		Dat0 = WavPtr[i];
-// 		if(Dat0 > TmpMax)
-// 		{
-// 			TmpMax = Dat0;
-// 			TmpIdx = i;
-// 		}
-// 	}
-// 	OutVal[0] = TmpMax;
-// 	OutPos[0] = TmpIdx;
-// 	//2点目以降は周期から雑に探す
-// 	i = TmpIdx + SkpPnt;
-// 	MaxPekCnt = 1;
-// 	FndFlg = -1;
-// 	while(i < 210)
-// 	{
-// 		DatM1 = *(WavPtr + i - 1);
-// 		Dat0 = *(WavPtr + i);
-// 		DatP1 = *(WavPtr + i + 1);
-// 		//極大値
-// 		if(MaxPekCnt < WAV_PEK_NUM)
-// 		{
-// 			if(DatM1 < Dat0)
-// 			{
-// 				if(Dat0 >= DatP1)
-// 				{
-// 					OutVal[MaxPekCnt] = Dat0;
-// 					OutPos[MaxPekCnt] = i;
-// 					MaxPekCnt++;
-// 					FndFlg = 1;
-// 				}
-// 			}
-// 		}
-// 		else
-// 		{
-// 			break;
-// 		}
-		
-// 		//見つかっていればループ短縮のためにiを飛ばす
-// 		if(FndFlg == 1)
-// 		{
-// 			i += SkpPnt;
-// 			FndFlg = 0;
-// 		}
-// 		else
-// 		{
-// 			i++;
-// 		}
-// 	}
-// }
-
-// void SchMinPek(short pch, short *WavPtr, short *OutVal, short *OutPos, short ZerRng0, short ZerRng1)
-// {
-// 	short TmpIdx, TmpMin, i;
-// 	short MinPekCnt = 0;
-// 	short FndFlg = -1;
-// 	short DatM1, Dat0, DatP1;
-// 	//飛ばす点数 = 受波波長(f=600kHz) * サンプリング周波数(オーバーサンプリング8点) = 1/600kHz * 65MHz/8
-// 	short SkpPnt = 13; //Skip Point (デフォルトで13.54)
-
-// 	//1点目はゼロクロス点の間をちゃんと探す
-// 	TmpMin = AD_BASE;
-// 	TmpIdx = 0;
-// 	for(i = ZerRng0; i < ZerRng1; i++)
-// 	{
-// 		Dat0 = WavPtr[i];
-// 		if(Dat0 < TmpMin)
-// 		{
-// 			TmpMin = Dat0;
-// 			TmpIdx = i;
-// 		}
-// 	}
-// 	OutVal[0] = TmpMin;
-// 	OutPos[0] = TmpIdx;
-// 	//2点目以降は周期から雑に探す
-// 	i = TmpIdx + SkpPnt;
-// 	MinPekCnt = 1;
-// 	FndFlg = -1;
-// 	while(i < 210)
-// 	{
-// 		DatM1 = *(WavPtr + i - 1);
-// 		Dat0 = *(WavPtr + i);
-// 		DatP1 = *(WavPtr + i + 1);
-// 		//極小値
-// 		if(MinPekCnt < WAV_PEK_NUM)
-// 		{
-// 			if(DatM1 > Dat0)
-// 			{
-// 				if(Dat0 <= DatP1)
-// 				{
-// 					OutVal[MinPekCnt] = Dat0;
-// 					OutPos[MinPekCnt] = i;
-// 					MinPekCnt++;
-// 					FndFlg = 1;
-// 				}
-// 			}
-// 		}
-// 		else
-// 		{
-// 			break;
-// 		}
-		
-// 		//見つかっていればループ短縮のためにiを飛ばす
-// 		if(FndFlg == 1)
-// 		{
-// 			i += SkpPnt;
-// 			FndFlg = 0;
-// 		}
-// 		else
-// 		{
-// 			i++;
-// 		}
-// 	}
-// }
 
 /*******************************************
  * Function : GetFwdAnyPnt (Get Foward Any Point)
@@ -1465,6 +1420,123 @@ void GetRevAnyPnt(short pch)
 }
 
 /*******************************************
+ * Function : GetSearchRange
+ * Summary  : ZC探索範囲を調べる
+ * Argument : sType : SensorType
+ *          : lType : LiquidType
+ *          : OneSideRange : 検索範囲の片面長
+ *          : StartPos : 探索開始位置(ZerPeakPos - OneSideRange)
+ *          : EndPos : 探索終了位置(ZerPeakPos + OneSideRange)
+ * Return   : 
+ * Caution  : None
+ * Note     : 
+ * *****************************************/
+void GetSearchRange(short sType, short lType, short OneSideRange,short* StartPos, short* EndPos)
+{
+	short Flg = 0;
+	*StartPos = 10;
+	*EndPos = 210;
+	//センサ設定値は1~SNS_KINDまで
+	if((sType < 1) || (SNS_KIND < sType))
+	{
+		Flg++;
+	}
+	//薬液の種類はLL_TBLの要素数
+	if((lType < 0) || (sizeof(LL_TBL)/sizeof(LL_TBL[0]) < lType))
+	{
+		Flg++;
+	}
+
+	if(Flg == 0)
+	{
+		*StartPos = LL_TBL[lType].ZerPeakPos[sType - 1] - OneSideRange;
+		*EndPos = LL_TBL[lType].ZerPeakPos[sType - 1] + OneSideRange;
+	}
+}
+
+/*******************************************
+ * Function : SearchZerPeakPos
+ * Summary  : ZerPeakPosを探す
+ * Argument : pch : チャンネル番号
+ *            StartPos : 探索開始点
+ *            EndPos : 探索終了点
+ * Return   : zerPeakPos
+ * Caution  : None
+ * Note     : 
+ * *****************************************/
+short SearchZerPeakPos(short pch, short StartPos, short EndPos)
+{
+//指定範囲内の極大値を探すver
+#if 1
+	short i;
+	short zerPeakPos = 0;
+	for(i = 0; i < WAV_PEK_NUM; i++)
+	{
+		if(
+			(StartPos <= MES[pch].FwdWavMaxPekPosLst[i]) 
+			&& (MES[pch].FwdWavMaxPekPosLst[i] < EndPos)
+		)
+		{
+			zerPeakPos = MES[pch].FwdWavMaxPekPosLst[i];
+			break;
+		}
+	}
+//指定範囲内の極値を探すver
+#elif 0
+	short i;
+	short zerPeakPos = 0;
+	short PeakVal[2 * WAV_PEK_NUM];
+	short PeakPos[2 * WAV_PEK_NUM];
+
+	//極大極小混合リスト作成
+	for(i = 0; i < WAV_PEK_NUM; i++)
+	{
+		if(MES[pch].FwdWavMaxPekPosLst[i] < MES[pch].FwdWavMinPekPosLst[i])
+		{
+			PeakPos[2 * i + 0] = MES[pch].FwdWavMaxPekPosLst[i];
+			PeakVal[2 * i + 0] = MES[pch].FwdWavMaxPekValLst[i];
+			PeakPos[2 * i + 1] = MES[pch].FwdWavMinPekPosLst[i];
+			PeakVal[2 * i + 1] = MES[pch].FwdWavMinPekValLst[i];
+		}
+		else
+		{
+			PeakVal[2 * i + 0] = MES[pch].FwdWavMinPekValLst[i];
+			PeakPos[2 * i + 0] = MES[pch].FwdWavMinPekPosLst[i];
+			PeakVal[2 * i + 1] = MES[pch].FwdWavMaxPekValLst[i];
+			PeakPos[2 * i + 1] = MES[pch].FwdWavMaxPekPosLst[i];
+		}
+	}
+
+	for(i = 0; i < WAV_PEK_NUM)
+	{
+		if(
+			(StartPos <= PeakPos[i]) 
+			&& (PeakPos[i] < EndPos)
+		)
+		{
+			zerPeakPos = PeakPos[i];
+			break;
+		}
+	}
+#else
+	short j;
+	short TrshldVal = 0;
+	short TrshldPos = 0;
+	short zerPeakPos;
+	for(j = 0; j < WAV_PEK_NUM; j++){
+		if(TrshldVal < MES[pch].RevWavMaxPekValLst[j])
+		{
+			TrshldVal = MES[pch].RevWavMaxPekValLst[j];
+			TrshldPos = j;
+		}
+	}
+	TrshldPos--;
+	zerPeakPos = MES[pch].RevWavMaxPekPosLst[TrshldPos];
+#endif
+	return zerPeakPos;
+}
+
+/*******************************************
  * Function : SchMaxMinPnt (Search Max Min Point)
  * Summary  : 最大/最小値を検索する
  * Argument : pch : チャンネル番号
@@ -1474,19 +1546,15 @@ void GetRevAnyPnt(short pch)
  * *****************************************/
 void SchMaxMinPnt(short pch)
 {
-	short work_old = 0, i, j;
-	short SelMult[] = { 32, 40, 65, 80 }; // 現行クランプオンではサンプリング周波数に近似?
+	short i = 0;
 	short ZerAdjYetFlg = 0; //0:ゼロ調整実施, 1:ゼロ調整未実施
-	short CrsCnt = 0;
-	short TrshldVal = 0;
-	short TrshldPos = 0;
-
-	SelMult[SVD[pch].adc_clock] = SelMult[SVD[pch].adc_clock] / Mgn;
+	short StartPos = 0, EndPos = 0;
+	short OneSideRange = GetSkpPnt(pch, 4); //1/4波長を取得
 
 	// MES[pch].ThresholdPeakPos != 0 : ゼロ点調整中に波形と5点交わる点が見つかっている
 	// MES_SUB[pch].zc_peak_req == 1 : エラーが起きずにゼロ点調整が終了している
-	// MES[pch].zc_peak == 0 : エラーが起きずにゼロ点調整が終了している(zc_peakはゼロ点調整終了時に0リセットされる)
-	// if(MES[pch].ThresholdPeakPos != 0 && MES_SUB[pch].zc_peak_req == 1 && MES[pch].zc_peak == 0 && MES[pch].zc_peak_UpdateFlg != 0)
+	// SVD[pch].ZerPeakPos == 0 : エラーが起きずにゼロ点調整が終了している(zc_peakはゼロ点調整終了時に0リセットされる)
+	// if(MES[pch].ThresholdPeakPos != 0 && MES_SUB[pch].zc_peak_req == 1 && SVD[pch].ZerPeakPos == 0 && MES[pch].zc_peak_UpdateFlg != 0)
 	//MES_SUB[pch].zc_peak_req == 1 : エラーが起きずにゼロ点調整が終了している
 	//MES[pch].zc_peak_UpdateFlg != 0 : 通信によるzc_peak更新要求がある
 	if(MES_SUB[pch].zc_peak_req == 1 && MES[pch].zc_peak_UpdateFlg != 0)
@@ -1497,7 +1565,6 @@ void SchMaxMinPnt(short pch)
 	
 	fow_max = rev_max = 0;					   /*初期値*/
 	fow_min = rev_min = AD_MAX;				   /*12bit MAX*/
-	work_old = 0;
 
 	//最大最小値検索
 	for(i = 0; i < WAV_PEK_NUM; i++)
@@ -1524,18 +1591,12 @@ void SchMaxMinPnt(short pch)
 	//ゼロ調整未実施の場合
 	if(ZerAdjYetFlg != 0)
 	{
-		TrshldVal = 0;
-		for(j = 0; j < WAV_PEK_NUM; j++){
-			if(TrshldVal < MES[pch].RevWavMaxPekValLst[j])
-			{
-				TrshldVal = MES[pch].RevWavMaxPekValLst[j];
-				TrshldPos = j;
-			}
-		}
-		TrshldPos--;
-		MES[pch].zc_peak = MES[pch].RevWavMaxPekPosLst[TrshldPos];
+		//探索範囲を決める
+		GetSearchRange(SVD[pch].sensor_size, SVD[pch].LL_kind, OneSideRange, &StartPos, &EndPos);
+		//探索範囲でZerPeakPosを探す
+		SVD[pch].ZerPeakPos = SearchZerPeakPos(pch, StartPos, EndPos);
 
-		SVD[pch].ZerCrsSttPnt = SVD[pch].ZerPeakPos = MES[pch].zc_peak;		//波形認識ピーク位置(ゼロクロス計算開始位置用)のEEPROM保存
+		SVD[pch].ZerCrsSttPnt = SVD[pch].ZerPeakPos;		//波形認識ピーク位置(ゼロクロス計算開始位置用)のEEPROM保存
 		eep_write_ch_delay(pch, (short)(&SVD[pch].ZerPeakPos - &SVD[pch].max_flow), SVD[pch].ZerPeakPos);
 		eep_write_ch_delay(pch, (short)(&SVD[pch].ZerCrsSttPnt - &SVD[pch].max_flow), SVD[pch].ZerCrsSttPnt);
 	}
@@ -1632,6 +1693,23 @@ void ClcDifWavPos(short pch)
 }
 
 /*******************************************
+ * Function : UserMemSet
+ * Summary  : short配列に同じ値を入れる
+ * Argument : pch : チャンネル番号
+ * Return   : 
+ * Caution  : None
+ * Note     : 
+ * *****************************************/
+void UserMemSet(short* Buf, short Val, short BufSize)
+{
+	short i;
+	for(i = 0; i < BufSize; i++)
+	{
+		Buf[i] = Val;
+	}
+}
+
+/*******************************************
  * Function : AnalyzeWave
  * Summary  : 取得した波形データを解析する
  * Argument : pch : チャンネル番号
@@ -1643,14 +1721,14 @@ void AnalyzeWave(short pch)
 {
 	short i;
 	//変数初期化
-	memset(MES[pch].FwdWavMaxPekPosLst, 300, sizeof(MES[pch].FwdWavMaxPekPosLst));
-	memset(MES[pch].FwdWavMinPekPosLst, 300, sizeof(MES[pch].FwdWavMinPekPosLst));
-	memset(MES[pch].RevWavMaxPekPosLst, 300, sizeof(MES[pch].RevWavMaxPekPosLst));
-	memset(MES[pch].RevWavMinPekPosLst, 300, sizeof(MES[pch].RevWavMinPekPosLst));
-	memset(MES[pch].FwdWavMaxPekValLst, AD_BASE, sizeof(MES[pch].FwdWavMaxPekValLst));
-	memset(MES[pch].FwdWavMinPekValLst, AD_BASE, sizeof(MES[pch].FwdWavMinPekValLst));
-	memset(MES[pch].RevWavMaxPekValLst, AD_BASE, sizeof(MES[pch].RevWavMaxPekValLst));
-	memset(MES[pch].RevWavMinPekValLst, AD_BASE, sizeof(MES[pch].RevWavMinPekValLst));
+	UserMemSet(MES[pch].FwdWavMaxPekPosLst, 300, sizeof(MES[pch].FwdWavMaxPekPosLst));
+	UserMemSet(MES[pch].FwdWavMinPekPosLst, 300, sizeof(MES[pch].FwdWavMinPekPosLst));
+	UserMemSet(MES[pch].RevWavMaxPekPosLst, 300, sizeof(MES[pch].RevWavMaxPekPosLst));
+	UserMemSet(MES[pch].RevWavMinPekPosLst, 300, sizeof(MES[pch].RevWavMinPekPosLst));
+	UserMemSet(MES[pch].FwdWavMaxPekValLst, AD_BASE, sizeof(MES[pch].FwdWavMaxPekValLst));
+	UserMemSet(MES[pch].FwdWavMinPekValLst, AD_BASE, sizeof(MES[pch].FwdWavMinPekValLst));
+	UserMemSet(MES[pch].RevWavMaxPekValLst, AD_BASE, sizeof(MES[pch].RevWavMaxPekValLst));
+	UserMemSet(MES[pch].RevWavMinPekValLst, AD_BASE, sizeof(MES[pch].RevWavMinPekValLst));
 	memset(MES[pch].zc_nearzero_point, 0, sizeof(MES[pch].zc_nearzero_point));
 
 	//上流波形
@@ -1684,26 +1762,9 @@ void AnalyzeWave(short pch)
 void fifo_read(short pch)
 {
 	short i, j;
-	short amp;
-	short sample;
-	short fix_signal_count[6];
-	short *FowWav1, *FowWav2, *FowWav3, *FowWav4;
-	short *RevWav1, *RevWav2, *RevWav3, *RevWav4;
 	short *FowWav, *RevWav;
-	short work_old;
 	short fifo_ch;
-	short SelMult[] = { 32, 40, 65, 80 }; // 現行クランプオンではサンプリング周波数に近似?
 	unsigned short alm_level;
-	short FwdPekCnt = 0, RevPekCnt = 0;
-
-	FowWav1 = (short *)(&fwd_temp_data[0][0]);
-	FowWav2 = (short *)(&fwd_temp_data[1][0]);
-	FowWav3 = (short *)(&fwd_temp_data[2][0]);
-	FowWav4 = (short *)(&fwd_temp_data[3][0]);
-	RevWav1 = (short *)(&rev_temp_data[0][0]);
-	RevWav2 = (short *)(&rev_temp_data[1][0]);
-	RevWav3 = (short *)(&rev_temp_data[2][0]);
-	RevWav4 = (short *)(&rev_temp_data[3][0]);
 
 	FowWav = (short *)(&MES[pch].fow_data[0]);
 	RevWav = (short *)(&MES[pch].rev_data[0]);
@@ -1757,240 +1818,19 @@ void fifo_read(short pch)
 #endif
 
 	// MES.fifo_no, MES.fifo_no_read, MES.fifo_ch_readを決める
-#ifdef NEW_MEASURE_METHOD
 	SetFifoNo(pch);
-#else
-	if (TopPosFix == PosFix_NotMov)
-	{
-		MES[pch].fifo_no = MES[pch].zero_signal_count - LDG_PNT_OFS; /*FIFO Read Address Point*/
-	}
-	else
-	{
-		if ((SVD[pch].fix_data & 0x08) != 0)
-		{ // 固定値設定
-			if (SVD[pch].fix_fifo_no_read == 0)
-			{
-				MES[pch].fifo_no = MES[pch].zero_signal_count - LDG_PNT_OFS; /*FIFO Read Address Point*/
-			}
-			else
-			{
-
-				MES[pch].fifo_no = MES[pch].signal_count - LDG_PNT_OFS; /*FIFO Read Address Point*/
-				if (MES[pch].fifo_no < 0)
-					MES[pch].fifo_no = 0;
-				MES[pch].fifo_no_read = MES[pch].fifo_no;
-				MES[pch].fifo_ch_read = MES[pch].fifo_ch;
-				while (MES[pch].fifo_no_read > (256 + 128))
-				{
-					MES[pch].fifo_no_read -= 256;
-					MES[pch].fifo_ch_read += 1;
-				}
-				fix_signal_count[pch] = ((MES[pch].fifo_ch_read - MES[pch].fifo_ch) * 256) + SVD[pch].fix_fifo_no_read + LDG_PNT_OFS;
-				MES[pch].fifo_no = fix_signal_count[pch] - LDG_PNT_OFS; /*FIFO Read Address Point*/
-			}
-		}
-		else
-		{
-			MES[pch].fifo_no = MES[pch].signal_count - LDG_PNT_OFS; /*FIFO Read Address Point*/
-		}
-	}
-
-	if (MES[pch].fifo_no < 0)	MES[pch].fifo_no = 0;
-
-	MES[pch].fifo_no_read = MES[pch].fifo_no;
-	MES[pch].fifo_ch_read = MES[pch].fifo_ch;	//FIFO CHサーチで決めたCH
-
-	while (MES[pch].fifo_no_read > (256 + 128))
-	{
-		MES[pch].fifo_no_read -= 256;
-//		MES[pch].fifo_ch_read += 1;
-	}
-#endif
 
 	// MES.fifo_start, MES.fifo_endを決める
-#ifdef NEW_MEASURE_METHOD
 	SetFifoPos(pch);
-#else
-	if ((SVD[pch].fix_data & 0x04) != 0)
-	{
-		// 固定値設定
-		if (SVD[pch].fix_fifo_ch_read == 0)
-		{
-			MES[pch].fifo_start = MES[pch].zero_fifo_ch_read; /*ゼロ点調整時のFIFO位置*/
-			MES[pch].fifo_end = MES[pch].zero_fifo_ch_read + WS_FIFO_RANGE;
-		}
-		else
-		{
-			MES[pch].fifo_start = SVD[pch].fix_fifo_ch_read; /*固定設定時のFIFO位置*/
-			MES[pch].fifo_end = SVD[pch].fix_fifo_ch_read + WS_FIFO_RANGE;
-		}
-	}
-	else
-	{
-		MES[pch].fifo_start = MES[pch].fifo_ch_read;	/*WINDOW開始時間を設定*/
-		MES[pch].fifo_end = MES[pch].fifo_ch_read + WS_FIFO_RANGE; /*WINDOW終了時間を設定*/
-	}
-#endif
+
 	MES[pch].fifo_offset = SVD[pch].wind_offset; /*WINDOWオフセット時間を設定*/
 	SetFpgaRegister(pch);   //FPGAレジスタの設定
 
 	// 波形を取得する
-#ifdef NEW_MEASURE_METHOD
 	GetWav(pch);
-#else
-	/*上流/下流交互に4回ずつ打込む処理*/
-#if defined(ShtCntTwo)
-	for (sample = 0; sample < 2; sample++)
-#else
-//    for (sample = 0; sample < 4; sample++)
-    for (sample = 0; sample < MES_SUB[pch].sample_cnt; sample++)
-#endif
-	{
-//__bit_output(GPIO_PORTG_BASE, 6, 1);
-#if defined(ShtItv)
-//        delay(ItvVal); /*打ち込み後インターバル*/
-        delay(MES_SUB[pch].ItvVal); /*打ち込み後インターバル*/
-#endif
-		/*上流側FIFO処理*/
-		DriveFIFOFwd(pch, sample);	//パルス打ち込み、FIFO読込み
-#if defined(ShtItv)
-//        delay(ItvVal); /*打ち込み後インターバル*/
-        delay(MES_SUB[pch].ItvVal); /*打ち込み後インターバル*/
-#endif
-//__bit_output(GPIO_PORTG_BASE, 6, 0);
-		/*下流側FIFO処理*/
-		DriveFIFORev(pch, sample);	//パルス打ち込み、FIFO読込み
-	}
-#endif
 
 	// 取得した波形を解析する
-#ifdef NEW_MEASURE_METHOD
 	AnalyzeWave(pch);
-#else
-	/*上流/下流交互に4回ずつ打込み動作後の処理*/
-	fow_max = rev_max = 0;					   /*初期値*/
-	fow_min = rev_min = AD_MAX;				   /*12bit MAX*/
-	work_old = 0;
-
-#if defined(DatInc)
-	SelMult[SVD[pch].adc_clock] = SelMult[SVD[pch].adc_clock] / Mgn;
-#endif
-
-	for(i = 0; i<12; i++)
-	{
-		*(FowWav + i) = AD_BASE;
-		*(RevWav + i) = AD_BASE;
-	}
-#if defined(FLWWAVEXP)
-	for (i = 12; i < FLWWAVSIZ + 10; i++)
-#else
-	for (i = 12; i < 250; i++)
-#endif
-	{
-#if defined(ShtCntTwo)
-        *(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i)) / 2;
-        *(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i)) / 2;
-#else
-//        *(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i) + *(FowWav3 + i) + *(FowWav4 + i)) / 4;
-//        *(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i) + *(RevWav3 + i) + *(RevWav4 + i)) / 4;
-
-//        *(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i) + *(FowWav3 + i) + *(FowWav4 + i));
-//        *(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i) + *(RevWav3 + i) + *(RevWav4 + i));
-
-		//評価用
-		if(MES_SUB[pch].sample_cnt == 2){
-			*(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i));
-			*(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i));
-		}else if(MES_SUB[pch].sample_cnt == 3){
-			*(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i) + *(FowWav3 + i));
-			*(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i) + *(RevWav3 + i));
-		}else if(MES_SUB[pch].sample_cnt == 4){
-			*(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i) + *(FowWav3 + i) + *(FowWav4 + i));
-			*(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i) + *(RevWav3 + i) + *(RevWav4 + i));
-		}else{
-			*(FowWav + i) = (*(FowWav1 + i) + *(FowWav2 + i) + *(FowWav3 + i) + *(FowWav4 + i));
-			*(RevWav + i) = (*(RevWav1 + i) + *(RevWav2 + i) + *(RevWav3 + i) + *(RevWav4 + i));
-		}
-		//評価用
-		
-		
-#endif
-		/*最大、最小を探す*/
-		if (fow_max < *(FowWav + i))
-		{ /*fow data max*/
-			fow_max = *(FowWav + i);
-			fow_max_point = i;
-		}
-		if (fow_min > *(FowWav + i))
-		{ /*fow data min*/
-			fow_min = *(FowWav + i);
-		}
-		//極値を探す
-		if(
-			(FwdPekCnt < WAV_PEK_NUM) &&
-			(((*(FowWav + i - 1) < *(FowWav + i)) && (*(FowWav + i) > *(FowWav + i + 1))) //極大値
-			 || ((*(FowWav + i - 1) > *(FowWav + i)) && (*(FowWav + i) < *(FowWav + i + 1)))) //極小値
-			)
-		{
-			MES[pch].FwdWavPekValLst[FwdPekCnt] = *(FowWav + i);
-			MES[pch].FwdWavPekPosLst[FwdPekCnt] = i;
-			FwdPekCnt++;
-		}
-		if (rev_max < *(RevWav + i))
-		{ /*rev data max*/
-			rev_max = *(RevWav + i);
-			rev_max_point = i;
-		}
-		if (rev_min > *(RevWav + i))
-		{ /*rev data min*/
-			rev_min = *(RevWav + i);
-		}
-		//極値を探す
-		if(
-			(RevPekCnt < WAV_PEK_NUM) &&
-			(((*(RevWav + i - 1) < *(RevWav + i)) && (*(RevWav + i) > *(RevWav + i + 1))) //極大値
-			 || ((*(RevWav + i - 1) > *(RevWav + i)) && (*(RevWav + i) < *(RevWav + i + 1)))) //極小値
-			)
-		{
-			MES[pch].RevWavPekValLst[RevPekCnt] = *(RevWav + i);
-			MES[pch].RevWavPekPosLst[RevPekCnt] = i;
-			RevPekCnt++;
-		}
-
-		// /*波形認識閾値付近のピーク位置を検索(ゼロ点調整時のみ実施する)*/
-		// if(MES[pch].ThresholdPeakPos != 0 && MES_SUB[pch].zc_peak_req == 1 && MES[pch].zc_peak == 0){  /*波形認識閾値の未設定(ゼロ点調整未実施)*/
-		// 	/*signal_count-50位置のﾏｲﾅｽ半周期～プラス半周期のピークを探す*/
-		// 	if((50 - (SelMult[SVD[pch].adc_clock] / 2)) <= i && i <= (50 + (SelMult[SVD[pch].adc_clock] / 2)))
-		// 	{
-		// 		if(*(RevWav + i) < work_old){
-		// 			MES[pch].zc_peak = i - 1;  /*1つ前がピーク*/
-		// 		}else{
-		// 			work_old = *(RevWav + i);
-		// 		}
-		// 	}
-		// }
-	}
-	if(MES[pch].ThresholdPeakPos != 0 && MES_SUB[pch].zc_peak_req == 1 && MES[pch].zc_peak == 0 && MES[pch].zc_peak_UpdateFlg != 0)
-	{
-	    //最大値の2.5周期(13.54 x 2.5)前～そこから1周期(-34 + 13.54)でピークを探す(65MHzの場合)
-	    for(i = rev_max_point - 34; i < rev_max_point - 20; i++)
-	    {
-	        if(*(RevWav + i) > work_old)
-	        {
-	            work_old = *(RevWav + i);
-	            MES[pch].zc_peak = i;  /*1つ前がピーク*/
-	        }
-	    }
-	}
-
-	SVD[pch].ZerCrsSttPnt = MES[pch].zc_peak;
-#endif
-
-	// if(MES_SUB[pch].zc_peak_req == 1){
-	// 	MES_SUB[pch].zc_peak_req = 0;	//波形認識閾値付近のピーク位置を検索要求をクリア
-	// 	SVD[pch].ZerPeakPos = MES[pch].zc_peak;		//波形認識ピーク位置(ゼロクロス計算開始位置用)のEEPROM保存
-	// 	eep_write_ch_delay(pch, (short)(&SVD[pch].ZerPeakPos - &SVD[pch].max_flow), SVD[pch].ZerPeakPos);
-	// }
 
 	if (LED[pch].vth_do_cnt != 0)
 	{																			// ゼロ点調整中
@@ -2508,20 +2348,7 @@ void SchZerPnt(short pch)
 
 	SmpTdt = (float)SmpTs[SVD[pch].adc_clock] / 100000;
 
-	/*ゼロ点(中心線2047)を通過する前2点、後2点を保持する*/
-	// if(MES[pch].ThresholdPeakPos == 0){  /*波形認識閾値の未設定(ゼロ点調整未実施)*/
-	// 	;		//ゼロクロス探索開始位置は[12]番目から
-	// }else{		/*波形認識閾値の設定(ゼロ点調整実施)*/
-	// 	// zc_start = MES[pch].zc_peak - SelMult[SVD[pch].adc_clock];  //ゼロクロス探索開始位置 (波形認識閾値付近のピーク位置の1周期前から開始する) 
-	// 	zc_start = MES[pch].zc_peak - SelMult[SVD[pch].adc_clock] * 10 / 6 / 8;
-	// 	if(zc_start < 12){
-	// 		;	//ゼロクロス探索開始位置は[12]番目から
-	// 	}else{
-	// 		TmpFowDat = (short *)(&MES[pch].fow_data[zc_start]);//ゼロクロス探索開始位置は[zc_start]番目から
-	// 		TmpRevDat = (short *)(&MES[pch].rev_data[zc_start]);
-	// 	}
-	// }
-	zc_start = MES[pch].zc_peak;
+	zc_start = SVD[pch].ZerPeakPos;
 	TmpFowDat = (short *)(&MES[pch].fow_data[0]);//ゼロクロス探索開始位置は[zc_start]番目から
 	TmpRevDat = (short *)(&MES[pch].rev_data[0]);
 	fow_before = *(TmpFowDat + zc_start - 1);
@@ -2532,10 +2359,6 @@ void SchZerPnt(short pch)
 		// TmpRevDat++;
 		if(
 			(i > 12) && (
-				// ((rev_before < AD_BASE) && (AD_BASE <= *(TmpRevDat + i)))
-				// || ((rev_before <= AD_BASE) && (AD_BASE < *(TmpRevDat + i)))
-				// || ((AD_BASE < rev_before) && (*(TmpRevDat + i) <= AD_BASE))
-				// || ((AD_BASE <= rev_before) && (*(TmpRevDat + i) < AD_BASE))
 				((rev_before < AD_BASE) && (AD_BASE <= *(TmpRevDat + i)))
 				|| ((AD_BASE < rev_before) && (*(TmpRevDat + i) <= AD_BASE))
 				)
@@ -2561,10 +2384,6 @@ void SchZerPnt(short pch)
 		// TmpFowDat++;
 		if(
 			(i > 12) && (
-				// ((fow_before < AD_BASE) && (AD_BASE <= *(TmpFowDat + i)))
-				// || ((fow_before <= AD_BASE) && (AD_BASE < *(TmpFowDat + i)))
-				// || ((AD_BASE < fow_before) && (*(TmpFowDat + i) <= AD_BASE))
-				// || ((AD_BASE <= fow_before) && (*(TmpFowDat + i) < AD_BASE))
 				((fow_before < AD_BASE) && (AD_BASE <= *(TmpFowDat + i)))
 				|| ((AD_BASE < fow_before) && (*(TmpFowDat + i) <= AD_BASE))
 				)
@@ -3591,6 +3410,8 @@ void	make_viscos_tbl(short pch){
 	short ratio;
 	long work;
 	short swork;
+	short iNum;
+	short DataNum;
 
 	KV_TBL *tbl;
 
@@ -3599,7 +3420,7 @@ void	make_viscos_tbl(short pch){
 		if(SVD[pch].LL_enable == 1 && SVD[pch].LL_kind != 0){
 			MES[pch].viscos_val = 100;
 		}else{
-			MES[pch].viscos_val = SVD[pch].viscos;/*水の動粘度(0.891)*/
+			MES[pch].viscos_val = SVD[pch].viscos;/*設定動粘度*/
 		}
 	}else{								/*動粘度の演算（水）*/
 		/*動粘度cp = 12.069 - 0.00746 * V0(音速m/sec)*/
@@ -3628,19 +3449,36 @@ void	make_viscos_tbl(short pch){
 			break;
 	}
 
-	for (i=0; i<21; i++){/*動粘度テーブルを探す*/
+	iNum = sizeof(tbl) / sizeof(KV_TBL);
+	for (i=0; i<iNum; i++){/*動粘度テーブルを探す*/
 		if ( MES[pch].viscos_val < tbl[i].viscos){
 			no = i;
 			break;
 		}
 	}
 	/*no-1 と　no の間を補間 */
+	DataNum = sizeof(tbl[0].dat) / sizeof(short);
 	ratio = (short)((long)(MES[pch].viscos_val - tbl[no-1].viscos) * 1000 / (tbl[no].viscos - tbl[no-1].viscos));
-	for (i=0; i<21; i++){
+	for (i=0; i<DataNum; i++){
 		swork = (short)((long)(tbl[no].dat[i] - tbl[no-1].dat[i]) * ratio / 1000 + tbl[no-1].dat[i]);
 		MES[pch].viscos_table[i] = (short)((long)100000000 / (swork + 10000));
 		/*10000 = 1倍*/
 	}
+}
+
+float CalcLinerCorrection(long x0, long x1, long y0, long y1, float x)
+{
+	float xf0 = (float)x0;
+	float xf1 = (float)x1;
+	float yf0 = (float)y0;
+	float yf1 = (float)y1;
+	float y = yf0;
+	//分母=0になる場合は計算しない
+	if(x0 != x1)
+	{
+		y = (x - xf0) * (yf1 - yf0) / (xf1 - xf0) + yf0;
+	}
+	return y;
 }
 
 /****************************************************/
@@ -3652,7 +3490,53 @@ void	make_viscos_tbl(short pch){
 /* notes    : 動粘度により流速を補正する                  */
 /****************************************************/
 long	auto_linear(long viscos, short pch){
+#if 1
+	short i,no;
+	short ratio;
+	short malt;
+	long work,ret;
+	short SignFlg;
+	long x0, x1, y0, y1;
+	float x, y;
+	
+	work = viscos;
+	
+	/*** 一時的に流速を絶対値へ変更 ***/
+	if(work < 0){
+		SignFlg = 1;
+		work = work * -1;
+	}else{
+		SignFlg = 0;
+	}
 
+	for (i=0; i < 21; i++){				/*リ二アポイント数*/
+		if ( work >= flow_vel_tbl[i]*10){		/*第一折線からｎ折線まで*/
+			break;
+		}
+	}
+	no = i;
+	if(no < 1)
+	{
+		no = 1;
+	}
+	else if(20 < no)
+	{
+		no = 20;
+	}
+	x = (float)work;
+	x0 = flow_vel_tbl[no - 1] * 10;
+	x1 = flow_vel_tbl[no - 0] * 10;
+	y0 = (long)MES[pch].viscos_table[no - 1];
+	y1 = (long)MES[pch].viscos_table[no - 0];
+	malt = (short)CalcLinerCorrection(x0, x1, y0, y1, x);
+
+	ret = work * malt / 10000;
+
+	/*** 符号判定 ***/
+	if(SignFlg != 0){
+		ret = ret * -1;				/* 流速が負の値だった場合、真値へ戻す */
+	}
+#else
 	short i,no;
 	long ratio;
 	long malt;
@@ -3696,7 +3580,7 @@ long	auto_linear(long viscos, short pch){
 	if(SignFlg != 0){
 		ret = ret * -1;				/* 流速が負の値だった場合、真値へ戻す */
 	}
-	
+#endif
 	return ret;
 }
 
@@ -3845,7 +3729,7 @@ long ClcChmLnr(long work, short point, short pch)
 	// work *= FlwMgn; //入力が0.1mL/minの場合
 	x_val0 = x_ptr[0] * FlwMgn;
 	y_val0 = y_ptr[0] * FlwMgn;
-	tbl_val0 = LL_TBL[SVD[pch].LL_kind].dat[LL_POINT1] * FlwMgn;
+	tbl_val0 = LL_TBL[SVD[pch].LL_kind].LinerData[0] * FlwMgn;
 
 	/*原点(0,0)から第1折線までの補正処理*/
 	if(work < y_val0){
@@ -3859,8 +3743,8 @@ long ClcChmLnr(long work, short point, short pch)
 		x_val1 = x_ptr[i + 1] * FlwMgn;
 		y_val0 = y_ptr[i + 0] * FlwMgn;
 		y_val1 = y_ptr[i + 1] * FlwMgn;
-		tbl_val0 = LL_TBL[SVD[pch].LL_kind].dat[LL_POINT1 + (i + 0)] * FlwMgn;
-		tbl_val1 = LL_TBL[SVD[pch].LL_kind].dat[LL_POINT1 + (i + 1)] * FlwMgn;
+		tbl_val0 = LL_TBL[SVD[pch].LL_kind].LinerData[(i + 0)] * FlwMgn;
+		tbl_val1 = LL_TBL[SVD[pch].LL_kind].LinerData[(i + 1)] * FlwMgn;
 
 		if((work <= y_val1)
 			&& (work >= y_val0)){
@@ -3879,8 +3763,8 @@ long ClcChmLnr(long work, short point, short pch)
 		x_val1 = x_ptr[i + 1] * FlwMgn;
 		y_val0 = y_ptr[i + 0] * FlwMgn;
 		y_val1 = y_ptr[i + 1] * FlwMgn;
-		tbl_val0 = LL_TBL[SVD[pch].LL_kind].dat[LL_POINT1 + (i + 0)] * FlwMgn;
-		tbl_val1 = LL_TBL[SVD[pch].LL_kind].dat[LL_POINT1 + (i + 1)] * FlwMgn;
+		tbl_val0 = LL_TBL[SVD[pch].LL_kind].LinerData[(i + 0)] * FlwMgn;
+		tbl_val1 = LL_TBL[SVD[pch].LL_kind].LinerData[(i + 1)] * FlwMgn;
 
 		x_ptr_LL1 = x_val1 + tbl_val1;
 		x_ptr_LL0 = x_val0 + tbl_val0;
@@ -3888,7 +3772,6 @@ long ClcChmLnr(long work, short point, short pch)
 			* ((float)(x_ptr_LL1 - x_ptr_LL0) / (float)(y_val1 - y_val0))
 			+ x_ptr_LL0;
 	}
-
 	return out_flow;
 }
 
@@ -3955,29 +3838,46 @@ long ClcNmlLnr(long work, short point, short pch)
 	return out_flow;
 }
 
-/****************************************************/
-/* Function : LLmode_kind                           */
-/* Summary  : 薬液リニアライズモード・種別設定    				*/
-/* Argument : vis,  pch                            */
-/* Return   : なし 									                         */
-/* Caution  : なし                                   */
-/* notes    : なし                                   */
-/****************************************************/
+/****************************************************
+ * Function : LLmode_kind
+ * Summary  : 薬液リニアライズモード・種別設定
+ * Argument : vis,  pch
+ * Return   : なし
+ * Caution  : なし
+ * notes    : LLmode一致条件
+ *          :   センサ種類 : 
+ *          :   動粘度 : 
+ *          :   フルスケール : 
+ *          :   リニアライズ点数 : 
+ *          : LLmode移行時の変更対象
+ *          :   薬液種類(LL_kind)
+ *          :   FIFO CH
+ *          :   ゼロクロス点探索開始位置(ZerPeakPos)
+ ****************************************************/
 void LLmode_kind(short vis, short pch){
 
 	short i;
 	short point;
+	short SensorSize = SVD[pch].sensor_size;
+	short Index = 0;
 
 	point = (short)(SVD[pch].uslnr_num >> 8) & 0x00FF;	/*リニアライズ点数取得*/
 	
 	SVD[pch].LL_kind = 0;
-	//一致条件検索：ない場合は0設定に
-	for(i = 0; i < LL_NUM; i++){
-		if(	(LL_TBL[i].dat[LL_KV] == vis) &&
-			(LL_TBL[i].dat[LL_SS] == SVD[pch].sensor_size) &&
-			(LL_TBL[i].dat[LL_FS] == SVD[pch].max_flow) &&
-			(LL_TBL[i].dat[LL_LP] == point)){
-			SVD[pch].LL_kind = i;
+	if(SensorSize > 0)
+	{
+		Index = SensorSize - 1;
+		//一致条件検索：ない場合は0設定に
+		for(i = 0; i < LL_NUM; i++){
+			if(	
+				(LL_TBL[i].Vis == vis) &&
+				(LL_TBL[i].MaxFlow[Index] == SVD[pch].max_flow) &&
+				(LL_TBL[i].LinerPnt == point)
+				){
+				SVD[pch].LL_kind = i;
+				SVD[pch].fifo_ch_init = LL_TBL[i].FifoCh[Index];
+				SVD[pch].ZerPeakPos = LL_TBL[i].ZerPeakPos[Index];
+			}
 		}
 	}
 }

@@ -636,7 +636,7 @@ void	eeprom_init(void){
 		memcpy(&work_ch[0], &SVD[ch].ZerCrsOffset[0], sizeof(SVD[ch].ZerCrsOffset));
 		MES[ch].zc_zero_offset = atof(&work_ch[0]);	//ゼロクロスゼロ点オフセット
 		MES[ch].signal_count = MES[ch].ThresholdPeakPos = SVD[ch].ThresholdPeakPos;
-		MES[ch].zc_peak = SVD[ch].ZerPeakPos;
+		
 	}
 }
 
@@ -1101,7 +1101,7 @@ void SavZajPrm(short pch)
 
 	if(MES[pch].zc_peak_UpdateFlg != 0)
 	{
-		MES[pch].zc_peak = 0;
+		SVD[pch].ZerPeakPos = 0;
 	}
 	MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求	
 }
@@ -1207,7 +1207,7 @@ short EndZerAdj(short pch)
 
 		if(MES[pch].zc_peak_UpdateFlg != 0)
 		{
-			MES[pch].zc_peak = 0;
+			SVD[pch].ZerPeakPos = 0;
 		}
 		MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求
 		
@@ -1559,7 +1559,7 @@ void	zero_adj_control(short pch){
 		
 		if(MES[pch].zc_peak_UpdateFlg != 0)
 		{
-			MES[pch].zc_peak = 0;
+			SVD[pch].ZerPeakPos = 0;
 		}
 		MES_SUB[pch].zc_peak_req = 1;	//波形認識閾値付近のピーク位置を検索要求
 		
