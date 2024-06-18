@@ -12,9 +12,9 @@
 /********************************************************/
 #if defined(FPGADOWNLOAD)
 // #define		SOFT_VERSION	0xB200		//ファームウェアバージョン(FPGAダウンロードあり)
-#define		SOFT_VERSION	0xD212		//ファームウェアバージョン(流量突出改善)
+#define		SOFT_VERSION	0xD215		//ファームウェアバージョン(流量突出改善)
 #else
-#define     SOFT_VERSION    0xA212      //ファームウェアバージョン(FPGAダウンロードなし)
+#define     SOFT_VERSION    0xA215      //ファームウェアバージョン(FPGAダウンロードなし)
 #endif
 #define		HARD_VERSION	0x9100		//ハードウェアバージョン
 
