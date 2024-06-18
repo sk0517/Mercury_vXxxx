@@ -117,7 +117,7 @@ void SchMaxPek(short, short*, short* ,short*);
 void SchMinPek(short, short*, short* ,short*);
 void GetFwdAnyPnt(short);
 void GetRevAnyPnt(short pch);
-void GetSearchRange(short sType, short lType, short* StartPos, short* EndPos);
+void GetSearchRange(short sType, short lType, short OneSideRange, short* StartPos, short* EndPos);
 short SearchZerPeakPos(short pch, short StartPos, short EndPos);
 void SchMaxMinPnt(short pch);
 void SetWavTopPos(short pch);
@@ -1431,7 +1431,7 @@ void GetRevAnyPnt(short pch)
  * Caution  : None
  * Note     : 
  * *****************************************/
-void GetSearchRange(short sType, short lType, short OneSideRange,short* StartPos, short* EndPos)
+void GetSearchRange(short sType, short lType, short OneSideRange, short* StartPos, short* EndPos)
 {
 	short Flg = 0;
 	*StartPos = 10;
@@ -3870,12 +3870,12 @@ void LLmode_kind(short vis, short pch){
 		//àÍívèåèåüçıÅFÇ»Ç¢èÍçáÇÕ0ê›íËÇ…
 		for(i = 0; i < LL_NUM; i++){
 #if 1
-		if(	(LL_TBL[i].dat[LL_KV] == vis) &&
-			(LL_TBL[i].dat[LL_SS] == SVD[pch].sensor_size) &&
-			(LL_TBL[i].dat[LL_FS] == SVD[pch].max_flow) &&
-			(LL_TBL[i].dat[LL_LP] == point)){
-			SVD[pch].LL_kind = i;
-		}
+			if(	(LL_TBL[i].Vis == vis) &&
+				(LL_TBL[i].SensorSize == SVD[pch].sensor_size) &&
+				(LL_TBL[i].MaxFlow[Index] == SVD[pch].max_flow) &&
+				(LL_TBL[i].LinerPnt == point)){
+				SVD[pch].LL_kind = i;
+			}
 #else
 			if(	
 				(LL_TBL[i].Vis == vis) &&
